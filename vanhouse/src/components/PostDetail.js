@@ -12,6 +12,8 @@ import ReactMapGL, { Marker } from "react-map-gl";
 import userLogo from "../assets/user.svg";
 import thumbUp from "../assets/thumb-up.svg";
 import thumbDown from "../assets/thumb-down.svg";
+import upVote from "../assets/thumbup-voted.svg";
+import downVote from "../assets/thumbdown-voted.svg";
 
 export default function PostDetail() {
   const mapToken =
@@ -34,14 +36,14 @@ export default function PostDetail() {
               <Carousel.Item>
                 <img
                   className="d-block w-100 post-detail-thumbnail"
-                  src="https://www.ctvnews.ca/polopoly_fs/1.5002799.1593286327!/httpImage/image.jpeg_gen/derivatives/landscape_1020/image.jpeg"
+                  src="https://customhomesottawa.ca/wp-content/uploads/2016/05/placeholder-house1.jpg"
                   alt="thumbnail"
                 />
               </Carousel.Item>
               <Carousel.Item>
                 <img
                   className="d-block w-100 post-detail-thumbnail"
-                  src="https://static.onecms.io/wp-content/uploads/sites/37/2016/02/15230656/white-modern-house-curved-patio-archway-c0a4a3b3.jpg"
+                  src="https://www.thestreet.com/.image/t_share/MTY4NjM2OTcwNDU2NzIxMDMx/image-placeholder-title.jpg"
                   alt="thumbnail"
                 />
               </Carousel.Item>
@@ -52,7 +54,7 @@ export default function PostDetail() {
             <img
               className="thumb"
               id="thumbup-icon"
-              src={thumbUp}
+              src={upVote}
               alt="thumb-up"
             />
             <span className="review-count" id="thumbup-count">
@@ -67,8 +69,11 @@ export default function PostDetail() {
             <span className="review-count" id="thumbdown-count">
               2
             </span>
-            <Button variant="danger" id="reportBtn">
+            <Button variant="warning" id="reportBtn">
               Report
+            </Button>
+            <Button variant="danger" id="deleteBtn">
+              Delete
             </Button>
           </Col>
 
