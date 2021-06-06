@@ -98,7 +98,9 @@ img.post-detail-thumbnail {
   height: 100%;
   overflow-y:auto;
   border-radius: 2%;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.1);
+  /* CITATION: I used the box-shadow parameter settings from here: 
+                https://www.w3schools.com/css/tryit.asp?filename=trycss_buttons_shadow */
+  box-shadow: 0 8px 20px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.1);
 }
 
 .post_div {
