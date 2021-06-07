@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import PostDetail from "./components/PostDetail";
+import LoginForm from "./components/LoginForm";
+
 import "./App.css";
 
 function App() {
@@ -13,10 +15,20 @@ function App() {
 
     const Login = details => {
         console.log(details);
+
+        if(details.email == testUser.email && details.password == testUser.password) {
+            setUser({
+                name: details.name,
+                email: details.email
+            });
+        } else {
+            setError("Invalid email or password");
+        }
     }
 
     const Logout = () => {
         console.log("Logout");
+        setUser({name: "", email: ""});
     }
 
   return (
@@ -27,6 +39,15 @@ function App() {
         <Route path="/post/:id">
           <PostDetail />
         </Route>
+
+          {if (user.email != "") {
+              <div className="welcome">
+              <h2> Welcome, <span>{user.name}</span></h2>
+              <button onClick={Logout}>Logout</button>
+              </div>
+          } else {
+              <LoginForm/>
+          }}
       </div>
     </Router>
   );
