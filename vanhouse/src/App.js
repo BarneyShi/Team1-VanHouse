@@ -8,6 +8,7 @@ import RegistrationForm from "./components/RegistrationForm";
 import {validateEmail} from "./components/utils";
 
 import "./App.css";
+import PostCollection from "./components/PostCollection";
 
 function App() {
     const testUser = {
@@ -82,34 +83,50 @@ function App() {
         <Router>
             <div className="App">
                 {/*<h3>VanHouse</h3>*/}
-                <Header />
+                <Header/>
 
+                <PostCollection/>
                 <Route path="/post/:id">
                     <PostDetail/>
                 </Route>
 
-                {(user.email != "") ? (
-                    <div className="welcome">
-                        <h2> Welcome, <span>{user.name}</span></h2>
-                        <button onClick={Logout}>Logout</button>
-                    </div>
-                ) : (
-                    <LoginForm
-                        Login={Login}
-                        error={error}
-                        RegistrationForm={RegistrationForm}
-                        setEmail={setEmail}
-                        emailError={emailError}
-                        setPassword={setPassword}
-                        passwordError={passwordError}
-                        confirmPassword={confirmPassword}
-                        setConfirmPassword={setConfirmPassword}
-                        confirmPasswordError={confirmPasswordError}
-                    />
-                )}
-            </div>
-        </Router>
-    );
+            {(user.email != "") ? (
+                <div className="welcome">
+                    <h2> Welcome, <span>{user.name}</span></h2>
+                    <button onClick={Logout}>Logout</button>
+                </div>
+            ) : (
+                <LoginForm
+                    Login={Login}
+                    error={error}
+                    RegistrationForm={RegistrationForm}
+                    setEmail={setEmail}
+                    emailError={emailError}
+                    setPassword={setPassword}
+                    passwordError={passwordError}
+                    confirmPassword={confirmPassword}
+                    setConfirmPassword={setConfirmPassword}
+                    confirmPasswordError={confirmPasswordError}
+                />
+            )}
+        </div>
+</Router>
+);
+// import PostCollection from "./components/PostCollection";
+// import "./App.css";
+//
+// function App() {
+//   return (
+//     <Router>
+//       <div className="App">
+//         <h3>VanHouse</h3>
+//         <PostCollection/>
+//         <Route path="/post/:id">
+//           <PostDetail />
+//         </Route>
+//       </div>
+//     </Router>
+//   );
 }
 
 export default App;
