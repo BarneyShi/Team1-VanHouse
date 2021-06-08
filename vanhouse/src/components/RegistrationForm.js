@@ -11,7 +11,6 @@ function RegistrationForm(props) {
                 <h2>Register to comment, post, and more!</h2>
                 {(props.error != "") ? (<div className="error">{props.error}</div>) : ""}
                 <div className="form-group">
-                    {/*<label htmlFor="email">Email: </label>*/}
                     <input
                         type="text"
                         name="email"
@@ -23,7 +22,6 @@ function RegistrationForm(props) {
                         <div className="error">{props.emailError}</div>
                 </div>
                 <div className="form-group">
-                    {/*<label htmlFor="password">Password: </label>*/}
                     <input
                         type="password"
                         name="password"
@@ -33,7 +31,6 @@ function RegistrationForm(props) {
                     />
                 </div>
                 <div className="form-group">
-                    {/*<label htmlFor="confirmPassword">Confirm password: </label>*/}
                     <input
                         type="password"
                         name="password"
