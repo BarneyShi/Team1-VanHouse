@@ -11,34 +11,17 @@ import "./App.css";
 import PostCollection from "./components/PostCollection";
 
 function App() {
+
     return (
         <Router>
             <div className="App">
                 <Header/>
-
-                <PostCollection/>
+                <Route exact path="/">
+                    <PostCollection/>
+                </Route>
                 <Route path="/post/:id">
                     <PostDetail/>
                 </Route>
-                    {/*{(user.email != "") ? (*/}
-                    {/*    <div className="welcome">*/}
-                    {/*        <h2> Welcome, <span>{user.name}</span></h2>*/}
-                    {/*        <button onClick={Logout}>Logout</button>*/}
-                    {/*    </div>*/}
-                    {/*) : (*/}
-                    {/*    <LoginForm*/}
-                    {/*        Login={Login}*/}
-                    {/*        error={error}*/}
-                    {/*        RegistrationForm={RegistrationForm}*/}
-                    {/*        setEmail={setEmail}*/}
-                    {/*        emailError={emailError}*/}
-                    {/*        setPassword={setPassword}*/}
-                    {/*        passwordError={passwordError}*/}
-                    {/*        confirmPassword={confirmPassword}*/}
-                    {/*        setConfirmPassword={setConfirmPassword}*/}
-                    {/*        confirmPasswordError={confirmPasswordError}*/}
-                    {/*    />*/}
-                    {/*)}*/}
             </div>
         </Router>
     );
