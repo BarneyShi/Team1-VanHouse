@@ -2,9 +2,10 @@ import {BrowserRouter as Router, Route} from "react-router-dom";
 import {useState} from "react";
 import PostDetail from "./components/PostDetail";
 import LoginForm from "./components/LoginForm";
+import useSignUp from "./components/useSignUp";
+import Header from "./components/Header";
 
 import "./App.css";
-import useSignUp from "./components/useSignUp";
 
 function App() {
     const testUser = {
@@ -37,7 +38,8 @@ function App() {
     return (
         <Router>
             <div className="App">
-                <h3>VanHouse</h3>
+                {/*<h3>VanHouse</h3>*/}
+                <Header />
 
                 <Route path="/post/:id">
                     <PostDetail/>
