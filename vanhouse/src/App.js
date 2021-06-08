@@ -1,4 +1,5 @@
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import {BrowserRouter as Router, Route} from "react-router-dom";
+import {useState} from "react";
 import PostDetail from "./components/PostDetail";
 import LoginForm from "./components/LoginForm";
 
@@ -16,7 +17,7 @@ function App() {
     const Login = details => {
         console.log(details);
 
-        if(details.email == testUser.email && details.password == testUser.password) {
+        if (details.email == testUser.email && details.password == testUser.password) {
             setUser({
                 name: details.name,
                 email: details.email
@@ -31,26 +32,26 @@ function App() {
         setUser({name: "", email: ""});
     }
 
-  return (
-    <Router>
-      <div className="App">
-        <h3>VanHouse</h3>
+    return (
+        <Router>
+            <div className="App">
+                <h3>VanHouse</h3>
 
-        <Route path="/post/:id">
-          <PostDetail />
-        </Route>
+                <Route path="/post/:id">
+                    <PostDetail/>
+                </Route>
 
-          {if (user.email != "") {
-              <div className="welcome">
-              <h2> Welcome, <span>{user.name}</span></h2>
-              <button onClick={Logout}>Logout</button>
-              </div>
-          } else {
-              <LoginForm/>
-          }}
-      </div>
-    </Router>
-  );
+                {(user.email != "") ? (
+                    <div className="welcome">
+                        <h2> Welcome, <span>{user.name}</span></h2>
+                        <button onClick={Logout}>Logout</button>
+                    </div>
+                ) : (
+                    <LoginForm Login={Login} error={error}/>
+                )}
+            </div>
+        </Router>
+    );
 }
 
 export default App;

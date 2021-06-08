@@ -43,6 +43,7 @@ function LoginForm({Login, error}) {
                         value={details.password}
                     />
                 </div>
+                <input type="submit" value="LOGIN"/>
             </div>
         </form>
     )
