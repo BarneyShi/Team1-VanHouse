@@ -3,6 +3,8 @@ import SignUpForm from "./SignUpForm"
 
 function LoginForm(props) {
     const [details, setDetails] = useState({name: "", email: "", password: ""});
+    const [isVisible, setIsVisible] = useState(false);
+
 
     const submitHandler = e => {
         e.preventDefault();
@@ -45,15 +47,8 @@ function LoginForm(props) {
                     />
                 </div>
                 <input type="submit" value="LOGIN"/>
-                <button
-                    onClick={props.toggle}
-                >
-                    Sign up
-                </button>
-                <SignUpForm
-                    isShowing={props.isShowing}
-                    hide={props.toggle}
-                />
+                <button onClick={(e) => setIsVisible(!isVisible)}>Register for a new account</button>
+                {isVisible && <SignUpForm/>}
             </div>
         </form>
     )

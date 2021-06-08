@@ -2,7 +2,6 @@ import {BrowserRouter as Router, Route} from "react-router-dom";
 import {useState} from "react";
 import PostDetail from "./components/PostDetail";
 import LoginForm from "./components/LoginForm";
-import useSignUp from "./components/useSignUp";
 import Header from "./components/Header";
 
 import "./App.css";
@@ -15,7 +14,6 @@ function App() {
 
     const [user, setUser] = useState({name: "", email: ""});
     const [error, setError] = useState("");
-    const {isShowing, toggle} = useSignUp();
 
     const Login = details => {
         console.log(details);
@@ -33,6 +31,10 @@ function App() {
     const Logout = () => {
         console.log("Logout");
         setUser({name: "", email: ""});
+    }
+
+    const Signup = () => {
+        console.log("signing up");
     }
 
     return (
@@ -54,8 +56,7 @@ function App() {
                     <LoginForm
                         Login={Login}
                         error={error}
-                        isShowing={isShowing}
-                        toggle={toggle}
+                        Signup={Signup}
                     />
                 )}
             </div>
