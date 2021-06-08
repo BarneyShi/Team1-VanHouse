@@ -1,8 +1,11 @@
 import {BrowserRouter as Router, Route} from "react-router-dom";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import PostDetail from "./components/PostDetail";
 import LoginForm from "./components/LoginForm";
 import Header from "./components/Header";
+import usePasswordValidator from "./components/usePasswordValidator";
+import RegistrationForm from "./components/RegistrationForm";
+import {validateEmail} from "./components/utils";
 
 import "./App.css";
 
@@ -15,9 +18,51 @@ function App() {
     const [user, setUser] = useState({name: "", email: ""});
     const [error, setError] = useState("");
 
-    const Login = details => {
-        console.log(details);
 
+    // https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30
+    // Accessed June 7, 2021
+    const [email, setEmail] = useState("");
+    const [emailError, setEmailError] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [confirmPasswordError, setConfirmPasswordError] = useState("");
+
+    const [password, setPassword, passwordError] = usePasswordValidator({
+        min: 8,
+        max: 15
+    });
+    useEffect(
+        () => {
+            if (!email) {
+                setEmailError("");
+            } else {
+                if (validateEmail(email)) {
+                    setEmailError("");
+                } else {
+                    setEmailError("Please enter a valid email.");
+                }
+            }
+        },
+        [email]
+    );
+
+    useEffect(
+        () => {
+            if (!confirmPassword || !password) {
+                setConfirmPasswordError("");
+            } else {
+                if (password !== confirmPassword) {
+                    setConfirmPasswordError("The passwords must match.");
+                } else {
+                    setConfirmPasswordError("");
+                }
+            }
+        },
+        [password, confirmPassword]
+    );
+
+    // end of copied code
+
+    const Login = details => {
         if (details.email == testUser.email && details.password == testUser.password) {
             setUser({
                 name: details.name,
@@ -31,10 +76,6 @@ function App() {
     const Logout = () => {
         console.log("Logout");
         setUser({name: "", email: ""});
-    }
-
-    const Signup = () => {
-        console.log("signing up");
     }
 
     return (
@@ -56,7 +97,14 @@ function App() {
                     <LoginForm
                         Login={Login}
                         error={error}
-                        Signup={Signup}
+                        RegistrationForm={RegistrationForm}
+                        setEmail={setEmail}
+                        emailError={emailError}
+                        setPassword={setPassword}
+                        passwordError={passwordError}
+                        confirmPassword={confirmPassword}
+                        setConfirmPassword={setConfirmPassword}
+                        confirmPasswordError={confirmPasswordError}
                     />
                 )}
             </div>
