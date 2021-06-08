@@ -1,18 +1,19 @@
 import React, {useState} from "react";
+import SignUpForm from "./SignUpForm"
 
-function LoginForm({Login, error}) {
+function LoginForm(props) {
     const [details, setDetails] = useState({name: "", email: "", password: ""});
 
     const submitHandler = e => {
         e.preventDefault();
-        Login(details);
+        props.Login(details);
     }
 
     return (
         <form onSubmit={submitHandler}>
             <div className="form-inner">
                 <h2>Login</h2>
-                {(error != "") ? ( <div className="error">{error}</div> ) : ""}
+                {(props.error != "") ? (<div className="error">{props.error}</div>) : ""}
                 <div className="form-group">
                     <label htmlFor="name">Name: </label>
                     <input
@@ -44,6 +45,15 @@ function LoginForm({Login, error}) {
                     />
                 </div>
                 <input type="submit" value="LOGIN"/>
+                <button
+                    onClick={props.toggle}
+                >
+                    Sign up
+                </button>
+                <SignUpForm
+                    isShowing={props.isShowing}
+                    hide={props.toggle}
+                />
             </div>
         </form>
     )

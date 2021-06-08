@@ -4,6 +4,7 @@ import PostDetail from "./components/PostDetail";
 import LoginForm from "./components/LoginForm";
 
 import "./App.css";
+import useSignUp from "./components/useSignUp";
 
 function App() {
     const testUser = {
@@ -13,6 +14,7 @@ function App() {
 
     const [user, setUser] = useState({name: "", email: ""});
     const [error, setError] = useState("");
+    const {isShowing, toggle} = useSignUp();
 
     const Login = details => {
         console.log(details);
@@ -47,7 +49,12 @@ function App() {
                         <button onClick={Logout}>Logout</button>
                     </div>
                 ) : (
-                    <LoginForm Login={Login} error={error}/>
+                    <LoginForm
+                        Login={Login}
+                        error={error}
+                        isShowing={isShowing}
+                        toggle={toggle}
+                    />
                 )}
             </div>
         </Router>
