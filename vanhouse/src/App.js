@@ -8,7 +8,9 @@ function App() {
     <Router>
       <div className="App">
         <h3>VanHouse</h3>
-        <PostCollection/>
+        <Route exact path="/">
+          <PostCollection />
+        </Route>
         <Route path="/post/:id">
           <PostDetail />
         </Route>
