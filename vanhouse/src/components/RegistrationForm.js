@@ -1,4 +1,5 @@
 import React from "react";
+import {Button, Form, Modal} from "react-bootstrap";
 
 import "./login.css"
 
@@ -40,7 +41,19 @@ function RegistrationForm(props) {
                     />
                     <div className="error">{props.confirmPasswordError}</div>
                 </div>
-                <input type="button" className="button" value="REGISTER"/>
+                <Form.Text className="text-muted">
+                    * required fields
+                </Form.Text>
+                <br/>
+                <div className="registration-form-buttons">
+                    <Button variant="secondary" onClick={props.handleClose}>
+                        Close
+                    </Button>
+                    <Button variant="primary">
+                        Register
+                    </Button>
+                </div>
+
             </div>
         </form>
     )

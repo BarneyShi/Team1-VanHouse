@@ -7,7 +7,9 @@ import {Button, Form, Modal} from "react-bootstrap";
 
 function LoginForm(props) {
     const [details, setDetails] = useState({name: "", email: "", password: ""});
-    const [isVisible, setIsVisible] = useState(false);
+    // const [isRegistrationVisible, setIsRegistrationVisible] = useState(false);
+    // const [isLoginVisible, setIsLoginVisible] = useState(true);
+    const [isRegisterButtonVisible, setIsRegisterButtonVisible] = useState(true);
 
     // https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30
     // Accessed June 7, 2021
@@ -21,6 +23,12 @@ function LoginForm(props) {
         min: 8,
         max: 15
     });
+
+    const setVisibilities = () => {
+        props.setIsRegistrationVisible(!props.isRegistrationVisible);
+        props.setIsLoginVisible(!props.isLoginVisible);
+        setIsRegisterButtonVisible(!isRegisterButtonVisible);
+    }
 
     useEffect(
         () => {
@@ -61,6 +69,7 @@ function LoginForm(props) {
 
     return (
         <Modal show={props.show} onHide={props.handleClose} animation={false}>
+            {props.isLoginVisible &&
             <Form onSubmit={handleSubmit}>
                 <Modal.Header>
                     <Modal.Title>Login</Modal.Title>
@@ -108,22 +117,34 @@ function LoginForm(props) {
                     <Button variant="primary" type="submit">
                         Login
                     </Button>
-                    <Button
-                        variant="primary"
-                        onClick={(e) => setIsVisible(!isVisible)}>
-                        Register for a new account
-                    </Button>
-                    {isVisible &&
-                    <RegistrationForm
-                        setEmail={setEmail}
-                        emailError={emailError}
-                        setPassword={setPassword}
-                        passwordError={passwordError}
-                        setConfirmPassword={setConfirmPassword}
-                        confirmPasswordError={confirmPasswordError}
-                    />}
                 </Modal.Footer>
             </Form>
+            }
+            <div className="register-button-and-form">
+                {isRegisterButtonVisible &&
+                <Button
+                    variant="primary"
+                    onClick={(e) => setVisibilities()}>
+                    Register for a new account
+                </Button>
+                }
+
+                {props.isRegistrationVisible &&
+                <RegistrationForm
+                    setEmail={setEmail}
+                    emailError={emailError}
+                    setPassword={setPassword}
+                    passwordError={passwordError}
+                    confirmPassword={confirmPassword}
+                    setConfirmPassword={setConfirmPassword}
+                    confirmPasswordError={confirmPasswordError}
+                    handleClose={props.handleClose}
+                    setIsLoginVisible={props.setIsLoginVisible}
+                />}
+                <br/>
+                <br/>
+            </div>
+
         </Modal>
     )
 }

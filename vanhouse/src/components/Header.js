@@ -7,6 +7,8 @@ import {validateEmail} from "./utils";
 
 function Header(props) {
     const [isLoginClicked, setIsLoginClicked] = useState(false);
+    const [isLoginVisible, setIsLoginVisible] = useState(true);
+    const [isRegistrationVisible, setIsRegistrationVisible] = useState(false);
 
     const handleLoginClicked = () => {
         setIsLoginClicked(true);
@@ -14,6 +16,8 @@ function Header(props) {
 
     const handleCloseModal = () => {
         setIsLoginClicked(false);
+        setIsLoginVisible(true);
+        setIsRegistrationVisible(false);
     }
 
     const [user, setUser] = useState({name: "", email: ""});
@@ -48,7 +52,15 @@ function Header(props) {
             {/*    </div>*/}
             {/*) : (*/}
             {/*    <LoginForm show={isLoginClicked} handleClose={handleCloseModal} submit={Login}/>)}*/}
-            <LoginForm show={isLoginClicked} handleClose={handleCloseModal} submit={Login}/>
+            <LoginForm
+                show={isLoginClicked}
+                handleClose={handleCloseModal}
+                submit={Login}
+                isLoginVisible={isLoginVisible}
+                setIsLoginVisible={setIsLoginVisible}
+                isRegistrationVisible={isRegistrationVisible}
+                setIsRegistrationVisible={setIsRegistrationVisible}
+            />
             <div className="login-button-div">
                 <button className="login-button" onClick={handleLoginClicked}>
                     Login
