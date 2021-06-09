@@ -1,22 +1,25 @@
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import {BrowserRouter as Router, Route} from "react-router-dom";
 import PostDetail from "./components/PostDetail";
-import PostCollection from "./components/PostCollection";
+import Header from "./components/Header";
+
 import "./App.css";
+import PostCollection from "./components/PostCollection";
 
 function App() {
-  return (
-    <Router>
-      <div className="App">
-        <h3>VanHouse</h3>
-        <Route exact path="/">
-          <PostCollection />
-        </Route>
-        <Route path="/post/:id">
-          <PostDetail />
-        </Route>
-      </div>
-    </Router>
-  );
+
+    return (
+        <Router>
+            <div className="App">
+                <Header/>
+                <Route exact path="/">
+                    <PostCollection/>
+                </Route>
+                <Route path="/post/:id">
+                    <PostDetail/>
+                </Route>
+            </div>
+        </Router>
+    );
 }
 
 export default App;
