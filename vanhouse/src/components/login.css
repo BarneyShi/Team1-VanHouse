@@ -20,7 +20,7 @@ input {
 }
 
 .registration-form-buttons {
-    padding-bottom: 10px;
+    /*padding-bottom: 5px;*/
     display: flex;
     /*flex-direction: row;*/
     /*flex-wrap: wrap;*/
@@ -30,6 +30,18 @@ input {
 
 Button {
     margin-right: 10px;
+}
+
+Button:hover {
+    background-color: rgb(128, 181, 250);
+}
+
+.register-button {
+    background-color: #72b872;
+}
+
+.register-button:hover {
+    background-color: #5b915b;
 }
 
 /*.button {*/

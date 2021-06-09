@@ -9,6 +9,7 @@ function Header(props) {
     const [isLoginClicked, setIsLoginClicked] = useState(false);
     const [isLoginVisible, setIsLoginVisible] = useState(true);
     const [isRegistrationVisible, setIsRegistrationVisible] = useState(false);
+    const [isRegisterButtonVisible, setIsRegisterButtonVisible] = useState(true);
 
     const handleLoginClicked = () => {
         setIsLoginClicked(true);
@@ -18,6 +19,7 @@ function Header(props) {
         setIsLoginClicked(false);
         setIsLoginVisible(true);
         setIsRegistrationVisible(false);
+        setIsRegisterButtonVisible(true);
     }
 
     const [user, setUser] = useState({name: "", email: ""});
@@ -60,6 +62,9 @@ function Header(props) {
                 setIsLoginVisible={setIsLoginVisible}
                 isRegistrationVisible={isRegistrationVisible}
                 setIsRegistrationVisible={setIsRegistrationVisible}
+                isRegisterButtonVisible={isRegisterButtonVisible}
+                setIsRegisterButtonVisible={setIsRegisterButtonVisible}
+
             />
             <div className="login-button-div">
                 <button className="login-button" onClick={handleLoginClicked}>

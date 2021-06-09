@@ -53,7 +53,6 @@ function RegistrationForm(props) {
                         Register
                     </Button>
                 </div>
-
             </div>
         </form>
     )

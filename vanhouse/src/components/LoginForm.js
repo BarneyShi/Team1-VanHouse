@@ -9,7 +9,7 @@ function LoginForm(props) {
     const [details, setDetails] = useState({name: "", email: "", password: ""});
     // const [isRegistrationVisible, setIsRegistrationVisible] = useState(false);
     // const [isLoginVisible, setIsLoginVisible] = useState(true);
-    const [isRegisterButtonVisible, setIsRegisterButtonVisible] = useState(true);
+    // const [isRegisterButtonVisible, setIsRegisterButtonVisible] = useState(true);
 
     // https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30
     // Accessed June 7, 2021
@@ -27,7 +27,7 @@ function LoginForm(props) {
     const setVisibilities = () => {
         props.setIsRegistrationVisible(!props.isRegistrationVisible);
         props.setIsLoginVisible(!props.isLoginVisible);
-        setIsRegisterButtonVisible(!isRegisterButtonVisible);
+        props.setIsRegisterButtonVisible(!props.isRegisterButtonVisible);
     }
 
     useEffect(
@@ -120,10 +120,11 @@ function LoginForm(props) {
                 </Modal.Footer>
             </Form>
             }
+
             <div className="register-button-and-form">
-                {isRegisterButtonVisible &&
+                {props.isRegisterButtonVisible &&
                 <Button
-                    variant="primary"
+                    className="register-button"
                     onClick={(e) => setVisibilities()}>
                     Register for a new account
                 </Button>
@@ -144,7 +145,6 @@ function LoginForm(props) {
                 <br/>
                 <br/>
             </div>
-
         </Modal>
     )
 }
