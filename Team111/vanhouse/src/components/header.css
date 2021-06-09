@@ -1,0 +1,31 @@
+.header {
+    text-align: center;
+    color: #2b58ab;
+}
+
+.App-logo {
+    /*justify-content: baseline;*/
+    padding-left: 70px;
+}
+
+.login-button {
+    font-family: Arial;
+    font-size: 1rem;
+    color: #2b58ab;
+    background-color: whitesmoke;
+    border: 0;
+    border-radius: 30%;
+    line-height: 2rem;
+    float: right;
+}
+
+.login-button-div {
+    float: right;
+    flex-basis: 100%;
+    padding: 10px;
+}
+
+.login-button:hover {
+    color: white;
+    transition: color 0.15s ease;
+}
