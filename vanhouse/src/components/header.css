@@ -1,29 +1,31 @@
 .header {
-    /*text-align: center;*/
+    text-align: center;
     color: #2b58ab;
 }
 
-/* Create post button styling */
+.App-logo {
+    /*justify-content: baseline;*/
+    padding-left: 70px;
+}
+
 .login-button {
-    font-family: fontAwesome;
+    font-family: Arial;
     font-size: 1rem;
     color: #2b58ab;
-    /*background-color: rgba(0,0,0,0);*/
-    /*border: 0;*/
-    /*border-radius: 50%;*/
-    /*height: 4rem;*/
-    /*width: 2rem;*/
-    line-height: 4rem;
+    background-color: whitesmoke;
+    border: 0;
+    border-radius: 30%;
+    line-height: 2rem;
     float: right;
 }
 
 .login-button-div {
     float: right;
     flex-basis: 100%;
-    padding: 2px;
+    padding: 10px;
 }
 
 .login-button:hover {
-    color: royalblue;
-    transition: color 0.25s ease;
+    color: white;
+    transition: color 0.15s ease;
 }

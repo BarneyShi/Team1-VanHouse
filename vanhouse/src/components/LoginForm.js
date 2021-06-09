@@ -11,6 +11,7 @@ function LoginForm(props) {
 
     // https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30
     // Accessed June 7, 2021
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [emailError, setEmailError] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -65,6 +66,14 @@ function LoginForm(props) {
                     <Modal.Title>Login</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    {(props.error != "") ? (<div className="error">{props.error}</div>) : ""}
+                    <Form.Group controlId="formName">
+                        <Form.Label>Name *</Form.Label>
+                        <Form.Control required type="name" placeholder="Enter name" onChange={(e) => {
+                            setName(e.target.value)
+                        }}/>
+                    </Form.Group>
+
                     <Form.Group controlId="formEmail">
                         <Form.Label>Email address *</Form.Label>
                         <Form.Control required type="email" placeholder="Enter email" onChange={(e) => {
@@ -116,59 +125,6 @@ function LoginForm(props) {
                 </Modal.Footer>
             </Form>
         </Modal>
-        // <form onSubmit={submitHandler}>
-        //     <div className="form-inner">
-        //         <h2>Login</h2>
-        //         {(props.error != "") ? (<div className="error">{props.error}</div>) : ""}
-        //         <div className="form-group">
-        //             <input
-        //                 type="text"
-        //                 name="name"
-        //                 id="name"
-        //                 placeholder="Name"
-        //                 onChange={e => setDetails({...details, name: e.target.value})}
-        //                 value={details.name}
-        //             />
-        //         </div>
-        //         <div className="form-group">
-        //             <input
-        //                 type="text"
-        //                 name="email"
-        //                 id="email"
-        //                 placeholder="Email"
-        //                 onChange={e => setDetails({...details, email: e.target.value})}
-        //                 value={details.email}
-        //             />
-        //         </div>
-        //         <div className="form-group">
-        //             <input
-        //                 type="text"
-        //                 name="password"
-        //                 id="password"
-        //                 placeholder="Password"
-        //                 onChange={e => setDetails({...details, password: e.target.value})}
-        //                 value={details.password}
-        //             />
-        //         </div>
-        //         <input type="submit" className="button" value="LOGIN"/>
-        //         <br/>
-        //         <br/>
-        //         <button
-        //             className="button"
-        //             onClick={(e) => setIsVisible(!isVisible)}>
-        //             Register for a new account
-        //         </button>
-        //         {isVisible &&
-        //         <RegistrationForm
-        //             setEmail={props.setEmail}
-        //             emailError={props.emailError}
-        //             setPassword={props.setPassword}
-        //             passwordError={props.passwordError}
-        //             setConfirmPassword={props.setConfirmPassword}
-        //             confirmPasswordError={props.confirmPasswordError}
-        //         />}
-        //     </div>
-        // </form>
     )
 }
 
