@@ -19,22 +19,47 @@ input {
     height: 30px;
 }
 
-.button {
-    height: 30px;
-    min-width: 150px;
-    border-radius: 10px;
-    border: none;
-    background-color: rgb(111, 170, 247);
-    font-weight: bold;
-    text-transform: uppercase;
-    font-size: 12px;
-    cursor: pointer;
-    color: white;
+.registration-form-buttons {
+    /*padding-bottom: 5px;*/
+    display: flex;
+    /*flex-direction: row;*/
+    /*flex-wrap: wrap;*/
+    /*width: 50%;*/
+    justify-content: center;
 }
 
-button:hover {
+Button {
+    margin-right: 10px;
+}
+
+Button:hover {
     background-color: rgb(128, 181, 250);
 }
+
+.register-button {
+    background-color: #72b872;
+}
+
+.register-button:hover {
+    background-color: #5b915b;
+}
+
+/*.button {*/
+/*    height: 30px;*/
+/*    min-width: 150px;*/
+/*    border-radius: 10px;*/
+/*    border: none;*/
+/*    background-color: rgb(111, 170, 247);*/
+/*    font-weight: bold;*/
+/*    text-transform: uppercase;*/
+/*    font-size: 12px;*/
+/*    cursor: pointer;*/
+/*    color: white;*/
+/*}*/
+
+/*button:hover {*/
+/*    background-color: rgb(128, 181, 250);*/
+/*}*/
 
 .error {
     color: tomato;
