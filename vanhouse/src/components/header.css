@@ -1,11 +1,23 @@
-.header {
+.header-flexbox {
     text-align: center;
     color: #2b58ab;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.title-and-logo-flexbox {
+    display: flex;
+    flex-display: row;
+    justify-content: center;
+    text-align: center;
+    align-items: center;
 }
 
 .App-logo {
-    /*justify-content: baseline;*/
-    padding-left: 70px;
+    height: 60px;
+    width: 60px;
+    vertical-align: top;
 }
 
 .login-button {
