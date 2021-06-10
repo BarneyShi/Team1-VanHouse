@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import "./header.css";
 import LoginForm from "./LoginForm";
+import SearchBar from "./SearchBar";
 import usePasswordValidator from "./usePasswordValidator";
 import {validateEmail} from "./utils";
 

@@ -4,6 +4,7 @@
 import { useState } from "react"
 import Post from "./Post";
 import NewPost from "./NewPost"
+import SearchBar from './SearchBar'
 
 function PostCollection(props) {
   // Note: Temporarily adding in placeholder post JSON objects
@@ -87,6 +88,7 @@ function PostCollection(props) {
 
   return(
     <div className="post_collection_div">
+      <SearchBar />
       <NewPost show={newPostVisible} handleClose={handleCloseModal} submit={addPost}/>
       <div className="post_scroll_div">
         {postsList}
