@@ -3,21 +3,33 @@
     color: #2b58ab;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end;
+}
+
+.top-line-flexbox {
+    display: flex;
+    justify-content: flex-end;
 }
 
 .title-and-logo-flexbox {
     display: flex;
-    flex-display: row;
     justify-content: center;
     text-align: center;
     align-items: center;
+    flex-basis: 10%;
+    min-width: 59%;
+    flex-direction: row;
 }
 
 .App-logo {
     height: 60px;
     width: 60px;
     vertical-align: top;
+    justify-self: center;
+}
+
+.App-title {
+    /*flex-basis: 1000%;*/
 }
 
 .login-button {
@@ -33,11 +45,29 @@
 
 .login-button-div {
     float: right;
-    flex-basis: 100%;
+    flex-basis: 10%;
     padding: 10px;
 }
 
 .login-button:hover {
     color: white;
     transition: color 0.15s ease;
+}
+
+.subtitle-flexbox {
+    display: flex;
+    justify-content: flex-end;
+    text-align: center;
+    align-items: center;
+    flex-direction: row;
+}
+
+.subtitle {
+    flex-basis: 10%;
+    min-width: 59%;
+}
+
+.space {
+    flex-basis: 10%;
+    min-width: 10%;
 }
