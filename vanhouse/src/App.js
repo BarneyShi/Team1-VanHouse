@@ -12,16 +12,18 @@ function App() {
         <Router>
             <div className="App">
                 <Header/>
-                <Container fluid>
+                         
+                <Route exact path="/">
+                 <Container fluid>
                     <Row>
                         <Col lg={3} md={3}><UserList /></Col>
-                        <Col>               
-                <Route exact path="/">
+                        <Col>      
                     <PostCollection/>
-                </Route>
+                
                 </Col>
                     </Row>
                 </Container>
+                </Route>
                 <Route path="/post/:id">
                     <PostDetail/>
                 </Route>
@@ -29,5 +31,6 @@ function App() {
         </Router>
     );
 }
+
 
 export default App;
