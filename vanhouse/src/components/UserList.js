@@ -21,8 +21,7 @@ function UserList(){
 
             }
             return(
-                <Row style={{display: 'flex', alignItems: 'center'}}> 
-                   <li><i className="..."></i>&nbsp;</li> 
+                <Row style={{display: 'flex', alignItems: 'center'}}>  
                    <Col xs={3} md={3}><img style={style} src={userimg[index]} /></Col> 
               
                    <Col xs={3} md={3}> <text style={{display: 'flex', alignItems: 'center',fontSize: '20px'}}> {uname[index]} </text> </Col>
