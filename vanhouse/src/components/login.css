@@ -8,7 +8,7 @@ body {
 
 }
 
-input {
+.Login-Modal input {
     font-size: 14px;
     border-radius: 5px;
     border: 1px solid lightgray;
@@ -32,7 +32,7 @@ Button {
     margin-right: 10px;
 }
 
-Button:hover {
+.Login-Modal Button:hover {
     background-color: rgb(128, 181, 250);
 }
 

@@ -68,7 +68,7 @@ function LoginForm(props) {
     }
 
     return (
-        <Modal show={props.show} onHide={props.handleClose} animation={false}>
+        <Modal id="Login-Modal" show={props.show} onHide={props.handleClose} animation={false}>
             {props.isLoginVisible &&
             <Form onSubmit={handleSubmit}>
                 <Modal.Header>
