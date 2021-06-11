@@ -17,7 +17,7 @@
     text-align: center;
     align-items: center;
     flex-basis: 10%;
-    min-width: 72%;
+    min-width: 81%;
     flex-direction: row;
 }
 
@@ -64,7 +64,7 @@
 
 .subtitle {
     flex-basis: 10%;
-    min-width: 70%;
+    min-width: 80%;
 }
 
 .space {
