@@ -8,12 +8,13 @@ import {
   ListGroupItem,
   Button,
 } from "react-bootstrap";
+import "./postdetail.css";
 import ReactMapGL, { Marker } from "react-map-gl";
 import userLogo from "../assets/user.svg";
-import thumbUp from "../assets/thumb-up.svg";
+//import thumbUp from "../assets/thumb-up.svg";
 import thumbDown from "../assets/thumb-down.svg";
 import upVote from "../assets/thumbup-voted.svg";
-import downVote from "../assets/thumbdown-voted.svg";
+//import downVote from "../assets/thumbdown-voted.svg";
 
 export default function PostDetail() {
   const mapToken =

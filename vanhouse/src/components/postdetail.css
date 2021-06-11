@@ -1,0 +1,79 @@
+.carousel-inner {
+  background-color: #80808040;
+}
+img.post-detail-thumbnail {
+  max-height: 25vh;
+  object-fit: contain;
+}
+
+.thumb {
+  width: 25px;
+  float: left;
+}
+.thumb:hover {
+  cursor: pointer;
+}
+.review-count {
+  margin: 5px;
+  float: left;
+}
+#deleteBtn {
+  float: right;
+  padding: 1px 5px;
+  font-size: 12px;
+  margin: 5px 0 5px 5px;
+}
+#reportBtn {
+  float: right;
+  padding: 1px 5px;
+  font-size: 12px;
+  margin: 5px 0 5px 5px;
+}
+
+#marker {
+  background-image: url("../assets/marker.svg");
+  width: 30px;
+  height: 30px;
+  display: block;
+}
+#comment {
+  margin-top: 1rem;
+}
+#comment h4 {
+  border-top: 0.5px #80808070 solid;
+  margin-top: 10px;
+  padding-top: 10px;
+}
+.commnet_userinfo {
+  display: flex;
+  flex-direction: column;
+  margin-right: 20px;
+  font-size: 0.9rem;
+}
+.comment__content {
+  font-size: 0.9rem;
+  text-align: left;
+}
+.comment__block {
+  padding: 0 3%;
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  margin-bottom: 5px;
+}
+.comment__input {
+  text-align: center;
+}
+.comment__input textarea {
+  width: 60vw;
+  height: 10vh;
+}
+.comment__input form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.comment__input form button {
+  height: max-content;
+  margin-left: 10px;
+}
