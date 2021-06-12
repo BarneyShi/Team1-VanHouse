@@ -5,6 +5,7 @@ import { useState } from "react"
 import Post from "./Post";
 import NewPost from "./NewPost"
 import SearchBar from './SearchBar'
+import "./Post.css"
 
 function PostCollection(props) {
   // Note: Temporarily adding in placeholder post JSON objects
