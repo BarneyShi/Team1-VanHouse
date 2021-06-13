@@ -1,5 +1,5 @@
 import {Card,Button,Container,Row,Col} from 'react-bootstrap';
-import {useState} from 'react';
+import React, {useState} from 'react';
 import user1 from '../assets/img1.jpg';
 import user2 from '../assets/img2.jpg';
 import user3 from '../assets/img3.jpg';

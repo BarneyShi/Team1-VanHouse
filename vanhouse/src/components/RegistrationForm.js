@@ -1,7 +1,7 @@
 import React from "react";
 import {Button, Form, Modal} from "react-bootstrap";
 
-import "./login.css"
+import "../styles/login.css"
 
 function RegistrationForm(props) {
     // https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30

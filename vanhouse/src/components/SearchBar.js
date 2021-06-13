@@ -1,3 +1,4 @@
+import React from 'react'
 import {InputGroup, Button, FormControl} from 'react-bootstrap';
 import search from '../assets/search.png';
 

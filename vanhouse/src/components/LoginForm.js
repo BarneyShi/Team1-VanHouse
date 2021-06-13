@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
+import {Button, Form, Modal} from "react-bootstrap";
 import RegistrationForm from "./RegistrationForm"
-import "./login.css"
+import "../styles/login.css"
 import usePasswordValidator from "./usePasswordValidator";
 import {validateEmail} from "./utils";
-import {Button, Form, Modal} from "react-bootstrap";
 
 function LoginForm(props) {
     const [details, setDetails] = useState({name: "", email: "", password: ""});

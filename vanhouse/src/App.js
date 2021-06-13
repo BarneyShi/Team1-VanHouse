@@ -1,7 +1,8 @@
+import React from 'react'
 import {BrowserRouter as Router, Route} from "react-router-dom";
+import {Container,Row,Col} from 'react-bootstrap';
 import PostDetail from "./components/PostDetail";
 import Header from "./components/Header";
-import {Container,Row,Col} from 'react-bootstrap';
 import UserList from './components/UserList';
 import "./App.css";
 import PostCollection from "./components/PostCollection";

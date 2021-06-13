@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import React, { Fragment, useState } from "react";
 import {
   Carousel,
   Container,
@@ -8,7 +8,7 @@ import {
   ListGroupItem,
   Button,
 } from "react-bootstrap";
-import "./postdetail.css";
+import "../styles/postdetail.css";
 import ReactMapGL, { Marker } from "react-map-gl";
 import userLogo from "../assets/user.svg";
 //import thumbUp from "../assets/thumb-up.svg";
