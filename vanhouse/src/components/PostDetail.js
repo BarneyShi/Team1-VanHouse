@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import {
   Carousel,
   Container,
@@ -11,10 +11,10 @@ import {
 import "../styles/postdetail.css";
 import ReactMapGL, { Marker } from "react-map-gl";
 import userLogo from "../assets/user.svg";
-//import thumbUp from "../assets/thumb-up.svg";
+// import thumbUp from "../assets/thumb-up.svg";
 import thumbDown from "../assets/thumb-down.svg";
 import upVote from "../assets/thumbup-voted.svg";
-//import downVote from "../assets/thumbdown-voted.svg";
+// import downVote from "../assets/thumbdown-voted.svg";
 
 export default function PostDetail() {
   const mapToken =
@@ -29,7 +29,7 @@ export default function PostDetail() {
   });
 
   return (
-    <Fragment>
+    <>
       <Container fluid>
         <Row>
           <Col xs={12}>
@@ -117,9 +117,9 @@ export default function PostDetail() {
               </span>
               <p className="comment__content">
                 Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book
+                industry. Lorem Ipsum has been the industry&apos;s standard
+                dummy text ever since the 1500s, when an unknown printer took a
+                galley of type and scrambled it to make a type specimen book
               </p>
             </div>
 
@@ -135,9 +135,9 @@ export default function PostDetail() {
               </span>
               <p className="comment__content">
                 Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book
+                industry. Lorem Ipsum has been the industry&apos;s standard
+                dummy text ever since the 1500s, when an unknown printer took a
+                galley of type and scrambled it to make a type specimen book
               </p>
             </div>
 
@@ -153,9 +153,9 @@ export default function PostDetail() {
               </span>
               <p className="comment__content">
                 Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book
+                industry. Lorem Ipsum has been the industry&apos;s standard
+                dummy text ever since the 1500s, when an unknown printer took a
+                galley of type and scrambled it to make a type specimen book
               </p>
             </div>
 
@@ -171,9 +171,9 @@ export default function PostDetail() {
               </span>
               <p className="comment__content">
                 Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book
+                industry. Lorem Ipsum has been the industry&apos;s standard
+                dummy text ever since the 1500s, when an unknown printer took a
+                galley of type and scrambled it to make a type specimen book
               </p>
             </div>
 
@@ -189,9 +189,9 @@ export default function PostDetail() {
               </span>
               <p className="comment__content">
                 Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book
+                industry. Lorem Ipsum has been the industry&apos;s standard
+                dummy text ever since the 1500s, when an unknown printer took a
+                galley of type and scrambled it to make a type specimen book
               </p>
             </div>
 
@@ -204,6 +204,6 @@ export default function PostDetail() {
           </Col>
         </Row>
       </Container>
-    </Fragment>
+    </>
   );
 }
