@@ -27,7 +27,7 @@ function SearchBar(){
                 <FormControl placeholder="Input keyword"/>
                 <InputGroup.Append>
                     <Button variant="outline-secondary">
-                        <img src={search} style={imgstyle}/>
+                        <img src={search} alt="Search" style={imgstyle}/>
                     </Button>
                 </InputGroup.Append>
             </InputGroup>

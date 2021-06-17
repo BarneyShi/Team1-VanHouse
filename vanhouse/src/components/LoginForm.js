@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {Button, Form, Modal} from "react-bootstrap";
+import PropTypes from "prop-types";
 import RegistrationForm from "./RegistrationForm"
 import "../styles/login.css"
 import usePasswordValidator from "./usePasswordValidator";
-import {validateEmail} from "./utils";
+import validateEmail from "./utils";
 
-function LoginForm(props) {
+function LoginForm({setIsRegistrationVisible, isRegistrationVisible, setIsLoginVisible, isLoginVisible, setIsRegisterButtonVisible, isRegisterButtonVisible, submit, show, handleClose, error}) {
     const [details, setDetails] = useState({name: "", email: "", password: ""});
     // const [isRegistrationVisible, setIsRegistrationVisible] = useState(false);
     // const [isLoginVisible, setIsLoginVisible] = useState(true);
@@ -25,21 +26,19 @@ function LoginForm(props) {
     });
 
     const setVisibilities = () => {
-        props.setIsRegistrationVisible(!props.isRegistrationVisible);
-        props.setIsLoginVisible(!props.isLoginVisible);
-        props.setIsRegisterButtonVisible(!props.isRegisterButtonVisible);
+        setIsRegistrationVisible(!isRegistrationVisible);
+        setIsLoginVisible(!isLoginVisible);
+        setIsRegisterButtonVisible(!isRegisterButtonVisible);
     }
 
     useEffect(
         () => {
             if (!email) {
                 setEmailError("");
+            } else if (validateEmail(email)) {
+                setEmailError("");
             } else {
-                if (validateEmail(email)) {
-                    setEmailError("");
-                } else {
-                    setEmailError("Please enter a valid email.");
-                }
+                setEmailError("Please enter a valid email.");
             }
         },
         [email]
@@ -49,12 +48,10 @@ function LoginForm(props) {
         () => {
             if (!confirmPassword || !password) {
                 setConfirmPasswordError("");
+            } else if (password !== confirmPassword) {
+                setConfirmPasswordError("The passwords must match.");
             } else {
-                if (password !== confirmPassword) {
-                    setConfirmPasswordError("The passwords must match.");
-                } else {
-                    setConfirmPasswordError("");
-                }
+                setConfirmPasswordError("");
             }
         },
         [password, confirmPassword]
@@ -64,18 +61,18 @@ function LoginForm(props) {
 
     const handleSubmit = e => {
         e.preventDefault();
-        props.submit(details);
+        submit(details);
     }
 
     return (
-        <Modal id="Login-Modal" show={props.show} onHide={props.handleClose} animation={false}>
-            {props.isLoginVisible &&
+        <Modal id="Login-Modal" show={show} onHide={handleClose} animation={false}>
+            {isLoginVisible &&
             <Form onSubmit={handleSubmit}>
                 <Modal.Header>
                     <Modal.Title>Login</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {(props.error != "") ? (<div className="error">{props.error}</div>) : ""}
+                    {(error !== "") ? (<div className="error">{error}</div>) : ""}
                     <Form.Group controlId="formName">
                         <Form.Label>Name *</Form.Label>
                         <Form.Control required type="name" placeholder="Enter name" onChange={(e) => {
@@ -111,7 +108,7 @@ function LoginForm(props) {
 
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={props.handleClose}>
+                    <Button variant="secondary" onClick={handleClose}>
                         Close
                     </Button>
                     <Button variant="primary" type="submit">
@@ -122,7 +119,7 @@ function LoginForm(props) {
             }
 
             <div className="register-button-and-form">
-                {props.isRegisterButtonVisible &&
+                {isRegisterButtonVisible &&
                 <Button
                     className="register-button"
                     onClick={(e) => setVisibilities()}>
@@ -130,7 +127,7 @@ function LoginForm(props) {
                 </Button>
                 }
 
-                {props.isRegistrationVisible &&
+                {isRegistrationVisible &&
                 <RegistrationForm
                     setEmail={setEmail}
                     emailError={emailError}
@@ -139,14 +136,31 @@ function LoginForm(props) {
                     confirmPassword={confirmPassword}
                     setConfirmPassword={setConfirmPassword}
                     confirmPasswordError={confirmPasswordError}
-                    handleClose={props.handleClose}
-                    setIsLoginVisible={props.setIsLoginVisible}
+                    handleClose={handleClose}
+                    setIsLoginVisible={setIsLoginVisible}
                 />}
                 <br/>
                 <br/>
             </div>
         </Modal>
     )
+}
+
+LoginForm.defaultProps = {
+    error: ""
+}
+
+LoginForm.propTypes = {
+    setIsRegistrationVisible: PropTypes.func.isRequired,
+    isRegistrationVisible: PropTypes.bool.isRequired,
+    setIsLoginVisible: PropTypes.func.isRequired,
+    isLoginVisible: PropTypes.bool.isRequired,
+    setIsRegisterButtonVisible: PropTypes.func.isRequired,
+    isRegisterButtonVisible: PropTypes.bool.isRequired,
+    submit: PropTypes.func.isRequired,
+    show: PropTypes.bool.isRequired,
+    handleClose: PropTypes.func.isRequired,
+    error: PropTypes.string
 }
 
 export default LoginForm
