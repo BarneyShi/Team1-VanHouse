@@ -1,0 +1,19 @@
+.date-list-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 3px;
+}
+.date-list-item .list-group-item {
+  flex-basis: 35%;
+}
+.date-list-item button {
+  margin: auto 5px;
+}
+#datePicker {
+  margin-top: 15px;
+}
+#datepicker-text {
+  font-size: .85rem;
+  color: grey;
+}
