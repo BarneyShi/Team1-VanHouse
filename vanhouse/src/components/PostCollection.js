@@ -6,6 +6,7 @@ import Post from "./Post";
 import NewPost from "./NewPost";
 import SearchBar from "./SearchBar";
 import "../styles/Post.css";
+import Schedule from "./Schedule";
 
 function PostCollection() {
   // Note: Temporarily adding in placeholder post JSON objects
@@ -111,7 +112,11 @@ function PostCollection() {
     />
   ));
 
+  // Hooks for displaying <Schedule />
+  const [displaySchedule, setDisplaySchedule] = useState(true);
+
   return (
+    <>
     <div className="post_collection_div">
       <SearchBar />
       <NewPost
@@ -130,6 +135,8 @@ function PostCollection() {
         </button>
       </div>
     </div>
+<Schedule show={displaySchedule} onHide={()=>setDisplaySchedule(false)} />
+    </>
   );
 }
 
