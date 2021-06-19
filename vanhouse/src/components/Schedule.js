@@ -83,7 +83,6 @@ export default function Schedule({ show, onHide }) {
             addDate(date);
             setStartDate(date);
           }}
-          shouldCloseOnSelect={false}
         />
         <p id="datepicker-text">You can pick multiple dates!</p>
       </Modal.Body>

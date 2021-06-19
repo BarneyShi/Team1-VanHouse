@@ -7,6 +7,7 @@ import {
   ListGroup,
   ListGroupItem,
   Button,
+  Modal,
 } from "react-bootstrap";
 import "../styles/postdetail.css";
 import ReactMapGL, { Marker } from "react-map-gl";
@@ -27,6 +28,10 @@ export default function PostDetail() {
     zoom: 11,
     mapboxApiAccessToken: mapToken,
   });
+
+  // Schedule Hooks
+  const [displaySchedule, setDisplaySchedule] = useState(false);
+  let selectedDate = ["Sat Jan 1 2021", "Thur Feb 2 2021", "Wed Mar 3 2021"];
 
   return (
     <>
@@ -52,24 +57,35 @@ export default function PostDetail() {
           </Col>
 
           <Col xs={12}>
-            <img
-              className="thumb"
-              id="thumbup-icon"
-              src={upVote}
-              alt="thumb-up"
-            />
-            <span className="review-count" id="thumbup-count">
-              3
+            <span className="post-rate">
+              <img
+                className="thumb"
+                id="thumbup-icon"
+                src={upVote}
+                alt="thumb-up"
+              />
+              <span className="review-count" id="thumbup-count">
+                3
+              </span>
+              <img
+                className="thumb"
+                id="thumbdown-icon"
+                src={thumbDown}
+                alt="thumb-down"
+              />
+              <span className="review-count" id="thumbdown-count">
+                2
+              </span>
             </span>
-            <img
-              className="thumb"
-              id="thumbdown-icon"
-              src={thumbDown}
-              alt="thumb-down"
-            />
-            <span className="review-count" id="thumbdown-count">
-              2
-            </span>
+
+            <Button
+              id="homeTourBtn"
+              variant="info"
+              onClick={() => setDisplaySchedule(true)}
+            >
+              Book a home tour!
+            </Button>
+
             <Button variant="warning" id="reportBtn">
               Report
             </Button>
@@ -84,11 +100,11 @@ export default function PostDetail() {
                 Address: 1234 W 14th Ave, Vancouver, BC V2R 1R2
               </ListGroupItem>
               <ListGroupItem>Price: $1000</ListGroupItem>
+              <ListGroupItem>Email: 123@vanhouse.com</ListGroupItem>
               <ListGroupItem>Lease Length: 12 months</ListGroupItem>
               <ListGroupItem>No Pets</ListGroupItem>
-              <ListGroupItem>Less Cooking</ListGroupItem>
-              <ListGroupItem>Unitily Included</ListGroupItem>
-              <ListGroupItem>Laundry</ListGroupItem>
+              <ListGroupItem>Unitilies Included</ListGroupItem>
+              <ListGroupItem>In suite laundry</ListGroupItem>
             </ListGroup>
           </Col>
 
@@ -102,7 +118,6 @@ export default function PostDetail() {
               </Marker>
             </ReactMapGL>
           </Col>
-
           <Col id="comment">
             <h4 className="text-center">Comment</h4>
             <div className="comment__block">
@@ -202,6 +217,26 @@ export default function PostDetail() {
               </form>
             </div>
           </Col>
+
+          {/* Schedule Modal */}
+          <Modal
+            show={displaySchedule}
+            onHide={() => setDisplaySchedule(false)}
+            centered
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>You can contact the landlord on</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <ListGroup id="date-list-group">
+                {selectedDate.map((date, index) => (
+                  <span className="date-list-item" key={index}>
+                    <ListGroup.Item variant="primary">{date}</ListGroup.Item>
+                  </span>
+                ))}
+              </ListGroup>
+            </Modal.Body>
+          </Modal>
         </Row>
       </Container>
     </>
