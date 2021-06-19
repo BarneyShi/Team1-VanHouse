@@ -30,7 +30,9 @@ function NewPost({ show, submit, handleClose }) {
       address,
     });
     handleClose();
+    props.setDisplaySchedule(true);
   };
+  }
 
   return (
     <Modal show={show} onHide={handleClose} animation={false}>

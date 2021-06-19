@@ -113,29 +113,29 @@ function PostCollection() {
   ));
 
   // Hooks for displaying <Schedule />
-  const [displaySchedule, setDisplaySchedule] = useState(true);
+  const [displaySchedule, setDisplaySchedule] = useState(false);
 
   return (
     <>
-    <div className="post_collection_div">
-      <SearchBar />
-      <NewPost
-        show={newPostVisible}
-        handleClose={handleCloseModal}
-        submit={addPost}
-      />
-      <div className="post_scroll_div">{postsList}</div>
-      <div className="create_post_button_div">
-        <button
-          type="button"
-          className="create_post_button"
-          onClick={handleCreateButtonClick}
-        >
-          <i className="fa fa-plus-circle" />
-        </button>
+      <div className="post_collection_div">
+        <SearchBar />
+        <NewPost
+          show={newPostVisible}
+          handleClose={handleCloseModal}
+          submit={addPost}
+        />
+        <div className="post_scroll_div">{postsList}</div>
+        <div className="create_post_button_div">
+          <button
+            type="button"
+            className="create_post_button"
+            onClick={handleCreateButtonClick}
+          >
+            <i className="fa fa-plus-circle" />
+          </button>
+        </div>
       </div>
-    </div>
-<Schedule show={displaySchedule} onHide={()=>setDisplaySchedule(false)} />
+      <Schedule show={displaySchedule} onHide={()=>setDisplaySchedule(false)} />
     </>
   );
 }

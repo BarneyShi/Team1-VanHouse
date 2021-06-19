@@ -59,10 +59,10 @@ export default function Schedule({ show, onHide }) {
   return (
     <Modal show={show} onHide={onHide} size="lg" centered>
       <Modal.Header closeButton>
-        <Modal.Title>Schedule a time for a home tour!</Modal.Title>
+        <Modal.Title>Your post has been published!</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>Tell tenants when you're avaiable for a home tour!</p>
+        <p>Now tell tenants when you're avaiable for a home tour!</p>
         <ListGroup id="date-list-group">
           {selectedDate.map((date, index) => (
             <span className="date-list-item" key={index}>
