@@ -1,5 +1,5 @@
 import {Card,Button,Container,Row,Col} from 'react-bootstrap';
-import {useState} from 'react';
+import React, {useState} from 'react';
 import user1 from '../assets/img1.jpg';
 import user2 from '../assets/img2.jpg';
 import user3 from '../assets/img3.jpg';
@@ -8,7 +8,7 @@ import user3 from '../assets/img3.jpg';
 function UserList(){
     const [uname,setName] = useState(["user1","user2","user3"]);
     const [userimg,setImg] = useState([user1,user2,user3]);
-    var cardList = uname.map((item,index)=>{
+    let cardList = uname.map((item,index)=>{
             const style = {
                 width:'35px',
                 borderRadius:'100%',
@@ -22,7 +22,7 @@ function UserList(){
             }
             return(
                 <Row style={{display: 'flex', alignItems: 'center'}}>  
-                   <Col xs={3} md={3}><img style={style} src={userimg[index]} /></Col> 
+                   <Col xs={3} md={3}><img style={style} alt='User avatar' src={userimg[index]} /></Col> 
               
                    <Col xs={3} md={3}> <text style={{display: 'flex', alignItems: 'center',fontSize: '20px'}}> {uname[index]} </text> </Col>
                 
@@ -37,14 +37,14 @@ function UserList(){
     })
     const [list,setList] = useState(cardList);
     const handleDelete = (i) =>{
-        var tn = uname;
-        var ti = userimg;
+        const tn = uname;
+        const ti = userimg;
         tn.splice(i,1);
         ti.splice(i,1);
         
         setName(tn);
         setImg(ti);
-        //console.log("user:",uname);
+        // console.log("user:",uname);
         cardList = uname.map((item,index)=>{
             const style = {
                 width:'35px',
@@ -60,7 +60,7 @@ function UserList(){
             }
             return(
                 <Row style={{display: 'flex', alignItems: 'center'}}>
-                   <Col xs={3} md={3}><img style={style} src={userimg[index]} /></Col> 
+                   <Col xs={3} md={3}><img style={style} alt='User avatar' src={userimg[index]} /></Col> 
                    
                    <Col xs={3} md={3}> <text style={{display: 'flex', alignItems: 'center'}}> {uname[index]} </text> </Col>
                   

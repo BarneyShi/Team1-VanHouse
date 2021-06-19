@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from "react";
-import "./header.css";
+import "../styles/header.css";
 import LoginForm from "./LoginForm";
 import SearchBar from "./SearchBar";
 import usePasswordValidator from "./usePasswordValidator";
-import {validateEmail} from "./utils";
+import validateEmail from "./utils";
 
 
 function Header(props) {
@@ -32,7 +32,7 @@ function Header(props) {
     }
 
     const Login = details => {
-        if (details.email == testUser.email && details.password == testUser.password) {
+        if (details.email === testUser.email && details.password === testUser.password) {
             setUser({
                 name: details.name,
                 email: details.email
@@ -48,13 +48,13 @@ function Header(props) {
 
     return (
         <div className="header-flexbox">
-            {/*{(user.email != "") ? (*/}
-            {/*    <div className="welcome">*/}
-            {/*        <h2> Welcome, <span>{user.name}</span></h2>*/}
-            {/*        <button onClick={Logout}>Logout</button>*/}
-            {/*    </div>*/}
-            {/*) : (*/}
-            {/*    <LoginForm show={isLoginClicked} handleClose={handleCloseModal} submit={Login}/>)}*/}
+            {/* {(user.email != "") ? ( */}
+            {/*    <div className="welcome"> */}
+            {/*        <h2> Welcome, <span>{user.name}</span></h2> */}
+            {/*        <button onClick={Logout}>Logout</button> */}
+            {/*    </div> */}
+            {/* ) : ( */}
+            {/*    <LoginForm show={isLoginClicked} handleClose={handleCloseModal} submit={Login}/>)} */}
             <LoginForm
                 show={isLoginClicked}
                 handleClose={handleCloseModal}
@@ -76,7 +76,7 @@ function Header(props) {
                     <h1 className="App-title">VanHouse</h1>
                 </div>
                 <div className="login-button-div">
-                    <button className="login-button" onClick={handleLoginClicked}>
+                    <button type='button' className="login-button" onClick={handleLoginClicked}>
                         Login
                     </button>
                 </div>
@@ -86,7 +86,7 @@ function Header(props) {
                     <h2>Find your next home</h2>
                 </div>
                 <div className="space">
-                    <h2></h2>
+                    <h2> </h2>
                 </div>
             </div>
 
