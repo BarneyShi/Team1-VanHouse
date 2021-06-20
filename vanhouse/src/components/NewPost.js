@@ -140,6 +140,7 @@ NewPost.propTypes = {
   show: PropTypes.bool.isRequired,
   submit: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
+  setDisplaySchedule: PropTypes.func.isRequired,
 };
 
 export default NewPost;

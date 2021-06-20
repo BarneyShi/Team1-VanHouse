@@ -31,7 +31,11 @@ export default function PostDetail() {
 
   // Schedule Hooks
   const [displaySchedule, setDisplaySchedule] = useState(false);
-  let selectedDate = ["Sat Jan 1 2021", "Thur Feb 2 2021", "Wed Mar 3 2021"];
+  const selectedDate = [
+    { id: 0, date: "Sat Jan 1 2021" },
+    { id: 1, date: "Thur Feb 2 2021" },
+    { id: 2, date: "Wed Mar 3 2021" },
+  ];
 
   return (
     <>
@@ -229,9 +233,11 @@ export default function PostDetail() {
             </Modal.Header>
             <Modal.Body>
               <ListGroup id="date-list-group">
-                {selectedDate.map((date, index) => (
-                  <span className="date-list-item" key={index}>
-                    <ListGroup.Item variant="primary">{date}</ListGroup.Item>
+                {selectedDate.map((object) => (
+                  <span className="date-list-item" key={object.id}>
+                    <ListGroup.Item variant="primary">
+                      {object.date}
+                    </ListGroup.Item>
                   </span>
                 ))}
               </ListGroup>

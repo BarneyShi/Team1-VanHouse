@@ -1,16 +1,16 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Modal, Button, ListGroup } from "react-bootstrap";
 import PropTypes from "prop-types";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Schedule.css";
 
-export default function Schedule({ show, onHide }) {
+function Schedule({ show, onHide }) {
   // CITATION: Modal https://react-bootstrap.github.io/components/modal/
   // CITATION: DatePicker https://www.npmjs.com/package/react-datepicker
 
   const [startDate, setStartDate] = useState(new Date());
-  let [selectedDate, setSelectedDate] = useState([]);
+  const [selectedDate, setSelectedDate] = useState([]);
 
   // Select multi dates
   const addDate = (date) => {
@@ -44,7 +44,10 @@ export default function Schedule({ show, onHide }) {
     const result = `${week} ${day} ${month} ${year}`;
 
     if (selectedDate.includes(result)) return;
-    setSelectedDate([...selectedDate, `${week} ${day} ${month} ${year}`]);
+    setSelectedDate([
+      ...selectedDate,
+      { id: setSelectedDate.length, date: `${week} ${day} ${month} ${year}` },
+    ]);
   };
 
   // Delete dates
@@ -62,12 +65,16 @@ export default function Schedule({ show, onHide }) {
         <Modal.Title>Your post has been published!</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>Now tell tenants when you're avaiable for a home tour!</p>
+        <p>Now tell tenants when you&apos;re avaiable for a home tour!</p>
         <ListGroup id="date-list-group">
-          {selectedDate.map((date, index) => (
-            <span className="date-list-item" key={index}>
-              <ListGroup.Item variant="primary">{date}</ListGroup.Item>
-              <Button variant="danger" onClick={deleteDate} data-date={date}>
+          {selectedDate.map((object) => (
+            <span className="date-list-item" key={object.id}>
+              <ListGroup.Item variant="primary">{object.date}</ListGroup.Item>
+              <Button
+                variant="danger"
+                onClick={deleteDate}
+                data-date={object.date}
+              >
                 Delete
               </Button>
             </span>
@@ -93,7 +100,9 @@ export default function Schedule({ show, onHide }) {
   );
 }
 
-Schedule.prototype = {
+Schedule.propTypes = {
   show: PropTypes.bool.isRequired,
   onHide: PropTypes.func.isRequired,
 };
+
+export default Schedule;
