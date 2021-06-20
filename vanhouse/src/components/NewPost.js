@@ -12,7 +12,7 @@ import PropTypes from "prop-types";
 import { Modal, Button, Form } from "react-bootstrap";
 
 // Presents a modal view with a form for creating a new post
-function NewPost({ show, submit, handleClose }) {
+function NewPost({ show, submit, handleClose, setDisplaySchedule }) {
   // States set by form inputs
   const [postTitle, setPostTitle] = useState("Untitled Post");
   const [email, setEmail] = useState("");
@@ -30,9 +30,8 @@ function NewPost({ show, submit, handleClose }) {
       address,
     });
     handleClose();
-    props.setDisplaySchedule(true);
+    setDisplaySchedule(true);
   };
-  }
 
   return (
     <Modal show={show} onHide={handleClose} animation={false}>

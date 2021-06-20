@@ -123,6 +123,7 @@ function PostCollection() {
           show={newPostVisible}
           handleClose={handleCloseModal}
           submit={addPost}
+          setDisplaySchedule={setDisplaySchedule}
         />
         <div className="post_scroll_div">{postsList}</div>
         <div className="create_post_button_div">
