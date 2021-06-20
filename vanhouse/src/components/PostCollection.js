@@ -2,6 +2,7 @@
 // TODO - hide create-post-button when not logged in
 
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import Post from "./Post";
 import NewPost from "./NewPost";
 import SearchBar from "./SearchBar";
@@ -97,18 +98,20 @@ function PostCollection() {
 
   // Map the posts state to a list of Post components
   const postsList = posts.map((post) => (
-    <Post
-      key={post.id}
-      postId={post.id}
-      postDate={post.dateCreated}
-      postTitle={post.postTitle}
-      mainImage={post.imgURL}
-      author={post.author}
-      address={post.address}
-      handlePostClick={(id) => {
-        handlePostClick(id);
-      }}
-    />
+    <Link to={`/post/${post.id}`}>
+      <Post
+        key={post.id}
+        postId={post.id}
+        postDate={post.dateCreated}
+        postTitle={post.postTitle}
+        mainImage={post.imgURL}
+        author={post.author}
+        address={post.address}
+        handlePostClick={(id) => {
+          handlePostClick(id);
+        }}
+      />
+    </Link>
   ));
 
   return (
