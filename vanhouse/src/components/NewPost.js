@@ -57,7 +57,7 @@ function NewPost({ show, submit, handleClose }) {
   const handleImageUpload = (e) => {
     if (e.target.files) {
       const imageList = [];
-      for(let i = 0; i<e.target.files.length; i+=1) {
+      for (let i = 0; i < e.target.files.length; i += 1) {
         if (e.target.files[i]) {
           const fileReader = new FileReader();
           fileReader.onload = (event) => {
@@ -65,10 +65,10 @@ function NewPost({ show, submit, handleClose }) {
             setImages(imageList);
           };
           fileReader.readAsDataURL(e.target.files[i]);
-        } 
+        }
       }
     }
-  }
+  };
 
   return (
     <Modal show={show} onHide={handleClose} animation={false}>
@@ -86,7 +86,7 @@ function NewPost({ show, submit, handleClose }) {
               }}
             />
           </Form.Group>
-          
+
           <Row>
             <Form.Group as={Col} controlId="formEmail">
               <Form.Label>Email address *</Form.Label>
@@ -112,7 +112,7 @@ function NewPost({ show, submit, handleClose }) {
               />
             </Form.Group>
           </Row>
-          
+
           <Row>
             <Form.Group as={Col} controlId="formAddress">
               <Form.Label>Address *</Form.Label>
@@ -136,7 +136,7 @@ function NewPost({ show, submit, handleClose }) {
               />
             </Form.Group>
           </Row>
-          
+
           <Row>
             <Form.Group as={Col} controlId="formPrice">
               <Form.Label>Price *</Form.Label>
@@ -224,25 +224,47 @@ function NewPost({ show, submit, handleClose }) {
           <Row>
             <Col>
               <Form.Group controlId="formUtilities">
-                <Form.Check type="checkbox" label="Utilities included" onChange={(e) => {setUtilities(e.target.value);}}/>
+                <Form.Check
+                  type="checkbox"
+                  label="Utilities included"
+                  onChange={(e) => {
+                    setUtilities(e.target.value);
+                  }}
+                />
               </Form.Group>
 
               <Form.Group controlId="formPets">
-                <Form.Check type="checkbox" label="Pets allowed" onChange={(e) => {setPets(e.target.value);}}/>
+                <Form.Check
+                  type="checkbox"
+                  label="Pets allowed"
+                  onChange={(e) => {
+                    setPets(e.target.value);
+                  }}
+                />
               </Form.Group>
             </Col>
             <Col>
               <Form.Group controlId="formLaundry">
-                <Form.Check type="checkbox" label="In suite laundry" onChange={(e) => {setLaundry(e.target.value);}}/>
+                <Form.Check
+                  type="checkbox"
+                  label="In suite laundry"
+                  onChange={(e) => {
+                    setLaundry(e.target.value);
+                  }}
+                />
               </Form.Group>
               <Form.Group controlId="formFurnished">
-                <Form.Check type="checkbox" label="Furnished" onChange={(e) => {setFurnished(e.target.value);}}/>
+                <Form.Check
+                  type="checkbox"
+                  label="Furnished"
+                  onChange={(e) => {
+                    setFurnished(e.target.value);
+                  }}
+                />
               </Form.Group>
             </Col>
-            
-            
           </Row>
-          
+
           <Form.Group as={Col} controlId="formImages">
             <Form.File
               id="uploadImagesButton"

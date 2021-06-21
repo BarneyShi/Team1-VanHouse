@@ -3,7 +3,7 @@
 
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import {Button} from 'react-bootstrap';
+import { Button } from "react-bootstrap";
 import Post from "./Post";
 import NewPost from "./NewPost";
 import SearchBar from "./SearchBar";
@@ -18,8 +18,9 @@ function PostCollection() {
       dateCreated: "01-06-2021",
       postTitle: "Untitled Post",
       price: 1000,
-      imageURLs:
-        ["https://upload.wikimedia.org/wikipedia/commons/f/fd/Ikblearningcentre.jpg"],
+      imageURLs: [
+        "https://upload.wikimedia.org/wikipedia/commons/f/fd/Ikblearningcentre.jpg",
+      ],
       author: "Anonymous",
       address: "1961 East Mall",
     },
@@ -28,8 +29,9 @@ function PostCollection() {
       dateCreated: "01-06-2021",
       postTitle: "Untitled Post",
       price: 1000,
-      imageURLs:
-        ["https://upload.wikimedia.org/wikipedia/commons/f/fd/Ikblearningcentre.jpg"],
+      imageURLs: [
+        "https://upload.wikimedia.org/wikipedia/commons/f/fd/Ikblearningcentre.jpg",
+      ],
       author: "Anonymous",
       address: "1961 East Mall",
     },
@@ -38,8 +40,9 @@ function PostCollection() {
       dateCreated: "01-06-2021",
       postTitle: "Untitled Post",
       price: 1000,
-      imageURLs:
-        ["https://upload.wikimedia.org/wikipedia/commons/f/fd/Ikblearningcentre.jpg"],
+      imageURLs: [
+        "https://upload.wikimedia.org/wikipedia/commons/f/fd/Ikblearningcentre.jpg",
+      ],
       author: "Anonymous",
       address: "1961 East Mall",
     },
@@ -48,8 +51,9 @@ function PostCollection() {
       dateCreated: "01-06-2021",
       postTitle: "Untitled Post",
       price: 1000,
-      imageURLs:
-        ["https://upload.wikimedia.org/wikipedia/commons/f/fd/Ikblearningcentre.jpg"],
+      imageURLs: [
+        "https://upload.wikimedia.org/wikipedia/commons/f/fd/Ikblearningcentre.jpg",
+      ],
       author: "Anonymous",
       address: "1961 East Mall",
     },
@@ -58,8 +62,9 @@ function PostCollection() {
       dateCreated: "01-06-2021",
       postTitle: "Untitled Post",
       price: 1000,
-      imageURLs:
-        ["https://upload.wikimedia.org/wikipedia/commons/f/fd/Ikblearningcentre.jpg"],
+      imageURLs: [
+        "https://upload.wikimedia.org/wikipedia/commons/f/fd/Ikblearningcentre.jpg",
+      ],
       author: "Anonymous",
       address: "1961 East Mall",
     },
@@ -82,12 +87,12 @@ function PostCollection() {
   const addPost = (postInfo) => {
     const today = new Date();
     const day = `0${today.getDate()}`.slice(-2);
-    const month = `0${(today.getMonth() + 1)}`.slice(-2);
+    const month = `0${today.getMonth() + 1}`.slice(-2);
 
     const postToAdd = {
       id: posts.length,
       // CITATION: The idea to use .slice(-2) to add leading zeros to the day/month from https://stackoverflow.com/a/3605248
-      dateCreated: `${day}-${month}-${today.getYear()+1900}`,
+      dateCreated: `${day}-${month}-${today.getYear() + 1900}`,
       postTitle: postInfo.postTitle,
       price: postInfo.price,
       paymentPeriod: postInfo.paymentPeriod,
@@ -128,17 +133,23 @@ function PostCollection() {
     <div className="post_collection_div">
       <div id="post_collection_tools_div">
         <SearchBar />
-        <Button id="createPostBtn" variant="primary" onClick={handleCreateButtonClick}> Post </Button>{' '}
+        <Button
+          id="createPostBtn"
+          variant="primary"
+          onClick={handleCreateButtonClick}
+        >
+          {" "}
+          Post{" "}
+        </Button>{" "}
       </div>
-      
+
       <NewPost
         show={newPostVisible}
         handleClose={handleCloseModal}
         submit={addPost}
       />
-      
+
       <div className="post_scroll_div">{postsList}</div>
-      
     </div>
   );
 }

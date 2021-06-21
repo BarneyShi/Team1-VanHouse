@@ -8,7 +8,7 @@ import PropTypes from "prop-types";
  */
 function truncateString(str, maxSize) {
   if (str.length > maxSize) {
-    return `${str.substring(0, maxSize - 3)} ...`;
+    return `${str.substring(0, maxSize - 3)}...`;
   }
   return str;
 }
@@ -23,7 +23,6 @@ function Post({
   author,
   address,
 }) {
-
   return (
     <button type="button" className="post_div">
       <div className="post_header_div">
