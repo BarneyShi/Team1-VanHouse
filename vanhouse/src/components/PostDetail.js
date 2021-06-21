@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Carousel,
   Container,
@@ -7,6 +7,7 @@ import {
   ListGroup,
   ListGroupItem,
   Button,
+  Modal,
 } from "react-bootstrap";
 import "../styles/postdetail.css";
 import ReactMapGL, { Marker } from "react-map-gl";
@@ -27,6 +28,62 @@ export default function PostDetail() {
     zoom: 11,
     mapboxApiAccessToken: mapToken,
   });
+
+  // Comment function
+  const commentRef = useRef();
+  const [comments, setComments] = useState([
+    {
+      id: 0,
+      username: "Anon0",
+      comment:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+    },
+    {
+      id: 1,
+      username: "Anon1",
+      comment:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+    },
+    {
+      id: 2,
+      username: "Anon2",
+      comment:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+    },
+    {
+      id: 3,
+      username: "Anon3",
+      comment:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+    },
+    {
+      id: 4,
+      username: "Anon4",
+      comment:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+    },
+  ]);
+  const addComment = (event) => {
+    event.preventDefault();
+    const { value } = commentRef.current;
+    setComments([
+      ...comments,
+      {
+        id: comments.length,
+        username: `Anon${comments.length}`,
+        comment: value,
+      },
+    ]);
+    commentRef.current.value = "";
+  };
+
+  // Schedule Hooks
+  const [displaySchedule, setDisplaySchedule] = useState(false);
+  const selectedDate = [
+    { id: 0, date: "Sat Jan 1 2021" },
+    { id: 1, date: "Thur Feb 2 2021" },
+    { id: 2, date: "Wed Mar 3 2021" },
+  ];
 
   return (
     <>
@@ -52,24 +109,35 @@ export default function PostDetail() {
           </Col>
 
           <Col xs={12}>
-            <img
-              className="thumb"
-              id="thumbup-icon"
-              src={upVote}
-              alt="thumb-up"
-            />
-            <span className="review-count" id="thumbup-count">
-              3
+            <span className="post-rate">
+              <img
+                className="thumb"
+                id="thumbup-icon"
+                src={upVote}
+                alt="thumb-up"
+              />
+              <span className="review-count" id="thumbup-count">
+                3
+              </span>
+              <img
+                className="thumb"
+                id="thumbdown-icon"
+                src={thumbDown}
+                alt="thumb-down"
+              />
+              <span className="review-count" id="thumbdown-count">
+                2
+              </span>
             </span>
-            <img
-              className="thumb"
-              id="thumbdown-icon"
-              src={thumbDown}
-              alt="thumb-down"
-            />
-            <span className="review-count" id="thumbdown-count">
-              2
-            </span>
+
+            <Button
+              id="homeTourBtn"
+              variant="info"
+              onClick={() => setDisplaySchedule(true)}
+            >
+              Book a home tour!
+            </Button>
+
             <Button variant="warning" id="reportBtn">
               Report
             </Button>
@@ -84,11 +152,11 @@ export default function PostDetail() {
                 Address: 1234 W 14th Ave, Vancouver, BC V2R 1R2
               </ListGroupItem>
               <ListGroupItem>Price: $1000</ListGroupItem>
+              <ListGroupItem>Email: 123@vanhouse.com</ListGroupItem>
               <ListGroupItem>Lease Length: 12 months</ListGroupItem>
               <ListGroupItem>No Pets</ListGroupItem>
-              <ListGroupItem>Less Cooking</ListGroupItem>
-              <ListGroupItem>Unitily Included</ListGroupItem>
-              <ListGroupItem>Laundry</ListGroupItem>
+              <ListGroupItem>Unitilies Included</ListGroupItem>
+              <ListGroupItem>In suite laundry</ListGroupItem>
             </ListGroup>
           </Col>
 
@@ -105,103 +173,54 @@ export default function PostDetail() {
 
           <Col id="comment">
             <h4 className="text-center">Comment</h4>
-            <div className="comment__block">
-              <span className="commnet_userinfo">
-                <img
-                  className="comment__img"
-                  src={userLogo}
-                  width="40"
-                  alt="user_img"
-                />
-                <span className="comment__username">Anon1</span>
-              </span>
-              <p className="comment__content">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry&apos;s standard
-                dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book
-              </p>
-            </div>
-
-            <div className="comment__block">
-              <span className="commnet_userinfo">
-                <img
-                  className="comment__img"
-                  src={userLogo}
-                  width="40"
-                  alt="user_img"
-                />
-                <span className="comment__username">Anon2</span>
-              </span>
-              <p className="comment__content">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry&apos;s standard
-                dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book
-              </p>
-            </div>
-
-            <div className="comment__block">
-              <span className="commnet_userinfo">
-                <img
-                  className="comment__img"
-                  src={userLogo}
-                  width="40"
-                  alt="user_img"
-                />
-                <span className="comment__username">Anon3</span>
-              </span>
-              <p className="comment__content">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry&apos;s standard
-                dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book
-              </p>
-            </div>
-
-            <div className="comment__block">
-              <span className="commnet_userinfo">
-                <img
-                  className="comment__img"
-                  src={userLogo}
-                  width="40"
-                  alt="user_img"
-                />
-                <span className="comment__username">Anon</span>
-              </span>
-              <p className="comment__content">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry&apos;s standard
-                dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book
-              </p>
-            </div>
-
-            <div className="comment__block">
-              <span className="commnet_userinfo">
-                <img
-                  className="comment__img"
-                  src={userLogo}
-                  width="40"
-                  alt="user_img"
-                />
-                <span className="comment__username">Anon</span>
-              </span>
-              <p className="comment__content">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry&apos;s standard
-                dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book
-              </p>
-            </div>
+            {comments.map((e) => (
+              <div className="comment__block" key={e.id}>
+                <span className="commnet_userinfo">
+                  <img
+                    className="comment__img"
+                    src={userLogo}
+                    width="40"
+                    alt="user_img"
+                  />
+                  <span className="comment__username">{e.username}</span>
+                </span>
+                <p className="comment__content">{e.comment}</p>
+              </div>
+            ))}
 
             <div className="comment__input">
-              <form>
-                <textarea placeholder="Give us comment!"></textarea>
-                <Button>Submit</Button>
+              <form onSubmit={addComment}>
+                <textarea
+                  ref={commentRef}
+                  name="newComment"
+                  placeholder="Give us comment!"
+                ></textarea>
+                <Button type="submit">Submit</Button>
               </form>
             </div>
           </Col>
+
+          {/* Schedule Modal */}
+          <Modal
+            show={displaySchedule}
+            onHide={() => setDisplaySchedule(false)}
+            centered
+          >
+            <Modal.Header closeButton>
+              <Modal.Title>You can contact the landlord on</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <ListGroup id="date-list-group">
+                {selectedDate.map((object) => (
+                  <span className="date-list-item" key={object.id}>
+                    <ListGroup.Item variant="primary">
+                      {object.date}
+                    </ListGroup.Item>
+                  </span>
+                ))}
+              </ListGroup>
+            </Modal.Body>
+          </Modal>
         </Row>
       </Container>
     </>

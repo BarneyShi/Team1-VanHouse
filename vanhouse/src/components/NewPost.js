@@ -12,7 +12,7 @@ import PropTypes from "prop-types";
 import { Modal, Button, Form } from "react-bootstrap";
 
 // Presents a modal view with a form for creating a new post
-function NewPost({ show, submit, handleClose }) {
+function NewPost({ show, submit, handleClose, setDisplaySchedule }) {
   // States set by form inputs
   const [postTitle, setPostTitle] = useState("Untitled Post");
   const [email, setEmail] = useState("");
@@ -30,6 +30,7 @@ function NewPost({ show, submit, handleClose }) {
       address,
     });
     handleClose();
+    setDisplaySchedule(true);
   };
 
   return (
@@ -139,6 +140,7 @@ NewPost.propTypes = {
   show: PropTypes.bool.isRequired,
   submit: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
+  setDisplaySchedule: PropTypes.func.isRequired,
 };
 
 export default NewPost;
