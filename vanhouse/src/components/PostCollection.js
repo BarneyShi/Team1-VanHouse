@@ -2,11 +2,12 @@
 // TODO - hide create-post-button when not logged in
 
 import React, { useState } from "react";
+import {InputGroup, Button, FormControl, DropdownButton,ButtonToolbar} from 'react-bootstrap';
 import Post from "./Post";
 import NewPost from "./NewPost";
 import SearchBar from "./SearchBar";
 import "../styles/Post.css";
-import Schedule from "./Schedule";
+import search from '../assets/search.png';
 
 function PostCollection() {
   // Note: Temporarily adding in placeholder post JSON objects
@@ -112,32 +113,44 @@ function PostCollection() {
     />
   ));
 
-  // Hooks for displaying <Schedule />
-  const [displaySchedule, setDisplaySchedule] = useState(false);
+  const style = {
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    textAlign: 'center',
+
+
+}
+const imgstyle = {
+    height: '20px',
+    weight: '15px',
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    textAlign: 'center',
+
+
+}
+
 
   return (
-    <>
-      <div className="post_collection_div">
-        <SearchBar />
-        <NewPost
-          show={newPostVisible}
-          handleClose={handleCloseModal}
-          submit={addPost}
-          setDisplaySchedule={setDisplaySchedule}
-        />
-        <div className="post_scroll_div">{postsList}</div>
-        <div className="create_post_button_div">
-          <button
-            type="button"
-            className="create_post_button"
-            onClick={handleCreateButtonClick}
-          >
-            <i className="fa fa-plus-circle" />
-          </button>
-        </div>
+    <div className="post_collection_div">
+      <NewPost
+        show={newPostVisible}
+        handleClose={handleCloseModal}
+        submit={addPost}
+      />
+      <div className="post_scroll_div">{postsList}</div>
+      <div className="create_post_button_div">
+        <button
+          type="button"
+          className="create_post_button"
+          onClick={handleCreateButtonClick}
+        >
+          <i className="fa fa-plus-circle" />
+        </button>
       </div>
-      <Schedule show={displaySchedule} onHide={()=>setDisplaySchedule(false)} />
-    </>
+    </div>
   );
 }
 
