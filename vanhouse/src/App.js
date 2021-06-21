@@ -16,7 +16,7 @@ function App() {
                          
                 <Route exact path="/">
                  <Container fluid>
-                    <Row>
+                    <Row id="AppMainRow">
                         <Col lg={3} md={3}><UserList /></Col>
                         <Col>      
                     <PostCollection/>

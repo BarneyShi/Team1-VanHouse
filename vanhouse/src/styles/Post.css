@@ -1,10 +1,30 @@
 /* Post Component CSS */
+
+  /* CITATION: I used the box-shadow parameter settings from here: 
+                https://www.w3schools.com/css/tryit.asp?filename=trycss_buttons_shadow */
+
 .post_collection_div {
-  display:block;
-  float: right;
-  margin: 10px;
   width: 100%;
-  height: 80vh;
+  height: 86vh;
+  box-shadow: 0 8px 20px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.1);
+  border-radius: 1%;
+  overflow: hidden;
+}
+
+#post_collection_tools_div {
+  display: flex;
+  direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 7%;
+  padding: auto;
+  margin: auto;
+  background-color: rgba(15, 15, 26, 0.1);
+}
+
+#createPostBtn {
+  flex-basis: 5%;
+  height: 2.5rem;
 }
 
 .post_scroll_div {
@@ -13,14 +33,9 @@
   align-items: flex-start;
   justify-content: center;
   flex-wrap: wrap;
-  margin: 10px;
   min-width: 50%;
-  height: 100%;
+  height: 93%;
   overflow-y:auto;
-  border-radius: 2%;
-  /* CITATION: I used the box-shadow parameter settings from here: 
-                https://www.w3schools.com/css/tryit.asp?filename=trycss_buttons_shadow */
-  box-shadow: 0 8px 20px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.1);
 }
 
 .post_div {
@@ -57,7 +72,7 @@
 
 .post_div > * {
   text-align: center;
-  padding: 3px;
+  padding: 1px;
 }
 
 .post_div h3 {
@@ -65,7 +80,7 @@
 }
 
 .post_div h6 {
-  font-size: 0.8rem;
+  font-size: 0.85rem;
 }
 
 .post_div p {
@@ -120,14 +135,12 @@
 @media screen and (max-width: 600px) {
   .post_collection_div {
     display: flex;
-    flex-direction: column-reverse;
+    flex-direction: column;
     width: 100%;
     height:auto;
   }
   
   .post_scroll_div {
-    height: 100%;
-    overflow-y:hidden;
     border-radius: 0;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.0), 0 6px 20px 0 rgba(0,0,0,0.0);
   }

@@ -4,12 +4,12 @@ import search from '../assets/search.png';
 
 function SearchBar(){
     const style = {
-          display: 'flex',
-          justifyContent: 'center',
-          flexDirection: 'row',
-          textAlign: 'center',
-
-
+        display: 'flex',
+        justifyContent: 'center',
+        flexDirection: 'row',
+        textAlign: 'center',
+        flexBasis: '85%',
+        height: '2.5rem'
     }
     const imgstyle = {
           height: '20px',
@@ -21,6 +21,7 @@ function SearchBar(){
 
 
     }
+
     return(
         <div style={style}>
             <InputGroup className="mb-3">
