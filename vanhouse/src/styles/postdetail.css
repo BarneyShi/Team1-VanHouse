@@ -6,6 +6,10 @@ img.post-detail-thumbnail {
   object-fit: contain;
 }
 
+.post-rate {
+  float: left;
+  display: flex;
+}
 .thumb {
   width: 25px;
   float: left;
@@ -17,16 +21,22 @@ img.post-detail-thumbnail {
   margin: 5px;
   float: left;
 }
+#homeTourBtn {
+  float: left;
+  padding: 1px 5px;
+  margin: 5px 0 5px 5px;
+  font-size: 0.9rem;
+}
 #deleteBtn {
   float: right;
   padding: 1px 5px;
-  font-size: 12px;
+  font-size: 0.8rem;
   margin: 5px 0 5px 5px;
 }
 #reportBtn {
   float: right;
   padding: 1px 5px;
-  font-size: 12px;
+  font-size: 0.8rem;
   margin: 5px 0 5px 5px;
 }
 
@@ -57,7 +67,7 @@ img.post-detail-thumbnail {
 .comment__block {
   padding: 0 3%;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   flex-direction: row;
   margin-bottom: 5px;
 }

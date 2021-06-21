@@ -10,7 +10,7 @@ import PropTypes from "prop-types";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 
 // Presents a modal view with a form for creating a new post
-function NewPost({ show, submit, handleClose }) {
+function NewPost({ show, submit, handleClose, setDisplaySchedule }) {
   // States set by form inputs
   const [postTitle, setPostTitle] = useState("Untitled Post");
   const [price, setPrice] = useState(0);
@@ -52,6 +52,7 @@ function NewPost({ show, submit, handleClose }) {
       images,
     });
     handleClose();
+    setDisplaySchedule(true);
   };
 
   const handleImageUpload = (e) => {
@@ -296,6 +297,7 @@ NewPost.propTypes = {
   show: PropTypes.bool.isRequired,
   submit: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
+  setDisplaySchedule: PropTypes.func.isRequired,
 };
 
 export default NewPost;

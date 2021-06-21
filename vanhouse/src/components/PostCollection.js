@@ -8,6 +8,7 @@ import Post from "./Post";
 import NewPost from "./NewPost";
 import SearchBar from "./SearchBar";
 import "../styles/Post.css";
+import Schedule from "./Schedule";
 
 function PostCollection() {
   // Note: Temporarily adding in placeholder post JSON objects
@@ -129,6 +130,9 @@ function PostCollection() {
     </Link>
   ));
 
+  // Hooks for displaying <Schedule />
+  const [displaySchedule, setDisplaySchedule] = useState(false);
+
   return (
     <div className="post_collection_div">
       <div id="post_collection_tools_div">
@@ -147,8 +151,9 @@ function PostCollection() {
         show={newPostVisible}
         handleClose={handleCloseModal}
         submit={addPost}
+        setDisplaySchedule={setDisplaySchedule}
       />
-
+      <Schedule show={displaySchedule} onHide={()=>setDisplaySchedule(false)} />
       <div className="post_scroll_div">{postsList}</div>
     </div>
   );
