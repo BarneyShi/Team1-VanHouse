@@ -54,7 +54,7 @@ Post.propTypes = {
   postId: PropTypes.number.isRequired,
   postDate: PropTypes.string.isRequired,
   postTitle: PropTypes.string,
-  price: PropTypes.string.isRequired,
+  price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   mainImage: PropTypes.string,
   author: PropTypes.string,
   address: PropTypes.string.isRequired,
