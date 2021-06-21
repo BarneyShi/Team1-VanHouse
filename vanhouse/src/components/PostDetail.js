@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   Carousel,
   Container,
@@ -28,6 +28,54 @@ export default function PostDetail() {
     zoom: 11,
     mapboxApiAccessToken: mapToken,
   });
+
+  // Comment function
+  const commentRef = useRef();
+  const [comments, setComments] = useState([
+    {
+      id: 0,
+      username: "Anon0",
+      comment:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+    },
+    {
+      id: 1,
+      username: "Anon1",
+      comment:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+    },
+    {
+      id: 2,
+      username: "Anon2",
+      comment:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+    },
+    {
+      id: 3,
+      username: "Anon3",
+      comment:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+    },
+    {
+      id: 4,
+      username: "Anon4",
+      comment:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+    },
+  ]);
+  const addComment = (event) => {
+    event.preventDefault();
+    const { value } = commentRef.current;
+    setComments([
+      ...comments,
+      {
+        id: comments.length,
+        username: `Anon${comments.length}`,
+        comment: value,
+      },
+    ]);
+    commentRef.current.value = "";
+  };
 
   // Schedule Hooks
   const [displaySchedule, setDisplaySchedule] = useState(false);
@@ -122,102 +170,32 @@ export default function PostDetail() {
               </Marker>
             </ReactMapGL>
           </Col>
+
           <Col id="comment">
             <h4 className="text-center">Comment</h4>
-            <div className="comment__block">
-              <span className="commnet_userinfo">
-                <img
-                  className="comment__img"
-                  src={userLogo}
-                  width="40"
-                  alt="user_img"
-                />
-                <span className="comment__username">Anon1</span>
-              </span>
-              <p className="comment__content">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry&apos;s standard
-                dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book
-              </p>
-            </div>
-
-            <div className="comment__block">
-              <span className="commnet_userinfo">
-                <img
-                  className="comment__img"
-                  src={userLogo}
-                  width="40"
-                  alt="user_img"
-                />
-                <span className="comment__username">Anon2</span>
-              </span>
-              <p className="comment__content">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry&apos;s standard
-                dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book
-              </p>
-            </div>
-
-            <div className="comment__block">
-              <span className="commnet_userinfo">
-                <img
-                  className="comment__img"
-                  src={userLogo}
-                  width="40"
-                  alt="user_img"
-                />
-                <span className="comment__username">Anon3</span>
-              </span>
-              <p className="comment__content">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry&apos;s standard
-                dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book
-              </p>
-            </div>
-
-            <div className="comment__block">
-              <span className="commnet_userinfo">
-                <img
-                  className="comment__img"
-                  src={userLogo}
-                  width="40"
-                  alt="user_img"
-                />
-                <span className="comment__username">Anon</span>
-              </span>
-              <p className="comment__content">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry&apos;s standard
-                dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book
-              </p>
-            </div>
-
-            <div className="comment__block">
-              <span className="commnet_userinfo">
-                <img
-                  className="comment__img"
-                  src={userLogo}
-                  width="40"
-                  alt="user_img"
-                />
-                <span className="comment__username">Anon</span>
-              </span>
-              <p className="comment__content">
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry&apos;s standard
-                dummy text ever since the 1500s, when an unknown printer took a
-                galley of type and scrambled it to make a type specimen book
-              </p>
-            </div>
+            {comments.map((e) => (
+              <div className="comment__block" key={e.id}>
+                <span className="commnet_userinfo">
+                  <img
+                    className="comment__img"
+                    src={userLogo}
+                    width="40"
+                    alt="user_img"
+                  />
+                  <span className="comment__username">{e.username}</span>
+                </span>
+                <p className="comment__content">{e.comment}</p>
+              </div>
+            ))}
 
             <div className="comment__input">
-              <form>
-                <textarea placeholder="Give us comment!"></textarea>
-                <Button>Submit</Button>
+              <form onSubmit={addComment}>
+                <textarea
+                  ref={commentRef}
+                  name="newComment"
+                  placeholder="Give us comment!"
+                ></textarea>
+                <Button type="submit">Submit</Button>
               </form>
             </div>
           </Col>

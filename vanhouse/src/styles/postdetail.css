@@ -67,7 +67,7 @@ img.post-detail-thumbnail {
 .comment__block {
   padding: 0 3%;
   display: flex;
-  justify-content: center;
+  justify-content: left;
   flex-direction: row;
   margin-bottom: 5px;
 }
