@@ -1,0 +1,15 @@
+#table{
+    width: 90%;
+}
+
+#table tr td{
+    width: 33%;
+}
+
+#table tr td input{
+    width: 100%;
+}
+
+.h2{
+    text-align: left;
+}

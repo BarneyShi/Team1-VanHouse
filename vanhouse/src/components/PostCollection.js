@@ -2,10 +2,12 @@
 // TODO - hide create-post-button when not logged in
 
 import React, { useState } from "react";
+import {InputGroup, Button, FormControl, DropdownButton,ButtonToolbar} from 'react-bootstrap';
 import Post from "./Post";
 import NewPost from "./NewPost";
 import SearchBar from "./SearchBar";
 import "../styles/Post.css";
+import search from '../assets/search.png';
 
 function PostCollection() {
   // Note: Temporarily adding in placeholder post JSON objects
@@ -111,9 +113,28 @@ function PostCollection() {
     />
   ));
 
+  const style = {
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    textAlign: 'center',
+
+
+}
+const imgstyle = {
+    height: '20px',
+    weight: '15px',
+    display: 'flex',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    textAlign: 'center',
+
+
+}
+
+
   return (
     <div className="post_collection_div">
-      <SearchBar />
       <NewPost
         show={newPostVisible}
         handleClose={handleCloseModal}
