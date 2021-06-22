@@ -6,6 +6,7 @@ import usePasswordValidator from "./usePasswordValidator";
 import validateEmail from "./utils";
 import LoginButton from "./LoginButton";
 import LogoutButton from "./LogoutButton";
+import WelcomeUser from "./WelcomeUser";
 
 
 function Header(props) {
@@ -99,6 +100,13 @@ function Header(props) {
                         className="App-logo"
                         alt="logo"/>
                     <h1 className="App-title">VanHouse</h1>
+                </div>
+                <div className="welcome-user-div">
+                    <div className="welcome-border">
+                        <WelcomeUser
+                            isLoggedIn={isLoggedIn}
+                            user={user}/>
+                    </div>
                 </div>
                 <div className="login-logout-buttons">
                     <LoginButton

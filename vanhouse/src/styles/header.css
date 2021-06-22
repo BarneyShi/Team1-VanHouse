@@ -54,6 +54,39 @@
     transition: color 0.15s ease;
 }
 
+.welcome-user-div {
+    float: right;
+    flex-basis: 10%;
+    padding: 12px;
+}
+
+.welcome-border {
+    /*margin: 10px;*/
+}
+
+.welcome-user-inner-div {
+    font-family: Arial;
+    font-size: 1rem;
+    color: #2b58ab;
+    background-color: whitesmoke;
+    /*border: 0;*/
+    border-radius: 20%;
+    border: 1px dotted;
+    line-height: 2rem;
+    float: right;
+}
+
+.welcome-text {
+    font-family: Arial;
+    font-size: 1rem;
+    color: #2b58ab;
+    background-color: whitesmoke;
+    border: 0;
+    border-radius: 30%;
+    line-height: 2rem;
+    float: right;
+}
+
 .subtitle-flexbox {
     display: flex;
     justify-content: flex-end;
