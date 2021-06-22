@@ -32,7 +32,7 @@
     /*flex-basis: 1000%;*/
 }
 
-.login-button {
+.login-logout-button {
     font-family: Arial;
     font-size: 1rem;
     color: #2b58ab;
@@ -43,13 +43,13 @@
     float: right;
 }
 
-.login-button-div {
+.login-logout-button-div {
     float: right;
     flex-basis: 10%;
     padding: 10px;
 }
 
-.login-button:hover {
+.login-logout-button:hover {
     color: white;
     transition: color 0.15s ease;
 }

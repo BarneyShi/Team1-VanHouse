@@ -1,18 +1,15 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import "../styles/login.css"
-import usePasswordValidator from "./usePasswordValidator";
-import validateEmail from "./utils";
-import LoginForm from "./LoginForm";
 
 function LoginButton({
                          isLoggedIn,
                          handleLoginClicked,
                      }) {
     return (
-        <div className="login-button-div" show={isLoggedIn}>
-            {isLoggedIn &&
-            <button type='button' className="login-button" onClick={handleLoginClicked}>
+        <div className="login-logout-button-div">
+            {!isLoggedIn &&
+            <button type='button' className="login-logout-button" onClick={handleLoginClicked}>
                 Login
             </button>
             }
@@ -21,12 +18,11 @@ function LoginButton({
 }
 
 LoginButton.defaultProps = {
-    // isLoggedIn: false
 }
 
 LoginButton.propTypes = {
     isLoggedIn: PropTypes.bool.isRequired,
-    handleLoginClicked: PropTypes.bool.isRequired
+    handleLoginClicked: PropTypes.func.isRequired
 };
 
 export default LoginButton

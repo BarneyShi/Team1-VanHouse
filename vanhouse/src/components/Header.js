@@ -5,6 +5,7 @@ import SearchBar from "./SearchBar";
 import usePasswordValidator from "./usePasswordValidator";
 import validateEmail from "./utils";
 import LoginButton from "./LoginButton";
+import LogoutButton from "./LogoutButton";
 
 
 function Header(props) {
@@ -31,8 +32,14 @@ function Header(props) {
         max: 15
     });
 
+
     const handleLoginClicked = () => {
         setIsLoginClicked(true);
+    }
+
+    const handleLogoutClicked = () => {
+        setUser({name: "", email: ""});
+        setIsLoggedIn(false);
     }
 
     const handleCloseModal = () => {
@@ -52,11 +59,6 @@ function Header(props) {
             setError("Invalid email or password");
             console.log(error);
         }
-    }
-
-    function Logout() {
-        setUser({name: "", email: ""});
-        setIsLoggedIn(false);
     }
 
     return (
@@ -97,10 +99,17 @@ function Header(props) {
                         alt="logo"/>
                     <h1 className="App-title">VanHouse</h1>
                 </div>
-                <LoginButton
-                    isLoggedIn={isLoggedIn}
-                    handleLoginClicked={handleLoginClicked}
-                />
+                <div className="login-logout-buttons">
+                    <LoginButton
+                        isLoggedIn={isLoggedIn}
+                        handleLoginClicked={handleLoginClicked}
+                    />
+                    <LogoutButton
+                        isLoggedIn={isLoggedIn}
+                        handleLogoutClicked={handleLogoutClicked}
+                    />
+                </div>
+
             </div>
             <div className="subtitle-flexbox">
                 <div className="subtitle">
