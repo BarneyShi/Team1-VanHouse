@@ -5,7 +5,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "./Schedule.css";
 
-function Schedule({ show, onHide }) {
+function Schedule({ show, onHide, handleSubmit }) {
   // CITATION: Modal https://react-bootstrap.github.io/components/modal/
   // CITATION: DatePicker https://www.npmjs.com/package/react-datepicker
 
@@ -59,6 +59,11 @@ function Schedule({ show, onHide }) {
     setSelectedDate([...updatedDatesArr]);
   };
 
+  const submitSchedule = () => {
+    handleSubmit(selectedDate);
+    onHide();
+  }
+
   return (
     <Modal show={show} onHide={onHide} size="lg" centered>
       <Modal.Header closeButton>
@@ -94,7 +99,7 @@ function Schedule({ show, onHide }) {
         <p id="datepicker-text">You can pick multiple dates!</p>
       </Modal.Body>
       <Modal.Footer>
-        <Button>Submit</Button>
+        <Button onClick={submitSchedule}>Submit</Button>
       </Modal.Footer>
     </Modal>
   );
@@ -103,6 +108,7 @@ function Schedule({ show, onHide }) {
 Schedule.propTypes = {
   show: PropTypes.bool.isRequired,
   onHide: PropTypes.func.isRequired,
+  handleSubmit: PropTypes.func.isRequired,
 };
 
 export default Schedule;

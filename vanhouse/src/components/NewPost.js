@@ -8,9 +8,10 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
+import Schedule from "./Schedule";
 
 // Presents a modal view with a form for creating a new post
-function NewPost({ show, submit, handleClose, setDisplaySchedule }) {
+function NewPost({ show, submit, handleClose }) {
   // States set by form inputs
   const [postTitle, setPostTitle] = useState("Untitled Post");
   const [price, setPrice] = useState(0);
@@ -29,10 +30,18 @@ function NewPost({ show, submit, handleClose, setDisplaySchedule }) {
   const [furnished, setFurnished] = useState(false);
   const [images, setImages] = useState([]);
 
+  // Hooks for displaying <Schedule />
+  const [displaySchedule, setDisplaySchedule] = useState(false);
+
   // Create a post object with the form details and send this to the
   // PostCollection component using the callback
   const handleSubmit = (e) => {
     e.preventDefault();
+    setDisplaySchedule(true);
+    handleClose();
+  };
+
+  const handleScheduleSubmit = (schedule) => {
     submit({
       postTitle,
       price,
@@ -50,10 +59,9 @@ function NewPost({ show, submit, handleClose, setDisplaySchedule }) {
       laundry,
       furnished,
       images,
+      schedule,
     });
-    handleClose();
-    setDisplaySchedule(true);
-  };
+  }
 
   const handleImageUpload = (e) => {
     if (e.target.files) {
@@ -72,6 +80,7 @@ function NewPost({ show, submit, handleClose, setDisplaySchedule }) {
   };
 
   return (
+    <div>
     <Modal show={show} onHide={handleClose} animation={false}>
       <Form onSubmit={handleSubmit}>
         <Modal.Header>
@@ -285,11 +294,17 @@ function NewPost({ show, submit, handleClose, setDisplaySchedule }) {
             Close
           </Button>
           <Button variant="primary" type="submit">
-            Post
+            Continue
           </Button>
         </Modal.Footer>
       </Form>
     </Modal>
+    <Schedule
+        show={displaySchedule}
+        onHide={() => setDisplaySchedule(false)}
+        handleSubmit={handleScheduleSubmit}
+      />
+    </div>
   );
 }
 
@@ -297,7 +312,6 @@ NewPost.propTypes = {
   show: PropTypes.bool.isRequired,
   submit: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
-  setDisplaySchedule: PropTypes.func.isRequired,
 };
 
 export default NewPost;

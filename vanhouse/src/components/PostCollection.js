@@ -8,7 +8,7 @@ import Post from "./Post";
 import NewPost from "./NewPost";
 import SearchBar from "./SearchBar";
 import "../styles/Post.css";
-import Schedule from "./Schedule";
+
 
 function PostCollection() {
   // Note: Temporarily adding in placeholder post JSON objects
@@ -74,25 +74,17 @@ function PostCollection() {
   // State to show/hide the NewPost component
   const [newPostVisible, setNewPostVisible] = useState(false);
 
-  // Callback function called by the NewPost component
-  const handleCloseModal = () => {
-    setNewPostVisible(false);
-  };
-
-  const handleCreateButtonClick = () => {
-    setNewPostVisible(true);
-  };
-
   // Adds a post to the posts state
   // Callback function called by the NewPost component on form submission
+  // CITATION: The idea to use .slice(-2) to add leading zeros to the day/month from https://stackoverflow.com/a/3605248
   const addPost = (postInfo) => {
     const today = new Date();
     const day = `0${today.getDate()}`.slice(-2);
     const month = `0${today.getMonth() + 1}`.slice(-2);
+    console.log(postInfo.schedule);
 
     const postToAdd = {
       id: posts.length,
-      // CITATION: The idea to use .slice(-2) to add leading zeros to the day/month from https://stackoverflow.com/a/3605248
       dateCreated: `${day}-${month}-${today.getYear() + 1900}`,
       postTitle: postInfo.postTitle,
       price: postInfo.price,
@@ -109,6 +101,7 @@ function PostCollection() {
       laundry: postInfo.laundry,
       furnished: postInfo.furnished,
       imageURLs: postInfo.images,
+      schedule: postInfo.schedule,
       author: "",
     };
     const updatedPosts = [...posts, postToAdd];
@@ -130,9 +123,6 @@ function PostCollection() {
     </Link>
   ));
 
-  // Hooks for displaying <Schedule />
-  const [displaySchedule, setDisplaySchedule] = useState(false);
-
   return (
     <div className="post_collection_div">
       <div id="post_collection_tools_div">
@@ -140,7 +130,7 @@ function PostCollection() {
         <Button
           id="createPostBtn"
           variant="primary"
-          onClick={handleCreateButtonClick}
+          onClick={() => setNewPostVisible(true)}
         >
           {" "}
           Post{" "}
@@ -149,11 +139,10 @@ function PostCollection() {
 
       <NewPost
         show={newPostVisible}
-        handleClose={handleCloseModal}
+        handleClose={() => setNewPostVisible(false)}
         submit={addPost}
-        setDisplaySchedule={setDisplaySchedule}
       />
-      <Schedule show={displaySchedule} onHide={()=>setDisplaySchedule(false)} />
+
       <div className="post_scroll_div">{postsList}</div>
     </div>
   );
