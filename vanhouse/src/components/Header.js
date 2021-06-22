@@ -77,9 +77,14 @@ function Header() {
         // setRegUser({regEmail, regPassword});
         setUserArr(currArr => [...currArr, regUser]);
         setRegUser({regEmail: "", regPassword: ""});
+        setIsRegistrationVisible(!isRegistrationVisible);
+        setIsRegisterButtonVisible(!isRegisterButtonVisible);
+        setIsLoginVisible(!isLoginVisible);
+        setIsLoginClicked(!isLoginClicked);
         console.log(regUser);
         console.log(userArr);
         console.log("registered");
+        window.alert("Successfully registered!");
     }
 
     function handleRegChange(e) {
