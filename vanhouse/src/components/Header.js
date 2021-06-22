@@ -17,23 +17,25 @@ function Header() {
     // Login Form states
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    const [name, setName] = useState("");
+    const [loginName, setLoginName] = useState("");
     const [email, setEmail] = useState("");
 
-    const [user, setUser] = useState({name: "", email: ""});
+    const [user, setUser] = useState({loginName: "", email: ""});
     const [loginError, setLoginError] = useState("");
 
     // Registration Form states
     const [regEmail, setRegEmail] = useState("");
     const [regPassword, setRegPassword] = useState("");
-    const [regUser, setRegUser] = useState({name: "", email: ""});
+    const [regUser, setRegUser] = useState({regEmail: "", regPassword: ""});
 
+    // User array state
     const testUser = {
         email: "test@test.com",
         password: "test123"
     }
 
-    const userArr = [{ email: "test@test.com", password: "test123"}];
+    const [userArr, setUserArr] = useState([testUser]);
+
 
     const [password, setPassword, passwordError] = usePasswordValidator({
         min: 8,
@@ -46,7 +48,7 @@ function Header() {
     }
 
     const handleLogoutClicked = () => {
-        setUser({name: "", email: ""});
+        setUser({loginName: "", email: ""});
         setIsLoggedIn(false);
     }
 
@@ -60,7 +62,7 @@ function Header() {
 
     function Login() {
         if (email === testUser.email && password === testUser.password) {
-            setUser({name, email});
+            setUser({loginName, email});
             setIsLoggedIn(true);
             setIsLoginClicked(false);
             console.log(user);
@@ -72,9 +74,31 @@ function Header() {
     }
 
     function Register() {
-        setRegUser({regEmail, regPassword});
-        userArr.push(regUser);
+        // setRegUser({regEmail, regPassword});
+        setUserArr(currArr => [...currArr, regUser]);
+        setRegUser({regEmail: "", regPassword: ""});
         console.log(regUser);
+        console.log(userArr);
+        console.log("registered");
+    }
+
+    function handleRegChange(e) {
+        const {value, name} = e.target;
+        setRegUser(prevValue => {
+            if (name === "regEmail") {
+                return {
+                    regEmail: value,
+                    regPassword: prevValue.regPassword
+                };
+            }
+            if (name === "regPassword") {
+                return {
+                    regName: prevValue.regEmail,
+                    regPassword: value
+                };
+            }
+            return regUser;
+        });
     }
 
     return (
@@ -89,8 +113,8 @@ function Header() {
                 setIsRegistrationVisible={setIsRegistrationVisible}
                 isRegisterButtonVisible={isRegisterButtonVisible}
                 setIsRegisterButtonVisible={setIsRegisterButtonVisible}
-                name={name}
-                setName={setName}
+                loginName={loginName}
+                setLoginName={setLoginName}
                 email={email}
                 setEmail={setEmail}
                 password={password}
@@ -105,6 +129,8 @@ function Header() {
                 regPassword={regPassword}
                 setRegPassword={setRegPassword}
                 register={Register}
+                regUser={regUser}
+                handleRegChange={handleRegChange}
             />
             <div className="top-line-flexbox">
                 <div className="title-and-logo-flexbox">

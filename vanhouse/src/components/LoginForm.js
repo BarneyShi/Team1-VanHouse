@@ -17,8 +17,8 @@ function LoginForm({
                        show,
                        handleClose,
                        loginError,
-                       name,
-                       setName,
+                       loginName,
+                       setLoginName,
                        email,
                        setEmail,
                        setPassword,
@@ -27,7 +27,9 @@ function LoginForm({
                        setRegEmail,
                        regPassword,
                        setRegPassword,
-                       register
+                       register,
+                       regUser,
+                       handleRegChange
                    }) {
 
     // https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30
@@ -71,7 +73,7 @@ function LoginForm({
 
     const handleSubmit = e => {
         e.preventDefault();
-        submit(name, email);
+        submit(loginName, email);
     }
 
     return (
@@ -86,7 +88,7 @@ function LoginForm({
                     <Form.Group controlId="formName">
                         <Form.Label>Name *</Form.Label>
                         <Form.Control required type="name" placeholder="Enter name" onChange={(e) => {
-                            setName(e.target.value)
+                            setLoginName(e.target.value)
                         }}/>
                     </Form.Group>
 
@@ -132,13 +134,17 @@ function LoginForm({
 
                 {isRegistrationVisible &&
                 <RegistrationForm
+                    regEmail={regEmail}
                     setRegEmail={setRegEmail}
+                    regPassword={regPassword}
+                    setRegPassword={setRegPassword}
                     emailError={emailError}
-                    setPassword={setPassword}
                     passwordError={passwordError}
                     handleClose={handleClose}
                     setIsLoginVisible={setIsLoginVisible}
                     register={register}
+                    regUser={regUser}
+                    handleRegChange={handleRegChange}
                 />
                 }
                 <br/>
@@ -164,8 +170,8 @@ LoginForm.propTypes = {
     show: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
     loginError: PropTypes.string,
-    name: PropTypes.string.isRequired,
-    setName: PropTypes.func.isRequired,
+    loginName: PropTypes.string.isRequired,
+    setLoginName: PropTypes.func.isRequired,
     email: PropTypes.string.isRequired,
     setEmail: PropTypes.func.isRequired,
     // password: PropTypes.string.isRequired,
@@ -176,10 +182,12 @@ LoginForm.propTypes = {
     // confirmPasswordError: PropTypes.string.isRequired
     // user: PropTypes.objectOf(PropTypes.object).isRequired
     regEmail: PropTypes.string.isRequired,
-    setRegEmail: PropTypes.bool.isRequired,
+    setRegEmail: PropTypes.func.isRequired,
     regPassword: PropTypes.string.isRequired,
-    setRegPassword: PropTypes.bool.isRequired,
-    register: PropTypes.func.isRequired
+    setRegPassword: PropTypes.func.isRequired,
+    register: PropTypes.func.isRequired,
+    regUser: PropTypes.objectOf(PropTypes.object).isRequired,
+    handleRegChange: PropTypes.func.isRequired
 };
 
 export default LoginForm

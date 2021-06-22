@@ -17,7 +17,9 @@ function RegistrationForm({
                               // confirmPasswordError,
                               // setConfirmPasswordError,
                               handleClose,
-                              register
+                              register,
+                              regUser,
+                              handleRegChange
                               // error
                           }) {
     // useEffect(
@@ -33,10 +35,10 @@ function RegistrationForm({
     //     [regPassword, confirmPassword]
     // );
 
-    const handleRegSubmit = e => {
-        e.preventDefault();
-        register(regEmail, regPassword);
-    }
+    // const handleRegSubmit = e => {
+    //     e.preventDefault();
+    //     register(regEmail, regPassword);
+    // }
 
     // https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30
     // Accessed June 7, 2021
@@ -50,8 +52,8 @@ function RegistrationForm({
                         name="regEmail"
                         id="regEmail"
                         placeholder="Email"
-                        onChange={e => setRegEmail(e.target.value)}
-                        value={regEmail}
+                        onChange={handleRegChange}
+                        value={regUser.regEmail}
                     />
                     <div className="error">{emailError}</div>
                 </div>
@@ -61,8 +63,8 @@ function RegistrationForm({
                         name="regPassword"
                         id="regPassword"
                         placeholder="Password"
-                        onChange={e => setRegPassword(e.target.value)}
-                        value={regPassword}
+                        onChange={handleRegChange}
+                        value={regUser.regPassword}
                     />
                 </div>
                 <div className="form-group">
@@ -94,15 +96,17 @@ RegistrationForm.defaultProps = {
 RegistrationForm.propTypes = {
     regEmail: PropTypes.string,
     regPassword: PropTypes.string,
-    setRegEmail: PropTypes.bool.isRequired,
+    setRegEmail: PropTypes.func.isRequired,
     emailError: PropTypes.string.isRequired,
-    setRegPassword: PropTypes.bool.isRequired,
+    setRegPassword: PropTypes.func.isRequired,
     passwordError: PropTypes.string.isRequired,
     // confirmPassword: PropTypes.string.isRequired,
     // setConfirmPassword: PropTypes.func.isRequired,
     // confirmPasswordError: PropTypes.string.isRequired,
     handleClose: PropTypes.func.isRequired,
-    register: PropTypes.func.isRequired
+    register: PropTypes.func.isRequired,
+    regUser: PropTypes.objectOf(PropTypes.object).isRequired,
+    handleRegChange: PropTypes.func.isRequired
     // error: PropTypes.string,
 };
 
