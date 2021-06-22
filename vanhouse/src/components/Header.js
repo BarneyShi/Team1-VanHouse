@@ -53,6 +53,7 @@ function Header(props) {
         if (email === testUser.email && password === testUser.password) {
             setUser({name, email});
             setIsLoggedIn(true);
+            setIsLoginClicked(false);
             console.log(user);
             console.log(isLoggedIn);
         } else {
