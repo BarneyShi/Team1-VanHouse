@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {Button, Form, Modal} from "react-bootstrap";
+import {Button, Form} from "react-bootstrap";
 import { propTypes } from "react-bootstrap/esm/Image";
 
 import "../styles/login.css"

@@ -12,6 +12,24 @@ function Header(props) {
     const [isRegistrationVisible, setIsRegistrationVisible] = useState(false);
     const [isRegisterButtonVisible, setIsRegisterButtonVisible] = useState(true);
 
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+
+    const [user, setUser] = useState({name: "", email: ""});
+    const [error, setError] = useState("");
+
+    const testUser = {
+        email: "test@test.com",
+        password: "test123"
+    }
+
+    const [password, setPassword, passwordError] = usePasswordValidator({
+        min: 8,
+        max: 15
+    });
+
     const handleLoginClicked = () => {
         setIsLoginClicked(true);
     }
@@ -23,27 +41,21 @@ function Header(props) {
         setIsRegisterButtonVisible(true);
     }
 
-    const [user, setUser] = useState({name: "", email: ""});
-    const [error, setError] = useState("");
-
-    const testUser = {
-        email: "test@test.com",
-        password: "test123"
-    }
-
-    const Login = details => {
-        if (details.email === testUser.email && details.password === testUser.password) {
-            setUser({
-                name: details.name,
-                email: details.email
-            });
+    function Login() {
+        if (email === testUser.email && password === testUser.password) {
+            setUser({name, email});
+            setIsLoggedIn(true);
+            console.log(user);
+            console.log(isLoggedIn);
         } else {
             setError("Invalid email or password");
+            console.log(error);
         }
     }
 
-    const Logout = () => {
+    function Logout() {
         setUser({name: "", email: ""});
+        setIsLoggedIn(false);
     }
 
     return (
@@ -65,7 +77,16 @@ function Header(props) {
                 setIsRegistrationVisible={setIsRegistrationVisible}
                 isRegisterButtonVisible={isRegisterButtonVisible}
                 setIsRegisterButtonVisible={setIsRegisterButtonVisible}
-
+                name={name}
+                setName={setName}
+                email={email}
+                setEmail={setEmail}
+                password={password}
+                setPassword={setPassword}
+                passwordError={passwordError}
+                user={user}
+                isLoggedIn={isLoggedIn}
+                setIsLoggedIn={setIsLoggedIn}
             />
             <div className="top-line-flexbox">
                 <div className="title-and-logo-flexbox">

@@ -6,24 +6,38 @@ import "../styles/login.css"
 import usePasswordValidator from "./usePasswordValidator";
 import validateEmail from "./utils";
 
-function LoginForm({setIsRegistrationVisible, isRegistrationVisible, setIsLoginVisible, isLoginVisible, setIsRegisterButtonVisible, isRegisterButtonVisible, submit, show, handleClose, error}) {
+function LoginForm({
+                       setIsRegistrationVisible,
+                       isRegistrationVisible,
+                       setIsLoginVisible,
+                       isLoginVisible,
+                       setIsRegisterButtonVisible,
+                       isRegisterButtonVisible,
+                       submit,
+                       show,
+                       handleClose,
+                       error,
+                       name,
+                       setName,
+                       email,
+                       setEmail,
+                       password,
+                       setPassword,
+                       passwordError,
+                       // confirmPassword,
+                       // setConfirmPassword,
+                       // confirmPasswordError
+                       user
+                   }) {
     const [details, setDetails] = useState({name: "", email: "", password: ""});
-    // const [isRegistrationVisible, setIsRegistrationVisible] = useState(false);
-    // const [isLoginVisible, setIsLoginVisible] = useState(true);
-    // const [isRegisterButtonVisible, setIsRegisterButtonVisible] = useState(true);
 
     // https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30
     // Accessed June 7, 2021
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
+    // const [name, setName] = useState("");
+    // const [email, setEmail] = useState("");
     const [emailError, setEmailError] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState("");
-    const [confirmPasswordError, setConfirmPasswordError] = useState("");
-
-    const [password, setPassword, passwordError] = usePasswordValidator({
-        min: 8,
-        max: 15
-    });
+    // const [confirmPassword, setConfirmPassword] = useState("");
+    // const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
     const setVisibilities = () => {
         setIsRegistrationVisible(!isRegistrationVisible);
@@ -35,33 +49,34 @@ function LoginForm({setIsRegistrationVisible, isRegistrationVisible, setIsLoginV
         () => {
             if (!email) {
                 setEmailError("");
-            } else if (validateEmail(email)) {
-                setEmailError("");
-            } else {
-                setEmailError("Please enter a valid email.");
             }
+            // else if (validateEmail(email)) {
+            //     setEmailError("");
+            // } else {
+            //     setEmailError("Please enter a valid email.");
+            // }
         },
         [email]
     );
 
-    useEffect(
-        () => {
-            if (!confirmPassword || !password) {
-                setConfirmPasswordError("");
-            } else if (password !== confirmPassword) {
-                setConfirmPasswordError("The passwords must match.");
-            } else {
-                setConfirmPasswordError("");
-            }
-        },
-        [password, confirmPassword]
-    );
+    // useEffect(
+    //     () => {
+    //         if (!confirmPassword || !password) {
+    //             setConfirmPasswordError("");
+    //         } else if (password !== confirmPassword) {
+    //             setConfirmPasswordError("The passwords must match.");
+    //         } else {
+    //             setConfirmPasswordError("");
+    //         }
+    //     },
+    //     [password, confirmPassword]
+    // );
 
     // end of copied code
 
     const handleSubmit = e => {
         e.preventDefault();
-        submit(details);
+        submit(name, email);
     }
 
     return (
@@ -95,13 +110,6 @@ function LoginForm({setIsRegistrationVisible, isRegistrationVisible, setIsLoginV
                                       }}/>
                     </Form.Group>
 
-                    <Form.Group controlId="formConfirmPassword">
-                        <Form.Label>Confirm password</Form.Label>
-                        <Form.Control required type="password" placeholder="Confirm password"
-                                      onChange={(e) => {
-                                          setConfirmPassword(e.target.value)
-                                      }}/>
-                    </Form.Group>
                     <Form.Text className="text-muted">
                         * required fields
                     </Form.Text>
@@ -133,9 +141,9 @@ function LoginForm({setIsRegistrationVisible, isRegistrationVisible, setIsLoginV
                     emailError={emailError}
                     setPassword={setPassword}
                     passwordError={passwordError}
-                    confirmPassword={confirmPassword}
-                    setConfirmPassword={setConfirmPassword}
-                    confirmPasswordError={confirmPasswordError}
+                    // confirmPassword={confirmPassword}
+                    // setConfirmPassword={setConfirmPassword}
+                    // confirmPasswordError={confirmPasswordError}
                     handleClose={handleClose}
                     setIsLoginVisible={setIsLoginVisible}
                 />}
@@ -160,7 +168,18 @@ LoginForm.propTypes = {
     submit: PropTypes.func.isRequired,
     show: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
-    error: PropTypes.string
+    error: PropTypes.string,
+    name: PropTypes.string.isRequired,
+    setName: PropTypes.func.isRequired,
+    email: PropTypes.string.isRequired,
+    setEmail: PropTypes.func.isRequired,
+    password: PropTypes.string.isRequired,
+    setPassword: PropTypes.func.isRequired,
+    passwordError: PropTypes.string.isRequired,
+    // confirmPassword: PropTypes.string.isRequired,
+    // setConfirmPassword: PropTypes.func.isRequired,
+    // confirmPasswordError: PropTypes.string.isRequired
+    user: PropTypes.objectOf(PropTypes.object).isRequired
 }
 
 export default LoginForm
