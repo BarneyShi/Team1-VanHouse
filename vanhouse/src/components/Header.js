@@ -16,6 +16,7 @@ function Header(props) {
     const [isRegisterButtonVisible, setIsRegisterButtonVisible] = useState(true);
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [isWelcomeClicked, setIsWelcomeClicked] = useState(false);
 
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -101,20 +102,14 @@ function Header(props) {
                         alt="logo"/>
                     <h1 className="App-title">VanHouse</h1>
                 </div>
-                <div className="welcome-user-div">
-                    <div className="welcome-border">
-                        <WelcomeUser
-                            isLoggedIn={isLoggedIn}
-                            user={user}/>
-                    </div>
-                </div>
                 <div className="login-logout-buttons">
                     <LoginButton
                         isLoggedIn={isLoggedIn}
                         handleLoginClicked={handleLoginClicked}
                     />
-                    <LogoutButton
+                    <WelcomeUser
                         isLoggedIn={isLoggedIn}
+                        user={user}
                         handleLogoutClicked={handleLogoutClicked}
                     />
                 </div>
