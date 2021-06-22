@@ -1,4 +1,5 @@
 import React from "react";
+import {Button} from "react-bootstrap";
 import PropTypes from "prop-types";
 import "../styles/login.css"
 
@@ -9,9 +10,9 @@ function LoginButton({
     return (
         <div className="login-logout-button-div">
             {!isLoggedIn &&
-            <button type='button' className="login-logout-button" onClick={handleLoginClicked}>
+            <Button type='button' onClick={handleLoginClicked}>
                 Login
-            </button>
+            </Button>
             }
         </div>
     )

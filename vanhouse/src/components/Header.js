@@ -66,13 +66,6 @@ function Header(props) {
 
     return (
         <div className="header-flexbox">
-            {/* {(user.email != "") ? ( */}
-            {/*    <div className="welcome"> */}
-            {/*        <h2> Welcome, <span>{user.name}</span></h2> */}
-            {/*        <button onClick={Logout}>Logout</button> */}
-            {/*    </div> */}
-            {/* ) : ( */}
-            {/*    <LoginForm show={isLoginClicked} handleClose={handleCloseModal} submit={Login}/>)} */}
             <LoginForm
                 show={isLoginClicked}
                 handleClose={handleCloseModal}

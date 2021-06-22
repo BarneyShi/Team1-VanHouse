@@ -12,26 +12,28 @@ function WelcomeUser({
 
     return (
         <Dropdown>
-            <Dropdown.Toggle className="dropdown-toggle">
-                <div className="welcome-user-inner-div">
-                    {isLoggedIn &&
+            {isLoggedIn &&
+            <div className="dropdown-stuff">
+                <Dropdown.Toggle className="dropdown-toggle">
                     <span className="welcome-text">Hi, {user.name}!</span>
-                    }
-                </div>
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-                <Dropdown.Item onClick={handleLogoutClicked}>Logout</Dropdown.Item>
-            </Dropdown.Menu>
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                    <Dropdown.Item onClick={handleLogoutClicked}>Logout</Dropdown.Item>
+                </Dropdown.Menu>
+            </div>
+            }
         </Dropdown>
     )
 }
 
-WelcomeUser.defaultProps = {}
+WelcomeUser.defaultProps =
+    {}
 
-WelcomeUser.propTypes = {
-    user: PropTypes.objectOf(PropTypes.object).isRequired,
-    isLoggedIn: PropTypes.bool.isRequired,
-    handleLogoutClicked: PropTypes.bool.isRequired
-};
+WelcomeUser.propTypes =
+    {
+        user: PropTypes.objectOf(PropTypes.object).isRequired,
+        isLoggedIn: PropTypes.bool.isRequired,
+        handleLogoutClicked: PropTypes.bool.isRequired
+    };
 
 export default WelcomeUser

@@ -32,26 +32,32 @@
     /*flex-basis: 1000%;*/
 }
 
-.login-logout-button {
-    font-family: Arial;
-    font-size: 1rem;
-    color: #2b58ab;
-    background-color: whitesmoke;
-    border: 0;
-    border-radius: 30%;
-    line-height: 2rem;
-    float: right;
-}
+/*.login-logout-button {*/
+/*    font-family: Arial;*/
+/*    font-size: 1rem;*/
+/*    color: white;*/
+/*    !*background-color: whitesmoke;*!*/
+/*    background-color: dodgerblue;*/
+/*    border: 0;*/
+/*    border-radius: 40%;*/
+/*    line-height: 2rem;*/
+/*    float: right;*/
+/*}*/
 
 .login-logout-button-div {
     float: right;
     flex-basis: 10%;
     padding: 10px;
+    margin-right: 12px;
 }
 
 .login-logout-button:hover {
     color: white;
     transition: color 0.15s ease;
+}
+
+.dropdown-toggle {
+    background-color: dodgerblue;
 }
 
 .welcome-user-div {
@@ -60,32 +66,28 @@
     padding: 12px;
 }
 
-.welcome-border {
-    /*margin: 10px;*/
-}
+/*.welcome-user-inner-div {*/
+/*    font-family: Arial;*/
+/*    font-size: 1rem;*/
+/*    color: #2b58ab;*/
+/*    background-color: whitesmoke;*/
+/*    !*border: 0;*!*/
+/*    border-radius: 20%;*/
+/*    border: 1px dotted;*/
+/*    line-height: 2rem;*/
+/*    float: right;*/
+/*}*/
 
-.welcome-user-inner-div {
-    font-family: Arial;
-    font-size: 1rem;
-    color: #2b58ab;
-    background-color: whitesmoke;
-    /*border: 0;*/
-    border-radius: 20%;
-    border: 1px dotted;
-    line-height: 2rem;
-    float: right;
-}
-
-.welcome-text {
-    font-family: Arial;
-    font-size: 1rem;
-    color: #2b58ab;
-    background-color: whitesmoke;
-    border: 0;
-    border-radius: 30%;
-    line-height: 2rem;
-    float: right;
-}
+/*.welcome-text {*/
+/*    font-family: Arial;*/
+/*    font-size: 1rem;*/
+/*    color: #2b58ab;*/
+/*    background-color: whitesmoke;*/
+/*    border: 0;*/
+/*    border-radius: 30%;*/
+/*    line-height: 2rem;*/
+/*    float: right;*/
+/*}*/
 
 .subtitle-flexbox {
     display: flex;
