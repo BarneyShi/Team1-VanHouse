@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import {
   Carousel,
   Container,
@@ -18,10 +18,35 @@ import thumbDown from "../assets/thumb-down.svg";
 import upVote from "../assets/thumbup-voted.svg";
 // import downVote from "../assets/thumbdown-voted.svg";
 
-export default function PostDetail() {
+export default function PostDetail() {  
+  const [postInfo, setPostInfo] = useState({ address: "1961 East Mall",
+                                             price: 1000,
+                                             email: "",
+                                             leaseLength: "No lease",
+                                             pets: "No Pets",
+                                             utilities: "Utilities not included",
+                                             laundry: "No laundry",
+                                             mainImage: "https://customhomesottawa.ca/wp-content/uploads/2016/05/placeholder-house1.jpg",
+                                             schedule: [] });
+  
   // Temporarily get post info as props.
   // Once we integrate express and node, this will be done with a GET request
-  const [postInfo, setPostInfo] = useState(useLocation().postObj); 
+  const { postObj } = useLocation();
+  
+  useEffect(() => {
+    if (postObj) {
+      const postToStore = {};
+      postToStore.address = postObj.address ? postObj.address : postInfo.address;
+      postToStore.price = postObj.price ? postObj.price : 1000;
+      postToStore.email = postObj.email ? postObj.email : "";
+      postToStore.leaseLength = postObj.leaseLength ? postObj.leaseLength : "No Lease";
+      postToStore.pets = postObj.pets ? "Pets allowed" : "No Pets";
+      postToStore.utilities = postObj.utilities ? "Utilities included" : "Utilities not included";
+      postToStore.mainImage = (postObj.imageURLs && postObj.imageURLs[0]) ? postObj.imageURLs[0] : "https://customhomesottawa.ca/wp-content/uploads/2016/05/placeholder-house1.jpg";
+      postToStore.schedule = postObj.schedule ? postObj.schedule : [];
+      setPostInfo(postToStore);
+    }
+  }, [postObj]);
 
   const mapToken =
     "pk.eyJ1IjoiaWR1bm5vY29kaW5nOTUiLCJhIjoiY2tlMTFiMDh4NDF4cTJ5bWgxbDUxb2M5ciJ9.-L_x_0HZGSXFMRdactrn-Q";
@@ -99,7 +124,7 @@ export default function PostDetail() {
               <Carousel.Item>
                 <img
                   className="d-block w-100 post-detail-thumbnail"
-                  src={postInfo.imageURLs[0]}
+                  src={postInfo.mainImage}
                   alt="thumbnail"
                 />
               </Carousel.Item>
@@ -159,9 +184,9 @@ export default function PostDetail() {
               <ListGroupItem>Price: {postInfo.price}</ListGroupItem>
               <ListGroupItem>Email: {postInfo.email}</ListGroupItem>
               <ListGroupItem>Lease Length: {postInfo.leaseLength}</ListGroupItem>
-              <ListGroupItem>No Pets</ListGroupItem>
-              <ListGroupItem>Unitilies Included</ListGroupItem>
-              <ListGroupItem>In suite laundry</ListGroupItem>
+              <ListGroupItem>{postInfo.pets}</ListGroupItem>
+              <ListGroupItem>{postInfo.utilities}</ListGroupItem>
+              <ListGroupItem>{postInfo.laundry}</ListGroupItem>
             </ListGroup>
           </Col>
 
