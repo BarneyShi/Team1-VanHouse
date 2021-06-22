@@ -180,6 +180,6 @@ LoginForm.propTypes = {
     // setConfirmPassword: PropTypes.func.isRequired,
     // confirmPasswordError: PropTypes.string.isRequired
     user: PropTypes.objectOf(PropTypes.object).isRequired
-}
+};
 
 export default LoginForm

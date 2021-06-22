@@ -4,6 +4,7 @@ import LoginForm from "./LoginForm";
 import SearchBar from "./SearchBar";
 import usePasswordValidator from "./usePasswordValidator";
 import validateEmail from "./utils";
+import LoginButton from "./LoginButton";
 
 
 function Header(props) {
@@ -96,11 +97,10 @@ function Header(props) {
                         alt="logo"/>
                     <h1 className="App-title">VanHouse</h1>
                 </div>
-                <div className="login-button-div">
-                    <button type='button' className="login-button" onClick={handleLoginClicked}>
-                        Login
-                    </button>
-                </div>
+                <LoginButton
+                    isLoggedIn={isLoggedIn}
+                    handleLoginClicked={handleLoginClicked}
+                />
             </div>
             <div className="subtitle-flexbox">
                 <div className="subtitle">
