@@ -16,28 +16,18 @@ function LoginForm({
                        submit,
                        show,
                        handleClose,
-                       error,
+                       loginError,
                        name,
                        setName,
                        email,
                        setEmail,
-                       password,
                        setPassword,
                        passwordError,
-                       // confirmPassword,
-                       // setConfirmPassword,
-                       // confirmPasswordError
-                       user
                    }) {
-    const [details, setDetails] = useState({name: "", email: "", password: ""});
 
     // https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30
     // Accessed June 7, 2021
-    // const [name, setName] = useState("");
-    // const [email, setEmail] = useState("");
     const [emailError, setEmailError] = useState("");
-    // const [confirmPassword, setConfirmPassword] = useState("");
-    // const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
     const setVisibilities = () => {
         setIsRegistrationVisible(!isRegistrationVisible);
@@ -87,7 +77,7 @@ function LoginForm({
                     <Modal.Title>Login</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {(error !== "") ? (<div className="error">{error}</div>) : ""}
+                    {(loginError !== "") ? (<div className="login-error">{loginError}</div>) : ""}
                     <Form.Group controlId="formName">
                         <Form.Label>Name *</Form.Label>
                         <Form.Control required type="name" placeholder="Enter name" onChange={(e) => {
@@ -141,12 +131,10 @@ function LoginForm({
                     emailError={emailError}
                     setPassword={setPassword}
                     passwordError={passwordError}
-                    // confirmPassword={confirmPassword}
-                    // setConfirmPassword={setConfirmPassword}
-                    // confirmPasswordError={confirmPasswordError}
                     handleClose={handleClose}
                     setIsLoginVisible={setIsLoginVisible}
-                />}
+                />
+                }
                 <br/>
                 <br/>
             </div>
@@ -154,8 +142,9 @@ function LoginForm({
     )
 }
 
+
 LoginForm.defaultProps = {
-    error: ""
+    loginError: ""
 }
 
 LoginForm.propTypes = {
@@ -168,18 +157,18 @@ LoginForm.propTypes = {
     submit: PropTypes.func.isRequired,
     show: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
-    error: PropTypes.string,
+    loginError: PropTypes.string,
     name: PropTypes.string.isRequired,
     setName: PropTypes.func.isRequired,
     email: PropTypes.string.isRequired,
     setEmail: PropTypes.func.isRequired,
-    password: PropTypes.string.isRequired,
+    // password: PropTypes.string.isRequired,
     setPassword: PropTypes.func.isRequired,
     passwordError: PropTypes.string.isRequired,
     // confirmPassword: PropTypes.string.isRequired,
     // setConfirmPassword: PropTypes.func.isRequired,
     // confirmPasswordError: PropTypes.string.isRequired
-    user: PropTypes.objectOf(PropTypes.object).isRequired
+    // user: PropTypes.objectOf(PropTypes.object).isRequired
 };
 
 export default LoginForm

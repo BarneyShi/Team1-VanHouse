@@ -5,24 +5,22 @@ import SearchBar from "./SearchBar";
 import usePasswordValidator from "./usePasswordValidator";
 import validateEmail from "./utils";
 import LoginButton from "./LoginButton";
-import LogoutButton from "./LogoutButton";
 import WelcomeUser from "./WelcomeUser";
 
 
-function Header(props) {
+function Header() {
     const [isLoginClicked, setIsLoginClicked] = useState(false);
     const [isLoginVisible, setIsLoginVisible] = useState(true);
     const [isRegistrationVisible, setIsRegistrationVisible] = useState(false);
     const [isRegisterButtonVisible, setIsRegisterButtonVisible] = useState(true);
 
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [isWelcomeClicked, setIsWelcomeClicked] = useState(false);
 
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
 
     const [user, setUser] = useState({name: "", email: ""});
-    const [error, setError] = useState("");
+    const [loginError, setLoginError] = useState("");
 
     const testUser = {
         email: "test@test.com",
@@ -49,6 +47,7 @@ function Header(props) {
         setIsLoginVisible(true);
         setIsRegistrationVisible(false);
         setIsRegisterButtonVisible(true);
+        setLoginError("");
     }
 
     function Login() {
@@ -59,8 +58,8 @@ function Header(props) {
             console.log(user);
             console.log(isLoggedIn);
         } else {
-            setError("Invalid email or password");
-            console.log(error);
+            setLoginError("Invalid email or password");
+            console.log(loginError);
         }
     }
 
@@ -86,6 +85,7 @@ function Header(props) {
                 user={user}
                 isLoggedIn={isLoggedIn}
                 setIsLoggedIn={setIsLoggedIn}
+                loginError={loginError}
             />
             <div className="top-line-flexbox">
                 <div className="title-and-logo-flexbox">

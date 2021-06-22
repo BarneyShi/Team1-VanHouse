@@ -56,7 +56,11 @@
     transition: color 0.15s ease;
 }
 
-.dropdown-toggle {
+.login-error {
+    color: tomato;
+}
+
+.dropdown-toggle-button {
     background-color: dodgerblue;
 }
 
