@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from "react";
-import {Dropdown, DropdownButton} from "react-bootstrap";
+import {Dropdown} from "react-bootstrap";
 import PropTypes from "prop-types";
 import "../styles/login.css"
-import DropdownMenu from "react-bootstrap/DropdownMenu";
 
 function WelcomeUser({
                          user,

@@ -14,6 +14,7 @@ function Header() {
     const [isRegistrationVisible, setIsRegistrationVisible] = useState(false);
     const [isRegisterButtonVisible, setIsRegisterButtonVisible] = useState(true);
 
+    // Login Form states
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     const [name, setName] = useState("");
@@ -22,10 +23,17 @@ function Header() {
     const [user, setUser] = useState({name: "", email: ""});
     const [loginError, setLoginError] = useState("");
 
+    // Registration Form states
+    const [regEmail, setRegEmail] = useState("");
+    const [regPassword, setRegPassword] = useState("");
+    const [regUser, setRegUser] = useState({name: "", email: ""});
+
     const testUser = {
         email: "test@test.com",
         password: "test123"
     }
+
+    const userArr = [{ email: "test@test.com", password: "test123"}];
 
     const [password, setPassword, passwordError] = usePasswordValidator({
         min: 8,
@@ -63,6 +71,12 @@ function Header() {
         }
     }
 
+    function Register() {
+        setRegUser({regEmail, regPassword});
+        userArr.push(regUser);
+        console.log(regUser);
+    }
+
     return (
         <div className="header-flexbox">
             <LoginForm
@@ -86,6 +100,11 @@ function Header() {
                 isLoggedIn={isLoggedIn}
                 setIsLoggedIn={setIsLoggedIn}
                 loginError={loginError}
+                regEmail={regEmail}
+                setRegEmail={setRegEmail}
+                regPassword={regPassword}
+                setRegPassword={setRegPassword}
+                register={Register}
             />
             <div className="top-line-flexbox">
                 <div className="title-and-logo-flexbox">

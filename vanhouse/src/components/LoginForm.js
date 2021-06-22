@@ -23,6 +23,11 @@ function LoginForm({
                        setEmail,
                        setPassword,
                        passwordError,
+                       regEmail,
+                       setRegEmail,
+                       regPassword,
+                       setRegPassword,
+                       register
                    }) {
 
     // https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30
@@ -127,12 +132,13 @@ function LoginForm({
 
                 {isRegistrationVisible &&
                 <RegistrationForm
-                    setEmail={setEmail}
+                    setRegEmail={setRegEmail}
                     emailError={emailError}
                     setPassword={setPassword}
                     passwordError={passwordError}
                     handleClose={handleClose}
                     setIsLoginVisible={setIsLoginVisible}
+                    register={register}
                 />
                 }
                 <br/>
@@ -169,6 +175,11 @@ LoginForm.propTypes = {
     // setConfirmPassword: PropTypes.func.isRequired,
     // confirmPasswordError: PropTypes.string.isRequired
     // user: PropTypes.objectOf(PropTypes.object).isRequired
+    regEmail: PropTypes.string.isRequired,
+    setRegEmail: PropTypes.bool.isRequired,
+    regPassword: PropTypes.string.isRequired,
+    setRegPassword: PropTypes.bool.isRequired,
+    register: PropTypes.func.isRequired
 };
 
 export default LoginForm
