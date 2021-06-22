@@ -46,7 +46,7 @@ function Schedule({ show, onHide, handleSubmit }) {
     if (selectedDate.includes(result)) return;
     setSelectedDate([
       ...selectedDate,
-      { id: setSelectedDate.length, date: `${week} ${day} ${month} ${year}` },
+      { id: year+month+day, date: `${week} ${day} ${month} ${year}` },
     ]);
   };
 
@@ -54,7 +54,7 @@ function Schedule({ show, onHide, handleSubmit }) {
   const deleteDate = (event) => {
     const dateToDelete = event.target.getAttribute("data-date");
     const updatedDatesArr = selectedDate.filter(
-      (date) => date !== dateToDelete
+      (date) => date.date !== dateToDelete
     );
     setSelectedDate([...updatedDatesArr]);
   };
@@ -62,6 +62,7 @@ function Schedule({ show, onHide, handleSubmit }) {
   const submitSchedule = () => {
     handleSubmit(selectedDate);
     onHide();
+    setSelectedDate([]);
   }
 
   return (

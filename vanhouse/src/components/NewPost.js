@@ -5,13 +5,13 @@
    CITATION: I learned the FileReader approach to uploading images from https://stackoverflow.com/a/43992687
 */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 import Schedule from "./Schedule";
 
 // Presents a modal view with a form for creating a new post
-function NewPost({ show, submit, handleClose }) {
+function NewPost({ showModalForm, submit, handleClose }) {
   // States set by form inputs
   const [postTitle, setPostTitle] = useState("Untitled Post");
   const [price, setPrice] = useState(0);
@@ -32,6 +32,33 @@ function NewPost({ show, submit, handleClose }) {
 
   // Hooks for displaying <Schedule />
   const [displaySchedule, setDisplaySchedule] = useState(false);
+
+  // Resets the states
+  const resetStates = (show) => {
+    if (show) {
+      setPostTitle("Untitled Post");
+      setPrice(0);
+      setPaymentPeriod("Monthly");
+      setEmail("");
+      setPhone("");
+      setAddress("");
+      setPostalCode("");
+      setLease("No lease");
+      setBedrooms(-1);
+      setBathrooms(-1);
+      setSquareFootage(-1);
+      setUtilities(false);
+      setPets(false);
+      setLaundry(false);
+      setFurnished(false);
+      setImages([]);
+    }
+  }
+
+  // Reset the states whenever the modal view is presented
+  useEffect(() => {
+    resetStates(showModalForm);
+  }, [showModalForm])
 
   // Create a post object with the form details and send this to the
   // PostCollection component using the callback
@@ -81,7 +108,7 @@ function NewPost({ show, submit, handleClose }) {
 
   return (
     <div>
-    <Modal show={show} onHide={handleClose} animation={false}>
+    <Modal show={showModalForm} onHide={handleClose} animation={false}>
       <Form onSubmit={handleSubmit}>
         <Modal.Header>
           <Modal.Title>Create a new rental listing</Modal.Title>
@@ -309,7 +336,7 @@ function NewPost({ show, submit, handleClose }) {
 }
 
 NewPost.propTypes = {
-  show: PropTypes.bool.isRequired,
+  showModalForm: PropTypes.bool.isRequired,
   submit: PropTypes.func.isRequired,
   handleClose: PropTypes.func.isRequired,
 };

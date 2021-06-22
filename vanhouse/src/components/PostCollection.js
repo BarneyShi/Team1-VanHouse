@@ -81,7 +81,6 @@ function PostCollection() {
     const today = new Date();
     const day = `0${today.getDate()}`.slice(-2);
     const month = `0${today.getMonth() + 1}`.slice(-2);
-    console.log(postInfo.schedule);
 
     const postToAdd = {
       id: posts.length,
@@ -138,7 +137,7 @@ function PostCollection() {
       </div>
 
       <NewPost
-        show={newPostVisible}
+        showModalForm={newPostVisible}
         handleClose={() => setNewPostVisible(false)}
         submit={addPost}
       />
