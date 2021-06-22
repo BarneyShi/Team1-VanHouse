@@ -109,7 +109,9 @@ function PostCollection() {
 
   // Map the posts state to a list of Post components
   const postsList = posts.map((post) => (
-    <Link to={`/post/${post.id}`} key={post.id}>
+    // Temporarily pass post to PostDetail for display purposes,
+    // Once we integrate express and node, then we will use a GET request on mount
+    <Link to={{pathname: `/post/${post.id}`, postObj: post}} key={post.id}>
       <Post
         postId={post.id}
         postDate={post.dateCreated}

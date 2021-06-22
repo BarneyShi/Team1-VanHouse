@@ -9,6 +9,7 @@ import {
   Button,
   Modal,
 } from "react-bootstrap";
+import {useLocation} from "react-router-dom"
 import "../styles/postdetail.css";
 import ReactMapGL, { Marker } from "react-map-gl";
 import userLogo from "../assets/user.svg";
@@ -18,6 +19,10 @@ import upVote from "../assets/thumbup-voted.svg";
 // import downVote from "../assets/thumbdown-voted.svg";
 
 export default function PostDetail() {
+  // Temporarily get post info as props.
+  // Once we integrate express and node, this will be done with a GET request
+  const [postInfo, setPostInfo] = useState(useLocation().postObj); 
+
   const mapToken =
     "pk.eyJ1IjoiaWR1bm5vY29kaW5nOTUiLCJhIjoiY2tlMTFiMDh4NDF4cTJ5bWgxbDUxb2M5ciJ9.-L_x_0HZGSXFMRdactrn-Q";
   const [property, setProperty] = useState({
@@ -94,7 +99,7 @@ export default function PostDetail() {
               <Carousel.Item>
                 <img
                   className="d-block w-100 post-detail-thumbnail"
-                  src="https://customhomesottawa.ca/wp-content/uploads/2016/05/placeholder-house1.jpg"
+                  src={postInfo.imageURLs[0]}
                   alt="thumbnail"
                 />
               </Carousel.Item>
@@ -149,11 +154,11 @@ export default function PostDetail() {
           <Col xs={12} md={6}>
             <ListGroup>
               <ListGroupItem>
-                Address: 1234 W 14th Ave, Vancouver, BC V2R 1R2
+                Address: {postInfo.address}
               </ListGroupItem>
-              <ListGroupItem>Price: $1000</ListGroupItem>
-              <ListGroupItem>Email: 123@vanhouse.com</ListGroupItem>
-              <ListGroupItem>Lease Length: 12 months</ListGroupItem>
+              <ListGroupItem>Price: {postInfo.price}</ListGroupItem>
+              <ListGroupItem>Email: {postInfo.email}</ListGroupItem>
+              <ListGroupItem>Lease Length: {postInfo.leaseLength}</ListGroupItem>
               <ListGroupItem>No Pets</ListGroupItem>
               <ListGroupItem>Unitilies Included</ListGroupItem>
               <ListGroupItem>In suite laundry</ListGroupItem>
