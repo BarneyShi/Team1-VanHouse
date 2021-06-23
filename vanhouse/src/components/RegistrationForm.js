@@ -59,7 +59,7 @@ function RegistrationForm({
                 </div>
                 <div className="form-group">
                     <input
-                        type="text"
+                        type="password"
                         name="regPassword"
                         id="regPassword"
                         placeholder="Password"
