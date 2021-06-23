@@ -85,7 +85,7 @@ function UserList(){
         boxShadow:'0 8px 20px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.1)',
         borderRadius:'3px',
         paddingBottom:'10px',
-        height:'90vh'
+        height:'86vh'
     }
 
     return(
