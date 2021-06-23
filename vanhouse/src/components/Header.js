@@ -17,23 +17,22 @@ function Header() {
     // Login Form states
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    const [loginName, setLoginName] = useState("");
+    const [name, setName] = useState("");
     const [email, setEmail] = useState("");
 
-    const [user, setUser] = useState({loginName: "", email: ""});
+    const [user, setUser] = useState({name: "", email: ""});
     const [loginError, setLoginError] = useState("");
 
     // Registration Form states
     const [regEmail, setRegEmail] = useState("");
     const [regPassword, setRegPassword] = useState("");
-    const [regUser, setRegUser] = useState({regEmail: "", regPassword: ""});
+    const [regUser, setRegUser] = useState({email: "", password: ""});
 
     // User array state
     const testUser = {
         email: "test@test.com",
         password: "test123"
     }
-
     const [userArr, setUserArr] = useState([testUser]);
 
 
@@ -48,7 +47,7 @@ function Header() {
     }
 
     const handleLogoutClicked = () => {
-        setUser({loginName: "", email: ""});
+        setUser({name: "", email: ""});
         setIsLoggedIn(false);
     }
 
@@ -61,20 +60,36 @@ function Header() {
     }
 
     function Login() {
-        if (email === testUser.email && password === testUser.password) {
-            setUser({loginName, email});
-            setIsLoggedIn(true);
-            setIsLoginClicked(false);
-            console.log(user);
-            console.log(isLoggedIn);
-        } else {
-            setLoginError("Invalid email or password");
-            console.log(loginError);
-        }
+        // if (email === testUser.email && password === testUser.password) {
+        userArr.forEach(i => {
+            console.log("here");
+            console.log(i);
+            if (email === i.email && password === i.password) {
+                setUser({name, email});
+                setIsLoggedIn(true);
+                setIsLoginClicked(false);
+                console.log(user);
+                console.log(isLoggedIn);
+            } else {
+                setLoginError("Invalid email or password");
+                console.log(loginError);
+            }
+        });
+        // for (const i of userArr) {
+        //     if (email === i.email && password === i.password) {
+        //         setUser({loginName, email});
+        //         setIsLoggedIn(true);
+        //         setIsLoginClicked(false);
+        //         console.log(user);
+        //         console.log(isLoggedIn);
+        //     } else {
+        //         setLoginError("Invalid email or password");
+        //         console.log(loginError);
+        //     }
+        // }
     }
 
     function Register() {
-        // setRegUser({regEmail, regPassword});
         setUserArr(currArr => [...currArr, regUser]);
         setRegUser({regEmail: "", regPassword: ""});
         setIsRegistrationVisible(!isRegistrationVisible);
@@ -88,18 +103,18 @@ function Header() {
     }
 
     function handleRegChange(e) {
-        const {value, name} = e.target;
+        const {value, id} = e.target;
         setRegUser(prevValue => {
-            if (name === "regEmail") {
+            if (id === "regEmail") {
                 return {
-                    regEmail: value,
-                    regPassword: prevValue.regPassword
+                    email: value,
+                    password: prevValue.password
                 };
             }
-            if (name === "regPassword") {
+            if (id === "regPassword") {
                 return {
-                    regName: prevValue.regEmail,
-                    regPassword: value
+                    email: prevValue.email,
+                    password: value
                 };
             }
             return regUser;
@@ -118,8 +133,8 @@ function Header() {
                 setIsRegistrationVisible={setIsRegistrationVisible}
                 isRegisterButtonVisible={isRegisterButtonVisible}
                 setIsRegisterButtonVisible={setIsRegisterButtonVisible}
-                loginName={loginName}
-                setLoginName={setLoginName}
+                name={name}
+                setName={setName}
                 email={email}
                 setEmail={setEmail}
                 password={password}

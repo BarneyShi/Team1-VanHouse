@@ -53,7 +53,7 @@ function RegistrationForm({
                         id="regEmail"
                         placeholder="Email"
                         onChange={handleRegChange}
-                        value={regUser.regEmail}
+                        value={regUser.email}
                     />
                     <div className="error">{emailError}</div>
                 </div>
@@ -64,7 +64,7 @@ function RegistrationForm({
                         id="regPassword"
                         placeholder="Password"
                         onChange={handleRegChange}
-                        value={regUser.regPassword}
+                        value={regUser.password}
                     />
                 </div>
                 <div className="form-group">

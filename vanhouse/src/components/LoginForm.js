@@ -17,8 +17,8 @@ function LoginForm({
                        show,
                        handleClose,
                        loginError,
-                       loginName,
-                       setLoginName,
+                       name,
+                       setName,
                        email,
                        setEmail,
                        setPassword,
@@ -73,7 +73,7 @@ function LoginForm({
 
     const handleSubmit = e => {
         e.preventDefault();
-        submit(loginName, email);
+        submit(name, email);
     }
 
     return (
@@ -88,7 +88,7 @@ function LoginForm({
                     <Form.Group controlId="formName">
                         <Form.Label>Name *</Form.Label>
                         <Form.Control required type="name" placeholder="Enter name" onChange={(e) => {
-                            setLoginName(e.target.value)
+                            setName(e.target.value)
                         }}/>
                     </Form.Group>
 
@@ -170,8 +170,8 @@ LoginForm.propTypes = {
     show: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
     loginError: PropTypes.string,
-    loginName: PropTypes.string.isRequired,
-    setLoginName: PropTypes.func.isRequired,
+    name: PropTypes.string.isRequired,
+    setName: PropTypes.func.isRequired,
     email: PropTypes.string.isRequired,
     setEmail: PropTypes.func.isRequired,
     // password: PropTypes.string.isRequired,
