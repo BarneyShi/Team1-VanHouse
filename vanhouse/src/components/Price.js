@@ -1,45 +1,42 @@
 import React,{useState}from 'react'
 import {Button} from 'react-bootstrap'
+import UserList from './UserList';
 import '../style.css'
 
-function Price(){
+function Price(props){
+    const [state,setState] = useState(0);
+
     
-    const boxStyle = {
-
-        boxShadow:'0 8px 20px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.1)',
-        borderRadius:'3px',
-        paddingBottom:'10px',
-        height:'90vh',
-        paddingLeft:'10px'
-    }
-
-    const style = {
-        width:'90%',
-        textAlign:'left',
-        marginTop:'10px'
-    }
-
-    return(
-        <div style={boxStyle}>
-            <h2 className="h2">Price:</h2>
-            <table id="table">
-                <tr>
-                    <td>from</td>
-                    <td></td>
-                    <td>to</td>
-                </tr>
-                <tr>
-                    <td><input type="text"/></td>
-                    <td>-</td>
-                    <td><input type="text"/></td>
-                </tr>
-            </table>
-            <div style={style}>
-                <Button variant="primary">Submit</Button>
+    if(state === 0){
+        return(
+            <div className="boxStyle">
+                <h2 className="h2">Price:</h2>
+                <table id="table">
+                    <tr>
+                        <td>from</td>
+                        <td></td>
+                        <td>to</td>
+                    </tr>
+                    <tr>
+                        <td><input type="text"/></td>
+                        <td>-</td>
+                        <td><input type="text"/></td>
+                    </tr>
+                </table>
+                <div className="divStyle">
+                    <Button variant="primary">Submit</Button>
+                    <Button variant="primary" onClick={()=>setState(1)}>Cancel</Button>
+                </div>
+                
             </div>
-            
-        </div>
+        
+        )
+    }
+    return (
+        <UserList />
     )
+
+    
 }
 
 export default Price;

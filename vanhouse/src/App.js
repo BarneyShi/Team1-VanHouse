@@ -9,102 +9,155 @@ import UserList from './components/UserList';
 import Price from './components/Price';
 import Location from './components/Location';
 import Category from './components/Category';
+import SearchBar from './components/SearchBar';
 import "./App.css";
 import PostCollection from "./components/PostCollection";
 import search from './assets/search.png';
 
 function App() {
-  const [leftState,setLeftState] = useState(0);
+  const [leftState,setLeftState] = useState(1);
   const [left,setLeft] = useState(<UserList />);
-
-  const style = {
-    display: 'flex',
-    margin:'auto',
-    textAlign: 'center',
-    width:'70%'
+  const [ul,setu] = useState(Number(0));
+  
+  
 
 
-}
-  const render = (i)=>{
-    switch(Number(i)){
-      case 0:setLeft(<UserList />);break;
-      case 1:setLeft(<Category />);break;
-      case 2:setLeft(<Price />);break;
-      case 3:setLeft(<Location />);break;
-      default:break;
-    }
-    console.log(left);
+
+
+
+
+
+  function handleClick(i){
+    
+    console.log("asdasd");
+    console.log(i);
+
+    
+    setu(i);
+  }
+  
+  
+  
+  const handleReset = (i)=>{
+    
   }
 
-
-const imgstyle = {
-    height: '20px',
-    weight: '15px',
-    display: 'flex',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    textAlign: 'center',
-
-
-}
-
-
-const handleSelect = (e) => {
-    setLeftState(Number(e.target.value));
-}
-
-  const handleClick = ()=>{
-    render(leftState);
-  }
+  
 
 
 
     
-
+  if(ul===0||Number(leftState)===0){
     
-
-    return (
-      <Router>
+      return (
+        <Router>
+              
+        <div className="App">
+            <Header/>
+            <SearchBar getData={(i)=>handleClick(i)}/>
+            <Route exact path="/">
+              <Container fluid>
+                  <Row>
+                      <Col lg={3} md={3}><UserList /></Col>
+                      <Col>      
+                  <PostCollection/>
             
-      <div className="App">
-          <Header/>
-          <div style={style}>
-            <InputGroup className="mb-3">
-                <FormControl placeholder="Input keyword"/>
-                <InputGroup.Append>
-                  
-                    <select onChange={(e)=>handleSelect(e)}>
-                      <option value="1">All category</option>
-                      <option value="2">Price</option>
-                      <option value="3">Location</option>
-                    </select>
-                    <Button variant="outline-secondary" onClick={()=>handleClick()}>
-                        <img src={search} alt="Search" style={imgstyle}/>
-                    </Button>
-                </InputGroup.Append>
-            </InputGroup>
-
-
-            
+            </Col>
+                </Row>
+            </Container>
+            </Route>
+            <Route path="/post/:id">
+                <PostDetail/>
+            </Route>
         </div>
-          <Route exact path="/">
-           <Container fluid>
-              <Row>
-                  <Col lg={3} md={3}>{left}</Col>
-                  <Col>      
-              <PostCollection/>
-          
-          </Col>
-              </Row>
-          </Container>
-          </Route>
-          <Route path="/post/:id">
-              <PostDetail/>
-          </Route>
-      </div>
-  </Router>
+    </Router>
     
     );
+  }
+  if(ul === 2){
+    
+    return(
+        <Router>
+                
+          <div className="App">
+              <Header/>
+              <SearchBar getData={(i)=>handleClick(i)}/>
+              <Route exact path="/">
+                <Container fluid>
+                  <h3></h3>
+                    <Row>
+                        <Col lg={3} md={3}><Price reset={(i)=>handleReset(i)}/></Col>
+                        <Col>      
+                    <PostCollection/>
+              
+              </Col>
+                  </Row>
+              </Container>
+              </Route>
+              <Route path="/post/:id">
+                  <PostDetail/>
+              </Route>
+          </div>
+      </Router>
+      )
+  }
+  if(ul === 3){
+    return(
+        <Router>
+                
+          <div className="App">
+              <Header/>
+              <SearchBar getData={(i)=>handleClick(i)}/>
+              <Route exact path="/">
+                <Container fluid>
+                    <Row>
+                        <Col lg={3} md={3}><Location /></Col>
+                        <Col>      
+                    <PostCollection/>
+              
+              </Col>
+                  </Row>
+              </Container>
+              </Route>
+              <Route path="/post/:id">
+                  <PostDetail/>
+              </Route>
+          </div>
+      </Router>);
+  }
+  if(ul===1){
+    return(
+        <Router>
+                
+          <div className="App">
+              <Header/>
+              <SearchBar getData={(i)=>handleClick(i)}/>
+              <Route exact path="/">
+                <Container fluid>
+                    <Row>
+                        <Col lg={3} md={3}><Category /></Col>
+                        <Col>      
+                    <PostCollection/>
+              
+              </Col>
+                  </Row>
+              </Container>
+              </Route>
+              <Route path="/post/:id">
+                  <PostDetail/>
+              </Route>
+          </div>
+      </Router>
+      )
+  }
+    
+
+
+    
+    
+
+  
+
 }
 
 
