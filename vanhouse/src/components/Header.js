@@ -4,16 +4,51 @@ import LoginForm from "./LoginForm";
 import SearchBar from "./SearchBar";
 import usePasswordValidator from "./usePasswordValidator";
 import validateEmail from "./utils";
+import LoginButton from "./LoginButton";
+import WelcomeUser from "./WelcomeUser";
 
 
-function Header(props) {
+function Header() {
     const [isLoginClicked, setIsLoginClicked] = useState(false);
     const [isLoginVisible, setIsLoginVisible] = useState(true);
     const [isRegistrationVisible, setIsRegistrationVisible] = useState(false);
     const [isRegisterButtonVisible, setIsRegisterButtonVisible] = useState(true);
 
+    // Login Form states
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
+
+    const [user, setUser] = useState({name: "", email: ""});
+    const [loginError, setLoginError] = useState("");
+
+    // Registration Form states
+    const [regEmail, setRegEmail] = useState("");
+    const [regPassword, setRegPassword] = useState("");
+    const [regUser, setRegUser] = useState({email: "", password: ""});
+
+    // User array state
+    const testUser = {
+        email: "test@test.com",
+        password: "test123"
+    }
+    const [userArr, setUserArr] = useState([testUser]);
+
+
+    const [password, setPassword, passwordError] = usePasswordValidator({
+        min: 8,
+        max: 15
+    });
+
+
     const handleLoginClicked = () => {
         setIsLoginClicked(true);
+    }
+
+    const handleLogoutClicked = () => {
+        setUser({name: "", email: ""});
+        setIsLoggedIn(false);
     }
 
     const handleCloseModal = () => {
@@ -21,40 +56,73 @@ function Header(props) {
         setIsLoginVisible(true);
         setIsRegistrationVisible(false);
         setIsRegisterButtonVisible(true);
+        setLoginError("");
     }
 
-    const [user, setUser] = useState({name: "", email: ""});
-    const [error, setError] = useState("");
-
-    const testUser = {
-        email: "test@test.com",
-        password: "test123"
+    function Login() {
+        // if (email === testUser.email && password === testUser.password) {
+        userArr.forEach(i => {
+            console.log("here");
+            console.log(i);
+            if (email === i.email && password === i.password) {
+                setUser({name, email});
+                setIsLoggedIn(true);
+                setIsLoginClicked(false);
+                console.log(user);
+                console.log(isLoggedIn);
+            } else {
+                setLoginError("Invalid email or password");
+                console.log(loginError);
+            }
+        });
+        // for (const i of userArr) {
+        //     if (email === i.email && password === i.password) {
+        //         setUser({loginName, email});
+        //         setIsLoggedIn(true);
+        //         setIsLoginClicked(false);
+        //         console.log(user);
+        //         console.log(isLoggedIn);
+        //     } else {
+        //         setLoginError("Invalid email or password");
+        //         console.log(loginError);
+        //     }
+        // }
     }
 
-    const Login = details => {
-        if (details.email === testUser.email && details.password === testUser.password) {
-            setUser({
-                name: details.name,
-                email: details.email
-            });
-        } else {
-            setError("Invalid email or password");
-        }
+    function Register() {
+        setUserArr(currArr => [...currArr, regUser]);
+        setRegUser({regEmail: "", regPassword: ""});
+        setIsRegistrationVisible(!isRegistrationVisible);
+        setIsRegisterButtonVisible(!isRegisterButtonVisible);
+        setIsLoginVisible(!isLoginVisible);
+        setIsLoginClicked(!isLoginClicked);
+        console.log(regUser);
+        console.log(userArr);
+        console.log("registered");
+        window.alert("Successfully registered!");
     }
 
-    const Logout = () => {
-        setUser({name: "", email: ""});
+    function handleRegChange(e) {
+        const {value, id} = e.target;
+        setRegUser(prevValue => {
+            if (id === "regEmail") {
+                return {
+                    email: value,
+                    password: prevValue.password
+                };
+            }
+            if (id === "regPassword") {
+                return {
+                    email: prevValue.email,
+                    password: value
+                };
+            }
+            return regUser;
+        });
     }
 
     return (
         <div className="header-flexbox">
-            {/* {(user.email != "") ? ( */}
-            {/*    <div className="welcome"> */}
-            {/*        <h2> Welcome, <span>{user.name}</span></h2> */}
-            {/*        <button onClick={Logout}>Logout</button> */}
-            {/*    </div> */}
-            {/* ) : ( */}
-            {/*    <LoginForm show={isLoginClicked} handleClose={handleCloseModal} submit={Login}/>)} */}
             <LoginForm
                 show={isLoginClicked}
                 handleClose={handleCloseModal}
@@ -65,7 +133,24 @@ function Header(props) {
                 setIsRegistrationVisible={setIsRegistrationVisible}
                 isRegisterButtonVisible={isRegisterButtonVisible}
                 setIsRegisterButtonVisible={setIsRegisterButtonVisible}
-
+                name={name}
+                setName={setName}
+                email={email}
+                setEmail={setEmail}
+                password={password}
+                setPassword={setPassword}
+                passwordError={passwordError}
+                user={user}
+                isLoggedIn={isLoggedIn}
+                setIsLoggedIn={setIsLoggedIn}
+                loginError={loginError}
+                regEmail={regEmail}
+                setRegEmail={setRegEmail}
+                regPassword={regPassword}
+                setRegPassword={setRegPassword}
+                register={Register}
+                regUser={regUser}
+                handleRegChange={handleRegChange}
             />
             <div className="top-line-flexbox">
                 <div className="title-and-logo-flexbox">
@@ -75,11 +160,18 @@ function Header(props) {
                         alt="logo"/>
                     <h1 className="App-title">VanHouse</h1>
                 </div>
-                <div className="login-button-div">
-                    <button type='button' className="login-button" onClick={handleLoginClicked}>
-                        Login
-                    </button>
+                <div className="login-logout-buttons">
+                    <LoginButton
+                        isLoggedIn={isLoggedIn}
+                        handleLoginClicked={handleLoginClicked}
+                    />
+                    <WelcomeUser
+                        isLoggedIn={isLoggedIn}
+                        user={user}
+                        handleLogoutClicked={handleLogoutClicked}
+                    />
                 </div>
+
             </div>
             <div className="subtitle-flexbox">
                 <div className="subtitle">

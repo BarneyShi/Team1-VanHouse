@@ -17,8 +17,9 @@
     text-align: center;
     align-items: center;
     flex-basis: 10%;
-    min-width: 81%;
+    min-width: 83%;
     flex-direction: row;
+    position: relative;
 }
 
 .App-logo {
@@ -32,27 +33,66 @@
     /*flex-basis: 1000%;*/
 }
 
-.login-button {
-    font-family: Arial;
-    font-size: 1rem;
-    color: #2b58ab;
-    background-color: whitesmoke;
-    border: 0;
-    border-radius: 30%;
-    line-height: 2rem;
-    float: right;
-}
+/*.login-logout-button {*/
+/*    font-family: Arial;*/
+/*    font-size: 1rem;*/
+/*    color: white;*/
+/*    !*background-color: whitesmoke;*!*/
+/*    background-color: dodgerblue;*/
+/*    border: 0;*/
+/*    border-radius: 40%;*/
+/*    line-height: 2rem;*/
+/*    float: right;*/
+/*}*/
 
-.login-button-div {
+.login-logout-button-div {
     float: right;
     flex-basis: 10%;
     padding: 10px;
+    margin-right: 12px;
 }
 
-.login-button:hover {
+.login-logout-button:hover {
     color: white;
     transition: color 0.15s ease;
 }
+
+.login-error {
+    color: tomato;
+}
+
+.dropdown-toggle-button {
+    background-color: dodgerblue;
+}
+
+.welcome-user-div {
+    float: right;
+    flex-basis: 10%;
+    padding: 12px;
+}
+
+/*.welcome-user-inner-div {*/
+/*    font-family: Arial;*/
+/*    font-size: 1rem;*/
+/*    color: #2b58ab;*/
+/*    background-color: whitesmoke;*/
+/*    !*border: 0;*!*/
+/*    border-radius: 20%;*/
+/*    border: 1px dotted;*/
+/*    line-height: 2rem;*/
+/*    float: right;*/
+/*}*/
+
+/*.welcome-text {*/
+/*    font-family: Arial;*/
+/*    font-size: 1rem;*/
+/*    color: #2b58ab;*/
+/*    background-color: whitesmoke;*/
+/*    border: 0;*/
+/*    border-radius: 30%;*/
+/*    line-height: 2rem;*/
+/*    float: right;*/
+/*}*/
 
 .subtitle-flexbox {
     display: flex;
