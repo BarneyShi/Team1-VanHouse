@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import Post from "./Post";
 import NewPost from "./NewPost";
-import SearchBar from "./SearchBar";
+
 import "../styles/Post.css";
 
 
@@ -127,7 +127,6 @@ function PostCollection() {
   return (
     <div className="post_collection_div">
       <div id="post_collection_tools_div">
-        <SearchBar />
         <Button
           id="createPostBtn"
           variant="primary"

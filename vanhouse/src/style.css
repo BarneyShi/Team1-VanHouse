@@ -1,0 +1,52 @@
+#table{
+    width: 90%;
+}
+
+#table tr td{
+    width: 33%;
+}
+
+#table tr td input{
+    width: 100%;
+}
+
+.h2{
+    text-align: left;
+}
+
+.style{
+    display: flex;
+    margin:auto;
+    text-align: center;
+    width:70%
+
+}
+
+.imgstyle{
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    text-align: center,
+
+}
+
+.boxStyle{
+    box-shadow:0 8px 20px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.1);
+        border-radius:3px;
+        padding-bottom:10px;
+        height:90vh;
+        padding-left:10px
+}
+
+.divStyle{
+    width:90%;
+        text-align:left;
+        margin-top:10px
+}
+
+.width{
+    width:80%;
+        margin-top:10px;
+        margin-bottom: 10px;
+}
