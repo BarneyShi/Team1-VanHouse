@@ -32,7 +32,7 @@ WelcomeUser.propTypes =
     {
         user: PropTypes.objectOf(PropTypes.object).isRequired,
         isLoggedIn: PropTypes.bool.isRequired,
-        handleLogoutClicked: PropTypes.bool.isRequired
+        handleLogoutClicked: PropTypes.func.isRequired
     };
 
 export default WelcomeUser

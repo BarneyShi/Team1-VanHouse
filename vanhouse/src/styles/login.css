@@ -4,8 +4,8 @@ body {
     text-align: center;
 }
 
-.form-inner {
-
+.error {
+    color: tomato;
 }
 
 .Login-Modal input {

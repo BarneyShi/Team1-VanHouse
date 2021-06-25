@@ -1,45 +1,38 @@
-import React from "react";
+import React, {useEffect} from "react";
 import PropTypes from "prop-types";
-import {Button, Col, Form, Row} from "react-bootstrap";
+import {Button, Form} from "react-bootstrap";
 
 import {propTypes} from "react-bootstrap/esm/Image";
 
 import "../styles/login.css"
 
 function RegistrationForm({
-                              regEmail,
-                              setRegEmail,
                               emailError,
-                              regPassword,
-                              setRegPassword,
-                              passwordError,
-                              // confirmPassword,
-                              // setConfirmPassword,
-                              // confirmPasswordError,
-                              // setConfirmPasswordError,
+                              confirmPassword,
+                              setConfirmPassword,
+                              confirmPasswordError,
+                              setConfirmPasswordError,
                               handleClose,
                               register,
                               regUser,
-                              handleRegChange
+                              handleRegChange,
+                              regPassword
                               // error
                           }) {
-    // useEffect(
-    //     () => {
-    //         if (!confirmPassword || !password) {
-    //             setConfirmPasswordError("");
-    //         } else if (password !== confirmPassword) {
-    //             setConfirmPasswordError("The passwords must match.");
-    //         } else {
-    //             setConfirmPasswordError("");
-    //         }
-    //     },
-    //     [regPassword, confirmPassword]
-    // );
-
-    // const handleRegSubmit = e => {
-    //     e.preventDefault();
-    //     register(regEmail, regPassword);
-    // }
+    useEffect(
+        () => {
+            console.log(regPassword);
+            console.log(confirmPassword);
+            if (!confirmPassword || !regPassword) {
+                setConfirmPasswordError("");
+            } else if (regPassword !== confirmPassword) {
+                setConfirmPasswordError("The passwords must match.");
+            } else {
+                setConfirmPasswordError("");
+            }
+        },
+        [regPassword, confirmPassword]
+    );
 
     // https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30
     // Accessed June 7, 2021
@@ -49,7 +42,7 @@ function RegistrationForm({
 
             <div className="form-group">
                 <input
-                    type="text"
+                    type="email"
                     name="regEmail"
                     id="regEmail"
                     placeholder="Email"
@@ -69,9 +62,18 @@ function RegistrationForm({
                     value={regUser.password}
                 />
             </div>
-            <div className="form-group">
 
+            <div className="form-group">
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Confirm password"
+                    onChange={e => setConfirmPassword(e.target.value)}
+                    value={confirmPassword}
+                />
+                <div className="error">{confirmPasswordError}</div>
             </div>
+
             <Form.Text className="text-muted">
                 * required fields
             </Form.Text>
@@ -88,22 +90,15 @@ function RegistrationForm({
     )
 }
 
-RegistrationForm.defaultProps = {
-    // error: "",
-    regEmail: "",
-    regPassword: "",
-};
+RegistrationForm.defaultProps = {};
 
 RegistrationForm.propTypes = {
-    regEmail: PropTypes.string,
-    regPassword: PropTypes.string,
-    setRegEmail: PropTypes.func.isRequired,
     emailError: PropTypes.string.isRequired,
-    setRegPassword: PropTypes.func.isRequired,
-    passwordError: PropTypes.string.isRequired,
-    // confirmPassword: PropTypes.string.isRequired,
-    // setConfirmPassword: PropTypes.func.isRequired,
-    // confirmPasswordError: PropTypes.string.isRequired,
+    confirmPassword: PropTypes.string.isRequired,
+    setConfirmPassword: PropTypes.func.isRequired,
+    confirmPasswordError: PropTypes.string.isRequired,
+    setConfirmPasswordError: PropTypes.func.isRequired,
+    regPassword: PropTypes.string.isRequired,
     handleClose: PropTypes.func.isRequired,
     register: PropTypes.func.isRequired,
     regUser: PropTypes.objectOf(PropTypes.object).isRequired,

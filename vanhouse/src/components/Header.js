@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import "../styles/header.css";
 import LoginForm from "./LoginForm";
 import SearchBar from "./SearchBar";
@@ -27,6 +27,8 @@ function Header() {
     const [regEmail, setRegEmail] = useState("");
     const [regPassword, setRegPassword] = useState("");
     const [regUser, setRegUser] = useState({email: "", password: ""});
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
     // User array state
     const testUser = {
@@ -57,10 +59,15 @@ function Header() {
         setIsRegistrationVisible(false);
         setIsRegisterButtonVisible(true);
         setLoginError("");
+        setConfirmPassword("");
+        setRegPassword("");
+        setRegEmail("");
+        setRegUser("");
+        setEmail("");
+        setPassword("");
     }
 
     function Login() {
-        // if (email === testUser.email && password === testUser.password) {
         userArr.forEach(i => {
             console.log("here");
             console.log(i);
@@ -75,18 +82,6 @@ function Header() {
                 console.log(loginError);
             }
         });
-        // for (const i of userArr) {
-        //     if (email === i.email && password === i.password) {
-        //         setUser({loginName, email});
-        //         setIsLoggedIn(true);
-        //         setIsLoginClicked(false);
-        //         console.log(user);
-        //         console.log(isLoggedIn);
-        //     } else {
-        //         setLoginError("Invalid email or password");
-        //         console.log(loginError);
-        //     }
-        // }
     }
 
     function Register() {
@@ -96,10 +91,11 @@ function Header() {
         setIsRegisterButtonVisible(!isRegisterButtonVisible);
         setIsLoginVisible(!isLoginVisible);
         setIsLoginClicked(!isLoginClicked);
+        setConfirmPassword("");
         console.log(regUser);
         console.log(userArr);
         console.log("registered");
-        window.alert("Successfully registered!");
+        window.alert("Successfully registered! Please login to continue.");
     }
 
     function handleRegChange(e) {
@@ -151,6 +147,10 @@ function Header() {
                 register={Register}
                 regUser={regUser}
                 handleRegChange={handleRegChange}
+                confirmPassword={confirmPassword}
+                setConfirmPassword={setConfirmPassword}
+                confirmPasswordError={confirmPasswordError}
+                setConfirmPasswordError={setConfirmPasswordError}
             />
             <div className="top-line-flexbox">
                 <div className="title-and-logo-flexbox">

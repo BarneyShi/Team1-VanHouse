@@ -29,7 +29,11 @@ function LoginForm({
                        setRegPassword,
                        register,
                        regUser,
-                       handleRegChange
+                       handleRegChange,
+                       confirmPassword,
+                       setConfirmPassword,
+                       confirmPasswordError,
+                       setConfirmPasswordError,
                    }) {
 
     // https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30
@@ -131,17 +135,16 @@ function LoginForm({
 
                 {isRegistrationVisible &&
                 <RegistrationForm
-                    regEmail={regEmail}
-                    setRegEmail={setRegEmail}
-                    regPassword={regPassword}
-                    setRegPassword={setRegPassword}
                     emailError={emailError}
-                    passwordError={passwordError}
-                    handleClose={handleClose}
-                    setIsLoginVisible={setIsLoginVisible}
                     register={register}
                     regUser={regUser}
                     handleRegChange={handleRegChange}
+                    confirmPassword={confirmPassword}
+                    setConfirmPassword={setConfirmPassword}
+                    confirmPasswordError={confirmPasswordError}
+                    setConfirmPasswordError={setConfirmPasswordError}
+                    regPassword={regPassword}
+                    handleClose={handleClose}
                 />
                 }
                 <br/>
@@ -174,9 +177,10 @@ LoginForm.propTypes = {
     // password: PropTypes.string.isRequired,
     setPassword: PropTypes.func.isRequired,
     passwordError: PropTypes.string.isRequired,
-    // confirmPassword: PropTypes.string.isRequired,
-    // setConfirmPassword: PropTypes.func.isRequired,
-    // confirmPasswordError: PropTypes.string.isRequired
+    confirmPassword: PropTypes.string.isRequired,
+    setConfirmPassword: PropTypes.func.isRequired,
+    confirmPasswordError: PropTypes.string.isRequired,
+    setConfirmPasswordError: PropTypes.func.isRequired,
     // user: PropTypes.objectOf(PropTypes.object).isRequired
     regEmail: PropTypes.string.isRequired,
     setRegEmail: PropTypes.func.isRequired,
