@@ -195,6 +195,7 @@ export default function PostDetail() {
               <ListGroupItem>Price: ${postInfo.price} {postInfo.paymentPeriod}</ListGroupItem>
               {postInfo.email !== "" && <ListGroupItem>Email: {postInfo.email}</ListGroupItem>}
               <ListGroupItem>Lease Length: {postInfo.leaseLength}</ListGroupItem>
+              <ListGroupItem>{postInfo.bedrooms} bedroom, {postInfo.bathrooms} bathroom, {postInfo.sqft} sqft</ListGroupItem>
               <ListGroupItem>{postInfo.pets}</ListGroupItem>
               <ListGroupItem>{postInfo.utilities}</ListGroupItem>
               <ListGroupItem>{postInfo.laundry}</ListGroupItem>
