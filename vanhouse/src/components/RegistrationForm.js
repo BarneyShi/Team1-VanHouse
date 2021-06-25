@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {Button, Form} from "react-bootstrap";
+import {Button, Col, Form, Row} from "react-bootstrap";
+
 import {propTypes} from "react-bootstrap/esm/Image";
 
 import "../styles/login.css"
@@ -43,47 +44,47 @@ function RegistrationForm({
     // https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30
     // Accessed June 7, 2021
     return (
-        <form>
-            <div className="form-inner">
-                <h2>Register to comment, post, and more!</h2>
-                <div className="form-group">
-                    <input
-                        type="text"
-                        name="regEmail"
-                        id="regEmail"
-                        placeholder="Email"
-                        onChange={handleRegChange}
-                        value={regUser.email}
-                    />
-                    <div className="error">{emailError}</div>
-                </div>
-                <div className="form-group">
-                    <input
-                        type="password"
-                        name="regPassword"
-                        id="regPassword"
-                        placeholder="Password"
-                        onChange={handleRegChange}
-                        value={regUser.password}
-                    />
-                </div>
-                <div className="form-group">
+        <Form>
+            <h2>Register to comment, post, and more!</h2>
 
-                </div>
-                <Form.Text className="text-muted">
-                    * required fields
-                </Form.Text>
-                <br/>
-                <div className="registration-form-buttons">
-                    <Button variant="secondary" onClick={handleClose}>
-                        Close
-                    </Button>
-                    <Button variant="primary" onClick={register}>
-                        Register
-                    </Button>
-                </div>
+            <div className="form-group">
+                <input
+                    type="text"
+                    name="regEmail"
+                    id="regEmail"
+                    placeholder="Email"
+                    onChange={handleRegChange}
+                    value={regUser.email}
+                />
+                <div className="error">{emailError}</div>
             </div>
-        </form>
+
+            <div className="form-group">
+                <input
+                    type="password"
+                    name="regPassword"
+                    id="regPassword"
+                    placeholder="Password"
+                    onChange={handleRegChange}
+                    value={regUser.password}
+                />
+            </div>
+            <div className="form-group">
+
+            </div>
+            <Form.Text className="text-muted">
+                * required fields
+            </Form.Text>
+            <br/>
+            <div className="registration-form-buttons">
+                <Button variant="secondary" onClick={handleClose}>
+                    Close
+                </Button>
+                <Button variant="success" onClick={register}>
+                    Register
+                </Button>
+            </div>
+        </Form>
     )
 }
 

@@ -10,7 +10,7 @@ function LoginButton({
     return (
         <div className="login-logout-button-div">
             {!isLoggedIn &&
-            <Button type='button' onClick={handleLoginClicked}>
+            <Button type='button' variant="outline-secondary" onClick={handleLoginClicked}>
                 Login
             </Button>
             }

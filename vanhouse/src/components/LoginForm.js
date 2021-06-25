@@ -86,14 +86,14 @@ function LoginForm({
                 <Modal.Body>
                     {(loginError !== "") ? (<div className="login-error">{loginError}</div>) : ""}
                     <Form.Group controlId="formName">
-                        <Form.Label>Name *</Form.Label>
+                        <Form.Label>Name</Form.Label>
                         <Form.Control required type="name" placeholder="Enter name" onChange={(e) => {
                             setName(e.target.value)
                         }}/>
                     </Form.Group>
 
                     <Form.Group controlId="formEmail">
-                        <Form.Label>Email address *</Form.Label>
+                        <Form.Label>Email address</Form.Label>
                         <Form.Control required type="email" placeholder="Enter email" onChange={(e) => {
                             setEmail(e.target.value)
                         }}/>
@@ -106,10 +106,6 @@ function LoginForm({
                                           setPassword(e.target.value)
                                       }}/>
                     </Form.Group>
-
-                    <Form.Text className="text-muted">
-                        * required fields
-                    </Form.Text>
 
                 </Modal.Body>
                 <Modal.Footer>
@@ -126,7 +122,8 @@ function LoginForm({
             <div className="register-button-and-form">
                 {isRegisterButtonVisible &&
                 <Button
-                    className="register-button"
+                    // className="register-button"
+                    variant="success"
                     onClick={(e) => setVisibilities()}>
                     Register for a new account
                 </Button>

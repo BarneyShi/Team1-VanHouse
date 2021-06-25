@@ -32,17 +32,17 @@ Button {
     margin-right: 10px;
 }
 
-.Login-Modal Button:hover {
-    background-color: rgb(128, 181, 250);
-}
+/*.Login-Modal Button:hover {*/
+/*    background-color: rgb(128, 181, 250);*/
+/*}*/
 
-.register-button {
-    background-color: #72b872;
-}
+/*.register-button {*/
+/*    background-color: #72b872;*/
+/*}*/
 
-.register-button:hover {
-    background-color: #5b915b;
-}
+/*.register-button:hover {*/
+/*    background-color: #5b915b;*/
+/*}*/
 
 /*.button {*/
 /*    height: 30px;*/

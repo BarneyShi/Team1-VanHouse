@@ -160,7 +160,7 @@ function Header() {
                         alt="logo"/>
                     <h1 className="App-title">VanHouse</h1>
                 </div>
-                <div className="login-logout-buttons">
+                <div className="login-logout-button">
                     <LoginButton
                         isLoggedIn={isLoggedIn}
                         handleLoginClicked={handleLoginClicked}
