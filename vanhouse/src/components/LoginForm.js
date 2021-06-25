@@ -3,7 +3,6 @@ import {Button, Form, Modal} from "react-bootstrap";
 import PropTypes from "prop-types";
 import RegistrationForm from "./RegistrationForm"
 import "../styles/login.css"
-import usePasswordValidator from "./usePasswordValidator";
 
 function LoginForm({
                        setIsRegistrationVisible,

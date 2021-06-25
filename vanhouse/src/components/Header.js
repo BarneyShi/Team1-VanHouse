@@ -2,7 +2,6 @@ import React, {useState} from "react";
 import "../styles/header.css";
 import LoginForm from "./LoginForm";
 import SearchBar from "./SearchBar";
-import usePasswordValidator from "./usePasswordValidator";
 import LoginButton from "./LoginButton";
 import WelcomeUser from "./WelcomeUser";
 
