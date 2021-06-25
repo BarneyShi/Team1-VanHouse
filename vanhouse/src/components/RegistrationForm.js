@@ -21,7 +21,6 @@ function RegistrationForm({
                               passwordError,
                               setPasswordError,
                               regPassword
-                              // error
                           }) {
 
     // https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30
@@ -152,7 +151,6 @@ RegistrationForm.propTypes = {
     validateEmail: PropTypes.func.isRequired,
     passwordError: PropTypes.string.isRequired,
     setPasswordError: PropTypes.func.isRequired
-    // error: PropTypes.string,
 };
 
 export default RegistrationForm

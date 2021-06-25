@@ -13,7 +13,7 @@ function WelcomeUser({
         <Dropdown>
             {isLoggedIn &&
             <div className="dropdown-stuff">
-                <Dropdown.Toggle className="dropdown-toggle-button">
+                <Dropdown.Toggle className="dropdown-toggle-button" variant="outline-success">
                     <span className="welcome-text">Hi, {user.name}!</span>
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
