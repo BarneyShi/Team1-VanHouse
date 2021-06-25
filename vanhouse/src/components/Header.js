@@ -29,6 +29,8 @@ function Header() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [confirmPasswordError, setConfirmPasswordError] = useState("");
     const [emailError, setEmailError] = useState("");
+    const [password, setPassword] = useState("");
+    const [passwordError, setPasswordError] = useState("");
 
     // User array state
     const testUser = {
@@ -38,10 +40,10 @@ function Header() {
     const [userArr, setUserArr] = useState([testUser]);
 
 
-    const [password, setPassword, passwordError] = usePasswordValidator({
-        min: 8,
-        max: 15
-    });
+    // const [password, setPassword, passwordError] = usePasswordValidator({
+    //     min: 8,
+    //     max: 15
+    // });
 
 
     const handleLoginClicked = () => {
@@ -150,6 +152,7 @@ function Header() {
                 password={password}
                 setPassword={setPassword}
                 passwordError={passwordError}
+                setPasswordError={setPasswordError}
                 user={user}
                 isLoggedIn={isLoggedIn}
                 setIsLoggedIn={setIsLoggedIn}

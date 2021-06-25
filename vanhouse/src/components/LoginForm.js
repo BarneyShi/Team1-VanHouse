@@ -22,6 +22,7 @@ function LoginForm({
                        setEmail,
                        setPassword,
                        passwordError,
+                       setPasswordError,
                        regEmail,
                        setRegEmail,
                        regPassword,
@@ -117,6 +118,8 @@ function LoginForm({
                     regPassword={regPassword}
                     handleClose={handleClose}
                     validateEmail={validateEmail}
+                    passwordError={passwordError}
+                    setPasswordError={setPasswordError}
                 />
                 }
                 <br/>
@@ -149,6 +152,7 @@ LoginForm.propTypes = {
     // password: PropTypes.string.isRequired,
     setPassword: PropTypes.func.isRequired,
     passwordError: PropTypes.string.isRequired,
+    setPasswordError: PropTypes.func.isRequired,
     confirmPassword: PropTypes.string.isRequired,
     setConfirmPassword: PropTypes.func.isRequired,
     confirmPasswordError: PropTypes.string.isRequired,

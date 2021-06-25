@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 // https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30
-// Accessed June 7, 2021 for usePasswordValidator and utils.js
+// Accessed June 7, 2021 for usePasswordValidator, confirm password, and email validators
 
 function usePasswordValidator(config = { min: 6, max: 10 }) {
     const [password, setPassword] = useState("");

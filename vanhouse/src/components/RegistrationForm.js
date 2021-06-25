@@ -18,12 +18,16 @@ function RegistrationForm({
                               regUser,
                               handleRegChange,
                               validateEmail,
+                              passwordError,
+                              setPasswordError,
                               regPassword
                               // error
                           }) {
 
     // https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30
     // Accessed June 7, 2021 for usePasswordValidator and utils.js
+
+    // email validation
     useEffect(
         () => {
             if (!regUser.email) {
@@ -37,6 +41,27 @@ function RegistrationForm({
         [regUser.email]
     );
 
+
+    // password validation
+    const config = { min: 6, max: 10 }
+
+    useEffect(
+        () => {
+            setPasswordError("");
+            if (!regUser.password) return;
+
+            if (regUser.password.length < config.min) {
+                setPasswordError(`Password must be at least ${config.min} characters.`);
+            } else if (regUser.password.length > config.max) {
+                setPasswordError(
+                    `Password must be less than ${config.max} characters.`
+                );
+            }
+        },
+        [regUser.password]
+    );
+
+    // confirm password validation
     useEffect(
         () => {
             if (!confirmPassword || !regUser.password) {
@@ -75,6 +100,7 @@ function RegistrationForm({
                     onChange={handleRegChange}
                     value={regUser.password}
                 />
+                <div className="error">{passwordError}</div>
             </div>
 
             <div className="form-group">
@@ -118,7 +144,9 @@ RegistrationForm.propTypes = {
     register: PropTypes.func.isRequired,
     regUser: PropTypes.objectOf(PropTypes.object).isRequired,
     handleRegChange: PropTypes.func.isRequired,
-    validateEmail: PropTypes.func.isRequired
+    validateEmail: PropTypes.func.isRequired,
+    passwordError: PropTypes.string.isRequired,
+    setPasswordError: PropTypes.func.isRequired
     // error: PropTypes.string,
 };
 
