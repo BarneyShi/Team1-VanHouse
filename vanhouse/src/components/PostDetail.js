@@ -235,7 +235,7 @@ export default function PostDetail() {
                 <textarea
                   ref={commentRef}
                   name="newComment"
-                  placeholder="Give us comment!"
+                  placeholder="Leave a comment!"
                 ></textarea>
                 <Button type="submit">Submit</Button>
               </form>
