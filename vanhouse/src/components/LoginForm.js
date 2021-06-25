@@ -60,19 +60,6 @@ function LoginForm({
         [email]
     );
 
-    // useEffect(
-    //     () => {
-    //         if (!confirmPassword || !password) {
-    //             setConfirmPasswordError("");
-    //         } else if (password !== confirmPassword) {
-    //             setConfirmPasswordError("The passwords must match.");
-    //         } else {
-    //             setConfirmPasswordError("");
-    //         }
-    //     },
-    //     [password, confirmPassword]
-    // );
-
     // end of copied code
 
     const handleSubmit = e => {

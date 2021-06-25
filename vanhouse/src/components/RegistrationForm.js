@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import PropTypes from "prop-types";
-import {Button, Form} from "react-bootstrap";
+import {Button, Form, InputGroup, Modal} from "react-bootstrap";
 
 import {propTypes} from "react-bootstrap/esm/Image";
 
@@ -19,23 +19,42 @@ function RegistrationForm({
                               regPassword
                               // error
                           }) {
+
+    // https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30
+    // Accessed June 7, 2021 for usePasswordValidator and utils.js
+    // useEffect(
+    //     () => {
+    //         if (!regEmail) {
+    //             setEmailError("");
+    //         } else {
+    //             if (validateEmail(email)) {
+    //                 setEmailError("");
+    //             } else {
+    //                 setEmailError("Please enter a valid email.");
+    //             }
+    //         }
+    //     },
+    //     [regUser.email]
+    // );
+
     useEffect(
         () => {
-            console.log(regPassword);
+            console.log(regUser.password);
+            console.log("confirm");
             console.log(confirmPassword);
-            if (!confirmPassword || !regPassword) {
+            console.log("the error");
+            console.log(confirmPasswordError);
+            if (!confirmPassword || !regUser.password) {
                 setConfirmPasswordError("");
-            } else if (regPassword !== confirmPassword) {
+            } else if (confirmPassword !== regUser.password) {
                 setConfirmPasswordError("The passwords must match.");
             } else {
                 setConfirmPasswordError("");
             }
         },
-        [regPassword, confirmPassword]
+        [regUser.password, confirmPassword]
     );
 
-    // https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30
-    // Accessed June 7, 2021
     return (
         <Form>
             <h2>Register to comment, post, and more!</h2>
@@ -45,7 +64,7 @@ function RegistrationForm({
                     type="email"
                     name="regEmail"
                     id="regEmail"
-                    placeholder="Email"
+                    placeholder="sample@sample.com"
                     onChange={handleRegChange}
                     value={regUser.email}
                 />

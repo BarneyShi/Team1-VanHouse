@@ -85,17 +85,22 @@ function Header() {
     }
 
     function Register() {
-        setUserArr(currArr => [...currArr, regUser]);
-        setRegUser({regEmail: "", regPassword: ""});
-        setIsRegistrationVisible(!isRegistrationVisible);
-        setIsRegisterButtonVisible(!isRegisterButtonVisible);
-        setIsLoginVisible(!isLoginVisible);
-        setIsLoginClicked(!isLoginClicked);
-        setConfirmPassword("");
-        console.log(regUser);
-        console.log(userArr);
-        console.log("registered");
-        window.alert("Successfully registered! Please login to continue.");
+        if (confirmPasswordError === "") {
+            setUserArr(currArr => [...currArr, regUser]);
+            setRegUser({regEmail: "", regPassword: ""});
+            setIsRegistrationVisible(!isRegistrationVisible);
+            setIsRegisterButtonVisible(!isRegisterButtonVisible);
+            setIsLoginVisible(!isLoginVisible);
+            setIsLoginClicked(!isLoginClicked);
+            setConfirmPassword("");
+            console.log(regUser);
+            console.log(userArr);
+            console.log("registered");
+            window.alert("Successfully registered! Please login to continue.");
+        } else {
+            window.confirm("Please confirm that your passwords match.");
+        }
+
     }
 
     function handleRegChange(e) {
