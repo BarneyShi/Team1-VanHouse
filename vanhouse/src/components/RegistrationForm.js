@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import PropTypes from "prop-types";
-import {Button, Form, InputGroup, Modal} from "react-bootstrap";
+import {Button, Form} from "react-bootstrap";
 
 import {propTypes} from "react-bootstrap/esm/Image";
 
@@ -8,6 +8,7 @@ import "../styles/login.css"
 
 function RegistrationForm({
                               emailError,
+                              setEmailError,
                               confirmPassword,
                               setConfirmPassword,
                               confirmPasswordError,
@@ -16,34 +17,28 @@ function RegistrationForm({
                               register,
                               regUser,
                               handleRegChange,
+                              validateEmail,
                               regPassword
                               // error
                           }) {
 
     // https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30
     // Accessed June 7, 2021 for usePasswordValidator and utils.js
-    // useEffect(
-    //     () => {
-    //         if (!regEmail) {
-    //             setEmailError("");
-    //         } else {
-    //             if (validateEmail(email)) {
-    //                 setEmailError("");
-    //             } else {
-    //                 setEmailError("Please enter a valid email.");
-    //             }
-    //         }
-    //     },
-    //     [regUser.email]
-    // );
+    useEffect(
+        () => {
+            if (!regUser.email) {
+                setEmailError("");
+            } else if (validateEmail(regUser.email)) {
+                setEmailError("");
+            } else {
+                setEmailError("Please enter a valid email.");
+            }
+        },
+        [regUser.email]
+    );
 
     useEffect(
         () => {
-            console.log(regUser.password);
-            console.log("confirm");
-            console.log(confirmPassword);
-            console.log("the error");
-            console.log(confirmPasswordError);
             if (!confirmPassword || !regUser.password) {
                 setConfirmPasswordError("");
             } else if (confirmPassword !== regUser.password) {
@@ -113,6 +108,7 @@ RegistrationForm.defaultProps = {};
 
 RegistrationForm.propTypes = {
     emailError: PropTypes.string.isRequired,
+    setEmailError: PropTypes.func.isRequired,
     confirmPassword: PropTypes.string.isRequired,
     setConfirmPassword: PropTypes.func.isRequired,
     confirmPasswordError: PropTypes.string.isRequired,
@@ -121,7 +117,8 @@ RegistrationForm.propTypes = {
     handleClose: PropTypes.func.isRequired,
     register: PropTypes.func.isRequired,
     regUser: PropTypes.objectOf(PropTypes.object).isRequired,
-    handleRegChange: PropTypes.func.isRequired
+    handleRegChange: PropTypes.func.isRequired,
+    validateEmail: PropTypes.func.isRequired
     // error: PropTypes.string,
 };
 

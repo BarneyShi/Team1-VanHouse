@@ -3,7 +3,6 @@ import "../styles/header.css";
 import LoginForm from "./LoginForm";
 import SearchBar from "./SearchBar";
 import usePasswordValidator from "./usePasswordValidator";
-import validateEmail from "./utils";
 import LoginButton from "./LoginButton";
 import WelcomeUser from "./WelcomeUser";
 
@@ -29,6 +28,7 @@ function Header() {
     const [regUser, setRegUser] = useState({email: "", password: ""});
     const [confirmPassword, setConfirmPassword] = useState("");
     const [confirmPasswordError, setConfirmPasswordError] = useState("");
+    const [emailError, setEmailError] = useState("");
 
     // User array state
     const testUser = {
@@ -122,6 +122,15 @@ function Header() {
         });
     }
 
+    function validateEmail() {
+        // const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(regUser.email).toLowerCase());
+        // if (!email.toLowerCase().includes("@")) {
+        //     console.log("Invalid email.");
+        // }
+    }
+
     return (
         <div className="header-flexbox">
             <LoginForm
@@ -156,6 +165,9 @@ function Header() {
                 setConfirmPassword={setConfirmPassword}
                 confirmPasswordError={confirmPasswordError}
                 setConfirmPasswordError={setConfirmPasswordError}
+                emailError={emailError}
+                setEmailError={setEmailError}
+                validateEmail={validateEmail}
             />
             <div className="top-line-flexbox">
                 <div className="title-and-logo-flexbox">

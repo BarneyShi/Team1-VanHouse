@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import RegistrationForm from "./RegistrationForm"
 import "../styles/login.css"
 import usePasswordValidator from "./usePasswordValidator";
-import validateEmail from "./utils";
 
 function LoginForm({
                        setIsRegistrationVisible,
@@ -34,33 +33,18 @@ function LoginForm({
                        setConfirmPassword,
                        confirmPasswordError,
                        setConfirmPasswordError,
+                       emailError,
+                       setEmailError,
+                       validateEmail
                    }) {
 
     // https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30
     // Accessed June 7, 2021
-    const [emailError, setEmailError] = useState("");
-
     const setVisibilities = () => {
         setIsRegistrationVisible(!isRegistrationVisible);
         setIsLoginVisible(!isLoginVisible);
         setIsRegisterButtonVisible(!isRegisterButtonVisible);
     }
-
-    useEffect(
-        () => {
-            if (!email) {
-                setEmailError("");
-            }
-            // else if (validateEmail(email)) {
-            //     setEmailError("");
-            // } else {
-            //     setEmailError("Please enter a valid email.");
-            // }
-        },
-        [email]
-    );
-
-    // end of copied code
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -113,7 +97,6 @@ function LoginForm({
             <div className="register-button-and-form">
                 {isRegisterButtonVisible &&
                 <Button
-                    // className="register-button"
                     variant="success"
                     onClick={(e) => setVisibilities()}>
                     Register for a new account
@@ -123,6 +106,7 @@ function LoginForm({
                 {isRegistrationVisible &&
                 <RegistrationForm
                     emailError={emailError}
+                    setEmailError={setEmailError}
                     register={register}
                     regUser={regUser}
                     handleRegChange={handleRegChange}
@@ -132,6 +116,7 @@ function LoginForm({
                     setConfirmPasswordError={setConfirmPasswordError}
                     regPassword={regPassword}
                     handleClose={handleClose}
+                    validateEmail={validateEmail}
                 />
                 }
                 <br/>
@@ -175,7 +160,10 @@ LoginForm.propTypes = {
     setRegPassword: PropTypes.func.isRequired,
     register: PropTypes.func.isRequired,
     regUser: PropTypes.objectOf(PropTypes.object).isRequired,
-    handleRegChange: PropTypes.func.isRequired
+    handleRegChange: PropTypes.func.isRequired,
+    emailError: PropTypes.string.isRequired,
+    setEmailError: PropTypes.func.isRequired,
+    validateEmail: PropTypes.func.isRequired
 };
 
 export default LoginForm
