@@ -43,16 +43,21 @@ function RegistrationForm({
 
 
     // password validation
-    const config = { min: 6, max: 10 }
+    const config = {min: 6, max: 10}
 
     useEffect(
         () => {
             setPasswordError("");
-            if (!regUser.password) return;
+
+            if (!regUser.password) {
+                setPasswordError(`Please choose a password`);
+            }
 
             if (regUser.password.length < config.min) {
                 setPasswordError(`Password must be at least ${config.min} characters.`);
-            } else if (regUser.password.length > config.max) {
+            }
+
+            if (regUser.password.length > config.max) {
                 setPasswordError(
                     `Password must be less than ${config.max} characters.`
                 );

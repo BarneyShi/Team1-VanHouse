@@ -39,12 +39,7 @@ function Header() {
     const [userArr, setUserArr] = useState([testUser]);
 
 
-    // const [password, setPassword, passwordError] = usePasswordValidator({
-    //     min: 8,
-    //     max: 15
-    // });
-
-
+    // Functions
     const handleLoginClicked = () => {
         setIsLoginClicked(true);
     }
@@ -52,6 +47,7 @@ function Header() {
     const handleLogoutClicked = () => {
         setUser({name: "", email: ""});
         setIsLoggedIn(false);
+        setLoginError("");
     }
 
     const handleCloseModal = () => {
@@ -86,7 +82,8 @@ function Header() {
     }
 
     function Register() {
-        if (confirmPasswordError === "") {
+        console.log(regUser);
+        if (confirmPasswordError === "" && passwordError === "" && emailError === "") {
             setUserArr(currArr => [...currArr, regUser]);
             setRegUser({regEmail: "", regPassword: ""});
             setIsRegistrationVisible(!isRegistrationVisible);
@@ -94,12 +91,13 @@ function Header() {
             setIsLoginVisible(!isLoginVisible);
             setIsLoginClicked(!isLoginClicked);
             setConfirmPassword("");
+            setLoginError("");
             console.log(regUser);
             console.log(userArr);
             console.log("registered");
             window.alert("Successfully registered! Please login to continue.");
         } else {
-            window.confirm("Please confirm that your passwords match.");
+            window.confirm("Please re-check your registration information.");
         }
 
     }
@@ -124,12 +122,8 @@ function Header() {
     }
 
     function validateEmail() {
-        // const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(String(regUser.email).toLowerCase());
-        // if (!email.toLowerCase().includes("@")) {
-        //     console.log("Invalid email.");
-        // }
     }
 
     return (
