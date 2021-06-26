@@ -18,7 +18,7 @@ function SearchBar(props){
     return(
         <div className="style">
             <InputGroup className="mb-3">
-                <FormControl placeholder="Input keyword"/>
+                <FormControl className="searchInput" placeholder="Input keyword"/>
                 <InputGroup.Append>
                   
                     <select onChange={(e)=>handleSelect(e)}>

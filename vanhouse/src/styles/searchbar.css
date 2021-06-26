@@ -22,6 +22,10 @@
   height: 2.5rem;
 }
 
+.searchInput {
+  border-right: 1px solid #7b7b7b;
+}
+
 .imgstyle{
   height: 20px;
   display: flex;

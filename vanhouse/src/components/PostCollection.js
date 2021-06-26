@@ -150,7 +150,7 @@ function PostCollection({setSearchFilter}) {
   );
 }
 
-Post.propTypes = {
+PostCollection.propTypes = {
   setSearchFilter: PropTypes.func.isRequired,
 };
 
