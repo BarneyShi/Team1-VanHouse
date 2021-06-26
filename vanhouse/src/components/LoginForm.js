@@ -15,8 +15,6 @@ function LoginForm({
                        show,
                        handleClose,
                        loginError,
-                       name,
-                       setName,
                        email,
                        setEmail,
                        setPassword,
@@ -35,7 +33,12 @@ function LoginForm({
                        setConfirmPasswordError,
                        emailError,
                        setEmailError,
-                       validateEmail
+                       validateEmail,
+                       validatePassword,
+                       passwordFocused,
+                       setPasswordFocused,
+                       passwordValidity,
+                       setPasswordValidity
                    }) {
 
     // https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30
@@ -112,6 +115,11 @@ function LoginForm({
                     validateEmail={validateEmail}
                     passwordError={passwordError}
                     setPasswordError={setPasswordError}
+                    validatePassword={validatePassword}
+                    passwordFocused={passwordFocused}
+                    setPasswordFocused={setPasswordFocused}
+                    passwordValidity={passwordValidity}
+                    setPasswordValidity={setPasswordValidity}
                 />
                 }
                 <br/>
@@ -137,8 +145,6 @@ LoginForm.propTypes = {
     show: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
     loginError: PropTypes.string,
-    name: PropTypes.string.isRequired,
-    setName: PropTypes.func.isRequired,
     email: PropTypes.string.isRequired,
     setEmail: PropTypes.func.isRequired,
     // password: PropTypes.string.isRequired,
@@ -159,7 +165,12 @@ LoginForm.propTypes = {
     handleRegChange: PropTypes.func.isRequired,
     emailError: PropTypes.string.isRequired,
     setEmailError: PropTypes.func.isRequired,
-    validateEmail: PropTypes.func.isRequired
+    validateEmail: PropTypes.func.isRequired,
+    validatePassword: PropTypes.func.isRequired,
+    passwordFocused: PropTypes.bool.isRequired,
+    setPasswordFocused: PropTypes.func.isRequired,
+    passwordValidity: PropTypes.bool.isRequired,
+    setPasswordValidity: PropTypes.func.isRequired
 };
 
 export default LoginForm

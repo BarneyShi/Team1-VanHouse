@@ -18,7 +18,7 @@ function Header() {
     // const [name, setName] = useState("");
     const [email, setEmail] = useState("");
 
-    const [user, setUser] = useState({firstName: "", email: ""});
+    const [user, setUser] = useState({firstName: "", surname: "", email: "", password: ""});
     const [loginError, setLoginError] = useState("");
 
     // Registration Form states
@@ -32,6 +32,15 @@ function Header() {
     const [emailError, setEmailError] = useState("");
     const [password, setPassword] = useState("");
     const [passwordError, setPasswordError] = useState("");
+
+    const isNumberRegx = /\d/;
+    const specialCharacterRegx = /[ !@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/;
+    const [passwordFocused, setPasswordFocused] = useState(false);
+    const [passwordValidity, setPasswordValidity] = useState({
+        minChar: false,
+        number: false,
+        specialChar: false
+    });
 
     // User array state
     const testUser = {
@@ -49,7 +58,8 @@ function Header() {
     }
 
     const handleLogoutClicked = () => {
-        setUser({firstName: "", email: ""});
+        console.log(user);
+        setUser({firstName: "", surname: "", email: "", password: ""});
         setIsLoggedIn(false);
         setLoginError("");
     }
@@ -66,6 +76,12 @@ function Header() {
         setRegUser("");
         setEmail("");
         setPassword("");
+        setPasswordFocused(false);
+        setPasswordValidity({
+            minChar: false,
+            number: false,
+            specialChar: false
+        })
     }
 
     function Login() {
@@ -82,9 +98,15 @@ function Header() {
         });
     }
 
+    // Functions for registering a user
     function Register() {
         console.log(regUser);
-        if (confirmPasswordError === "" && passwordError === "" && emailError === "") {
+        if (confirmPasswordError === ""
+            && passwordError === ""
+            && emailError === ""
+            && passwordValidity.minChar === true
+            && passwordValidity.number === true
+            && passwordValidity.specialChar === true) {
             setUserArr(currArr => [...currArr, regUser]);
             setRegUser({firstName: "", surname: "", regEmail: "", regPassword: ""});
             setIsRegistrationVisible(!isRegistrationVisible);
@@ -104,6 +126,18 @@ function Header() {
     }
 
     function handleRegChange(e) {
+        if (regUser.password === null) {
+            window.alert("Please try again.");
+            return;
+        }
+
+        setPasswordValidity({
+            minChar: regUser.password.length >= 6,
+            number: isNumberRegx.test(regUser.password),
+            specialChar: specialCharacterRegx.test(regUser.password)
+        });
+
+
         const {value, id} = e.target;
         setRegUser(prevValue => {
             if (id === "firstName") {
@@ -147,6 +181,12 @@ function Header() {
         return re.test(String(regUser.email).toLowerCase());
     }
 
+    function validatePassword() {
+        console.log(regUser.password);
+        const re = /^(.{0,7}|[^0-9]*|[^A-Z]*|[^a-z]*|[a-zA-Z0-9]*)$/;
+        return re.test(String(regUser.password));
+    }
+
     return (
         <div className="header-flexbox">
             <LoginForm
@@ -187,6 +227,11 @@ function Header() {
                 emailError={emailError}
                 setEmailError={setEmailError}
                 validateEmail={validateEmail}
+                validatePassword={validatePassword}
+                passwordFocused={passwordFocused}
+                setPasswordFocused={setPasswordFocused}
+                passwordValidity={passwordValidity}
+                setPasswordValidity={setPasswordValidity}
             />
             <div className="top-line-flexbox">
                 <div className="title-and-logo-flexbox">

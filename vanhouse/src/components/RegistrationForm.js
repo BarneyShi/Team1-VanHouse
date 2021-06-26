@@ -1,10 +1,11 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import PropTypes from "prop-types";
 import {Button, Form} from "react-bootstrap";
 
 import {propTypes} from "react-bootstrap/esm/Image";
 
 import "../styles/login.css"
+import PasswordStrengthIndicator from "./PasswordStrengthIndicator";
 
 function RegistrationForm({
                               emailError,
@@ -18,10 +19,16 @@ function RegistrationForm({
                               regUser,
                               handleRegChange,
                               validateEmail,
+                              validatePassword,
                               passwordError,
                               setPasswordError,
-                              regPassword
+                              regPassword,
+                              passwordFocused,
+                              setPasswordFocused,
+                              passwordValidity,
+                              setPasswordValidity
                           }) {
+
 
     // https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30
     // Accessed June 7, 2021 for usePasswordValidator and utils.js
@@ -41,29 +48,47 @@ function RegistrationForm({
     );
 
 
-    // password validation
-    const config = {min: 6, max: 10}
+    // // password validation
+    // const config = {min: 6, max: 10}
+    //
+    // useEffect(
+    //     () => {
+    //         setPasswordError("");
+    //
+    //         if (!regUser.password) {
+    //             setPasswordError(`Please choose a password`);
+    //         }
+    //
+    //         if (!validatePassword(regUser.password)) {
+    //             setPasswordError("Password must include a number, an uppercase letter, a lowercase letter, and a special character.");
+    //         }
+    //
+    //         if (regUser.password.length < config.min) {
+    //             setPasswordError(`Password must be at least ${config.min} characters.`);
+    //         }
+    //
+    //         if (regUser.password.length > config.max) {
+    //             setPasswordError(
+    //                 `Password must be less than ${config.max} characters.`
+    //             );
+    //         }
+    //     },
+    //     [regUser.password]
+    // );
 
-    useEffect(
-        () => {
-            setPasswordError("");
-
-            if (!regUser.password) {
-                setPasswordError(`Please choose a password`);
-            }
-
-            if (regUser.password.length < config.min) {
-                setPasswordError(`Password must be at least ${config.min} characters.`);
-            }
-
-            if (regUser.password.length > config.max) {
-                setPasswordError(
-                    `Password must be less than ${config.max} characters.`
-                );
-            }
-        },
-        [regUser.password]
-    );
+    // const isNumberRegx = /\d/;
+    // const specialCharacterRegx = /[ !@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/;
+    // useEffect(
+    //     () => {
+    //         if (regUser.password !== null) {
+    //             setPasswordValidity({
+    //                 minChar: regUser.password.length >= 6,
+    //                 number: isNumberRegx.test(regUser.password),
+    //                 specialChar: specialCharacterRegx.test(regUser.password)
+    //             });
+    //         }
+    //     }
+    // )
 
     // confirm password validation
     useEffect(
@@ -125,8 +150,14 @@ function RegistrationForm({
                     placeholder="Password"
                     onChange={handleRegChange}
                     value={regUser.password}
+                    onFocus={() => setPasswordFocused(true)}
                 />
-                <div className="error">{passwordError}</div>
+
+                {passwordFocused &&
+                <PasswordStrengthIndicator
+                    passwordValidity={passwordValidity}
+                />
+                }
             </div>
 
             <div className="form-group">
@@ -156,23 +187,30 @@ function RegistrationForm({
     )
 }
 
-RegistrationForm.defaultProps = {};
+RegistrationForm.defaultProps =
+    {};
 
-RegistrationForm.propTypes = {
-    emailError: PropTypes.string.isRequired,
-    setEmailError: PropTypes.func.isRequired,
-    confirmPassword: PropTypes.string.isRequired,
-    setConfirmPassword: PropTypes.func.isRequired,
-    confirmPasswordError: PropTypes.string.isRequired,
-    setConfirmPasswordError: PropTypes.func.isRequired,
-    regPassword: PropTypes.string.isRequired,
-    handleClose: PropTypes.func.isRequired,
-    register: PropTypes.func.isRequired,
-    regUser: PropTypes.objectOf(PropTypes.object).isRequired,
-    handleRegChange: PropTypes.func.isRequired,
-    validateEmail: PropTypes.func.isRequired,
-    passwordError: PropTypes.string.isRequired,
-    setPasswordError: PropTypes.func.isRequired
-};
+RegistrationForm.propTypes =
+    {
+        emailError: PropTypes.string.isRequired,
+        setEmailError: PropTypes.func.isRequired,
+        confirmPassword: PropTypes.string.isRequired,
+        setConfirmPassword: PropTypes.func.isRequired,
+        confirmPasswordError: PropTypes.string.isRequired,
+        setConfirmPasswordError: PropTypes.func.isRequired,
+        regPassword: PropTypes.string.isRequired,
+        handleClose: PropTypes.func.isRequired,
+        register: PropTypes.func.isRequired,
+        regUser: PropTypes.objectOf(PropTypes.object).isRequired,
+        handleRegChange: PropTypes.func.isRequired,
+        validateEmail: PropTypes.func.isRequired,
+        passwordError: PropTypes.string.isRequired,
+        setPasswordError: PropTypes.func.isRequired,
+        validatePassword: PropTypes.func.isRequired,
+        passwordFocused: PropTypes.bool.isRequired,
+        setPasswordFocused: PropTypes.func.isRequired,
+        passwordValidity: PropTypes.bool.isRequired,
+        setPasswordValidity: PropTypes.func.isRequired
+    };
 
 export default RegistrationForm
