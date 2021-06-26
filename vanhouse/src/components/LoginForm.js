@@ -48,7 +48,7 @@ function LoginForm({
 
     const handleSubmit = e => {
         e.preventDefault();
-        submit(name, email);
+        submit(email);
     }
 
     return (
@@ -60,13 +60,6 @@ function LoginForm({
                 </Modal.Header>
                 <Modal.Body>
                     {(loginError !== "") ? (<div className="login-error">{loginError}</div>) : ""}
-                    <Form.Group controlId="formName">
-                        <Form.Label>Name</Form.Label>
-                        <Form.Control required type="name" placeholder="Enter name" onChange={(e) => {
-                            setName(e.target.value)
-                        }}/>
-                    </Form.Group>
-
                     <Form.Group controlId="formEmail">
                         <Form.Label>Email address</Form.Label>
                         <Form.Control required type="email" placeholder="Enter email" onChange={(e) => {

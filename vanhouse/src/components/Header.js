@@ -15,16 +15,18 @@ function Header() {
     // Login Form states
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    const [name, setName] = useState("");
+    // const [name, setName] = useState("");
     const [email, setEmail] = useState("");
 
-    const [user, setUser] = useState({name: "", email: ""});
+    const [user, setUser] = useState({firstName: "", email: ""});
     const [loginError, setLoginError] = useState("");
 
     // Registration Form states
+    const [firstName, setFirstName] = useState("");
+    const [surname, setSurname] = useState("");
     const [regEmail, setRegEmail] = useState("");
     const [regPassword, setRegPassword] = useState("");
-    const [regUser, setRegUser] = useState({email: "", password: ""});
+    const [regUser, setRegUser] = useState({firstName: "", surname: "", email: "", password: ""});
     const [confirmPassword, setConfirmPassword] = useState("");
     const [confirmPasswordError, setConfirmPasswordError] = useState("");
     const [emailError, setEmailError] = useState("");
@@ -33,6 +35,8 @@ function Header() {
 
     // User array state
     const testUser = {
+        firstName: "Test",
+        surname: "User",
         email: "test@test.com",
         password: "test123"
     }
@@ -45,7 +49,7 @@ function Header() {
     }
 
     const handleLogoutClicked = () => {
-        setUser({name: "", email: ""});
+        setUser({firstName: "", email: ""});
         setIsLoggedIn(false);
         setLoginError("");
     }
@@ -66,17 +70,14 @@ function Header() {
 
     function Login() {
         userArr.forEach(i => {
-            console.log("here");
-            console.log(i);
             if (email === i.email && password === i.password) {
-                setUser({name, email});
+                setUser(i);
                 setIsLoggedIn(true);
                 setIsLoginClicked(false);
+                console.log("curr user");
                 console.log(user);
-                console.log(isLoggedIn);
             } else {
                 setLoginError("Invalid email or password");
-                console.log(loginError);
             }
         });
     }
@@ -85,7 +86,7 @@ function Header() {
         console.log(regUser);
         if (confirmPasswordError === "" && passwordError === "" && emailError === "") {
             setUserArr(currArr => [...currArr, regUser]);
-            setRegUser({regEmail: "", regPassword: ""});
+            setRegUser({firstName: "", surname: "", regEmail: "", regPassword: ""});
             setIsRegistrationVisible(!isRegistrationVisible);
             setIsRegisterButtonVisible(!isRegisterButtonVisible);
             setIsLoginVisible(!isLoginVisible);
@@ -105,14 +106,34 @@ function Header() {
     function handleRegChange(e) {
         const {value, id} = e.target;
         setRegUser(prevValue => {
+            if (id === "firstName") {
+                return {
+                    firstName: value,
+                    surname: prevValue.surname,
+                    email: prevValue.email,
+                    password: prevValue.password
+                };
+            }
+            if (id === "surname") {
+                return {
+                    firstName: prevValue.firstName,
+                    surname: value,
+                    email: prevValue.email,
+                    password: prevValue.password
+                };
+            }
             if (id === "regEmail") {
                 return {
+                    firstName: prevValue.firstName,
+                    surname: prevValue.surname,
                     email: value,
                     password: prevValue.password
                 };
             }
             if (id === "regPassword") {
                 return {
+                    firstName: prevValue.firstName,
+                    surname: prevValue.surname,
                     email: prevValue.email,
                     password: value
                 };
@@ -138,8 +159,10 @@ function Header() {
                 setIsRegistrationVisible={setIsRegistrationVisible}
                 isRegisterButtonVisible={isRegisterButtonVisible}
                 setIsRegisterButtonVisible={setIsRegisterButtonVisible}
-                name={name}
-                setName={setName}
+                firstName={firstName}
+                setFirstName={setFirstName}
+                surname={surname}
+                setSurname={setSurname}
                 email={email}
                 setEmail={setEmail}
                 password={password}

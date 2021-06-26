@@ -85,6 +85,28 @@ function RegistrationForm({
 
             <div className="form-group">
                 <input
+                    type="text"
+                    name="firstName"
+                    id="firstName"
+                    placeholder="Enter first name"
+                    onChange={handleRegChange}
+                    value={regUser.firstName}
+                />
+            </div>
+
+            <div className="form-group">
+                <input
+                    type="text"
+                    name="surname"
+                    id="surname"
+                    placeholder="Enter last name"
+                    onChange={handleRegChange}
+                    value={regUser.surname}
+                />
+            </div>
+
+            <div className="form-group">
+                <input
                     type="email"
                     name="regEmail"
                     id="regEmail"

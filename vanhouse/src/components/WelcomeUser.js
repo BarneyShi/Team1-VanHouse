@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {Dropdown} from "react-bootstrap";
 import PropTypes from "prop-types";
 import "../styles/login.css"
@@ -14,7 +14,7 @@ function WelcomeUser({
             {isLoggedIn &&
             <div className="dropdown-stuff">
                 <Dropdown.Toggle className="dropdown-toggle-button" variant="outline-success">
-                    <span className="welcome-text">Hi, {user.name}!</span>
+                    <span className="welcome-text">Hi, {user.firstName}!</span>
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
                     <Dropdown.Item onClick={handleLogoutClicked}>Logout</Dropdown.Item>
