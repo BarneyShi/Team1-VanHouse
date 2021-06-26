@@ -1,39 +1,43 @@
-import React from 'react'
-import {InputGroup, Button, FormControl} from 'react-bootstrap';
+import { getDefaultNormalizer } from '@testing-library/react';
+import { Dropdown ,MenuItem,Input} from 'bootstrap';
+import React,{useState}from 'react'
+import PropTypes from 'prop-types'
+import {InputGroup, Button, FormControl, DropdownButton,ButtonToolbar} from 'react-bootstrap';
 import search from '../assets/search.png';
+import '../styles/searchbar.css';
 
-function SearchBar(){
-    const style = {
-        display: 'flex',
-        justifyContent: 'center',
-        flexDirection: 'row',
-        textAlign: 'center',
-        flexBasis: '85%',
-        height: '2.5rem'
+function SearchBar(props){
+    const [leftState,setLeftState] = useState(0);
+    const [Click,setClick] = useState(props)
+
+    const handleSelect = (e) => {
+      setLeftState(Number(e.target.value));
     }
-    const imgstyle = {
-          height: '20px',
-          weight: '15px',
-          display: 'flex',
-          justifyContent: 'center',
-          flexDirection: 'row',
-          textAlign: 'center',
-
-
-    }
-
+    console.log("click:");
+    console.log(Click.getData);
     return(
-        <div style={style}>
+        <div className="style">
             <InputGroup className="mb-3">
                 <FormControl placeholder="Input keyword"/>
                 <InputGroup.Append>
-                    <Button variant="outline-secondary">
-                        <img src={search} alt="Search" style={imgstyle}/>
+                  
+                    <select onChange={(e)=>handleSelect(e)}>
+                      <option value="1">All categories</option>
+                      <option value="2">Price</option>
+                      <option value="3">Location</option>
+                    </select>
+                    <Button variant="outline-secondary" onClick={Click.getData(leftState)}>
+                        <img src={search} alt="Search" className="imgstyle"/>
                     </Button>
                 </InputGroup.Append>
             </InputGroup>
+
+
+            
         </div>
     )
 }
+
+
 
 export default SearchBar;
