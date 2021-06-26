@@ -4,13 +4,14 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
+import PropTypes from "prop-types";
 import Post from "./Post";
 import NewPost from "./NewPost";
 import SearchBar from "./SearchBar";
 import "../styles/Post.css";
 
 
-function PostCollection() {
+function PostCollection({setSearchFilter}) {
   // Note: Temporarily adding in placeholder post JSON objects
   // The objects currently only contain info used in the main page post display, not the detail view.
   const [posts, setPosts] = useState([
@@ -127,7 +128,7 @@ function PostCollection() {
   return (
     <div className="post_collection_div">
       <div id="post_collection_tools_div">
-        <SearchBar />
+        <SearchBar getData={(i) => setSearchFilter(i)}/>
         <Button
           id="createPostBtn"
           variant="primary"
@@ -148,5 +149,9 @@ function PostCollection() {
     </div>
   );
 }
+
+PostCollection.propTypes = {
+  setSearchFilter: PropTypes.func.isRequired,
+};
 
 export default PostCollection;
