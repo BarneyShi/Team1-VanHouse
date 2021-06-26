@@ -18,6 +18,13 @@ module.exports = {
   plugins: [
     'prettier',
   ],
+  settings: {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
   rules: {
     // CITATION: https://stackoverflow.com/a/43031230
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],

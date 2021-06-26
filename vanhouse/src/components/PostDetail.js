@@ -20,12 +20,17 @@ import upVote from "../assets/thumbup-voted.svg";
 
 export default function PostDetail() {  
   const [postInfo, setPostInfo] = useState({ address: "1961 East Mall",
-                                             price: 1000,
                                              email: "",
+                                             price: 1000,
+                                             paymentPeriod: "monthly",
+                                             bedrooms: 1,
+                                             bathrooms: 1,
+                                             sqft: 500,
                                              leaseLength: "No lease",
                                              pets: "No Pets",
                                              utilities: "Utilities not included",
                                              laundry: "No laundry",
+                                             furnished: "Unfurnished",
                                              mainImage: "https://customhomesottawa.ca/wp-content/uploads/2016/05/placeholder-house1.jpg",
                                              schedule: [] });
   
@@ -37,11 +42,17 @@ export default function PostDetail() {
     if (postObj) {
       const postToStore = {};
       postToStore.address = postObj.address ? postObj.address : postInfo.address;
-      postToStore.price = postObj.price ? postObj.price : 1000;
       postToStore.email = postObj.email ? postObj.email : "";
+      postToStore.price = postObj.price ? postObj.price : 1000;
+      postToStore.paymentPeriod = postObj.paymentPeriod ? postObj.paymentPeriod.toLowerCase() : postInfo.paymentPeriod;
+      postToStore.bedrooms = postObj.bedrooms ? postObj.bedrooms : 1;
+      postToStore.bathrooms = postObj.bathrooms ? postObj.bathrooms : 1;
+      postToStore.sqft = postObj.sqft ? postObj.sqft : 500;
       postToStore.leaseLength = postObj.leaseLength ? postObj.leaseLength : "No Lease";
       postToStore.pets = postObj.pets ? "Pets allowed" : "No Pets";
       postToStore.utilities = postObj.utilities ? "Utilities included" : "Utilities not included";
+      postToStore.laundry = postObj.laundry ? "Ensuite Laundry" : "No ensuite laundry";
+      postToStore.laundry = postObj.furnished ? "Furnished" : "Unfurnished";
       postToStore.mainImage = (postObj.imageURLs && postObj.imageURLs[0]) ? postObj.imageURLs[0] : "https://customhomesottawa.ca/wp-content/uploads/2016/05/placeholder-house1.jpg";
       postToStore.schedule = postObj.schedule ? postObj.schedule : [];
       setPostInfo(postToStore);
@@ -181,12 +192,13 @@ export default function PostDetail() {
               <ListGroupItem>
                 Address: {postInfo.address}
               </ListGroupItem>
-              <ListGroupItem>Price: {postInfo.price}</ListGroupItem>
-              <ListGroupItem>Email: {postInfo.email}</ListGroupItem>
+              <ListGroupItem>Price: ${postInfo.price} {postInfo.paymentPeriod}</ListGroupItem>
+              {postInfo.email !== "" && <ListGroupItem>Email: {postInfo.email}</ListGroupItem>}
               <ListGroupItem>Lease Length: {postInfo.leaseLength}</ListGroupItem>
               <ListGroupItem>{postInfo.pets}</ListGroupItem>
               <ListGroupItem>{postInfo.utilities}</ListGroupItem>
               <ListGroupItem>{postInfo.laundry}</ListGroupItem>
+              <ListGroupItem>{postInfo.furnished}</ListGroupItem>
             </ListGroup>
           </Col>
 
@@ -223,7 +235,7 @@ export default function PostDetail() {
                 <textarea
                   ref={commentRef}
                   name="newComment"
-                  placeholder="Give us comment!"
+                  placeholder="Leave a comment!"
                 ></textarea>
                 <Button type="submit">Submit</Button>
               </form>
