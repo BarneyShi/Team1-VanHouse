@@ -1,9 +1,7 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import "../styles/header.css";
 import LoginForm from "./LoginForm";
 import SearchBar from "./SearchBar";
-import usePasswordValidator from "./usePasswordValidator";
-import validateEmail from "./utils";
 import LoginButton from "./LoginButton";
 import WelcomeUser from "./WelcomeUser";
 
@@ -17,38 +15,43 @@ function Header() {
     // Login Form states
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    const [name, setName] = useState("");
+    // const [name, setName] = useState("");
     const [email, setEmail] = useState("");
 
-    const [user, setUser] = useState({name: "", email: ""});
+    const [user, setUser] = useState({firstName: "", email: ""});
     const [loginError, setLoginError] = useState("");
 
     // Registration Form states
+    const [firstName, setFirstName] = useState("");
+    const [surname, setSurname] = useState("");
     const [regEmail, setRegEmail] = useState("");
     const [regPassword, setRegPassword] = useState("");
-    const [regUser, setRegUser] = useState({email: "", password: ""});
+    const [regUser, setRegUser] = useState({firstName: "", surname: "", email: "", password: ""});
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [confirmPasswordError, setConfirmPasswordError] = useState("");
+    const [emailError, setEmailError] = useState("");
+    const [password, setPassword] = useState("");
+    const [passwordError, setPasswordError] = useState("");
 
     // User array state
     const testUser = {
+        firstName: "Test",
+        surname: "User",
         email: "test@test.com",
         password: "test123"
     }
     const [userArr, setUserArr] = useState([testUser]);
 
 
-    const [password, setPassword, passwordError] = usePasswordValidator({
-        min: 8,
-        max: 15
-    });
-
-
+    // Functions
     const handleLoginClicked = () => {
         setIsLoginClicked(true);
     }
 
     const handleLogoutClicked = () => {
-        setUser({name: "", email: ""});
+        setUser({firstName: "", email: ""});
         setIsLoggedIn(false);
+        setLoginError("");
     }
 
     const handleCloseModal = () => {
@@ -57,68 +60,91 @@ function Header() {
         setIsRegistrationVisible(false);
         setIsRegisterButtonVisible(true);
         setLoginError("");
+        setConfirmPassword("");
+        setRegPassword("");
+        setRegEmail("");
+        setRegUser("");
+        setEmail("");
+        setPassword("");
     }
 
     function Login() {
-        // if (email === testUser.email && password === testUser.password) {
         userArr.forEach(i => {
-            console.log("here");
-            console.log(i);
             if (email === i.email && password === i.password) {
-                setUser({name, email});
+                setUser(i);
                 setIsLoggedIn(true);
                 setIsLoginClicked(false);
+                console.log("curr user");
                 console.log(user);
-                console.log(isLoggedIn);
             } else {
                 setLoginError("Invalid email or password");
-                console.log(loginError);
             }
         });
-        // for (const i of userArr) {
-        //     if (email === i.email && password === i.password) {
-        //         setUser({loginName, email});
-        //         setIsLoggedIn(true);
-        //         setIsLoginClicked(false);
-        //         console.log(user);
-        //         console.log(isLoggedIn);
-        //     } else {
-        //         setLoginError("Invalid email or password");
-        //         console.log(loginError);
-        //     }
-        // }
     }
 
     function Register() {
-        setUserArr(currArr => [...currArr, regUser]);
-        setRegUser({regEmail: "", regPassword: ""});
-        setIsRegistrationVisible(!isRegistrationVisible);
-        setIsRegisterButtonVisible(!isRegisterButtonVisible);
-        setIsLoginVisible(!isLoginVisible);
-        setIsLoginClicked(!isLoginClicked);
         console.log(regUser);
-        console.log(userArr);
-        console.log("registered");
-        window.alert("Successfully registered!");
+        if (confirmPasswordError === "" && passwordError === "" && emailError === "") {
+            setUserArr(currArr => [...currArr, regUser]);
+            setRegUser({firstName: "", surname: "", regEmail: "", regPassword: ""});
+            setIsRegistrationVisible(!isRegistrationVisible);
+            setIsRegisterButtonVisible(!isRegisterButtonVisible);
+            setIsLoginVisible(!isLoginVisible);
+            setIsLoginClicked(!isLoginClicked);
+            setConfirmPassword("");
+            setLoginError("");
+            console.log(regUser);
+            console.log(userArr);
+            console.log("registered");
+            window.alert("Successfully registered! Please login to continue.");
+        } else {
+            window.confirm("Please re-check your registration information.");
+        }
+
     }
 
     function handleRegChange(e) {
         const {value, id} = e.target;
         setRegUser(prevValue => {
+            if (id === "firstName") {
+                return {
+                    firstName: value,
+                    surname: prevValue.surname,
+                    email: prevValue.email,
+                    password: prevValue.password
+                };
+            }
+            if (id === "surname") {
+                return {
+                    firstName: prevValue.firstName,
+                    surname: value,
+                    email: prevValue.email,
+                    password: prevValue.password
+                };
+            }
             if (id === "regEmail") {
                 return {
+                    firstName: prevValue.firstName,
+                    surname: prevValue.surname,
                     email: value,
                     password: prevValue.password
                 };
             }
             if (id === "regPassword") {
                 return {
+                    firstName: prevValue.firstName,
+                    surname: prevValue.surname,
                     email: prevValue.email,
                     password: value
                 };
             }
             return regUser;
         });
+    }
+
+    function validateEmail() {
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(regUser.email).toLowerCase());
     }
 
     return (
@@ -133,13 +159,16 @@ function Header() {
                 setIsRegistrationVisible={setIsRegistrationVisible}
                 isRegisterButtonVisible={isRegisterButtonVisible}
                 setIsRegisterButtonVisible={setIsRegisterButtonVisible}
-                name={name}
-                setName={setName}
+                firstName={firstName}
+                setFirstName={setFirstName}
+                surname={surname}
+                setSurname={setSurname}
                 email={email}
                 setEmail={setEmail}
                 password={password}
                 setPassword={setPassword}
                 passwordError={passwordError}
+                setPasswordError={setPasswordError}
                 user={user}
                 isLoggedIn={isLoggedIn}
                 setIsLoggedIn={setIsLoggedIn}
@@ -151,6 +180,13 @@ function Header() {
                 register={Register}
                 regUser={regUser}
                 handleRegChange={handleRegChange}
+                confirmPassword={confirmPassword}
+                setConfirmPassword={setConfirmPassword}
+                confirmPasswordError={confirmPasswordError}
+                setConfirmPasswordError={setConfirmPasswordError}
+                emailError={emailError}
+                setEmailError={setEmailError}
+                validateEmail={validateEmail}
             />
             <div className="top-line-flexbox">
                 <div className="title-and-logo-flexbox">
@@ -160,7 +196,7 @@ function Header() {
                         alt="logo"/>
                     <h1 className="App-title">VanHouse</h1>
                 </div>
-                <div className="login-logout-buttons">
+                <div className="login-logout-button">
                     <LoginButton
                         isLoggedIn={isLoggedIn}
                         handleLoginClicked={handleLoginClicked}

@@ -61,10 +61,6 @@
     color: tomato;
 }
 
-.dropdown-toggle-button {
-    background-color: dodgerblue;
-}
-
 .welcome-user-div {
     float: right;
     flex-basis: 10%;
