@@ -6,6 +6,9 @@ var logger = require("morgan");
 var cors = require("cors");
 var mongoose = require("mongoose");
 
+/* ENV Variables */
+require("dotenv").config();
+
 var indexRouter = require("./routes/index");
 
 var app = express();
@@ -41,8 +44,7 @@ app.use(function (err, req, res, next) {
 
 /* Connect to Mongo Atlas */
 /* CITATION: https://dev.to/dalalrohit/how-to-connect-to-mongodb-atlas-using-node-js-k9i */
-const url =
-  "mongodb+srv://m001-student:12345@sandbox.vsrq0.mongodb.net/vanhouse?retryWrites=true&w=majority";
+const url = `mongodb+srv://m001-student:${process.env.MONGO_PASSWORD}@sandbox.vsrq0.mongodb.net/vanhouse?retryWrites=true&w=majority`;
 mongoose
   .connect(url)
   .then(() => {
