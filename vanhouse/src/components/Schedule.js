@@ -3,7 +3,7 @@ import { Modal, Button, ListGroup } from "react-bootstrap";
 import PropTypes from "prop-types";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import "./Schedule.css";
+import "../styles/Schedule.css";
 
 function Schedule({ show, onHide, handleSubmit }) {
   // CITATION: Modal https://react-bootstrap.github.io/components/modal/
@@ -46,7 +46,7 @@ function Schedule({ show, onHide, handleSubmit }) {
     if (selectedDate.includes(result)) return;
     setSelectedDate([
       ...selectedDate,
-      { id: year+month+day, date: `${week} ${day} ${month} ${year}` },
+      { id: year + month + day, date: `${week} ${day} ${month} ${year}` },
     ]);
   };
 
@@ -63,7 +63,7 @@ function Schedule({ show, onHide, handleSubmit }) {
     handleSubmit(selectedDate);
     onHide();
     setSelectedDate([]);
-  }
+  };
 
   return (
     <Modal show={show} onHide={onHide} size="lg" centered>
