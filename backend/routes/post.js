@@ -71,7 +71,6 @@ router.post("/:id/comment", function (req, res, next) {
 /* GET coords */
 router.get("/:id/coords", async function (req, res, next) {
   const { location } = req.query;
-
   try {
     const coords = await getCoords(location);
     res.json(coords);
