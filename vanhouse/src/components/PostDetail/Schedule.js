@@ -3,7 +3,7 @@ import { Modal, Button, ListGroup } from "react-bootstrap";
 import PropTypes from "prop-types";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import "../styles/Schedule.css";
+import "../../styles/Schedule.css";
 
 function Schedule({ show, onHide, handleSubmit }) {
   // CITATION: Modal https://react-bootstrap.github.io/components/modal/

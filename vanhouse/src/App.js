@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
-import PostDetail from "./components/PostDetail";
+import PostDetail from "./components/PostDetail/PostDetail";
 import Header from "./components/Header";
 import UserList from "./components/UserList";
 import Price from './components/Price';
