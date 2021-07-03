@@ -5,7 +5,9 @@ var router = express.Router();
 var PostModel = require("../models/Post");
 var ScheduleModel = require("../models/Schedule");
 var CommentModel = require("../models/Comment");
+
 var getToday = require("../util/util").getToday;
+var getCoords = require("../util/util").getCoordinates;
 
 /* GET post detail */
 router.get("/:id", async function (req, res, next) {
@@ -64,6 +66,17 @@ router.post("/:id/comment", function (req, res, next) {
     );
     res.json({ comment, today, user: "user_0" });
   });
+});
+
+/* GET coords */
+router.get("/:id/coords", async function (req, res, next) {
+  const { location } = req.query;
+  try {
+    const coords = await getCoords(location);
+    res.json(coords);
+  } catch (err) {
+    console.log("Error while fetch coordinates ", err);
+  }
 });
 
 module.exports = router;
