@@ -5,6 +5,7 @@ var router = express.Router();
 var PostModel = require("../models/Post");
 var ScheduleModel = require("../models/Schedule");
 var CommentModel = require("../models/Comment");
+var UserModel = require("../models/User");
 
 var getToday = require("../util/util").getToday;
 var getCoords = require("../util/util").getCoordinates;
@@ -15,7 +16,6 @@ router.get("/:id", async function (req, res, next) {
 
   try {
     const post = await PostModel.findOne({ id });
-
     const { schedule: scheduleID, comment: commentID } = post;
     const schedule = await ScheduleModel.findOne({ id: scheduleID });
     const comment = await CommentModel.findOne({ id: commentID });
@@ -71,11 +71,92 @@ router.post("/:id/comment", function (req, res, next) {
 /* GET coords */
 router.get("/:id/coords", async function (req, res, next) {
   const { location } = req.query;
+
   try {
     const coords = await getCoords(location);
     res.json(coords);
   } catch (err) {
     console.log("Error while fetch coordinates ", err);
+  }
+});
+
+/* PATCH rating */
+router.patch("/:id/vote", async function (req, res, next) {
+  const { id } = req.params;
+  const { method } = req.query;
+
+  try {
+    const user = "user_1";
+    const { upvote, downvote } = await UserModel.findOne({ id: user });
+
+    let result;
+    if (method === "upvote") {
+      let vote = upvote.includes(id) ? -1 : 1;
+      result = await PostModel.findOneAndUpdate(
+        { id },
+        { $inc: { upvote: vote } },
+        { new: true }
+      );
+      console.log("The result is ", result.upvote);
+      // Modify user's vote history arrays
+      if (vote === 1) {
+        await UserModel.findOneAndUpdate(
+          { id: user },
+          { $push: { upvote: id } }
+        );
+      } else {
+        await UserModel.findOneAndUpdate(
+          { id: user },
+          { $pull: { upvote: id } }
+        );
+      }
+      // Substract 1 from downvote if user just upvoted
+      if (downvote.includes(id)) {
+        result = await PostModel.findOneAndUpdate(
+          { id },
+          { $inc: { downvote: -1 } },
+          { new: true }
+        );
+        await UserModel.findOneAndUpdate(
+          { id: user },
+          { $pull: { downvote: id } }
+        );
+      }
+    } else if (method === "downvote") {
+      let vote = downvote.includes(id) ? -1 : 1;
+      result = await PostModel.findOneAndUpdate(
+        { id },
+        { $inc: { downvote: vote } },
+        { new: true }
+      );
+      // Modify user's vote history arrays
+      if (vote === 1) {
+        await UserModel.findOneAndUpdate(
+          { id: user },
+          { $push: { downvote: id } }
+        );
+      } else {
+        await UserModel.findOneAndUpdate(
+          { id: user },
+          { $pull: { downvote: id } }
+        );
+      }
+      if (upvote.includes(id)) {
+        result = await PostModel.findOneAndUpdate(
+          { id },
+          { $inc: { upvote: -1 } },
+          { new: true }
+        );
+        await UserModel.findOneAndUpdate(
+          { id: user },
+          { $pull: { upvote: id } }
+        );
+      }
+    }
+
+    res.json({ upvote: result.upvote, downvote: result.downvote });
+  } catch (err) {
+    console.log("Error while rating ", err);
   }
 });
 
