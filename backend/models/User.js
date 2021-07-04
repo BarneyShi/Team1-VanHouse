@@ -12,6 +12,8 @@ let UserSchema = new mongoose.Schema(
     firstName: String,
     lastName: String,
     password: String,
+    upvote: Array,
+    downvote: Array,
   },
   { collection: "user" }
 );
