@@ -210,6 +210,9 @@ export default function PostDetail() {
   // Report function hooks
   const [displayReport, setDisplayReport] = useState(false);
 
+  // Full info hooks
+  const [showFullInfo, setShowFullInfo] = useState(false);
+
   return (
     <>
       <Container fluid>
@@ -268,13 +271,13 @@ export default function PostDetail() {
               {postInfo.email !== "" && (
                 <ListGroupItem>Email: {postInfo.email}</ListGroupItem>
               )}
-              <ListGroupItem>
-                Lease Length: {postInfo.leaseLength}
-              </ListGroupItem>
               <ListGroupItem>{postInfo.pets}</ListGroupItem>
               <ListGroupItem>{postInfo.utilities}</ListGroupItem>
               <ListGroupItem>{postInfo.laundry}</ListGroupItem>
               <ListGroupItem>{postInfo.furnished}</ListGroupItem>
+              <Button onClick={() => setShowFullInfo(true)} variant="success">
+                View More
+              </Button>
             </ListGroup>
           </Col>
 
@@ -343,6 +346,40 @@ export default function PostDetail() {
             displayReport={displayReport}
             setDisplayReport={setDisplayReport}
           />
+
+          {/* Full info modal */}
+          <Modal
+            show={showFullInfo}
+            onHide={() => setShowFullInfo(false)}
+            centered>
+            <Modal.Header closeButton>
+              <Modal.Title>Full info</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <ListGroup>
+                <ListGroupItem>Address: {postInfo.address}</ListGroupItem>
+                <ListGroupItem>
+                  Price: ${postInfo.price} {postInfo.paymentPeriod}
+                </ListGroupItem>
+                {postInfo.email !== "" && (
+                  <ListGroupItem>Email: {postInfo.email}</ListGroupItem>
+                )}
+                <ListGroupItem>
+                  Lease Length: {postInfo.leaseLength}
+                </ListGroupItem>
+                <ListGroupItem>{postInfo.pets}</ListGroupItem>
+                <ListGroupItem>{postInfo.utilities}</ListGroupItem>
+                <ListGroupItem>{postInfo.laundry}</ListGroupItem>
+                <ListGroupItem>{postInfo.furnished}</ListGroupItem>
+                <ListGroupItem>Bedroom: {postInfo.bedrooms}</ListGroupItem>
+                <ListGroupItem>Bathroom: {postInfo.bathrooms}</ListGroupItem>
+                <ListGroupItem>Square feet: {postInfo.sqft}</ListGroupItem>
+                <ListGroupItem>
+                  Lease length: {postInfo.leaseLength}
+                </ListGroupItem>
+              </ListGroup>
+            </Modal.Body>
+          </Modal>
         </Row>
       </Container>
     </>
