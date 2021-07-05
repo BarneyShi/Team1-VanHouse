@@ -275,7 +275,10 @@ export default function PostDetail() {
               <ListGroupItem>{postInfo.utilities}</ListGroupItem>
               <ListGroupItem>{postInfo.laundry}</ListGroupItem>
               <ListGroupItem>{postInfo.furnished}</ListGroupItem>
-              <Button onClick={() => setShowFullInfo(true)} variant="success">
+              <Button
+                id="viewFullInfoBtn"
+                onClick={() => setShowFullInfo(true)}
+                variant="success">
                 View More
               </Button>
             </ListGroup>

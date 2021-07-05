@@ -93,3 +93,7 @@ img.post-detail-thumbnail {
   text-align: left;
   padding-left: 40px;
 }
+
+#viewFullInfoBtn {
+  margin-right: 0;
+}
