@@ -274,17 +274,25 @@ export default function PostDetail() {
 
           <Col xs={12} md={6}>
             <ListGroup>
-              <ListGroupItem>Address: {postInfo.address}</ListGroupItem>
+              <ListGroupItem>Address: {post.address}</ListGroupItem>
               <ListGroupItem>
-                Price: ${postInfo.price} {postInfo.paymentPeriod}
+                Price: ${post.price} {post.paymentPeriod}
               </ListGroupItem>
-              {postInfo.email !== "" && (
-                <ListGroupItem>Email: {postInfo.email}</ListGroupItem>
+              {post.email !== "" && (
+                <ListGroupItem>Email: {post.email}</ListGroupItem>
               )}
-              <ListGroupItem>{postInfo.pets}</ListGroupItem>
-              <ListGroupItem>{postInfo.utilities}</ListGroupItem>
-              <ListGroupItem>{postInfo.laundry}</ListGroupItem>
-              <ListGroupItem>{postInfo.furnished}</ListGroupItem>
+              <ListGroupItem>
+                {post.pets ? "Pets friendly" : "No pets"}
+              </ListGroupItem>
+              <ListGroupItem>
+                {post.utilities ? "Utility included" : "Utility not included"}
+              </ListGroupItem>
+              <ListGroupItem>
+                {post.laundry ? "No in-suite laundry" : "In-suite laundry"}
+              </ListGroupItem>
+              <ListGroupItem>
+                {post.furnished ? "Furnished" : "Not furnished"}
+              </ListGroupItem>
               <Button
                 id="viewFullInfoBtn"
                 onClick={() => setShowFullInfo(true)}
@@ -370,26 +378,30 @@ export default function PostDetail() {
             </Modal.Header>
             <Modal.Body>
               <ListGroup>
-                <ListGroupItem>Address: {postInfo.address}</ListGroupItem>
+                <ListGroupItem>Address: {post.address}</ListGroupItem>
                 <ListGroupItem>
-                  Price: ${postInfo.price} {postInfo.paymentPeriod}
+                  Price: ${post.price} {post.paymentPeriod}
                 </ListGroupItem>
-                {postInfo.email !== "" && (
-                  <ListGroupItem>Email: {postInfo.email}</ListGroupItem>
+                {post.email !== "" && (
+                  <ListGroupItem>Email: {post.email}</ListGroupItem>
                 )}
+                <ListGroupItem>Lease Length: {post.leaseLength}</ListGroupItem>
                 <ListGroupItem>
-                  Lease Length: {postInfo.leaseLength}
+                  {post.pets ? "Pets friendly" : "No pets"}
                 </ListGroupItem>
-                <ListGroupItem>{postInfo.pets}</ListGroupItem>
-                <ListGroupItem>{postInfo.utilities}</ListGroupItem>
-                <ListGroupItem>{postInfo.laundry}</ListGroupItem>
-                <ListGroupItem>{postInfo.furnished}</ListGroupItem>
-                <ListGroupItem>Bedroom: {postInfo.bedrooms}</ListGroupItem>
-                <ListGroupItem>Bathroom: {postInfo.bathrooms}</ListGroupItem>
-                <ListGroupItem>Square feet: {postInfo.sqft}</ListGroupItem>
                 <ListGroupItem>
-                  Lease length: {postInfo.leaseLength}
+                  {post.utilities ? "Utility included" : "Utility not included"}
                 </ListGroupItem>
+                <ListGroupItem>
+                  {post.laundry ? "No in-suite laundry" : "In-suite laundry"}
+                </ListGroupItem>
+                <ListGroupItem>
+                  {post.furnished ? "Furnished" : "Not furnished"}
+                </ListGroupItem>
+                <ListGroupItem>Bedroom: {post.bedrooms}</ListGroupItem>
+                <ListGroupItem>Bathroom: {post.bathrooms}</ListGroupItem>
+                <ListGroupItem>Square feet: {post.sqft}</ListGroupItem>
+                <ListGroupItem>Lease length: {post.leaseLength}</ListGroupItem>
               </ListGroup>
             </Modal.Body>
           </Modal>
@@ -397,7 +409,7 @@ export default function PostDetail() {
           <EditPost
             show={displayEditModal}
             setDisplay={setDisplayEditModal}
-            post={postInfo}
+            post={post}
           />
         </Row>
       </Container>
