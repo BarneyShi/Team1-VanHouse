@@ -143,7 +143,7 @@ function NewPost({ showModalForm, submit, handleClose }) {
 
   return (
     <div>
-      <Modal show={showModalForm} onHide={handleClose} animation={false}>
+      <Modal show={showModalForm} onHide={handleClose}>
         <Form onSubmit={handleSubmit}>
           <Modal.Header>
             <Modal.Title>Create a new rental listing</Modal.Title>

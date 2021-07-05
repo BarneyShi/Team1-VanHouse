@@ -13,6 +13,7 @@ import { useParams, useLocation } from "react-router-dom";
 import "../../styles/postdetail.css";
 import ReactMapGL, { Marker } from "react-map-gl";
 import Report from "./Report";
+import EditPost from "./EditPost";
 import userLogo from "../../assets/user.svg";
 // import thumbUp from "../assets/thumb-up.svg";
 import thumbDown from "../../assets/thumb-down.svg";
@@ -213,6 +214,9 @@ export default function PostDetail() {
   // Full info hooks
   const [showFullInfo, setShowFullInfo] = useState(false);
 
+  // Edit post hooks
+  const [displayEditModal, setDisplayEditModal] = useState(false);
+
   return (
     <>
       <Container fluid>
@@ -249,6 +253,12 @@ export default function PostDetail() {
               variant="info"
               onClick={() => setDisplaySchedule(true)}>
               Book a home tour!
+            </Button>
+
+            <Button
+              onClick={() => setDisplayEditModal(true)}
+              id="editPost--btn">
+              Edit Post
             </Button>
 
             <Button
@@ -383,6 +393,12 @@ export default function PostDetail() {
               </ListGroup>
             </Modal.Body>
           </Modal>
+
+          <EditPost
+            show={displayEditModal}
+            setDisplay={setDisplayEditModal}
+            post={postInfo}
+          />
         </Row>
       </Container>
     </>
