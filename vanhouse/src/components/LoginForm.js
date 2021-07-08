@@ -62,17 +62,26 @@ function LoginForm({
                     {(loginError !== "") ? (<div className="login-error">{loginError}</div>) : ""}
                     <Form.Group controlId="formEmail">
                         <Form.Label>Email address</Form.Label>
-                        <Form.Control required type="email" placeholder="Enter email" onChange={(e) => {
+                        <Form.Control
+                            required
+                            type="email"
+                            name="email"
+                            placeholder="Enter email"
+                            onChange={(e) => {
                             setEmail(e.target.value)
                         }}/>
                     </Form.Group>
 
                     <Form.Group controlId="formPassword">
                         <Form.Label>Password</Form.Label>
-                        <Form.Control required type="password" placeholder="Password"
-                                      onChange={(e) => {
-                                          setPassword(e.target.value)
-                                      }}/>
+                        <Form.Control
+                            required
+                            type="password"
+                            name="password"
+                            placeholder="Password"
+                            onChange={(e) => {
+                                setPassword(e.target.value)
+                            }}/>
                     </Form.Group>
 
                 </Modal.Body>

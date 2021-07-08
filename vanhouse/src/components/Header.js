@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import "../styles/header.css";
+import axios from "axios";
 import LoginForm from "./LoginForm";
 import SearchBar from "./SearchBar";
 import LoginButton from "./LoginButton";
@@ -85,7 +86,45 @@ function Header() {
     function Register() {
         console.log(regUser);
         if (confirmPasswordError === "" && passwordError === "" && emailError === "") {
-            setUserArr(currArr => [...currArr, regUser]);
+            // setUserArr(currArr => [...currArr, regUser]);
+            // https://stackoverflow.com/questions/40844297/what-is-difference-between-axios-and-fetch
+            // Accessed Jul 6, 2021
+            const url = "http://localhost:4000/register";
+            const options = {
+                method: "post",
+                mode: "cors",
+                headers: {
+                    "Accept": 'application/json',
+                    "Content-Type": 'application/json;charset=UTF-8'
+                }
+            };
+
+            fetch(url, options)
+                .then((response) => {
+                    // const responseOK = response && response.ok;
+                    if (response.status !== 200) {
+                        console.log("failed");
+                    }
+
+                    response.json().then((data) => {
+                        console.log(data);
+                    });
+                }).catch((err) => {
+                    console.log(err);
+                });
+
+            // axios({
+            //     method: "post",
+            //     url: "http://localhost:4000/register",
+            //     headers: {'Content-Type': 'application/json'},
+            // }).then((response) => {
+            //     if (response.data === "Registered") {
+            //         console.log("Successfully registered new user to MongoDB.");
+            //     }
+            // }).catch((err) => {
+            //     console.log("Could not add to MongoDB.");
+            //     console.log(err.json);
+            // });
             setRegUser({firstName: "", surname: "", regEmail: "", regPassword: ""});
             setIsRegistrationVisible(!isRegistrationVisible);
             setIsRegisterButtonVisible(!isRegisterButtonVisible);

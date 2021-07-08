@@ -50,13 +50,9 @@ function RegistrationForm({
 
             if (!regUser.password) {
                 setPasswordError(`Please choose a password`);
-            }
-
-            if (regUser.password.length < config.min) {
+            } else if (regUser.password.length < config.min) {
                 setPasswordError(`Password must be at least ${config.min} characters.`);
-            }
-
-            if (regUser.password.length > config.max) {
+            } else if (regUser.password.length > config.max) {
                 setPasswordError(
                     `Password must be less than ${config.max} characters.`
                 );
