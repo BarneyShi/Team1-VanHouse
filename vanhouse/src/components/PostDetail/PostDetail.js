@@ -70,7 +70,7 @@ export default function PostDetail() {
 
   // Maps post images to carousel items.
   // Note: It should be okay to use idx as a key because images are static for each post
-  const carouselItems = post.images.map((image, idx) => {
+  const carouselItems = post?.images.map((image, idx) => {
     const keyId = idx + 1;
     return (
       <Carousel.Item key={keyId}>
@@ -93,62 +93,6 @@ export default function PostDetail() {
     zoom: 11,
     mapboxApiAccessToken: mapToken,
   });
-
-  // const listGroupItems = (
-  //   <ListGroup>
-  //     {postInfo.title !== "Untitled" && (
-  //       <ListGroupItem>
-  //         {" "}
-  //         <b>{postInfo.title}</b>{" "}
-  //       </ListGroupItem>
-  //     )}
-  //     {postInfo.address !== "" && (
-  //       <ListGroupItem> {postInfo.address} </ListGroupItem>
-  //     )}
-  //     {postInfo.price !== -1 && (
-  //       <ListGroupItem>
-  //         {" "}
-  //         ${postInfo.price} {postInfo.paymentPeriod}{" "}
-  //       </ListGroupItem>
-  //     )}
-  //     {postInfo.leaseLength !== 0 && (
-  //       <ListGroupItem> {postInfo.leaseLength} month lease </ListGroupItem>
-  //     )}
-  //     {postInfo.sqft !== -1 && (
-  //       <ListGroupItem> {postInfo.sqft} sqft </ListGroupItem>
-  //     )}
-  //     {postInfo.bedrooms !== -1 && (
-  //       <ListGroupItem> Bedrooms: {postInfo.bedrooms} </ListGroupItem>
-  //     )}
-  //     {postInfo.bathrooms !== -1 && (
-  //       <ListGroupItem> Bathrooms: {postInfo.bathrooms} </ListGroupItem>
-  //     )}
-  //     {postInfo.utilities !== "" && (
-  //       <ListGroupItem>
-  //         {" "}
-  //         {(postInfo.utilities && "Utilities included") ||
-  //           (!postInfo.utilities && "Utilities not included")}{" "}
-  //       </ListGroupItem>
-  //     )}
-  //     {postInfo.laundry !== "" && (
-  //       <ListGroupItem>
-  //         {" "}
-  //         {(postInfo.laundry && "Ensuite laundry") ||
-  //           (!postInfo.laundry && "No ensuite laundry")}
-  //       </ListGroupItem>
-  //     )}
-  //     {postInfo.furnished !== "" && (
-  //       <ListGroupItem>
-  //         {(postInfo.furnished && "Furnished") ||
-  //           (!postInfo.furnished && "Unfurnished")}
-  //       </ListGroupItem>
-  //     )}
-  //     <ListGroupItem>
-  //       {(postInfo.pets && "Pets allowed") || (!postInfo.pets && "No pets")}
-  //     </ListGroupItem>
-  //     {postInfo.email !== "" && <ListGroupItem>{postInfo.email}</ListGroupItem>}
-  //   </ListGroup>
-  // );
 
   // Schedule Hooks
   const [displaySchedule, setDisplaySchedule] = useState(false);
@@ -185,7 +129,7 @@ export default function PostDetail() {
                 alt="thumb-up"
               />
               <span className="review-count" id="thumbup-count">
-                {post.upvote}
+                {post?.upvote}
               </span>
               <img
                 className="thumb"
@@ -194,7 +138,7 @@ export default function PostDetail() {
                 alt="thumb-down"
               />
               <span className="review-count" id="thumbdown-count">
-                {post.downvote}
+                {post?.downvote}
               </span>
             </span>
 
@@ -223,43 +167,51 @@ export default function PostDetail() {
           </Col>
 
           <Col xs={12} md={6}>
-            <ListGroup>
-              <ListGroupItem>Address: {post.address}</ListGroupItem>
-              <ListGroupItem>
-                Price: ${post.price} {post.paymentPeriod}
-              </ListGroupItem>
-              {post.email !== "" && (
-                <ListGroupItem>Email: {post.email}</ListGroupItem>
-              )}
-              <ListGroupItem>
-                {post.pets ? "Pets friendly" : "No pets"}
-              </ListGroupItem>
-              <ListGroupItem>
-                {post.utilities ? "Utility included" : "Utility not included"}
-              </ListGroupItem>
-              <ListGroupItem>
-                {post.laundry ? "No ensuite laundry" : "Ensuite laundry"}
-              </ListGroupItem>
-              <ListGroupItem>
-                {post.furnished ? "Furnished" : "Unfurnished"}
-              </ListGroupItem>
-              <Button
-                id="viewFullInfoBtn"
-                onClick={() => setShowFullInfo(true)}
-                variant="success">
-                View More
-              </Button>
-            </ListGroup>
+            {loaded ? (
+              <ListGroup>
+                <ListGroupItem>Address: {post.address}</ListGroupItem>
+                <ListGroupItem>
+                  Price: ${post.price} {post.paymentPeriod}
+                </ListGroupItem>
+                {post.email !== "" && (
+                  <ListGroupItem>Email: {post.email}</ListGroupItem>
+                )}
+                <ListGroupItem>
+                  {post.pets ? "Pets friendly" : "No pets"}
+                </ListGroupItem>
+                <ListGroupItem>
+                  {post.utilities ? "Utility included" : "Utility not included"}
+                </ListGroupItem>
+                <ListGroupItem>
+                  {post.laundry ? "No ensuite laundry" : "Ensuite laundry"}
+                </ListGroupItem>
+                <ListGroupItem>
+                  {post.furnished ? "Furnished" : "Unfurnished"}
+                </ListGroupItem>
+                <Button
+                  id="viewFullInfoBtn"
+                  onClick={() => setShowFullInfo(true)}
+                  variant="success">
+                  View More
+                </Button>
+              </ListGroup>
+            ) : (
+              <LoadingSpinner />
+            )}
           </Col>
 
           <Col xs={12} md={6}>
-            <ReactMapGL
-              {...property}
-              onViewportChange={(view) => setProperty(view)}>
-              <Marker latitude={49.2827} longitude={-123.1207}>
-                <span id="marker"></span>
-              </Marker>
-            </ReactMapGL>
+            {loaded ? (
+              <ReactMapGL
+                {...property}
+                onViewportChange={(view) => setProperty(view)}>
+                <Marker latitude={49.2827} longitude={-123.1207}>
+                  <span id="marker"></span>
+                </Marker>
+              </ReactMapGL>
+            ) : (
+              <LoadingSpinner />
+            )}
           </Col>
 
           <Col id="comment">
@@ -319,42 +271,52 @@ export default function PostDetail() {
           />
 
           {/* Full info modal */}
-          <Modal
-            show={showFullInfo}
-            onHide={() => setShowFullInfo(false)}
-            centered>
-            <Modal.Header closeButton>
-              <Modal.Title>Full info</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <ListGroup>
-                <ListGroupItem>Address: {post.address}</ListGroupItem>
-                <ListGroupItem>
-                  Price: ${post.price} {post.paymentPeriod}
-                </ListGroupItem>
-                {post.email !== "" && (
-                  <ListGroupItem>Email: {post.email}</ListGroupItem>
-                )}
-                <ListGroupItem>Lease Length: {post.leaseLength}</ListGroupItem>
-                <ListGroupItem>
-                  {post.pets ? "Pets friendly" : "No pets"}
-                </ListGroupItem>
-                <ListGroupItem>
-                  {post.utilities ? "Utility included" : "Utility not included"}
-                </ListGroupItem>
-                <ListGroupItem>
-                  {post.laundry ? "No in-suite laundry" : "In-suite laundry"}
-                </ListGroupItem>
-                <ListGroupItem>
-                  {post.furnished ? "Furnished" : "Not furnished"}
-                </ListGroupItem>
-                <ListGroupItem>Bedroom: {post.bedrooms}</ListGroupItem>
-                <ListGroupItem>Bathroom: {post.bathrooms}</ListGroupItem>
-                <ListGroupItem>Square feet: {post.sqft}</ListGroupItem>
-                <ListGroupItem>Lease length: {post.leaseLength}</ListGroupItem>
-              </ListGroup>
-            </Modal.Body>
-          </Modal>
+          {loaded ? (
+            <Modal
+              show={showFullInfo}
+              onHide={() => setShowFullInfo(false)}
+              centered>
+              <Modal.Header closeButton>
+                <Modal.Title>Full info</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <ListGroup>
+                  <ListGroupItem>Address: {post.address}</ListGroupItem>
+                  <ListGroupItem>
+                    Price: ${post.price} {post.paymentPeriod}
+                  </ListGroupItem>
+                  {post.email !== "" && (
+                    <ListGroupItem>Email: {post.email}</ListGroupItem>
+                  )}
+                  <ListGroupItem>
+                    Lease Length: {post.leaseLength}
+                  </ListGroupItem>
+                  <ListGroupItem>
+                    {post.pets ? "Pets friendly" : "No pets"}
+                  </ListGroupItem>
+                  <ListGroupItem>
+                    {post.utilities
+                      ? "Utility included"
+                      : "Utility not included"}
+                  </ListGroupItem>
+                  <ListGroupItem>
+                    {post.laundry ? "No in-suite laundry" : "In-suite laundry"}
+                  </ListGroupItem>
+                  <ListGroupItem>
+                    {post.furnished ? "Furnished" : "Not furnished"}
+                  </ListGroupItem>
+                  <ListGroupItem>Bedroom: {post.bedrooms}</ListGroupItem>
+                  <ListGroupItem>Bathroom: {post.bathrooms}</ListGroupItem>
+                  <ListGroupItem>Square feet: {post.sqft}</ListGroupItem>
+                  <ListGroupItem>
+                    Lease length: {post.leaseLength}
+                  </ListGroupItem>
+                </ListGroup>
+              </Modal.Body>
+            </Modal>
+          ) : (
+            <LoadingSpinner />
+          )}
 
           <EditPost
             show={displayEditModal}
