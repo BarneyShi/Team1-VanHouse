@@ -9,7 +9,7 @@ import {
   Button,
   Modal,
 } from "react-bootstrap";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import "../../styles/postdetail.css";
 import ReactMapGL, { Marker } from "react-map-gl";
 import Report from "./Report";
@@ -22,76 +22,10 @@ import upVote from "../../assets/thumbup-voted.svg";
 import LoadingSpinner from "../LoadingSpinner";
 
 export default function PostDetail() {
-  const [postInfo, setPostInfo] = useState({
-    address: "",
-    title: "Untitled",
-    date: "",
-    postalCode: "",
-    email: "",
-    price: -1,
-    paymentPeriod: "",
-    bedrooms: -1,
-    bathrooms: -1,
-    sqft: -1,
-    leaseLength: 0,
-    pets: "",
-    utilities: "",
-    laundry: "",
-    furnished: "",
-    images: [],
-    schedule: [],
-    comment: [],
-    rating: [],
-    upvote: 0,
-    downvote: 0,
-  });
-
-  const [loaded, setLoaded] = useState(false);
-
-  // Comment function
-  const commentRef = useRef();
-  const [comments, setComments] = useState([
-    {
-      id: 0,
-      user: "Anon0",
-      text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
-    },
-    {
-      id: 1,
-      user: "Anon1",
-      text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
-    },
-    {
-      id: 2,
-      user: "Anon2",
-      text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
-    },
-    {
-      id: 3,
-      user: "Anon3",
-      text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
-    },
-    {
-      id: 4,
-      user: "Anon4",
-      text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
-    },
-  ]);
-  const addComment = (event) => {
-    event.preventDefault();
-    const { value } = commentRef.current;
-    setComments([
-      ...comments,
-      {
-        id: comments.length,
-        user: `Anon${comments.length}`,
-        text: value,
-      },
-    ]);
-    commentRef.current.value = "";
-  };
-
   const { id } = useParams();
+  const [post, setPost] = useState();
+  const [comments, setComments] = useState();
+  const [loaded, setLoaded] = useState(false);
 
   // Get the post from the react router params when component mounts and set postInfo state
   useEffect(() => {
@@ -109,7 +43,7 @@ export default function PostDetail() {
       })
       .then((data) => {
         console.log(data);
-        setPostInfo(data.postInfo);
+        setPost(data.postInfo);
         setComments(data.comments);
         setLoaded(true);
       })
@@ -118,9 +52,25 @@ export default function PostDetail() {
       });
   }, []);
 
+  // Comment function
+  const commentRef = useRef();
+  const addComment = (event) => {
+    event.preventDefault();
+    const { value } = commentRef.current;
+    setComments([
+      ...comments,
+      {
+        id: comments.length,
+        user: `Anon${comments.length}`,
+        text: value,
+      },
+    ]);
+    commentRef.current.value = "";
+  };
+
   // Maps post images to carousel items.
   // Note: It should be okay to use idx as a key because images are static for each post
-  const carouselItems = postInfo.images.map((image, idx) => {
+  const carouselItems = post.images.map((image, idx) => {
     const keyId = idx + 1;
     return (
       <Carousel.Item key={keyId}>
@@ -144,61 +94,61 @@ export default function PostDetail() {
     mapboxApiAccessToken: mapToken,
   });
 
-  const listGroupItems = (
-    <ListGroup>
-      {postInfo.title !== "Untitled" && (
-        <ListGroupItem>
-          {" "}
-          <b>{postInfo.title}</b>{" "}
-        </ListGroupItem>
-      )}
-      {postInfo.address !== "" && (
-        <ListGroupItem> {postInfo.address} </ListGroupItem>
-      )}
-      {postInfo.price !== -1 && (
-        <ListGroupItem>
-          {" "}
-          ${postInfo.price} {postInfo.paymentPeriod}{" "}
-        </ListGroupItem>
-      )}
-      {postInfo.leaseLength !== 0 && (
-        <ListGroupItem> {postInfo.leaseLength} month lease </ListGroupItem>
-      )}
-      {postInfo.sqft !== -1 && (
-        <ListGroupItem> {postInfo.sqft} sqft </ListGroupItem>
-      )}
-      {postInfo.bedrooms !== -1 && (
-        <ListGroupItem> Bedrooms: {postInfo.bedrooms} </ListGroupItem>
-      )}
-      {postInfo.bathrooms !== -1 && (
-        <ListGroupItem> Bathrooms: {postInfo.bathrooms} </ListGroupItem>
-      )}
-      {postInfo.utilities !== "" && (
-        <ListGroupItem>
-          {" "}
-          {(postInfo.utilities && "Utilities included") ||
-            (!postInfo.utilities && "Utilities not included")}{" "}
-        </ListGroupItem>
-      )}
-      {postInfo.laundry !== "" && (
-        <ListGroupItem>
-          {" "}
-          {(postInfo.laundry && "Ensuite laundry") ||
-            (!postInfo.laundry && "No ensuite laundry")}
-        </ListGroupItem>
-      )}
-      {postInfo.furnished !== "" && (
-        <ListGroupItem>
-          {(postInfo.furnished && "Furnished") ||
-            (!postInfo.furnished && "Unfurnished")}
-        </ListGroupItem>
-      )}
-      <ListGroupItem>
-        {(postInfo.pets && "Pets allowed") || (!postInfo.pets && "No pets")}
-      </ListGroupItem>
-      {postInfo.email !== "" && <ListGroupItem>{postInfo.email}</ListGroupItem>}
-    </ListGroup>
-  );
+  // const listGroupItems = (
+  //   <ListGroup>
+  //     {postInfo.title !== "Untitled" && (
+  //       <ListGroupItem>
+  //         {" "}
+  //         <b>{postInfo.title}</b>{" "}
+  //       </ListGroupItem>
+  //     )}
+  //     {postInfo.address !== "" && (
+  //       <ListGroupItem> {postInfo.address} </ListGroupItem>
+  //     )}
+  //     {postInfo.price !== -1 && (
+  //       <ListGroupItem>
+  //         {" "}
+  //         ${postInfo.price} {postInfo.paymentPeriod}{" "}
+  //       </ListGroupItem>
+  //     )}
+  //     {postInfo.leaseLength !== 0 && (
+  //       <ListGroupItem> {postInfo.leaseLength} month lease </ListGroupItem>
+  //     )}
+  //     {postInfo.sqft !== -1 && (
+  //       <ListGroupItem> {postInfo.sqft} sqft </ListGroupItem>
+  //     )}
+  //     {postInfo.bedrooms !== -1 && (
+  //       <ListGroupItem> Bedrooms: {postInfo.bedrooms} </ListGroupItem>
+  //     )}
+  //     {postInfo.bathrooms !== -1 && (
+  //       <ListGroupItem> Bathrooms: {postInfo.bathrooms} </ListGroupItem>
+  //     )}
+  //     {postInfo.utilities !== "" && (
+  //       <ListGroupItem>
+  //         {" "}
+  //         {(postInfo.utilities && "Utilities included") ||
+  //           (!postInfo.utilities && "Utilities not included")}{" "}
+  //       </ListGroupItem>
+  //     )}
+  //     {postInfo.laundry !== "" && (
+  //       <ListGroupItem>
+  //         {" "}
+  //         {(postInfo.laundry && "Ensuite laundry") ||
+  //           (!postInfo.laundry && "No ensuite laundry")}
+  //       </ListGroupItem>
+  //     )}
+  //     {postInfo.furnished !== "" && (
+  //       <ListGroupItem>
+  //         {(postInfo.furnished && "Furnished") ||
+  //           (!postInfo.furnished && "Unfurnished")}
+  //       </ListGroupItem>
+  //     )}
+  //     <ListGroupItem>
+  //       {(postInfo.pets && "Pets allowed") || (!postInfo.pets && "No pets")}
+  //     </ListGroupItem>
+  //     {postInfo.email !== "" && <ListGroupItem>{postInfo.email}</ListGroupItem>}
+  //   </ListGroup>
+  // );
 
   // Schedule Hooks
   const [displaySchedule, setDisplaySchedule] = useState(false);
@@ -235,7 +185,7 @@ export default function PostDetail() {
                 alt="thumb-up"
               />
               <span className="review-count" id="thumbup-count">
-                {postInfo.upvote}
+                {post.upvote}
               </span>
               <img
                 className="thumb"
@@ -244,7 +194,7 @@ export default function PostDetail() {
                 alt="thumb-down"
               />
               <span className="review-count" id="thumbdown-count">
-                {postInfo.downvote}
+                {post.downvote}
               </span>
             </span>
 
@@ -288,10 +238,10 @@ export default function PostDetail() {
                 {post.utilities ? "Utility included" : "Utility not included"}
               </ListGroupItem>
               <ListGroupItem>
-                {post.laundry ? "No in-suite laundry" : "In-suite laundry"}
+                {post.laundry ? "No ensuite laundry" : "Ensuite laundry"}
               </ListGroupItem>
               <ListGroupItem>
-                {post.furnished ? "Furnished" : "Not furnished"}
+                {post.furnished ? "Furnished" : "Unfurnished"}
               </ListGroupItem>
               <Button
                 id="viewFullInfoBtn"
