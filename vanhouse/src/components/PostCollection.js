@@ -1,79 +1,66 @@
 // CITATION: Font awesome button reference: https://www.w3schools.com/howto/howto_css_icon_buttons.asp
+// CITATION: I used this resource for learning about fetch: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
 // TODO - hide create-post-button when not logged in
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 import Post from "./Post";
 import NewPost from "./NewPost";
 import SearchBar from "./SearchBar";
-import "../styles/Post.css";
+import LoadingSpinner from "./LoadingSpinner";
+import "../styles/post.css";
 
 
 function PostCollection({setSearchFilter}) {
   // Note: Temporarily adding in placeholder post JSON objects
   // The objects currently only contain info used in the main page post display, not the detail view.
-  const [posts, setPosts] = useState([
-    {
-      id: 0,
-      dateCreated: "01-06-2021",
-      postTitle: "Untitled Post",
-      price: 1000,
-      imageURLs: [
-        "https://upload.wikimedia.org/wikipedia/commons/f/fd/Ikblearningcentre.jpg",
-      ],
-      author: "Anonymous",
-      address: "1961 East Mall",
-    },
-    {
-      id: 1,
-      dateCreated: "01-06-2021",
-      postTitle: "Untitled Post",
-      price: 1000,
-      imageURLs: [
-        "https://upload.wikimedia.org/wikipedia/commons/f/fd/Ikblearningcentre.jpg",
-      ],
-      author: "Anonymous",
-      address: "1961 East Mall",
-    },
-    {
-      id: 2,
-      dateCreated: "01-06-2021",
-      postTitle: "Untitled Post",
-      price: 1000,
-      imageURLs: [
-        "https://upload.wikimedia.org/wikipedia/commons/f/fd/Ikblearningcentre.jpg",
-      ],
-      author: "Anonymous",
-      address: "1961 East Mall",
-    },
-    {
-      id: 3,
-      dateCreated: "01-06-2021",
-      postTitle: "Untitled Post",
-      price: 1000,
-      imageURLs: [
-        "https://upload.wikimedia.org/wikipedia/commons/f/fd/Ikblearningcentre.jpg",
-      ],
-      author: "Anonymous",
-      address: "1961 East Mall",
-    },
-    {
-      id: 4,
-      dateCreated: "01-06-2021",
-      postTitle: "Untitled Post",
-      price: 1000,
-      imageURLs: [
-        "https://upload.wikimedia.org/wikipedia/commons/f/fd/Ikblearningcentre.jpg",
-      ],
-      author: "Anonymous",
-      address: "1961 East Mall",
-    },
-  ]);
+  const [posts, setPosts] = useState([]);
 
   // State to show/hide the NewPost component
   const [newPostVisible, setNewPostVisible] = useState(false);
+
+  const [isLoadingPosts, setIsLoadingPosts] = useState(true);
+
+  function handleErrors(error) {
+    if (typeof error.json === "undefined") {
+      console.error(`${error};\n Can't connect to farm! Perhaps the server is down.`);
+      alert("Can't connect to farm! Perhaps the server is down.");
+      return;
+    }
+    error.json().then(errorRes => {
+      const errorText = `${error.status} (${error.statusText}) ${errorRes.errorMessage}`;
+      console.error(errorText);
+      alert(errorText);
+    }).catch(() => {
+      const errorText = `${error.status} (${error.statusText})`;
+      console.error(errorText);
+      alert(errorText);
+    });
+  };
+
+  useEffect(() => {
+    const getPosts = async () => {
+      const response = await fetch("http://localhost:4000/posts");
+      return response;
+    }
+    getPosts()
+      .then(res => {
+        if (!res.ok) {
+          throw res;
+        }
+        return res.json();
+      })
+      .then(data => {
+        console.log(data);
+        setPosts(data);
+        setIsLoadingPosts(false);
+      })
+      .catch(error => {
+        handleErrors(error);
+      });
+  }, []);
 
   // Adds a post to the posts state
   // Callback function called by the NewPost component on form submission
@@ -118,7 +105,7 @@ function PostCollection({setSearchFilter}) {
         postDate={post.dateCreated}
         postTitle={post.postTitle}
         price={post.price}
-        mainImage={post.imageURLs[0]}
+        mainImage={post.images[0]}
         author={post.author}
         address={post.address}
       />
@@ -145,7 +132,11 @@ function PostCollection({setSearchFilter}) {
         submit={addPost}
       />
 
-      <div className="post_scroll_div">{postsList}</div>
+      <div className="post_scroll_div">
+        {postsList}
+        {isLoadingPosts && <LoadingSpinner />}
+        
+      </div>
     </div>
   );
 }

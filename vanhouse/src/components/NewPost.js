@@ -20,7 +20,7 @@ function NewPost({ showModalForm, submit, handleClose }) {
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
   const [postalCode, setPostalCode] = useState("");
-  const [lease, setLease] = useState("No lease");
+  const [lease, setLease] = useState(0);
   const [bedrooms, setBedrooms] = useState(-1);
   const [bathrooms, setBathrooms] = useState(-1);
   const [squareFootage, setSquareFootage] = useState(-1);
@@ -32,6 +32,8 @@ function NewPost({ showModalForm, submit, handleClose }) {
 
   // Hooks for displaying <Schedule />
   const [displaySchedule, setDisplaySchedule] = useState(false);
+
+  const [imageSizeValid, setImageSizeValid] = useState(true);
 
   // Resets the states
   const resetStates = (show) => {
@@ -64,6 +66,9 @@ function NewPost({ showModalForm, submit, handleClose }) {
   // PostCollection component using the callback
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!imageSizeValid) {
+      return;
+    }    
     setDisplaySchedule(true);
     handleClose();
   };
@@ -91,9 +96,19 @@ function NewPost({ showModalForm, submit, handleClose }) {
   }
 
   const handleImageUpload = (e) => {
+    const maxImageSize = 1000000;
+    setImageSizeValid(true);
     if (e.target.files) {
       const imageList = [];
       for (let i = 0; i < e.target.files.length; i += 1) {
+        // Reject files that are too large
+        if (e.target.files[i].size > maxImageSize) {
+          e.target.value = null;
+          setImages([]);
+          setImageSizeValid(false);
+          return;
+        }
+        // Add valid files to the images state
         if (e.target.files[i]) {
           const fileReader = new FileReader();
           fileReader.onload = (event) => {
@@ -208,7 +223,7 @@ function NewPost({ showModalForm, submit, handleClose }) {
                 as="select"
                 defaultValue="No lease"
                 onChange={(e) => {
-                  setLease(e.target.value);
+                  setLease(e.target.selectedIndex * 6);
                 }}
               >
                 <option>No lease</option>
@@ -306,8 +321,11 @@ function NewPost({ showModalForm, submit, handleClose }) {
             <Form.File
               id="uploadImagesButton"
               multiple
-              label="Upload image(s)"
+              required
+              label="Upload image(s) *"
+              feedback="Image files must be less than 1MB"
               accept=".jpg, .jpeg, .png, .tiff"
+              isInvalid={ !imageSizeValid }
               onChange={(e) => {
                 handleImageUpload(e);
               }}

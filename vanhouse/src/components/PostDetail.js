@@ -9,7 +9,7 @@ import {
   Button,
   Modal,
 } from "react-bootstrap";
-import {useLocation} from "react-router-dom"
+import {useParams} from "react-router-dom"
 import "../styles/postdetail.css";
 import ReactMapGL, { Marker } from "react-map-gl";
 import userLogo from "../assets/user.svg";
@@ -17,47 +17,121 @@ import userLogo from "../assets/user.svg";
 import thumbDown from "../assets/thumb-down.svg";
 import upVote from "../assets/thumbup-voted.svg";
 // import downVote from "../assets/thumbdown-voted.svg";
+import LoadingSpinner from "./LoadingSpinner";
 
 export default function PostDetail() {  
-  const [postInfo, setPostInfo] = useState({ address: "1961 East Mall",
+  const [postInfo, setPostInfo] = useState({ address: "",
+                                             title: "Untitled",
+                                             date: "",
+                                             postalCode: "",
                                              email: "",
-                                             price: 1000,
-                                             paymentPeriod: "monthly",
-                                             bedrooms: 1,
-                                             bathrooms: 1,
-                                             sqft: 500,
-                                             leaseLength: "No lease",
-                                             pets: "No Pets",
-                                             utilities: "Utilities not included",
-                                             laundry: "No laundry",
-                                             furnished: "Unfurnished",
-                                             mainImage: "https://customhomesottawa.ca/wp-content/uploads/2016/05/placeholder-house1.jpg",
-                                             schedule: [] });
+                                             price: -1,
+                                             paymentPeriod: "",
+                                             bedrooms: -1,
+                                             bathrooms: -1,
+                                             sqft: -1,
+                                             leaseLength: 0,
+                                             pets: "",
+                                             utilities: "",
+                                             laundry: "",
+                                             furnished: "",
+                                             images: [],
+                                             schedule: [],
+                                             comment: [],
+                                             rating: [],
+                                             upvote: 0,
+                                             downvote: 0 });
   
-  // Temporarily get post info as props.
-  // Once we integrate express and node, this will be done with a GET request
-  const { postObj } = useLocation();
-  
+  const [loaded, setLoaded] = useState(false);
+
+  // Comment function
+  const commentRef = useRef();
+  const [comments, setComments] = useState([
+    {
+      id: 0,
+      user: "Anon0",
+      text:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+    },
+    {
+      id: 1,
+      user: "Anon1",
+      text:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+    },
+    {
+      id: 2,
+      user: "Anon2",
+      text:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+    },
+    {
+      id: 3,
+      user: "Anon3",
+      text:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+    },
+    {
+      id: 4,
+      user: "Anon4",
+      text:
+        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
+    },
+  ]);
+  const addComment = (event) => {
+    event.preventDefault();
+    const { value } = commentRef.current;
+    setComments([
+      ...comments,
+      {
+        id: comments.length,
+        user: `Anon${comments.length}`,
+        text: value,
+      },
+    ]);
+    commentRef.current.value = "";
+  };
+
+  const { id } = useParams();
+
+  // Get the post from the react router params when component mounts and set postInfo state
   useEffect(() => {
-    if (postObj) {
-      const postToStore = {};
-      postToStore.address = postObj.address ? postObj.address : postInfo.address;
-      postToStore.email = postObj.email ? postObj.email : "";
-      postToStore.price = postObj.price ? postObj.price : 1000;
-      postToStore.paymentPeriod = postObj.paymentPeriod ? postObj.paymentPeriod.toLowerCase() : postInfo.paymentPeriod;
-      postToStore.bedrooms = postObj.bedrooms ? postObj.bedrooms : 1;
-      postToStore.bathrooms = postObj.bathrooms ? postObj.bathrooms : 1;
-      postToStore.sqft = postObj.sqft ? postObj.sqft : 500;
-      postToStore.leaseLength = postObj.leaseLength ? postObj.leaseLength : "No Lease";
-      postToStore.pets = postObj.pets ? "Pets allowed" : "No Pets";
-      postToStore.utilities = postObj.utilities ? "Utilities included" : "Utilities not included";
-      postToStore.laundry = postObj.laundry ? "Ensuite Laundry" : "No ensuite laundry";
-      postToStore.laundry = postObj.furnished ? "Furnished" : "Unfurnished";
-      postToStore.mainImage = (postObj.imageURLs && postObj.imageURLs[0]) ? postObj.imageURLs[0] : "https://customhomesottawa.ca/wp-content/uploads/2016/05/placeholder-house1.jpg";
-      postToStore.schedule = postObj.schedule ? postObj.schedule : [];
-      setPostInfo(postToStore);
+    const getPost = async () => {
+      const response = await fetch(`http://localhost:4000/post/${id}`);
+      return response;
     }
-  }, [postObj]);
+
+    getPost()
+      .then(res => {
+        if (!res.ok) {
+          throw res;
+        }
+        return res.json();
+      })
+      .then(data => {
+        console.log(data);
+        setPostInfo(data.postInfo);
+        setComments(data.comments);
+        setLoaded(true);
+      })
+      .catch(error => {
+        // handleErrors(error);
+      });
+  }, []);
+
+  // Maps post images to carousel items. 
+  // Note: It should be okay to use idx as a key because images are static for each post
+  const carouselItems = postInfo.images.map((image, idx) => {
+    const keyId = idx+1;
+    return (
+    <Carousel.Item key={keyId}>
+      <img
+        className="d-block w-100 post-detail-thumbnail"
+        src={image}
+        alt="thumbnail"
+      />
+    </Carousel.Item>
+  )});
 
   const mapToken =
     "pk.eyJ1IjoiaWR1bm5vY29kaW5nOTUiLCJhIjoiY2tlMTFiMDh4NDF4cTJ5bWgxbDUxb2M5ciJ9.-L_x_0HZGSXFMRdactrn-Q";
@@ -70,53 +144,22 @@ export default function PostDetail() {
     mapboxApiAccessToken: mapToken,
   });
 
-  // Comment function
-  const commentRef = useRef();
-  const [comments, setComments] = useState([
-    {
-      id: 0,
-      username: "Anon0",
-      comment:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
-    },
-    {
-      id: 1,
-      username: "Anon1",
-      comment:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
-    },
-    {
-      id: 2,
-      username: "Anon2",
-      comment:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
-    },
-    {
-      id: 3,
-      username: "Anon3",
-      comment:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
-    },
-    {
-      id: 4,
-      username: "Anon4",
-      comment:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
-    },
-  ]);
-  const addComment = (event) => {
-    event.preventDefault();
-    const { value } = commentRef.current;
-    setComments([
-      ...comments,
-      {
-        id: comments.length,
-        username: `Anon${comments.length}`,
-        comment: value,
-      },
-    ]);
-    commentRef.current.value = "";
-  };
+  const listGroupItems = (
+    <ListGroup>
+      {postInfo.title !== "Untitled" && <ListGroupItem> <b>{postInfo.title}</b> </ListGroupItem>}
+      {postInfo.address !== "" && <ListGroupItem> {postInfo.address} </ListGroupItem>}
+      {postInfo.price !== -1 && <ListGroupItem> ${postInfo.price} {postInfo.paymentPeriod} </ListGroupItem>}
+      {postInfo.leaseLength !== 0 && <ListGroupItem> {postInfo.leaseLength} month lease </ListGroupItem>}
+      {postInfo.sqft !== -1 && <ListGroupItem> {postInfo.sqft} sqft </ListGroupItem>}
+      {postInfo.bedrooms !== -1 && <ListGroupItem> Bedrooms: {postInfo.bedrooms} </ListGroupItem>}
+      {postInfo.bathrooms !== -1 && <ListGroupItem> Bathrooms: {postInfo.bathrooms} </ListGroupItem>}
+      {postInfo.utilities !== "" && <ListGroupItem> {postInfo.utilities && "Utilities included" || !postInfo.utilities && "Utilities not included"} </ListGroupItem>}
+      {postInfo.laundry !== "" && <ListGroupItem> {postInfo.laundry && "Ensuite laundry" || !postInfo.laundry && "No ensuite laundry"}</ListGroupItem>}
+      {postInfo.furnished !== "" && <ListGroupItem>{postInfo.furnished && "Furnished" || !postInfo.furnished && "Unfurnished"}</ListGroupItem>}
+      <ListGroupItem>{postInfo.pets && "Pets allowed" || !postInfo.pets && "No pets"}</ListGroupItem>
+      {postInfo.email !== "" && <ListGroupItem>{postInfo.email}</ListGroupItem>}
+    </ListGroup>
+  );
 
   // Schedule Hooks
   const [displaySchedule, setDisplaySchedule] = useState(false);
@@ -131,22 +174,12 @@ export default function PostDetail() {
       <Container fluid>
         <Row>
           <Col xs={12}>
-            <Carousel>
-              <Carousel.Item>
-                <img
-                  className="d-block w-100 post-detail-thumbnail"
-                  src={postInfo.mainImage}
-                  alt="thumbnail"
-                />
-              </Carousel.Item>
-              <Carousel.Item>
-                <img
-                  className="d-block w-100 post-detail-thumbnail"
-                  src="https://www.thestreet.com/.image/t_share/MTY4NjM2OTcwNDU2NzIxMDMx/image-placeholder-title.jpg"
-                  alt="thumbnail"
-                />
-              </Carousel.Item>
-            </Carousel>
+            {loaded && 
+              <Carousel>
+                {carouselItems}
+              </Carousel>
+            }
+            {!loaded && <LoadingSpinner />}
           </Col>
 
           <Col xs={12}>
@@ -158,7 +191,7 @@ export default function PostDetail() {
                 alt="thumb-up"
               />
               <span className="review-count" id="thumbup-count">
-                3
+                {postInfo.upvote}
               </span>
               <img
                 className="thumb"
@@ -167,7 +200,7 @@ export default function PostDetail() {
                 alt="thumb-down"
               />
               <span className="review-count" id="thumbdown-count">
-                2
+                {postInfo.downvote}
               </span>
             </span>
 
@@ -186,36 +219,26 @@ export default function PostDetail() {
               Delete
             </Button>
           </Col>
-
-          <Col xs={12} md={6}>
-            <ListGroup>
-              <ListGroupItem>
-                Address: {postInfo.address}
-              </ListGroupItem>
-              <ListGroupItem>Price: ${postInfo.price} {postInfo.paymentPeriod}</ListGroupItem>
-              {postInfo.email !== "" && <ListGroupItem>Email: {postInfo.email}</ListGroupItem>}
-              <ListGroupItem>Lease Length: {postInfo.leaseLength}</ListGroupItem>
-              <ListGroupItem>{postInfo.pets}</ListGroupItem>
-              <ListGroupItem>{postInfo.utilities}</ListGroupItem>
-              <ListGroupItem>{postInfo.laundry}</ListGroupItem>
-              <ListGroupItem>{postInfo.furnished}</ListGroupItem>
-            </ListGroup>
-          </Col>
-
-          <Col xs={12} md={6}>
-            <ReactMapGL
-              {...property}
-              onViewportChange={(view) => setProperty(view)}
-            >
-              <Marker latitude={49.2827} longitude={-123.1207}>
-                <span id="marker"></span>
-              </Marker>
-            </ReactMapGL>
-          </Col>
-
+          { loaded && 
+            <Col xs={12} md={6}>
+              {listGroupItems}
+            </Col>
+          }
+          { loaded && 
+            <Col xs={12} md={6}>
+              <ReactMapGL
+                {...property}
+                onViewportChange={(view) => setProperty(view)}
+              >
+                <Marker latitude={49.2827} longitude={-123.1207}>
+                  <span id="marker"></span>
+                </Marker>
+              </ReactMapGL>
+            </Col>
+          }
           <Col id="comment">
             <h4 className="text-center">Comment</h4>
-            {comments.map((e) => (
+            {loaded && comments.map((e) => (
               <div className="comment__block" key={e.id}>
                 <span className="commnet_userinfo">
                   <img
@@ -224,12 +247,12 @@ export default function PostDetail() {
                     width="40"
                     alt="user_img"
                   />
-                  <span className="comment__username">{e.username}</span>
+                  <span className="comment__username">{e.user}</span>
                 </span>
-                <p className="comment__content">{e.comment}</p>
+                <p className="comment__content">{e.text}</p>
               </div>
             ))}
-
+            {!loaded && <LoadingSpinner />}
             <div className="comment__input">
               <form onSubmit={addComment}>
                 <textarea
