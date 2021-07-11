@@ -22,10 +22,12 @@ function PostCollection({setSearchFilter}) {
   // State to show/hide the NewPost component
   const [newPostVisible, setNewPostVisible] = useState(false);
 
+  // Loading and error display states
   const [isLoadingPosts, setIsLoadingPosts] = useState(true);
   const [displayError, setDisplayError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
+  // Query server for posts on mount
   useEffect(() => {
     const getPosts = async () => {
       const response = await fetch("http://localhost:4000/posts");
@@ -52,7 +54,8 @@ function PostCollection({setSearchFilter}) {
       });
   }, []);
 
-  const postPropertyListing = async (postObj) => {
+  // Create a POST request for a new rental listing
+  const postRentalListing = async (postObj) => {
     const response = await fetch("http://localhost:4000/newPost", {
       method: "POST",
       headers: {
@@ -99,7 +102,7 @@ function PostCollection({setSearchFilter}) {
       downvote: 0
     };
 
-    postPropertyListing(postToAdd)
+    postRentalListing(postToAdd)
       .then(res => {
         if (!res.ok) {
           throw res;

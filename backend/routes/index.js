@@ -55,17 +55,24 @@ router.get('/post/:postId', function(req, res) {
 
 // Add a new property listing to the database
 router.post('/newPost', function(req, res) {
+  // Map schedule dates to an array of schedule objects
   let datesToSchedule = req.body.schedule;
   let schedule = datesToSchedule.map((d) => {
     const schId = mongoose.Types.ObjectId();
     return {_id: schId, id: schId, users: [], date: d.date}
   });
+  
+  // Create id for postInfo
   let reqPostInfo = req.body;
   const reqId = mongoose.Types.ObjectId();
   reqPostInfo._id = reqId;
   reqPostInfo.id = reqId;
+  
+  // Set postInfo schedule data to the appropriate ids
   reqPostInfo.schedule = schedule.map((d) => {return d._id;});
   let postToAdd = new Post(reqPostInfo);
+
+  // Add scheduled dates and posts to db
   Schedule.insertMany(schedule).then(() => {
     return postToAdd.save();
   }).then((result) => {

@@ -44,6 +44,7 @@ export default function PostDetail() {
                                              upvote: 0,
                                              downvote: 0 });
   
+  // Loading and error display states
   const [loaded, setLoaded] = useState(false);
   const [displayError, setDisplayError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
@@ -66,15 +67,16 @@ export default function PostDetail() {
     commentRef.current.value = "";
   };
 
-    // Schedule Hooks
-    const [displaySchedule, setDisplaySchedule] = useState(false);
-    const [schedule, setSchedule] = useState([]);
-    const selectedDate = [
-      { id: 0, date: "Sat Jan 1 2021" },
-      { id: 1, date: "Thur Feb 2 2021" },
-      { id: 2, date: "Wed Mar 3 2021" },
-    ];
+  // Schedule Hooks
+  const [displaySchedule, setDisplaySchedule] = useState(false);
+  const [schedule, setSchedule] = useState([]);
+  const selectedDate = [
+    { id: 0, date: "Sat Jan 1 2021" },
+    { id: 1, date: "Thur Feb 2 2021" },
+    { id: 2, date: "Wed Mar 3 2021" },
+  ];
 
+  // Gets the postId in the url
   const { id } = useParams();
 
   // Get the post from the react router params when component mounts and set postInfo state
@@ -133,6 +135,7 @@ export default function PostDetail() {
     mapboxApiAccessToken: mapToken,
   });
 
+  // Display post info in a ListGroup
   const listGroupItems = (
     <ListGroup>
       {postInfo.title !== "Untitled" && <ListGroupItem> <b>{postInfo.title}</b> </ListGroupItem>}

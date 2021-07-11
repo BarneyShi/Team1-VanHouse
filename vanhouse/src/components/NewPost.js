@@ -33,6 +33,7 @@ function NewPost({ showModalForm, submit, handleClose }) {
   // Hooks for displaying <Schedule />
   const [displaySchedule, setDisplaySchedule] = useState(false);
 
+  // Image validation states
   const [imageSizeValid, setImageSizeValid] = useState(true);
   const [imageCountValid, setImageCountValid] = useState(true);
   const [imageErrorMsg, setImageErrorMsg] = useState("");
@@ -75,6 +76,7 @@ function NewPost({ showModalForm, submit, handleClose }) {
     handleClose();
   };
 
+  // Creates a new post object using states as params and calls the submit callback prop
   const handleScheduleSubmit = (schedule) => {
     submit({
       postTitle,
@@ -97,6 +99,8 @@ function NewPost({ showModalForm, submit, handleClose }) {
     });
   }
 
+  // Sets image states based on form file input
+  // Rejects images if the list is too long or if image files are too large
   const handleImageUpload = (e) => {
     const maxImageSize = 1000000;
     setImageSizeValid(true);
@@ -105,7 +109,7 @@ function NewPost({ showModalForm, submit, handleClose }) {
       // Check image count is valid
       const maxImageCount = 4;
       if (e.target.files.length > maxImageCount) {
-        e.target.value = null;
+        e.target.value = null; // CITATION: https://stackoverflow.com/a/42192710
         setImages([]);
         setImageErrorMsg("Too many images. Please select between 1 and 4 images.");
         setImageCountValid(false);
@@ -114,7 +118,7 @@ function NewPost({ showModalForm, submit, handleClose }) {
       for (let i = 0; i < e.target.files.length; i += 1) {
         // Reject files that are too large
         if (e.target.files[i].size > maxImageSize) {
-          e.target.value = null;
+          e.target.value = null; // CITATION: https://stackoverflow.com/a/42192710
           setImages([]);
           setImageErrorMsg("Image file size exceeds 1MB. Please select files under 1MB.");
           setImageSizeValid(false);
