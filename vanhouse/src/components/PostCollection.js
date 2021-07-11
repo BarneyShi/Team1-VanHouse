@@ -4,12 +4,13 @@
 
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "react-bootstrap";
+import { Button, Alert } from "react-bootstrap";
 import PropTypes from "prop-types";
 import Post from "./Post";
 import NewPost from "./NewPost";
 import SearchBar from "./SearchBar";
 import LoadingSpinner from "./LoadingSpinner";
+import getErrorString from "../utils";
 import "../styles/post.css";
 
 
@@ -22,23 +23,8 @@ function PostCollection({setSearchFilter}) {
   const [newPostVisible, setNewPostVisible] = useState(false);
 
   const [isLoadingPosts, setIsLoadingPosts] = useState(true);
-
-  function handleErrors(error) {
-    if (typeof error.json === "undefined") {
-      console.error(`${error};\n Can't connect to farm! Perhaps the server is down.`);
-      alert("Can't connect to farm! Perhaps the server is down.");
-      return;
-    }
-    error.json().then(errorRes => {
-      const errorText = `${error.status} (${error.statusText}) ${errorRes.errorMessage}`;
-      console.error(errorText);
-      alert(errorText);
-    }).catch(() => {
-      const errorText = `${error.status} (${error.statusText})`;
-      console.error(errorText);
-      alert(errorText);
-    });
-  };
+  const [displayError, setDisplayError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
     const getPosts = async () => {
@@ -58,9 +44,25 @@ function PostCollection({setSearchFilter}) {
         setIsLoadingPosts(false);
       })
       .catch(error => {
-        handleErrors(error);
+        getErrorString(error).then((errText) => {
+          setErrorMsg(errText);
+          setDisplayError(true);
+          setIsLoadingPosts(false);
+        });
       });
   }, []);
+
+  const postPropertyListing = async (postObj) => {
+    const response = await fetch("http://localhost:4000/newPost", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(postObj)
+    });
+    return response;
+  }
+
 
   // Adds a post to the posts state
   // Callback function called by the NewPost component on form submission
@@ -71,28 +73,50 @@ function PostCollection({setSearchFilter}) {
     const month = `0${today.getMonth() + 1}`.slice(-2);
 
     const postToAdd = {
-      id: posts.length,
-      dateCreated: `${day}-${month}-${today.getYear() + 1900}`,
-      postTitle: postInfo.postTitle,
+      id: Math.round(Math.random()*1000000),
+      date: `${day}-${month}-${today.getYear() + 1900}`,
+      title: postInfo.postTitle,
       price: postInfo.price,
-      paymentPeriod: postInfo.paymentPeriod,
-      email: postInfo.email,
+      images: postInfo.images,
+      author: "",
+      authorID: "",
       address: postInfo.address,
       postalCode: postInfo.postalCode,
+      phone: postInfo.phone,
+      email: postInfo.email,
       leaseLength: postInfo.lease,
+      paymentPeriod: postInfo.paymentPeriod,
       bedrooms: postInfo.bedrooms,
       bathrooms: postInfo.bathrooms,
-      squareFootage: postInfo.squareFootage,
+      sqft: postInfo.squareFootage,
       utilities: postInfo.utilities,
-      pets: postInfo.pets,
       laundry: postInfo.laundry,
+      pets: postInfo.pets,
       furnished: postInfo.furnished,
-      imageURLs: postInfo.images,
       schedule: postInfo.schedule,
-      author: "",
+      comment: [],
+      upvote: 0,
+      downvote: 0
     };
-    const updatedPosts = [...posts, postToAdd];
-    setPosts(updatedPosts);
+
+    postPropertyListing(postToAdd)
+      .then(res => {
+        if (!res.ok) {
+          throw res;
+        }
+        return res.json();
+      })
+      .then(data => {
+        const updatedPosts = [...posts, data];
+        setPosts(updatedPosts);
+      })
+      .catch(error => {
+        getErrorString(error).then((errText) => {
+          setErrorMsg(errText);
+          setDisplayError(true);
+          setIsLoadingPosts(false);
+        });
+      });
   };
 
   // Map the posts state to a list of Post components
@@ -102,11 +126,11 @@ function PostCollection({setSearchFilter}) {
     <Link to={{pathname: `/post/${post.id}`, postObj: post}} key={post.id}>
       <Post
         postId={post.id}
-        postDate={post.dateCreated}
-        postTitle={post.postTitle}
+        postDate={post.date}
+        postTitle={post.title}
         price={post.price}
+        paymentPeriod={post.paymentPeriod}
         mainImage={post.images[0]}
-        author={post.author}
         address={post.address}
       />
     </Link>
@@ -133,9 +157,16 @@ function PostCollection({setSearchFilter}) {
       />
 
       <div className="post_scroll_div">
+        {displayError && 
+          <Alert className="connection_error_alert" variant="danger" onClose={() => setDisplayError(false)} dismissible>
+            <Alert.Heading> Error getting posts </Alert.Heading>
+            <p>
+              {errorMsg}
+            </p>
+          </Alert>
+        }
         {postsList}
         {isLoadingPosts && <LoadingSpinner />}
-        
       </div>
     </div>
   );

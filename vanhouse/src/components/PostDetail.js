@@ -8,6 +8,7 @@ import {
   ListGroupItem,
   Button,
   Modal,
+  Alert
 } from "react-bootstrap";
 import {useParams} from "react-router-dom"
 import "../styles/postdetail.css";
@@ -18,6 +19,7 @@ import thumbDown from "../assets/thumb-down.svg";
 import upVote from "../assets/thumbup-voted.svg";
 // import downVote from "../assets/thumbdown-voted.svg";
 import LoadingSpinner from "./LoadingSpinner";
+import getErrorString from "../utils";
 
 export default function PostDetail() {  
   const [postInfo, setPostInfo] = useState({ address: "",
@@ -43,41 +45,13 @@ export default function PostDetail() {
                                              downvote: 0 });
   
   const [loaded, setLoaded] = useState(false);
+  const [displayError, setDisplayError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
 
   // Comment function
   const commentRef = useRef();
-  const [comments, setComments] = useState([
-    {
-      id: 0,
-      user: "Anon0",
-      text:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
-    },
-    {
-      id: 1,
-      user: "Anon1",
-      text:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
-    },
-    {
-      id: 2,
-      user: "Anon2",
-      text:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
-    },
-    {
-      id: 3,
-      user: "Anon3",
-      text:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
-    },
-    {
-      id: 4,
-      user: "Anon4",
-      text:
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book",
-    },
-  ]);
+  const [comments, setComments] = useState([]);
+  
   const addComment = (event) => {
     event.preventDefault();
     const { value } = commentRef.current;
@@ -115,7 +89,10 @@ export default function PostDetail() {
         setLoaded(true);
       })
       .catch(error => {
-        // handleErrors(error);
+        getErrorString(error).then((errText) => {
+          setErrorMsg(errText);
+          setDisplayError(true);
+        });
       });
   }, []);
 
@@ -156,7 +133,7 @@ export default function PostDetail() {
       {postInfo.utilities !== "" && <ListGroupItem> {postInfo.utilities && "Utilities included" || !postInfo.utilities && "Utilities not included"} </ListGroupItem>}
       {postInfo.laundry !== "" && <ListGroupItem> {postInfo.laundry && "Ensuite laundry" || !postInfo.laundry && "No ensuite laundry"}</ListGroupItem>}
       {postInfo.furnished !== "" && <ListGroupItem>{postInfo.furnished && "Furnished" || !postInfo.furnished && "Unfurnished"}</ListGroupItem>}
-      <ListGroupItem>{postInfo.pets && "Pets allowed" || !postInfo.pets && "No pets"}</ListGroupItem>
+      {postInfo.pets !== "" && <ListGroupItem>{postInfo.pets && "Pets allowed" || !postInfo.pets && "No pets"}</ListGroupItem>}
       {postInfo.email !== "" && <ListGroupItem>{postInfo.email}</ListGroupItem>}
     </ListGroup>
   );
@@ -173,13 +150,21 @@ export default function PostDetail() {
     <>
       <Container fluid>
         <Row>
+          {displayError && 
+            <Alert className="connection_error_alert" variant="danger">
+              <Alert.Heading> Error getting posts </Alert.Heading>
+              <p>
+                {errorMsg}
+              </p>
+            </Alert>
+          }
           <Col xs={12}>
             {loaded && 
               <Carousel>
                 {carouselItems}
               </Carousel>
             }
-            {!loaded && <LoadingSpinner />}
+            {!loaded && !displayError && <LoadingSpinner />}
           </Col>
 
           <Col xs={12}>
@@ -252,7 +237,7 @@ export default function PostDetail() {
                 <p className="comment__content">{e.text}</p>
               </div>
             ))}
-            {!loaded && <LoadingSpinner />}
+            {!loaded && !displayError && <LoadingSpinner />}
             <div className="comment__input">
               <form onSubmit={addComment}>
                 <textarea

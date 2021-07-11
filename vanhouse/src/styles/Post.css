@@ -59,6 +59,10 @@
   animation: grow 0.3s ease;
 }
 
+.connection_error_alert {
+  flex-basis: 100%;
+}
+
 @keyframes grow {
   0% {
       transform: scale(1);

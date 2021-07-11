@@ -20,8 +20,8 @@ function Post({
   postTitle,
   price,
   mainImage,
-  author,
   address,
+  paymentPeriod
 }) {
   return (
     <button type="button" className="post_div">
@@ -34,8 +34,8 @@ function Post({
       <div className="post_summary_div">
         <p>Date posted: {postDate}</p>
         <h6>
-          Price: ${price} <br />
-          Address: {truncateString(address, 20)}
+          ${price} {paymentPeriod}<br />
+          {truncateString(address, 26)}
         </h6>
       </div>
     </button>
@@ -46,16 +46,15 @@ Post.defaultProps = {
   postTitle: "Untitled",
   mainImage:
     "https://upload.wikimedia.org/wikipedia/commons/f/fd/Ikblearningcentre.jpg",
-  author: "anonymous",
 };
 
 Post.propTypes = {
-  postId: PropTypes.number.isRequired,
+  postId: PropTypes.string.isRequired,
   postDate: PropTypes.string.isRequired,
   postTitle: PropTypes.string,
   price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  paymentPeriod: PropTypes.string.isRequired,
   mainImage: PropTypes.string,
-  author: PropTypes.string,
   address: PropTypes.string.isRequired,
 };
 

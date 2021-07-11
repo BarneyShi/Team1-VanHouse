@@ -13,8 +13,6 @@ function SearchBar(props){
     const handleSelect = (e) => {
       setLeftState(Number(e.target.value));
     }
-    console.log("click:");
-    console.log(Click.getData);
     return(
         <div className="style">
             <InputGroup className="mb-3">

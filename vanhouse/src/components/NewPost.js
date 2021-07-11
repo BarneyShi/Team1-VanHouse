@@ -34,21 +34,23 @@ function NewPost({ showModalForm, submit, handleClose }) {
   const [displaySchedule, setDisplaySchedule] = useState(false);
 
   const [imageSizeValid, setImageSizeValid] = useState(true);
+  const [imageCountValid, setImageCountValid] = useState(true);
+  const [imageErrorMsg, setImageErrorMsg] = useState("");
 
   // Resets the states
   const resetStates = (show) => {
     if (show) {
       setPostTitle("Untitled Post");
       setPrice(0);
-      setPaymentPeriod("Monthly");
+      setPaymentPeriod("monthly");
       setEmail("");
       setPhone("");
       setAddress("");
       setPostalCode("");
-      setLease("No lease");
-      setBedrooms(-1);
-      setBathrooms(-1);
-      setSquareFootage(-1);
+      setLease("0");
+      setBedrooms(0);
+      setBathrooms(0);
+      setSquareFootage(0);
       setUtilities(false);
       setPets(false);
       setLaundry(false);
@@ -100,11 +102,21 @@ function NewPost({ showModalForm, submit, handleClose }) {
     setImageSizeValid(true);
     if (e.target.files) {
       const imageList = [];
+      // Check image count is valid
+      const maxImageCount = 4;
+      if (e.target.files.length > maxImageCount) {
+        e.target.value = null;
+        setImages([]);
+        setImageErrorMsg("Too many images. Please select between 1 and 4 images.");
+        setImageCountValid(false);
+        return;
+      }
       for (let i = 0; i < e.target.files.length; i += 1) {
         // Reject files that are too large
         if (e.target.files[i].size > maxImageSize) {
           e.target.value = null;
           setImages([]);
+          setImageErrorMsg("Image file size exceeds 1MB. Please select files under 1MB.");
           setImageSizeValid(false);
           return;
         }
@@ -145,7 +157,7 @@ function NewPost({ showModalForm, submit, handleClose }) {
               <Form.Control
                 required
                 type="email"
-                placeholder="Enter email"
+                placeholder="sample@sample.com"
                 onChange={(e) => {
                   setEmail(e.target.value);
                 }}
@@ -207,26 +219,26 @@ function NewPost({ showModalForm, submit, handleClose }) {
               <Form.Label> Payment period </Form.Label>
               <Form.Control
                 as="select"
-                defaultValue="Monthly"
+                defaultValue="monthly"
                 onChange={(e) => {
                   setPaymentPeriod(e.target.value);
                 }}
               >
-                <option>Daily</option>
-                <option>Weekly</option>
-                <option>Monthly</option>
+                <option>daily</option>
+                <option>weekly</option>
+                <option>monthly</option>
               </Form.Control>
             </Form.Group>
             <Form.Group as={Col} controlId="formLease">
               <Form.Label>Lease length</Form.Label>
               <Form.Control
                 as="select"
-                defaultValue="No lease"
+                defaultValue="no lease"
                 onChange={(e) => {
                   setLease(e.target.selectedIndex * 6);
                 }}
               >
-                <option>No lease</option>
+                <option>no lease</option>
                 <option>6 months</option>
                 <option>1 year</option>
               </Form.Control>
@@ -280,7 +292,7 @@ function NewPost({ showModalForm, submit, handleClose }) {
                   type="checkbox"
                   label="Utilities included"
                   onChange={(e) => {
-                    setUtilities(e.target.value);
+                    setUtilities(e.target.value === "on");
                   }}
                 />
               </Form.Group>
@@ -290,7 +302,7 @@ function NewPost({ showModalForm, submit, handleClose }) {
                   type="checkbox"
                   label="Pets allowed"
                   onChange={(e) => {
-                    setPets(e.target.value);
+                    setPets(e.target.value === "on");
                   }}
                 />
               </Form.Group>
@@ -301,7 +313,7 @@ function NewPost({ showModalForm, submit, handleClose }) {
                   type="checkbox"
                   label="In suite laundry"
                   onChange={(e) => {
-                    setLaundry(e.target.value);
+                    setLaundry(e.target.value === "on");
                   }}
                 />
               </Form.Group>
@@ -310,7 +322,7 @@ function NewPost({ showModalForm, submit, handleClose }) {
                   type="checkbox"
                   label="Furnished"
                   onChange={(e) => {
-                    setFurnished(e.target.value);
+                    setFurnished(e.target.value === "on");
                   }}
                 />
               </Form.Group>
@@ -322,10 +334,10 @@ function NewPost({ showModalForm, submit, handleClose }) {
               id="uploadImagesButton"
               multiple
               required
-              label="Upload image(s) *"
-              feedback="Image files must be less than 1MB"
+              label="Upload 1-4 images *"
+              feedback={imageErrorMsg}
               accept=".jpg, .jpeg, .png, .tiff"
-              isInvalid={ !imageSizeValid }
+              isInvalid={ !imageSizeValid || !imageCountValid }
               onChange={(e) => {
                 handleImageUpload(e);
               }}
