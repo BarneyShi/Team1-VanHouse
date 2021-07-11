@@ -17,9 +17,9 @@ module.exports = {
 
   /* CITATION: https://www.twilio.com/blog/4-tools-for-web-scraping-in-node-js */
   getCoordinates: async function (zipCode) {
-    const arr = zipCode.split(" ");
-    const zipCode_1 = arr[0];
-    const zipCode_2 = arr[1];
+    const zipCodeWithoutSpace = zipCode.replace(/\s/g, "");
+    const zipCode_1 = zipCodeWithoutSpace.substr(0, 3);
+    const zipCode_2 = zipCodeWithoutSpace.substr(3);
 
     const url = `https://geocoder.ca/?locate=${zipCode_1}+${zipCode_2}&geoit=GeoCode`;
 

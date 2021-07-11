@@ -22,34 +22,59 @@ import upVote from "../../assets/thumbup-voted.svg";
 import LoadingSpinner from "../LoadingSpinner";
 
 export default function PostDetail() {
+  const mapToken =
+    "pk.eyJ1IjoiaWR1bm5vY29kaW5nOTUiLCJhIjoiY2tlMTFiMDh4NDF4cTJ5bWgxbDUxb2M5ciJ9.-L_x_0HZGSXFMRdactrn-Q";
+
   const { id } = useParams();
   const [post, setPost] = useState();
   const [comments, setComments] = useState();
   const [loaded, setLoaded] = useState(false);
+  const [coords, setCoords] = useState({
+    latitude: 49.2827,
+    longitude: -123.1207,
+  });
+  const [property, setProperty] = useState({
+    width: "100%",
+    height: "100%",
+    latitude: 49.2827,
+    longitude: -123.1207,
+    zoom: 11,
+    mapboxApiAccessToken: mapToken,
+  });
 
-  // Get the post from the react router params when component mounts and set postInfo state
-  useEffect(() => {
-    const getPost = async () => {
-      const response = await fetch(`http://localhost:4000/post/${id}`);
-      return response;
-    };
+  // Get Post info and latitute&longtitude of the property
+  useEffect(async () => {
+    const postResponse = await fetch(`http://localhost:4000/post/${id}`);
+    if (!postResponse.ok) {
+      throw Error(postResponse.text());
+    }
+    const postData = await postResponse.json();
+    setPost(postData.postInfo);
+    setComments(postData.comments);
 
-    getPost()
-      .then((res) => {
-        if (!res.ok) {
-          throw res;
-        }
-        return res.json();
-      })
-      .then((data) => {
-        console.log(data);
-        setPost(data.postInfo);
-        setComments(data.comments);
-        setLoaded(true);
-      })
-      .catch((error) => {
-        // handleErrors(error);
+    console.log("Post is ", postData);
+
+    const coordsResponse = await fetch(
+      `http://localhost:4000/post/${id}/coords?location=${postData.postInfo.postalCode}`
+    );
+    if (!coordsResponse.ok) {
+      throw Error(coordsResponse.text());
+    } else {
+      const data = await coordsResponse.json();
+      setProperty({
+        width: "100%",
+        height: "100%",
+        latitude: Number(data.latitude),
+        longitude: Number(data.longitude),
+        zoom: 11,
+        mapboxApiAccessToken: mapToken,
       });
+      setCoords({
+        latitude: Number(data.latitude),
+        longitude: Number(data.longitude),
+      });
+    }
+    setLoaded(true);
   }, []);
 
   // Comment function
@@ -81,17 +106,6 @@ export default function PostDetail() {
         />
       </Carousel.Item>
     );
-  });
-
-  const mapToken =
-    "pk.eyJ1IjoiaWR1bm5vY29kaW5nOTUiLCJhIjoiY2tlMTFiMDh4NDF4cTJ5bWgxbDUxb2M5ciJ9.-L_x_0HZGSXFMRdactrn-Q";
-  const [property, setProperty] = useState({
-    width: "100%",
-    height: "100%",
-    latitude: 49.2827,
-    longitude: -123.1207,
-    zoom: 11,
-    mapboxApiAccessToken: mapToken,
   });
 
   // Schedule Hooks
@@ -205,7 +219,7 @@ export default function PostDetail() {
               <ReactMapGL
                 {...property}
                 onViewportChange={(view) => setProperty(view)}>
-                <Marker latitude={49.2827} longitude={-123.1207}>
+                <Marker latitude={coords.latitude} longitude={coords.longitude}>
                   <span id="marker"></span>
                 </Marker>
               </ReactMapGL>
