@@ -1,6 +1,6 @@
 const getErrorString = async (error) => {
   if (typeof error.json === "undefined") {
-    return `Can't connect! Perhaps the server is down.\n${error}`;
+    return `${error.message}`;
   }
   let errorText = "";
   try {

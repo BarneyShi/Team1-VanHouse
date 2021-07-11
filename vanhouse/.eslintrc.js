@@ -30,6 +30,7 @@ module.exports = {
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "no-unused-vars": ["warn", {"vars": "all", "args": "after-used"}],
     "react/jsx-props-no-spreading": "off",
-    "react/self-closing-comp": "off"
+    "react/self-closing-comp": "off",
+    "no-underscore-dangle": "off"
   },
 };

@@ -66,6 +66,15 @@ export default function PostDetail() {
     commentRef.current.value = "";
   };
 
+    // Schedule Hooks
+    const [displaySchedule, setDisplaySchedule] = useState(false);
+    const [schedule, setSchedule] = useState([]);
+    const selectedDate = [
+      { id: 0, date: "Sat Jan 1 2021" },
+      { id: 1, date: "Thur Feb 2 2021" },
+      { id: 2, date: "Wed Mar 3 2021" },
+    ];
+
   const { id } = useParams();
 
   // Get the post from the react router params when component mounts and set postInfo state
@@ -83,9 +92,12 @@ export default function PostDetail() {
         return res.json();
       })
       .then(data => {
-        console.log(data);
+        if (Object.keys(data).length === 0) {
+          throw Error("Invalid data received from server");
+        }
         setPostInfo(data.postInfo);
         setComments(data.comments);
+        setSchedule(data.availableDates);
         setLoaded(true);
       })
       .catch(error => {
@@ -138,21 +150,13 @@ export default function PostDetail() {
     </ListGroup>
   );
 
-  // Schedule Hooks
-  const [displaySchedule, setDisplaySchedule] = useState(false);
-  const selectedDate = [
-    { id: 0, date: "Sat Jan 1 2021" },
-    { id: 1, date: "Thur Feb 2 2021" },
-    { id: 2, date: "Wed Mar 3 2021" },
-  ];
-
   return (
     <>
       <Container fluid>
         <Row>
           {displayError && 
             <Alert className="connection_error_alert" variant="danger">
-              <Alert.Heading> Error getting posts </Alert.Heading>
+              <Alert.Heading> Error getting post </Alert.Heading>
               <p>
                 {errorMsg}
               </p>
@@ -261,7 +265,7 @@ export default function PostDetail() {
             </Modal.Header>
             <Modal.Body>
               <ListGroup id="date-list-group">
-                {selectedDate.map((object) => (
+                {schedule.map((object) => (
                   <span className="date-list-item" key={object.id}>
                     <ListGroup.Item variant="primary">
                       {object.date}

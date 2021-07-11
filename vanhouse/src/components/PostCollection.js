@@ -73,7 +73,7 @@ function PostCollection({setSearchFilter}) {
     const month = `0${today.getMonth() + 1}`.slice(-2);
 
     const postToAdd = {
-      id: Math.round(Math.random()*1000000),
+      id: "",
       date: `${day}-${month}-${today.getYear() + 1900}`,
       title: postInfo.postTitle,
       price: postInfo.price,
@@ -123,9 +123,9 @@ function PostCollection({setSearchFilter}) {
   const postsList = posts.map((post) => (
     // Temporarily pass post object to PostDetail for display purposes,
     // Once we integrate express and node, we will instead use a GET request in PostDetail
-    <Link to={{pathname: `/post/${post.id}`, postObj: post}} key={post.id}>
+    <Link to={{pathname: `/post/${post._id}`, postObj: post}} key={post._id}>
       <Post
-        postId={post.id}
+        postId={post._id}
         postDate={post.date}
         postTitle={post.title}
         price={post.price}
