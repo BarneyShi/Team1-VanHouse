@@ -64,6 +64,17 @@ img.post-detail-thumbnail {
   font-size: 0.9rem;
   text-align: left;
 }
+.comment--username {
+  font-size: .8rem;
+  font-weight: 700;
+}
+.comment--user {
+  font-size: .7rem;
+  text-align: left;
+}
+.comment__img {
+  margin-top: 10px;
+}
 .comment__block {
   padding: 0 3%;
   display: flex;

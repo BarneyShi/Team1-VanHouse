@@ -80,15 +80,27 @@ export default function PostDetail() {
   const addComment = (event) => {
     event.preventDefault();
     const { value } = commentRef.current;
-    setComments([
-      ...comments,
-      {
-        id: comments.length,
-        user: `Anon${comments.length}`,
-        text: value,
-      },
-    ]);
-    commentRef.current.value = "";
+    const form = new FormData();
+    form.append("newComment", value);
+    form.append("userId", "user_0");
+    fetch(`http://localhost:4000/post/${post.id}/comment`, {
+      method: "POST",
+      body: form,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setComments([
+          ...comments,
+          {
+            id: comments.length,
+            user: `Anon${comments.length}`,
+            text: data.comment.text,
+            date: data.today,
+          },
+        ]);
+        commentRef.current.value = "";
+      })
+      .catch((err) => console.log("Error while commenting ", err));
   };
 
   // Maps post images to carousel items.
@@ -238,9 +250,14 @@ export default function PostDetail() {
                       width="40"
                       alt="user_img"
                     />
-                    <span className="comment__username">{e.user}</span>
                   </span>
-                  <p className="comment__content">{e.text}</p>
+                  <span className="comment--rightBlock">
+                    <p className="comment--user">
+                      <span className="comment--username">{e.user}</span>{" "}
+                      &#8226; {e.date}
+                    </p>
+                    <p className="comment__content">{e.text}</p>
+                  </span>
                 </div>
               ))}
             {!loaded && <LoadingSpinner />}

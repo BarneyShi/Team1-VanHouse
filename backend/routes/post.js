@@ -59,11 +59,11 @@ router.post("/:id/comment", function (req, res, next) {
     PostModel.findOneAndUpdate(
       { id: postID },
       { $push: { comment: commentID } }
-    ).then((res) =>
-      console.log("Post's comment array's been updated", res).catch((err) => {
+    )
+      .then((res) => console.log("Post's comment array's been updated", res))
+      .catch((err) => {
         console.log("Error while update Post", err);
-      })
-    );
+      });
     res.json({ comment, today, user: "user_0" });
   });
 });
