@@ -160,4 +160,27 @@ router.patch("/:id/vote", async function (req, res, next) {
   }
 });
 
+/* DELETE Post */
+router.delete("/:id", async function (req, res, next) {
+  const { id } = req.params;
+
+  try {
+    // Delete records in POST document
+    const postToDelete = await PostModel.findOneAndDelete({ id });
+    // Delete comments of the post
+    const { comment } = postToDelete;
+    for (let c of comment) {
+      const commentToDelete = await CommentModel.findOneAndDelete({
+        id: c.id,
+      });
+      console.log("The comment is", commentToDelete);
+    }
+
+    res.json(postToDelete);
+  } catch (err) {
+    console.log("Error while deleting post and its comments ", err);
+    next(err);
+  }
+});
+
 module.exports = router;

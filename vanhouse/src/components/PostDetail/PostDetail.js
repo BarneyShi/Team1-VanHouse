@@ -336,6 +336,7 @@ export default function PostDetail() {
             show={displayEditModal}
             setDisplay={setDisplayEditModal}
             post={post}
+            setPost={setPost}
           />
         </Row>
       </Container>
