@@ -52,8 +52,6 @@ export default function PostDetail() {
     setPost(postData.postInfo);
     setComments(postData.comments);
 
-    console.log("Post is ", postData);
-
     const coordsResponse = await fetch(
       `http://localhost:4000/post/${id}/coords?location=${postData.postInfo.postalCode}`
     );
@@ -197,7 +195,7 @@ export default function PostDetail() {
                   {post.utilities ? "Utility included" : "Utility not included"}
                 </ListGroupItem>
                 <ListGroupItem>
-                  {post.laundry ? "No ensuite laundry" : "Ensuite laundry"}
+                  {post.laundry ? "Ensuite laundry" : "No ensuite laundry"}
                 </ListGroupItem>
                 <ListGroupItem>
                   {post.furnished ? "Furnished" : "Unfurnished"}
@@ -314,7 +312,7 @@ export default function PostDetail() {
                       : "Utility not included"}
                   </ListGroupItem>
                   <ListGroupItem>
-                    {post.laundry ? "No in-suite laundry" : "In-suite laundry"}
+                    {post.laundry ? "Ensuite laundry" : "No ensuite laundry"}
                   </ListGroupItem>
                   <ListGroupItem>
                     {post.furnished ? "Furnished" : "Not furnished"}

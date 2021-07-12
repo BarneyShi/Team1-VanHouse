@@ -80,6 +80,63 @@ router.get("/:id/coords", async function (req, res, next) {
   }
 });
 
+/* PUT post */
+router.put("/:id/edit", function (req, res, next) {
+  const { id } = req.params;
+  // Disclaim: Code snippets from https://www.npmjs.com/package/formidable#readme
+  const form = formidable({ multiples: true });
+
+  try {
+    form.parse(req, async (err, fields) => {
+      if (err) {
+        throw new Error(err);
+      }
+      const {
+        title,
+        email,
+        phone,
+        address,
+        postalCode,
+        price,
+        paymentPeriod,
+        leaseLength,
+        bedrooms,
+        bathrooms,
+        sqft,
+        utilities,
+        pets,
+        laundry,
+        furnished,
+      } = fields;
+      const updatedPost = await PostModel.findOneAndUpdate(
+        { id },
+        {
+          title,
+          email,
+          phone,
+          address,
+          postalCode,
+          price,
+          paymentPeriod,
+          leaseLength,
+          bedrooms,
+          bathrooms,
+          sqft,
+          utilities,
+          pets,
+          laundry,
+          furnished,
+        },
+        { new: true }
+      );
+      res.json(updatedPost);
+    });
+  } catch (err) {
+    console.log("Error while updating post ", err);
+    next(err);
+  }
+});
+
 /* PATCH rating */
 router.patch("/:id/vote", async function (req, res, next) {
   const { id } = req.params;

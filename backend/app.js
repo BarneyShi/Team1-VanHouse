@@ -22,8 +22,8 @@ app.use(cors());
 app.use(logger("dev"));
 
 // CITATION: I found the syntax to increase the size of req.body here: https://stackoverflow.com/a/19965089
-app.use(express.json({limit: '6mb'}));
-app.use(express.urlencoded({limit: '6mb', extended: true}));
+app.use(express.json({ limit: "6mb" }));
+app.use(express.urlencoded({ limit: "6mb", extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 

@@ -1,18 +1,70 @@
-import React from "react";
+import React, { useRef } from "react";
 import PropTypes from "prop-types";
 import { Form, Modal, Col, Row, Button } from "react-bootstrap";
 
-export default function EditPost({ show, setDisplay, post }) {
+export default function EditPost({ show, setDisplay, post, setPost }) {
+  const formRef = useRef();
+
+  const editPost = async (event) => {
+    event.preventDefault();
+    const form = formRef.current;
+    const {
+      title,
+      email,
+      phone,
+      address,
+      postalCode,
+      price,
+      paymentPeriod,
+      leaseLength,
+      bedrooms,
+      bathrooms,
+      sqft,
+      utilities,
+      pets,
+      laundry,
+      furnished,
+    } = form;
+    const formData = new FormData();
+    formData.append("title", title.value);
+    formData.append("email", email.value);
+    formData.append("phone", phone.value);
+    formData.append("price", price.value);
+    formData.append("address", address.value);
+    formData.append("postalCode", postalCode.value);
+    formData.append("paymentPeriod", paymentPeriod.value);
+    formData.append("leaseLength", leaseLength.value);
+    formData.append("bedrooms", bedrooms.value);
+    formData.append("bathrooms", bathrooms.value);
+    formData.append("sqft", sqft.value);
+    formData.append("utilities", utilities.checked);
+    formData.append("pets", pets.checked);
+    formData.append("laundry", laundry.checked);
+    formData.append("furnished", furnished.checked);
+
+    const reponse = await fetch(`http://localhost:4000/post/${post.id}/edit`, {
+      method: "put",
+      body: formData,
+    });
+    const updatedPost = await reponse.json();
+    setPost(updatedPost);
+    setDisplay(false);
+  };
+
   return (
     <Modal show={show} onHide={() => setDisplay(false)}>
-      <Form>
+      <Form onSubmit={editPost} ref={formRef}>
         <Modal.Header>
           <Modal.Title>Edit Post</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form.Group as={Col} controlId="formTitle">
             <Form.Label>Title</Form.Label>
-            <Form.Control placeholder="Title" defaultValue={post?.title} />
+            <Form.Control
+              placeholder="Title"
+              defaultValue={post?.title}
+              name="title"
+            />
           </Form.Group>
 
           <Row>
@@ -23,6 +75,7 @@ export default function EditPost({ show, setDisplay, post }) {
                 type="email"
                 placeholder="Enter email"
                 defaultValue={post?.email}
+                name="email"
               />
             </Form.Group>
 
@@ -33,6 +86,7 @@ export default function EditPost({ show, setDisplay, post }) {
                 pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
                 placeholder="123-456-7890"
                 defaultValue={post?.phone}
+                name="phone"
               />
             </Form.Group>
           </Row>
@@ -44,6 +98,7 @@ export default function EditPost({ show, setDisplay, post }) {
                 required
                 placeholder="1961 East Mall"
                 defaultValue={post?.address}
+                name="address"
               />
             </Form.Group>
             <Form.Group as={Col} controlId="form">
@@ -53,6 +108,7 @@ export default function EditPost({ show, setDisplay, post }) {
                 placeholder="A1B 2C3"
                 pattern="[A-Z][0-9][A-Z][ ]?[0-9][A-Z][0-9]"
                 defaultValue={post?.postalCode}
+                name="postalCode"
               />
             </Form.Group>
           </Row>
@@ -66,12 +122,16 @@ export default function EditPost({ show, setDisplay, post }) {
                 min="0"
                 placeholder="1000"
                 defaultValue={post?.price}
+                name="price"
               />
             </Form.Group>
 
             <Form.Group as={Col} controlId="formPricePeriod">
               <Form.Label> Payment period </Form.Label>
-              <Form.Control as="select" defaultValue={post?.paymentPeriod}>
+              <Form.Control
+                as="select"
+                defaultValue={post?.paymentPeriod}
+                name="paymentPeriod">
                 <option>daily</option>
                 <option>weekly</option>
                 <option>monthly</option>
@@ -79,7 +139,10 @@ export default function EditPost({ show, setDisplay, post }) {
             </Form.Group>
             <Form.Group as={Col} controlId="formLease">
               <Form.Label>Lease length</Form.Label>
-              <Form.Control as="select" defaultValue={post?.leaseLength}>
+              <Form.Control
+                as="select"
+                defaultValue={post?.leaseLength}
+                name="leaseLength">
                 <option>no lease</option>
                 <option>6 months</option>
                 <option>1 year</option>
@@ -95,6 +158,7 @@ export default function EditPost({ show, setDisplay, post }) {
                   min="0"
                   placeholder="1"
                   defaultValue={post?.bedrooms}
+                  name="bedrooms"
                 />
               </Form.Group>
             </Col>
@@ -106,6 +170,7 @@ export default function EditPost({ show, setDisplay, post }) {
                   min="0"
                   placeholder="1"
                   defaultValue={post?.bathrooms}
+                  name="bathrooms"
                 />
               </Form.Group>
             </Col>
@@ -117,6 +182,7 @@ export default function EditPost({ show, setDisplay, post }) {
                   min="0"
                   placeholder="500"
                   defaultValue={post?.sqft}
+                  name="sqft"
                 />
               </Form.Group>
             </Col>
@@ -128,6 +194,7 @@ export default function EditPost({ show, setDisplay, post }) {
                   type="checkbox"
                   label="Utilities included"
                   defaultChecked={post?.utilities}
+                  name="utilities"
                 />
               </Form.Group>
 
@@ -136,6 +203,7 @@ export default function EditPost({ show, setDisplay, post }) {
                   type="checkbox"
                   label="Pets allowed"
                   defaultChecked={post?.pets}
+                  name="pets"
                 />
               </Form.Group>
             </Col>
@@ -145,6 +213,7 @@ export default function EditPost({ show, setDisplay, post }) {
                   type="checkbox"
                   label="In suite laundry"
                   defaultChecked={post?.laundry}
+                  name="laundry"
                 />
               </Form.Group>
               <Form.Group controlId="formFurnished">
@@ -152,6 +221,7 @@ export default function EditPost({ show, setDisplay, post }) {
                   type="checkbox"
                   label="Furnished"
                   defaultChecked={post?.furnished}
+                  name="furnished"
                 />
               </Form.Group>
             </Col>
@@ -185,6 +255,7 @@ EditPost.propTypes = {
   show: PropTypes.bool.isRequired,
   setDisplay: PropTypes.func.isRequired,
   post: PropTypes.shape({
+    id: PropTypes.string,
     title: PropTypes.string,
     email: PropTypes.string,
     phone: PropTypes.string,
@@ -201,4 +272,5 @@ EditPost.propTypes = {
     laundry: PropTypes.bool,
     furnished: PropTypes.bool,
   }).isRequired,
+  setPost: PropTypes.func.isRequired,
 };
