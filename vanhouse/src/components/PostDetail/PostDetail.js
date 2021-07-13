@@ -27,6 +27,7 @@ export default function PostDetail() {
 
   const { id } = useParams();
   const [post, setPost] = useState();
+  const [schedule, setSchedule] = useState([]);
   const [comments, setComments] = useState();
   const [loaded, setLoaded] = useState(false);
   const [coords, setCoords] = useState({
@@ -51,6 +52,7 @@ export default function PostDetail() {
     const postData = await postResponse.json();
     setPost(postData.postInfo);
     setComments(postData.comments);
+    setSchedule(postData.availableDates);
 
     const coordsResponse = await fetch(
       `http://localhost:4000/post/${id}/coords?location=${postData.postInfo.postalCode}`
@@ -240,7 +242,7 @@ export default function PostDetail() {
 
           <Col id="comment">
             <h4 className="text-center">Comment</h4>
-            {loaded &&
+            {loaded ? (
               comments.map((e) => (
                 <div className="comment__block" key={e.id}>
                   <span className="commnet_userinfo">
@@ -259,8 +261,10 @@ export default function PostDetail() {
                     <p className="comment__content">{e.text}</p>
                   </span>
                 </div>
-              ))}
-            {!loaded && <LoadingSpinner />}
+              ))
+            ) : (
+              <LoadingSpinner />
+            )}
             <div className="comment__input">
               <form onSubmit={addComment}>
                 <textarea
@@ -282,7 +286,7 @@ export default function PostDetail() {
             </Modal.Header>
             <Modal.Body>
               <ListGroup id="date-list-group">
-                {selectedDate.map((object) => (
+                {schedule.map((object) => (
                   <span className="date-list-item" key={object.id}>
                     <ListGroup.Item variant="primary">
                       {object.date}
@@ -300,7 +304,7 @@ export default function PostDetail() {
           />
 
           {/* Full info modal */}
-          {loaded ? (
+          {loaded && (
             <Modal
               show={showFullInfo}
               onHide={() => setShowFullInfo(false)}
@@ -337,14 +341,9 @@ export default function PostDetail() {
                   <ListGroupItem>Bedroom: {post.bedrooms}</ListGroupItem>
                   <ListGroupItem>Bathroom: {post.bathrooms}</ListGroupItem>
                   <ListGroupItem>Square feet: {post.sqft}</ListGroupItem>
-                  <ListGroupItem>
-                    Lease length: {post.leaseLength}
-                  </ListGroupItem>
                 </ListGroup>
               </Modal.Body>
             </Modal>
-          ) : (
-            <LoadingSpinner />
           )}
 
           <EditPost
