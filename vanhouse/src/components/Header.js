@@ -5,9 +5,6 @@ import SearchBar from "./SearchBar";
 import LoginButton from "./LoginButton";
 import WelcomeUser from "./WelcomeUser";
 
-// var jwt = require("jsonwebtoken");
-
-
 function Header() {
     const [isLoginClicked, setIsLoginClicked] = useState(false);
     const [isLoginVisible, setIsLoginVisible] = useState(true);
@@ -16,6 +13,7 @@ function Header() {
 
     // Login Form states
     const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [currUser, setCurrUser] = useState({email: "", password: ""});
 
     // const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -71,17 +69,31 @@ function Header() {
     }
 
     function Login() {
-        userArr.forEach(i => {
-            if (email === i.email && password === i.password) {
-                setUser(i);
-                setIsLoggedIn(true);
-                setIsLoginClicked(false);
-                console.log("curr user");
-                console.log(user);
-            } else {
-                setLoginError("Invalid email or password");
-            }
+        setCurrUser({email, password});
+        fetch('http://localhost:4000/login-router/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(currUser)
+        }).then((response) => {
+            console.log("Logged in via Mongo");
+            // setIsLoggedIn(true);
+            setIsLoginClicked(false);
+            console.log(currUser);
+            console.log(response.message);
         });
+        // userArr.forEach(i => {
+        //     if (email === i.email && password === i.password) {
+        //         setUser(i);
+        //         setIsLoggedIn(true);
+        //         setIsLoginClicked(false);
+        //         console.log("curr user");
+        //         console.log(user);
+        //     } else {
+        //         setLoginError("Invalid email or password");
+        //     }
+        // });
     }
 
     function Register() {
@@ -155,12 +167,6 @@ function Header() {
         const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(String(regUser.email).toLowerCase());
     }
-
-    // https://www.digitalocean.com/community/tutorials/nodejs-jwt-expressjs
-    // Accessed Jul 7, 2021
-    // function generateAccessToken(id) {
-    //     return jwt.sign(id, process.env.TOKEN_SECRET, {expiresIn: '1800s'});
-    // }
 
     return (
         <div className="header-flexbox">
