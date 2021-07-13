@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import {
+  Alert,
   Carousel,
   Container,
   Row,
@@ -20,6 +21,7 @@ import thumbDown from "../../assets/thumb-down.svg";
 import upVote from "../../assets/thumbup-voted.svg";
 // import downVote from "../assets/thumbdown-voted.svg";
 import LoadingSpinner from "../LoadingSpinner";
+import getErrorString from "../../utils";
 
 export default function PostDetail() {
   const mapToken =
@@ -29,7 +31,10 @@ export default function PostDetail() {
   const [post, setPost] = useState();
   const [schedule, setSchedule] = useState([]);
   const [comments, setComments] = useState();
-  const [loaded, setLoaded] = useState(false);
+  const [postLoaded, setPostLoaded] = useState(false);
+  const [mapLoaded, setMapLoaded] = useState(false);
+  const [displayError, setDisplayError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState([]);
   const [coords, setCoords] = useState({
     latitude: 49.2827,
     longitude: -123.1207,
@@ -45,21 +50,25 @@ export default function PostDetail() {
 
   // Get Post info and latitute&longtitude of the property
   useEffect(async () => {
-    const postResponse = await fetch(`http://localhost:4000/post/${id}`);
-    if (!postResponse.ok) {
-      throw Error(postResponse.text());
+    let postData;
+    try {
+      const postResponse = await fetch(`http://localhost:4000/post/${id}`);
+      postData = await postResponse.json();
+      setPost(postData.postInfo);
+      setComments(postData.comments);
+      setSchedule(postData.availableDates);
+      setPostLoaded(true);
+    } catch (err) {
+      getErrorString(err).then((errText) => {
+        setErrorMsg([...errorMsg, errText]);
+        setDisplayError(true);
+      });
     }
-    const postData = await postResponse.json();
-    setPost(postData.postInfo);
-    setComments(postData.comments);
-    setSchedule(postData.availableDates);
 
-    const coordsResponse = await fetch(
-      `http://localhost:4000/post/${id}/coords?location=${postData.postInfo.postalCode}`
-    );
-    if (!coordsResponse.ok) {
-      throw Error(coordsResponse.text());
-    } else {
+    try {
+      const coordsResponse = await fetch(
+        `http://localhost:4000/post/${id}/coords?location=${postData.postInfo.postalCode}`
+      );
       const data = await coordsResponse.json();
       setProperty({
         width: "100%",
@@ -73,8 +82,13 @@ export default function PostDetail() {
         latitude: Number(data.latitude),
         longitude: Number(data.longitude),
       });
+      setMapLoaded(true);
+    } catch (err) {
+      getErrorString(err).then((errText) => {
+        setErrorMsg([...errorMsg, errText]);
+        setDisplayError(true);
+      });
     }
-    setLoaded(true);
   }, []);
 
   // Comment function
@@ -141,9 +155,22 @@ export default function PostDetail() {
     <>
       <Container fluid>
         <Row>
+          {/* Error Message  */}
+          {displayError && (
+            <Alert className="connection_error_alert" variant="danger">
+              <Alert.Heading> Error getting post </Alert.Heading>
+              {errorMsg.map((e) => (
+                <p>{e}</p>
+              ))}
+            </Alert>
+          )}
+
           <Col xs={12}>
-            {loaded && <Carousel>{carouselItems}</Carousel>}
-            {!loaded && <LoadingSpinner />}
+            {postLoaded ? (
+              <Carousel>{carouselItems}</Carousel>
+            ) : (
+              <LoadingSpinner />
+            )}
           </Col>
 
           <Col xs={12}>
@@ -193,7 +220,7 @@ export default function PostDetail() {
           </Col>
 
           <Col xs={12} md={6}>
-            {loaded ? (
+            {postLoaded ? (
               <ListGroup>
                 <ListGroupItem>Address: {post.address}</ListGroupItem>
                 <ListGroupItem>
@@ -227,7 +254,7 @@ export default function PostDetail() {
           </Col>
 
           <Col xs={12} md={6}>
-            {loaded ? (
+            {mapLoaded ? (
               <ReactMapGL
                 {...property}
                 onViewportChange={(view) => setProperty(view)}>
@@ -242,7 +269,7 @@ export default function PostDetail() {
 
           <Col id="comment">
             <h4 className="text-center">Comment</h4>
-            {loaded ? (
+            {postLoaded ? (
               comments.map((e) => (
                 <div className="comment__block" key={e.id}>
                   <span className="commnet_userinfo">
@@ -277,25 +304,27 @@ export default function PostDetail() {
           </Col>
 
           {/* Schedule Modal */}
-          <Modal
-            show={displaySchedule}
-            onHide={() => setDisplaySchedule(false)}
-            centered>
-            <Modal.Header closeButton>
-              <Modal.Title>You can contact the landlord on</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <ListGroup id="date-list-group">
-                {schedule.map((object) => (
-                  <span className="date-list-item" key={object.id}>
-                    <ListGroup.Item variant="primary">
-                      {object.date}
-                    </ListGroup.Item>
-                  </span>
-                ))}
-              </ListGroup>
-            </Modal.Body>
-          </Modal>
+          {postLoaded && (
+            <Modal
+              show={displaySchedule}
+              onHide={() => setDisplaySchedule(false)}
+              centered>
+              <Modal.Header closeButton>
+                <Modal.Title>You can contact the landlord on</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <ListGroup id="date-list-group">
+                  {schedule.map((object) => (
+                    <span className="date-list-item" key={object.id}>
+                      <ListGroup.Item variant="primary">
+                        {object.date}
+                      </ListGroup.Item>
+                    </span>
+                  ))}
+                </ListGroup>
+              </Modal.Body>
+            </Modal>
+          )}
 
           {/* Report Modal */}
           <Report
@@ -304,7 +333,7 @@ export default function PostDetail() {
           />
 
           {/* Full info modal */}
-          {loaded && (
+          {postLoaded && (
             <Modal
               show={showFullInfo}
               onHide={() => setShowFullInfo(false)}

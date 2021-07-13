@@ -271,6 +271,6 @@ EditPost.propTypes = {
     utilities: PropTypes.bool,
     laundry: PropTypes.bool,
     furnished: PropTypes.bool,
-  }).isRequired,
+  }),
   setPost: PropTypes.func.isRequired,
 };
