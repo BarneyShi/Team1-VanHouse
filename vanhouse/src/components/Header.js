@@ -5,6 +5,8 @@ import SearchBar from "./SearchBar";
 import LoginButton from "./LoginButton";
 import WelcomeUser from "./WelcomeUser";
 
+// var jwt = require("jsonwebtoken");
+
 
 function Header() {
     const [isLoginClicked, setIsLoginClicked] = useState(false);
@@ -23,10 +25,10 @@ function Header() {
 
     // Registration Form states
     const [firstName, setFirstName] = useState("");
-    const [surname, setSurname] = useState("");
+    const [lastName, setLastName] = useState("");
     const [regEmail, setRegEmail] = useState("");
     const [regPassword, setRegPassword] = useState("");
-    const [regUser, setRegUser] = useState({firstName: "", surname: "", email: "", password: ""});
+    const [regUser, setRegUser] = useState({firstName: "", lastName: "", email: "", password: ""});
     const [confirmPassword, setConfirmPassword] = useState("");
     const [confirmPasswordError, setConfirmPasswordError] = useState("");
     const [emailError, setEmailError] = useState("");
@@ -36,7 +38,7 @@ function Header() {
     // User array state
     const testUser = {
         firstName: "Test",
-        surname: "User",
+        lastName: "User",
         email: "test@test.com",
         password: "test123"
     }
@@ -85,8 +87,17 @@ function Header() {
     function Register() {
         console.log(regUser);
         if (confirmPasswordError === "" && passwordError === "" && emailError === "") {
-            setUserArr(currArr => [...currArr, regUser]);
-            setRegUser({firstName: "", surname: "", regEmail: "", regPassword: ""});
+            // setUserArr(currArr => [...currArr, regUser]);
+            fetch('http://localhost:4000/login-router/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(regUser),
+            }).then(() => {
+                console.log("Registered user to Mongo");
+            });
+            setRegUser({firstName: "", lastName: "", regEmail: "", regPassword: ""});
             setIsRegistrationVisible(!isRegistrationVisible);
             setIsRegisterButtonVisible(!isRegisterButtonVisible);
             setIsLoginVisible(!isLoginVisible);
@@ -95,12 +106,10 @@ function Header() {
             setLoginError("");
             console.log(regUser);
             console.log(userArr);
-            console.log("registered");
             window.alert("Successfully registered! Please login to continue.");
         } else {
             window.confirm("Please re-check your registration information.");
         }
-
     }
 
     function handleRegChange(e) {
@@ -109,15 +118,15 @@ function Header() {
             if (id === "firstName") {
                 return {
                     firstName: value,
-                    surname: prevValue.surname,
+                    lastName: prevValue.lastName,
                     email: prevValue.email,
                     password: prevValue.password
                 };
             }
-            if (id === "surname") {
+            if (id === "lastName") {
                 return {
                     firstName: prevValue.firstName,
-                    surname: value,
+                    lastName: value,
                     email: prevValue.email,
                     password: prevValue.password
                 };
@@ -125,7 +134,7 @@ function Header() {
             if (id === "regEmail") {
                 return {
                     firstName: prevValue.firstName,
-                    surname: prevValue.surname,
+                    lastName: prevValue.lastName,
                     email: value,
                     password: prevValue.password
                 };
@@ -133,7 +142,7 @@ function Header() {
             if (id === "regPassword") {
                 return {
                     firstName: prevValue.firstName,
-                    surname: prevValue.surname,
+                    lastName: prevValue.lastName,
                     email: prevValue.email,
                     password: value
                 };
@@ -146,6 +155,12 @@ function Header() {
         const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(String(regUser.email).toLowerCase());
     }
+
+    // https://www.digitalocean.com/community/tutorials/nodejs-jwt-expressjs
+    // Accessed Jul 7, 2021
+    // function generateAccessToken(id) {
+    //     return jwt.sign(id, process.env.TOKEN_SECRET, {expiresIn: '1800s'});
+    // }
 
     return (
         <div className="header-flexbox">
@@ -161,8 +176,8 @@ function Header() {
                 setIsRegisterButtonVisible={setIsRegisterButtonVisible}
                 firstName={firstName}
                 setFirstName={setFirstName}
-                surname={surname}
-                setSurname={setSurname}
+                lastName={lastName}
+                setLastName={setLastName}
                 email={email}
                 setEmail={setEmail}
                 password={password}

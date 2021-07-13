@@ -97,11 +97,11 @@ function RegistrationForm({
             <div className="form-group">
                 <input
                     type="text"
-                    name="surname"
-                    id="surname"
+                    name="lastName"
+                    id="lastName"
                     placeholder="Enter last name"
                     onChange={handleRegChange}
-                    value={regUser.surname}
+                    value={regUser.lastName}
                 />
             </div>
 
