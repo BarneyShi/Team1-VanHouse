@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
+var checkAuth = require("../middleware/check-auth");
 
 let User = require('../models/User');
 
@@ -57,7 +58,7 @@ router.post('/register', (req, res) => {
 // DELETE USER
 // this 'works' but is not actually deleting from mongo .. prob an issue with primary key
 // also we don't need this right now unless we create an admin user that can delete users
-router.delete('/deleteUser/:userId', (req, res) => {
+router.delete('/deleteUser/:userId', checkAuth, (req, res) => {
     User.deleteOne({id: req.body.id})
         .exec()
         .then(result => {
@@ -100,7 +101,7 @@ router.post('/login', (req, res) => {
                     const token = jwt.sign(
                         {
                             email: user[0].email,
-                            userId: user[0]._id
+                            firstName: user[0].firstName
                         },
                         process.env.JWT_KEY,
                         {
@@ -125,7 +126,8 @@ router.post('/login', (req, res) => {
                 error: err
             });
         });
-})
+});
+// end of copied code
 
 
 module.exports = router;

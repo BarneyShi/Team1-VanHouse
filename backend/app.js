@@ -46,8 +46,8 @@ app.use(function (err, req, res, next) {
 });
 
 console.log("12345 should be here: " + process.env.MONGO_PASSWORD);
-let secret = require('crypto').randomBytes(64).toString('hex');
-console.log(secret);
+// let secret = require('crypto').randomBytes(64).toString('hex');
+// console.log(secret);
 
 /* Connect to Mongo Atlas */
 /* CITATION: https://dev.to/dalalrohit/how-to-connect-to-mongodb-atlas-using-node-js-k9i */
