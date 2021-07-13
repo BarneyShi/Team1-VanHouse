@@ -5,7 +5,6 @@ var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var cors = require("cors");
 var mongoose = require("mongoose");
-var jwt = require("jsonwebtoken");
 
 /* ENV Variables */
 require("dotenv").config();
@@ -19,7 +18,10 @@ var app = express();
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
-app.use(cors());
+// https://stackoverflow.com/questions/36824106/express-doesnt-set-a-cookie
+// Accessed July 13, 2021
+app.use(cors({origin: true, credentials: true}));
+
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

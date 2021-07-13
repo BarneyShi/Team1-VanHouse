@@ -13,7 +13,6 @@ function Header() {
 
     // Login Form states
     const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [currUser, setCurrUser] = useState({email: "", password: ""});
 
     // const [name, setName] = useState("");
     const [email, setEmail] = useState("");
@@ -69,19 +68,20 @@ function Header() {
     }
 
     function Login() {
-        setCurrUser({email, password});
         fetch('http://localhost:4000/login-router/login', {
             method: 'POST',
+            // https://stackoverflow.com/questions/36824106/express-doesnt-set-a-cookie
+            // Accessed July 13, 2021
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(currUser)
+            body: JSON.stringify({ email, password })
         }).then((response) => {
             console.log("Logged in via Mongo");
             // setIsLoggedIn(true);
             setIsLoginClicked(false);
-            console.log(currUser);
-            console.log(response.message);
+            console.log(response.userData);
         });
         // userArr.forEach(i => {
         //     if (email === i.email && password === i.password) {

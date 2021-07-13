@@ -30,7 +30,7 @@ router.post('/register', (req, res) => {
                         });
                     } else {
                         const user = new User({
-                            id: req.body.id,
+                            // id: req.body.id,
                             email: req.body.email,
                             firstName: req.body.firstName,
                             lastName: req.body.lastName,
@@ -98,20 +98,33 @@ router.post('/login', (req, res) => {
                     });
                 }
                 if (result) {
-                    const token = jwt.sign(
+                    // https://www.youtube.com/watch?v=mbsmsi7l3r4
+                    const refreshToken = jwt.sign({
+                            email: user[0].email,
+                            firstName: user[0].firstName
+                        },
+                        process.env.REFRESH_TOKEN_SECRET);
+
+                    const accessToken = jwt.sign(
                         {
                             email: user[0].email,
                             firstName: user[0].firstName
                         },
-                        process.env.JWT_KEY,
+                        process.env.ACCESS_TOKEN_SECRET,
                         {
-                            expiresIn: "1h"
+                            expiresIn: "15m"
                         }
                     );
 
-                    return res.status(200).json({
+                    // https://www.youtube.com/watch?v=mbsmsi7l3r4
+                    // https://www.youtube.com/watch?v=S-ZIfNuT5H8&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=11
+                    // Accessed July 13, 2021
+                    // res.json({accessToken: accessToken, refreshToken: refreshToken});
+                    res.cookie('jwt', accessToken, { httpOnly: true, maxAge: 1800 });
+
+                    res.status(200).json({
                         message: 'Auth successful',
-                        token: token
+                        token: accessToken
                     });
                 }
                 res.status(401).json({
@@ -128,6 +141,11 @@ router.post('/login', (req, res) => {
         });
 });
 // end of copied code
+
+// Making refresh tokens
+// router.post('/token', (req, res) => {
+//     const refreshToken = req.body.token
+// })
 
 
 module.exports = router;
