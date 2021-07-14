@@ -58,6 +58,8 @@ router.post('/register', (req, res) => {
 // this 'works' but is not actually deleting from mongo .. prob an issue with primary key
 // also we don't need this right now unless we create an admin user that can delete users
 router.delete('/deleteUser/:userId', checkAuth, (req, res) => {
+    console.log("here is the userData");
+    console.log(req.userData);
     User.deleteOne({id: req.body.id})
         .exec()
         .then(result => {
@@ -119,7 +121,12 @@ router.post('/login', (req, res) => {
                     // https://www.youtube.com/watch?v=S-ZIfNuT5H8&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=11
                     // Accessed July 13, 2021
                     // res.json({accessToken: accessToken, refreshToken: refreshToken});
-                    res.cookie('jwt', accessToken, { httpOnly: true, maxAge: 18000 });
+                    res.cookie('jwt', accessToken,
+                        {
+                            httpOnly: true,
+                            maxAge: 18000
+                        });
+                    res.setHeader('auth-token', accessToken);
                     console.log(user);
                     let sendUser = {firstName: user[0].firstName, email: user[0].email};
                     return res.status(200).json(sendUser);
@@ -135,6 +142,27 @@ router.post('/login', (req, res) => {
         });
 });
 // end of copied code
+
+router.get('/account', checkAuth, (req, res) => {
+    console.log("Here we are");
+    User.find({email: req.body.email})
+        .exec()
+        .then(user => {
+            let sendUser = {
+                firstName: user[0].firstName,
+                lastName: user[0].lastName,
+                email: user[0].email
+            };
+            return res.status(200).json(sendUser);
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(500).json({
+                error: err
+            });
+        });
+    res.status(200).json({});
+});
 
 // Making refresh tokens
 // router.post('/token', (req, res) => {

@@ -10,22 +10,29 @@
 // cookies
 // Accessed July 13, 2021
 
+// https://www.youtube.com/watch?v=2jqok-WgelI
+// headers
+// Accessed July 13, 2021
+
 const jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
+    const token = req.cookies.jwt;
+    // const token = req.header['auth-token'];
+    console.log("the token");
+    console.log(token);
+    if (!token) return res.status(401).send('Access denied');
+
     try {
-        const token = req.cookies.jwt;
-        console.log(token);
         const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
         req.userData = decoded;
         req.isAuth = true;
-        req.userFirstName = decoded.firstName;
 
         next();
     } catch (err) {
-        window.alert('Please login to continue')
-        res.status(401).json({
-            message: 'Auth failed'
+        // window.alert('Please login to continue')
+        res.status(400).json({
+            message: 'Invalid token'
         });
         next();
     }

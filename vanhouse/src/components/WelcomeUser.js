@@ -5,8 +5,8 @@ import "../styles/login.css"
 
 function WelcomeUser({
                          user,
-                         isLoggedIn,
-                         handleLogoutClicked
+                         handleLogoutClicked,
+                         handleAccountClicked
                      }) {
 
     if (user === null) {
@@ -23,6 +23,7 @@ function WelcomeUser({
                     <span className="welcome-text">Hi, {user.firstName}!</span>
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
+                    <Dropdown.Item onClick={handleAccountClicked}>Account</Dropdown.Item>
                     <Dropdown.Item onClick={handleLogoutClicked}>Logout</Dropdown.Item>
                 </Dropdown.Menu>
             </div>
@@ -36,8 +37,8 @@ WelcomeUser.defaultProps =
 WelcomeUser.propTypes =
     {
         user: PropTypes.objectOf(PropTypes.object).isRequired,
-        isLoggedIn: PropTypes.bool.isRequired,
-        handleLogoutClicked: PropTypes.func.isRequired
+        handleLogoutClicked: PropTypes.func.isRequired,
+        handleAccountClicked: PropTypes.func.isRequired
     };
 
 export default WelcomeUser

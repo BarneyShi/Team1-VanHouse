@@ -12,9 +12,8 @@ function Header() {
     const [isRegisterButtonVisible, setIsRegisterButtonVisible] = useState(true);
 
     // Login Form states
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
     const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
     const [user, setUser] = useState(null);
     const [loginError, setLoginError] = useState("");
@@ -28,7 +27,6 @@ function Header() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [confirmPasswordError, setConfirmPasswordError] = useState("");
     const [emailError, setEmailError] = useState("");
-    const [password, setPassword] = useState("");
     const [passwordError, setPasswordError] = useState("");
 
     // Functions
@@ -38,8 +36,20 @@ function Header() {
 
     const handleLogoutClicked = () => {
         setUser(null);
-        setIsLoggedIn(false);
         setLoginError("");
+    }
+
+    const handleAccountClicked = () => {
+        fetch('http://localhost:4000/login-router/account', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+        }).then((response) =>
+        {
+            console.log("response");
+        });
     }
 
     const handleCloseModal = () => {
@@ -156,6 +166,7 @@ function Header() {
         return re.test(String(regUser.email).toLowerCase());
     }
 
+
     return (
         <div className="header-flexbox">
             <LoginForm
@@ -179,8 +190,6 @@ function Header() {
                 passwordError={passwordError}
                 setPasswordError={setPasswordError}
                 user={user}
-                isLoggedIn={isLoggedIn}
-                setIsLoggedIn={setIsLoggedIn}
                 loginError={loginError}
                 regEmail={regEmail}
                 setRegEmail={setRegEmail}
@@ -207,13 +216,13 @@ function Header() {
                 </div>
                 <div className="login-logout-button">
                     <LoginButton
-                        handleLoginClicked={handleLoginClicked}
                         user={user}
+                        handleLoginClicked={handleLoginClicked}
                     />
                     <WelcomeUser
-                        isLoggedIn={isLoggedIn}
                         user={user}
                         handleLogoutClicked={handleLogoutClicked}
+                        handleAccountClicked={handleAccountClicked}
                     />
                 </div>
 

@@ -8,6 +8,7 @@ let User = require('../models/User');
 module.exports = (req, res, next) => {
     try {
         const token = req.cookies.jwt;
+        // const token = req.header('auth-token');
         if (token) {
             console.log(token);
             const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
@@ -17,8 +18,7 @@ module.exports = (req, res, next) => {
 
             next();
         } else {
-            res.status(401).json(err);
-            console.log(err);
+            res.status(401).json('Auth failed');
             res.locals.user = null;
         }
     } catch (err) {
