@@ -4,7 +4,6 @@ import PropTypes from "prop-types";
 import "../styles/login.css"
 
 function LoginButton({
-                         isLoggedIn,
                          handleLoginClicked,
                          user
                      }) {
@@ -25,7 +24,6 @@ function LoginButton({
 LoginButton.defaultProps = {}
 
 LoginButton.propTypes = {
-    isLoggedIn: PropTypes.bool.isRequired,
     handleLoginClicked: PropTypes.func.isRequired,
     user: PropTypes.objectOf(PropTypes.object).isRequired
 };

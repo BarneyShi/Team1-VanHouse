@@ -14,7 +14,6 @@ function Header() {
     // Login Form states
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-    // const [name, setName] = useState("");
     const [email, setEmail] = useState("");
 
     const [user, setUser] = useState(null);
@@ -32,23 +31,13 @@ function Header() {
     const [password, setPassword] = useState("");
     const [passwordError, setPasswordError] = useState("");
 
-    // User array state
-    const testUser = {
-        firstName: "Test",
-        lastName: "User",
-        email: "test@test.com",
-        password: "test123"
-    }
-    const [userArr, setUserArr] = useState([testUser]);
-
-
     // Functions
     const handleLoginClicked = () => {
         setIsLoginClicked(true);
     }
 
     const handleLogoutClicked = () => {
-        setUser({firstName: "", email: ""});
+        setUser(null);
         setIsLoggedIn(false);
         setLoginError("");
     }
@@ -90,29 +79,10 @@ function Header() {
                         setUser({firstName: response2.firstName, email: response2.email});
                         console.log(user);
                         console.log(response2);
-                        window.alert("Logged in.");
                         setIsLoginClicked(false);
                     });
             }
-            // if (response.status === 200) {
-            //     setIsLoginClicked(false);
-            //     window.alert("Logged in.");
-            //     setUser({firstName: response.body[0].firstName, email: response.body[0].email});
-            //     console.log(user);
-            // }
-            // setIsLoggedIn(true);
         });
-        // userArr.forEach(i => {
-        //     if (email === i.email && password === i.password) {
-        //         setUser(i);
-        //         setIsLoggedIn(true);
-        //         setIsLoginClicked(false);
-        //         console.log("curr user");
-        //         console.log(user);
-        //     } else {
-        //         setLoginError("Invalid email or password");
-        //     }
-        // });
     }
 
     function Register() {
@@ -136,7 +106,6 @@ function Header() {
             setConfirmPassword("");
             setLoginError("");
             console.log(regUser);
-            console.log(userArr);
             window.alert("Successfully registered! Please login to continue.");
         } else {
             window.confirm("Please re-check your registration information.");
@@ -238,7 +207,6 @@ function Header() {
                 </div>
                 <div className="login-logout-button">
                     <LoginButton
-                        isLoggedIn={isLoggedIn}
                         handleLoginClicked={handleLoginClicked}
                         user={user}
                     />
@@ -255,7 +223,9 @@ function Header() {
                     <h2>Find your next home</h2>
                 </div>
                 <div className="space">
-                    <h2> </h2>
+                    <h2>
+
+                    </h2>
                 </div>
             </div>
 

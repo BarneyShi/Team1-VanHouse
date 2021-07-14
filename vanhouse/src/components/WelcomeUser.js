@@ -10,7 +10,11 @@ function WelcomeUser({
                      }) {
 
     if (user === null) {
-        return (<h2> </h2>)
+        return (
+            <h2>
+
+            </h2>
+        )
     }
     return (
         <Dropdown>
