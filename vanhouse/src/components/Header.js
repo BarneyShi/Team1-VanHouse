@@ -78,10 +78,18 @@ function Header() {
             },
             body: JSON.stringify({ email, password })
         }).then((response) => {
-            console.log("Logged in via Mongo");
+            if (response.status === 401) {
+                setIsLoginClicked(false);
+                window.alert("Invalid email or password.");
+                console.log("401");
+            }
+
+            if (response.status === 200) {
+                setIsLoginClicked(false);
+                window.alert("Logged in.");
+                console.log(response);
+            }
             // setIsLoggedIn(true);
-            setIsLoginClicked(false);
-            console.log(response.userData);
         });
         // userArr.forEach(i => {
         //     if (email === i.email && password === i.password) {

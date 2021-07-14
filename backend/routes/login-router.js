@@ -30,7 +30,6 @@ router.post('/register', (req, res) => {
                         });
                     } else {
                         const user = new User({
-                            // id: req.body.id,
                             email: req.body.email,
                             firstName: req.body.firstName,
                             lastName: req.body.lastName,
@@ -120,17 +119,11 @@ router.post('/login', (req, res) => {
                     // https://www.youtube.com/watch?v=S-ZIfNuT5H8&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=11
                     // Accessed July 13, 2021
                     // res.json({accessToken: accessToken, refreshToken: refreshToken});
-                    res.cookie('jwt', accessToken, { httpOnly: true, maxAge: 1800 });
+                    res.cookie('jwt', accessToken, { httpOnly: true });
 
-                    res.status(200).json({
-                        message: 'Auth successful',
-                        token: accessToken
-                    });
+                    res.status(200).json('Auth successful');
                 }
-                res.status(401).json({
-                    // could be email or password issue
-                    message: 'Auth failed'
-                });
+                res.status(401).json('Auth failed');
             });
         })
         .catch((err) => {

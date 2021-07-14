@@ -6,12 +6,15 @@
 // https://www.youtube.com/watch?v=mbsmsi7l3r4
 // Accessed July 13, 2021
 
-var jwt = require('jsonwebtoken');
+// https://www.youtube.com/watch?v=9N7uqbuODqs&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=15
+// cookies
+// Accessed July 13, 2021
+
+const jwt = require("jsonwebtoken");
 
 module.exports = (req, res, next) => {
     try {
-        const authHeader = req.headers.authorization;
-        const token = authHeader && authHeader.split(" ")[1];
+        const token = req.cookies.jwt;
         console.log(token);
         const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
         req.userData = decoded;
@@ -19,12 +22,10 @@ module.exports = (req, res, next) => {
         req.userFirstName = decoded.firstName;
 
         next();
-    } catch(err) {
-        return
-        res.status(401).json({
+    } catch (err) {
+        window.alert('Please login to continue')
+        return res.status(401).json({
             message: 'Auth failed'
         });
-        // req.isAuth = false;
-        // next();
     }
 }
