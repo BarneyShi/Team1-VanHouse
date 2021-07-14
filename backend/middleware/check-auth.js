@@ -24,8 +24,9 @@ module.exports = (req, res, next) => {
         next();
     } catch (err) {
         window.alert('Please login to continue')
-        return res.status(401).json({
+        res.status(401).json({
             message: 'Auth failed'
         });
+        next();
     }
 }

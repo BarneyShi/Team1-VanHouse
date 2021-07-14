@@ -9,9 +9,11 @@ function WelcomeUser({
                          handleLogoutClicked
                      }) {
 
+    if (user === null) {
+        return (<h2> </h2>)
+    }
     return (
         <Dropdown>
-            {isLoggedIn &&
             <div className="dropdown-stuff">
                 <Dropdown.Toggle className="dropdown-toggle-button" variant="outline-success">
                     <span className="welcome-text">Hi, {user.firstName}!</span>
@@ -20,7 +22,6 @@ function WelcomeUser({
                     <Dropdown.Item onClick={handleLogoutClicked}>Logout</Dropdown.Item>
                 </Dropdown.Menu>
             </div>
-            }
         </Dropdown>
     )
 }

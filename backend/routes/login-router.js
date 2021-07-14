@@ -119,9 +119,10 @@ router.post('/login', (req, res) => {
                     // https://www.youtube.com/watch?v=S-ZIfNuT5H8&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=11
                     // Accessed July 13, 2021
                     // res.json({accessToken: accessToken, refreshToken: refreshToken});
-                    res.cookie('jwt', accessToken, { httpOnly: true });
-
-                    res.status(200).json('Auth successful');
+                    res.cookie('jwt', accessToken, { httpOnly: true, maxAge: 18000 });
+                    console.log(user);
+                    let sendUser = {firstName: user[0].firstName, email: user[0].email};
+                    return res.status(200).json(sendUser);
                 }
                 res.status(401).json('Auth failed');
             });

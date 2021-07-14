@@ -17,7 +17,7 @@ function Header() {
     // const [name, setName] = useState("");
     const [email, setEmail] = useState("");
 
-    const [user, setUser] = useState({firstName: "", email: ""});
+    const [user, setUser] = useState(null);
     const [loginError, setLoginError] = useState("");
 
     // Registration Form states
@@ -76,7 +76,7 @@ function Header() {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ email, password })
+            body: JSON.stringify({email, password})
         }).then((response) => {
             if (response.status === 401) {
                 setIsLoginClicked(false);
@@ -85,10 +85,21 @@ function Header() {
             }
 
             if (response.status === 200) {
-                setIsLoginClicked(false);
-                window.alert("Logged in.");
-                console.log(response);
+                response.json()
+                    .then(response2 => {
+                        setUser({firstName: response2.firstName, email: response2.email});
+                        console.log(user);
+                        console.log(response2);
+                        window.alert("Logged in.");
+                        setIsLoginClicked(false);
+                    });
             }
+            // if (response.status === 200) {
+            //     setIsLoginClicked(false);
+            //     window.alert("Logged in.");
+            //     setUser({firstName: response.body[0].firstName, email: response.body[0].email});
+            //     console.log(user);
+            // }
             // setIsLoggedIn(true);
         });
         // userArr.forEach(i => {
@@ -229,6 +240,7 @@ function Header() {
                     <LoginButton
                         isLoggedIn={isLoggedIn}
                         handleLoginClicked={handleLoginClicked}
+                        user={user}
                     />
                     <WelcomeUser
                         isLoggedIn={isLoggedIn}
