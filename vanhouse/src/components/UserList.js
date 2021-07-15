@@ -1,103 +1,124 @@
-import {Card,Button,Container,Row,Col} from 'react-bootstrap';
-import React, {useState} from 'react';
-import user1 from '../assets/img1.jpg';
-import user2 from '../assets/img2.jpg';
-import user3 from '../assets/img3.jpg';
+import PropTypes from "prop-types";
+import React, { useEffect, useState } from "react";
+import { Button, Col, Container, Row } from "react-bootstrap";
+import user1 from "../assets/img1.jpg";
+import user2 from "../assets/img2.jpg";
+import user3 from "../assets/img3.jpg";
+import user4 from "../assets/user.svg";
 
+function UserList({ setFilterPost }) {
 
-function UserList(){
-    const [uname,setName] = useState(["user1","user2","user3"]);
-    const [userimg,setImg] = useState([user1,user2,user3]);
-    let cardList = uname.map((item,index)=>{
-            const style = {
-                width:'35px',
-                borderRadius:'100%',
-                display: 'flex',
-                alignItems: 'center'
-            }
-            const ButtonStyle = {
-                display: 'flex',
-                alignItems: 'center'
+    const [state, setState] = useState(0);
 
-            }
-            return(
-                <Row style={{display: 'flex', alignItems: 'center'}}>  
-                   <Col xs={3} md={3}><img style={style} alt='User avatar' src={userimg[index]} /></Col> 
-              
-                   <Col xs={3} md={3}> <text style={{display: 'flex', alignItems: 'center',fontSize: '20px'}}> {uname[index]} </text> </Col>
-                
-      
-                   
+    const [userImg, setImg] = useState([user1, user2, user4]);
 
-                   
-                   
-    
-                </Row>
-            )
-    })
-    const [list,setList] = useState(cardList);
-    const handleDelete = (i) =>{
-        const tn = uname;
-        const ti = userimg;
-        tn.splice(i,1);
-        ti.splice(i,1);
-        
-        setName(tn);
-        setImg(ti);
-        // console.log("user:",uname);
-        cardList = uname.map((item,index)=>{
-            const style = {
-                width:'35px',
-                borderRadius:'100%',
-                display: 'flex',
-                alignItems: 'center'
-            }
-
-            const buttonStyle = {
-                display: 'flex',
-                alignItems: 'center'
-
-            }
-            return(
-                <Row style={{display: 'flex', alignItems: 'center'}}>
-                   <Col xs={3} md={3}><img style={style} alt='User avatar' src={userimg[index]} /></Col> 
-                   
-                   <Col xs={3} md={3}> <text style={{display: 'flex', alignItems: 'center'}}> {uname[index]} </text> </Col>
-                  
-                   <Col xs={3} md={3}><Button variant="outline-primary" size="sm" style={buttonStyle} onClick={()=>handleDelete(index)}>-</Button></Col>
-
-                   
-     
-
-                             
-                </Row>
-                
-                    
-                    
-
-            )
+    const [list, setList] = useState();
+    function filterUserPost(item) {
+        const url = `http://localhost:4000/userpost/${item.id}`;
+        fetch(url, {
+            method: "GET",
         })
-        setList(cardList);
+            .then((res) => {
+                console.log(res);
+                // console.log(res.json());
+                return res.json();
+            })
+            .then((res) => {
+                // setPosts(res);
+                console.log(res);
+                setFilterPost(res);
+            });
     }
+
+    function Cancel() {
+        setState(1);
+
+        fetch("http://localhost:4000/getpost", { method: "GET" })
+            .then((res) => res.json())
+            .then((res) => {
+                console.log(res);
+                setFilterPost(res);
+
+
+            });
+    }
+
+
+    useEffect(() => {
+        console.log("hahhahahhahah");
+        fetch("http://localhost:4000/user",
+            { method: "GET" })
+            .then((res) => res.json())
+            .then((res) => {
+                console.log("ddddddd");
+                const newName = [];
+                console.log(res);
+                const cardList = res.map((item, index) => {
+                    const style = {
+                        width: "35px",
+                        height: "35px",
+                        borderRadius: "100%",
+                    };
+                    const ButtonStyle = {
+                        display: "flex",
+                        alignItems: "center",
+                    };
+                    return (
+                        <div
+                            style={{
+                                display: "flex",
+                                alignItems: "center",
+                                marginTop: "10px",
+                            }}
+                            key={item}
+                        >
+                            <div>
+                                <img style={style} alt="User avatar" src={userImg[2]} />
+                            </div>
+                            <button type="button" style={{ fontSize: "20px", outline: "none", border: 'none' }}
+
+                                    onClick={() => filterUserPost(item)}>
+                                {item.firstName} {item.lastName}
+                            </button>
+                        </div>
+
+                    );
+
+                });
+                setList(cardList);
+            });
+    }, []);
 
     const boxStyle = {
+        boxShadow: "0 8px 20px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.1)",
+        borderRadius: "3px",
+        paddingBottom: "10px",
+        height: "86vh",
+    };
 
-        boxShadow:'0 8px 20px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.1)',
-        borderRadius:'3px',
-        paddingBottom:'10px',
-        height:'86vh'
-    }
+    return (
 
-    return(
         <div style={boxStyle}>
             <h2>User List</h2>
-            <Container fluid>
-                {list}
-            </Container>
-            
+            <Container fluid>{list}</Container>
+
+            <div style={{ display: "flex" }}>
+                <button type="button" style={  { marginLeft: "auto" }}
+                    onClick={Cancel}
+                >
+                    Cancel
+                </button>
+            </div>
+
         </div>
-    )
+
+    );
+
+
 }
 
-export default UserList;
+UserList.propTypes = {
+    setFilterPost: PropTypes.func.isRequired,
+};
 
+export default UserList;

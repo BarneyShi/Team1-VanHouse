@@ -1,21 +1,15 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
-  Carousel,
-  Container,
-  Row,
-  Col,
-  ListGroup,
-  ListGroupItem,
-  Button,
-  Modal,
+  Button, Carousel, Col, Container, ListGroup,
+  ListGroupItem, Modal, Row
 } from "react-bootstrap";
-import {useLocation} from "react-router-dom"
-import "../styles/postdetail.css";
 import ReactMapGL, { Marker } from "react-map-gl";
-import userLogo from "../assets/user.svg";
+import { useLocation } from "react-router-dom";
 // import thumbUp from "../assets/thumb-up.svg";
 import thumbDown from "../assets/thumb-down.svg";
 import upVote from "../assets/thumbup-voted.svg";
+import userLogo from "../assets/user.svg";
+import "../styles/postdetail.css";
 // import downVote from "../assets/thumbdown-voted.svg";
 
 export default function PostDetail() {  
@@ -53,7 +47,7 @@ export default function PostDetail() {
       postToStore.utilities = postObj.utilities ? "Utilities included" : "Utilities not included";
       postToStore.laundry = postObj.laundry ? "Ensuite Laundry" : "No ensuite laundry";
       postToStore.laundry = postObj.furnished ? "Furnished" : "Unfurnished";
-      postToStore.mainImage = (postObj.imageURLs && postObj.imageURLs[0]) ? postObj.imageURLs[0] : "https://customhomesottawa.ca/wp-content/uploads/2016/05/placeholder-house1.jpg";
+      postToStore.mainImage = (postObj.images && postObj.images[0]) ? postObj.images[0] : "https://customhomesottawa.ca/wp-content/uploads/2016/05/placeholder-house1.jpg";
       postToStore.schedule = postObj.schedule ? postObj.schedule : [];
       setPostInfo(postToStore);
     }

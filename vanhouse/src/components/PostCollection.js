@@ -1,76 +1,58 @@
 // CITATION: Font awesome button reference: https://www.w3schools.com/howto/howto_css_icon_buttons.asp
 // TODO - hide create-post-button when not logged in
 
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { Button } from "react-bootstrap";
 import PropTypes from "prop-types";
-import Post from "./Post";
-import NewPost from "./NewPost";
-import SearchBar from "./SearchBar";
+import React, { useEffect, useState } from "react";
+import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import "../styles/Post.css";
+import NewPost from "./NewPost";
+import Post from "./Post";
+import SearchBar from "./SearchBar";
 
-
-function PostCollection({setSearchFilter}) {
+function PostCollection({
+  setSearchFilter,
+  filterPost,
+  setStorePost,
+  reset,
+  filterIdx,
+}) {
   // Note: Temporarily adding in placeholder post JSON objects
   // The objects currently only contain info used in the main page post display, not the detail view.
-  const [posts, setPosts] = useState([
-    {
-      id: 0,
-      dateCreated: "01-06-2021",
-      postTitle: "Untitled Post",
-      price: 1000,
-      imageURLs: [
-        "https://upload.wikimedia.org/wikipedia/commons/f/fd/Ikblearningcentre.jpg",
-      ],
-      author: "Anonymous",
-      address: "1961 East Mall",
-    },
-    {
-      id: 1,
-      dateCreated: "01-06-2021",
-      postTitle: "Untitled Post",
-      price: 1000,
-      imageURLs: [
-        "https://upload.wikimedia.org/wikipedia/commons/f/fd/Ikblearningcentre.jpg",
-      ],
-      author: "Anonymous",
-      address: "1961 East Mall",
-    },
-    {
-      id: 2,
-      dateCreated: "01-06-2021",
-      postTitle: "Untitled Post",
-      price: 1000,
-      imageURLs: [
-        "https://upload.wikimedia.org/wikipedia/commons/f/fd/Ikblearningcentre.jpg",
-      ],
-      author: "Anonymous",
-      address: "1961 East Mall",
-    },
-    {
-      id: 3,
-      dateCreated: "01-06-2021",
-      postTitle: "Untitled Post",
-      price: 1000,
-      imageURLs: [
-        "https://upload.wikimedia.org/wikipedia/commons/f/fd/Ikblearningcentre.jpg",
-      ],
-      author: "Anonymous",
-      address: "1961 East Mall",
-    },
-    {
-      id: 4,
-      dateCreated: "01-06-2021",
-      postTitle: "Untitled Post",
-      price: 1000,
-      imageURLs: [
-        "https://upload.wikimedia.org/wikipedia/commons/f/fd/Ikblearningcentre.jpg",
-      ],
-      author: "Anonymous",
-      address: "1961 East Mall",
-    },
-  ]);
+
+  const [posts, setPosts] = useState([]);
+
+  // useEffect(() => {
+  //   fetch("http://localhost:4000/getpost",
+  //    { method: "GET" })
+  //     .then((res) => res.json())
+  //     .then((res) => {
+  //       console.log(res);
+  //       setPosts(res);
+  //     });
+  // }, [filterIdx]);
+
+  useEffect(() => {
+    console.log("fetch1");
+    (async () => {
+      fetch("http://localhost:4000/getpost", 
+      { method: "GET" })
+        .then((res) => res.json())
+        .then((res) => {
+        console.log(res);
+
+          setPosts(res);
+        });
+      // const json = await fetch("http://localhost:4000/getpost", { method: "GET" });
+      // console.log(json);
+      // console.log('fetch22');
+      // setPosts(json.json());
+    })();
+  }, []);
+
+  useEffect(() => {
+    setPosts(filterPost);
+  }, [filterPost]);
 
   // State to show/hide the NewPost component
   const [newPostVisible, setNewPostVisible] = useState(false);
@@ -100,25 +82,38 @@ function PostCollection({setSearchFilter}) {
       pets: postInfo.pets,
       laundry: postInfo.laundry,
       furnished: postInfo.furnished,
-      imageURLs: postInfo.images,
+      images: postInfo.images,
       schedule: postInfo.schedule,
       author: "",
     };
+
+    // fetch("http://localhost:4000/createpost?data=", {
+    //   method: "get",
+    //   body: JSON.stringify({
+    //     data: postToAdd,
+    //     cc: "yahahh",
+    //   }),
+    // })
+    //   .then((res) => res.json())
+    //   .then((res) => {
+    //     console.log(res);
+    //   });
+
     const updatedPosts = [...posts, postToAdd];
     setPosts(updatedPosts);
   };
 
   // Map the posts state to a list of Post components
-  const postsList = posts.map((post) => (
+  const postsList = posts?.map((post) => (
     // Temporarily pass post object to PostDetail for display purposes,
     // Once we integrate express and node, we will instead use a GET request in PostDetail
-    <Link to={{pathname: `/post/${post.id}`, postObj: post}} key={post.id}>
+    <Link to={{ pathname: `/post/${post.id}`, postObj: post }} key={post.id}>
       <Post
         postId={post.id}
         postDate={post.dateCreated}
         postTitle={post.postTitle}
         price={post.price}
-        mainImage={post.imageURLs[0]}
+        mainImage={post.images[0]}
         author={post.author}
         address={post.address}
       />
@@ -128,7 +123,11 @@ function PostCollection({setSearchFilter}) {
   return (
     <div className="post_collection_div">
       <div id="post_collection_tools_div">
-        <SearchBar getData={(i) => setSearchFilter(i)}/>
+        <SearchBar
+          getData={(i) => {
+            setSearchFilter(i);
+          }}
+        />
         <Button
           id="createPostBtn"
           variant="primary"
@@ -144,7 +143,6 @@ function PostCollection({setSearchFilter}) {
         handleClose={() => setNewPostVisible(false)}
         submit={addPost}
       />
-
       <div className="post_scroll_div">{postsList}</div>
     </div>
   );
@@ -152,6 +150,10 @@ function PostCollection({setSearchFilter}) {
 
 PostCollection.propTypes = {
   setSearchFilter: PropTypes.func.isRequired,
+  reset: PropTypes.bool.isRequired,
+  filterPost: PropTypes.instanceOf(Array).isRequired,
+  filterIdx: PropTypes.number.isRequired,
+  setStorePost: PropTypes.func.isRequired,
 };
 
 export default PostCollection;
