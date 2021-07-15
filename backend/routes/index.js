@@ -7,6 +7,11 @@ var router = express.Router();
 router.get("/", function (req, res, next) {
     res.send("Hello world!");
 });
+// router.get('/', (req, res, next) => {
+//     if(res.locals && res.locals.user) {
+//         res.render('login-router');
+//     }
+// })
 
 // // https://www.youtube.com/watch?v=7CqJlxBYj-M
 // // Accessed July 11, 2021

@@ -3,6 +3,8 @@ var router = express.Router();
 var bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
 var checkAuth = require("../middleware/check-auth");
+var checkUser = require("../middleware/check-user");
+
 
 let User = require('../models/User');
 
@@ -108,8 +110,10 @@ router.post('/login', (req, res) => {
 
                     const accessToken = jwt.sign(
                         {
+                            userId: user[0]._id,
                             email: user[0].email,
-                            firstName: user[0].firstName
+                            firstName: user[0].firstName,
+                            lastName: user[0].lastName
                         },
                         process.env.ACCESS_TOKEN_SECRET,
                         {
@@ -124,11 +128,15 @@ router.post('/login', (req, res) => {
                     res.cookie('jwt', accessToken,
                         {
                             httpOnly: true,
-                            maxAge: 18000
+                            maxAge: 180000
                         });
                     res.setHeader('auth-token', accessToken);
-                    console.log(user);
-                    let sendUser = {firstName: user[0].firstName, email: user[0].email};
+                    let sendUser = {
+                        userId: user[0]._id,
+                        firstName: user[0].firstName,
+                        lastName: user[0].lastName,
+                        email: user[0].email
+                    };
                     return res.status(200).json(sendUser);
                 }
                 res.status(401).json('Auth failed');
@@ -144,24 +152,13 @@ router.post('/login', (req, res) => {
 // end of copied code
 
 router.get('/account', checkAuth, (req, res) => {
-    console.log("Here we are");
-    User.find({email: req.body.email})
-        .exec()
-        .then(user => {
-            let sendUser = {
-                firstName: user[0].firstName,
-                lastName: user[0].lastName,
-                email: user[0].email
-            };
-            return res.status(200).json(sendUser);
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            });
-        });
-    res.status(200).json({});
+    console.log("GET authenticated userData");
+    console.log(req.userData);
+    try {
+        return res.status(200).json(req.userData);
+    } catch (err) {
+        return res.status(500).json({error: err});
+    }
 });
 
 // Making refresh tokens

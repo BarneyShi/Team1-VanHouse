@@ -1,13 +1,43 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {Dropdown} from "react-bootstrap";
 import PropTypes from "prop-types";
 import "../styles/login.css"
 
 function WelcomeUser({
                          user,
+                         setUser,
                          handleLogoutClicked,
-                         handleAccountClicked
+                         handleAccountClicked,
                      }) {
+
+    const loggedInCondRender = () => {
+        fetch('http://localhost:4000/login-router/account', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+        }).then((response) => {
+            response.json()
+                .then((resJSON => {
+                    console.log(resJSON);
+                    localStorage.setItem("currentUser", JSON.stringify(resJSON));
+                    setUser({
+                        userId: resJSON.userId,
+                        email: resJSON.email,
+                        firstName: resJSON.firstName,
+                        lastName: resJSON.lastName
+                    });
+                }));
+        }).catch(err => {
+            console.log("Not logged in");
+            setUser(null);
+        });
+    }
+
+    useEffect(() => {
+        loggedInCondRender();
+    }, []);
 
     if (user === null) {
         return (
@@ -16,6 +46,7 @@ function WelcomeUser({
             </h2>
         )
     }
+
     return (
         <Dropdown>
             <div className="dropdown-stuff">
@@ -37,8 +68,9 @@ WelcomeUser.defaultProps =
 WelcomeUser.propTypes =
     {
         user: PropTypes.objectOf(PropTypes.object).isRequired,
+        setUser: PropTypes.func.isRequired,
         handleLogoutClicked: PropTypes.func.isRequired,
-        handleAccountClicked: PropTypes.func.isRequired
+        handleAccountClicked: PropTypes.func.isRequired,
     };
 
 export default WelcomeUser

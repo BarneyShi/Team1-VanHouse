@@ -5,11 +5,14 @@ import "../styles/login.css"
 
 function LoginButton({
                          handleLoginClicked,
-                         user
+                         user,
+                         setUser,
                      }) {
     if (user !== null) {
         return (
-            <h2> </h2>
+            <h2>
+
+            </h2>
         )
     }
     return (
@@ -25,7 +28,8 @@ LoginButton.defaultProps = {}
 
 LoginButton.propTypes = {
     handleLoginClicked: PropTypes.func.isRequired,
-    user: PropTypes.objectOf(PropTypes.object).isRequired
+    user: PropTypes.objectOf(PropTypes.object).isRequired,
+    setUser: PropTypes.func.isRequired,
 };
 
 export default LoginButton

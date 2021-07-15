@@ -30,7 +30,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 // perpetuating user
-// app.use('*', checkUser);
+// app.use(checkUser);
 app.use("/", indexRouter);
 app.use("/login-router", loginRouter);
 

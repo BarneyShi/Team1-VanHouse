@@ -46,9 +46,11 @@ function Header() {
                 'Content-Type': 'application/json'
             },
             credentials: 'include',
-        }).then((response) =>
-        {
-            console.log("response");
+        }).then((response) => {
+            response.json()
+                .then((resJSON => {
+                    console.log(resJSON);
+                }));
         });
     }
 
@@ -78,16 +80,23 @@ function Header() {
             body: JSON.stringify({email, password})
         }).then((response) => {
             if (response.status === 401) {
-                setIsLoginClicked(false);
+                // setIsLoginClicked(false);
+                setPassword("");
                 window.alert("Invalid email or password.");
-                console.log("401");
             }
 
             if (response.status === 200) {
                 response.json()
                     .then(response2 => {
-                        setUser({firstName: response2.firstName, email: response2.email});
+                        // setUser({
+                        //     userId: response2.userId,
+                        //     firstName: response2.firstName,
+                        //     lastName: response2.lastName,
+                        //     email: response2.email
+                        // });
+                        console.log("logged in as...should be null");
                         console.log(user);
+                        console.log("response2");
                         console.log(response2);
                         setIsLoginClicked(false);
                     });
@@ -98,7 +107,6 @@ function Header() {
     function Register() {
         console.log(regUser);
         if (confirmPasswordError === "" && passwordError === "" && emailError === "") {
-            // setUserArr(currArr => [...currArr, regUser]);
             fetch('http://localhost:4000/login-router/register', {
                 method: 'POST',
                 headers: {
@@ -166,6 +174,25 @@ function Header() {
         return re.test(String(regUser.email).toLowerCase());
     }
 
+    // function loggedInCondRender() {
+    //     fetch('http://localhost:4000/login-router/account', {
+    //         method: 'GET',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         credentials: 'include',
+    //     }).then((response) => {
+    //         response.json()
+    //             .then((resJSON => {
+    //                 console.log(resJSON);
+    //                 localStorage.setItem("currentUser", resJSON);
+    //                 return true;
+    //             }));
+    //     }).catch(err => {
+    //         console.log(err);
+    //         return false;
+    //     });
+    // }
 
     return (
         <div className="header-flexbox">
@@ -217,10 +244,12 @@ function Header() {
                 <div className="login-logout-button">
                     <LoginButton
                         user={user}
+                        setUser={setUser}
                         handleLoginClicked={handleLoginClicked}
                     />
                     <WelcomeUser
                         user={user}
+                        setUser={setUser}
                         handleLogoutClicked={handleLogoutClicked}
                         handleAccountClicked={handleAccountClicked}
                     />

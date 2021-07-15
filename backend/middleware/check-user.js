@@ -14,6 +14,8 @@ module.exports = (req, res, next) => {
             const decoded = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
             res.userData = decoded;
             let user = User.find({email: decoded.email});
+            console.log("res.userdata");
+            console.log(res.userData);
             res.locals.user = user;
 
             next();
