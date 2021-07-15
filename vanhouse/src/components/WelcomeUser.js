@@ -21,7 +21,7 @@ function WelcomeUser({
             response.json()
                 .then((resJSON => {
                     console.log(resJSON);
-                    localStorage.setItem("currentUser", JSON.stringify(resJSON));
+                    // localStorage.setItem("currentUser", JSON.stringify(resJSON));
                     setUser({
                         userId: resJSON.userId,
                         email: resJSON.email,

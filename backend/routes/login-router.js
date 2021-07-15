@@ -170,11 +170,10 @@ router.post('/logout', (req, res) => {
 router.get('/account', checkAuth, (req, res) => {
     console.log("GET authenticated userData");
     console.log(req.userData);
-    console.log(req.isAuth);
     try {
         return res.status(200).json(req.userData);
     } catch (err) {
-        return res.status(500).json(req.isAuth);
+        return res.status(500).json({error: err});
     }
 });
 

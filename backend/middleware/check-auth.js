@@ -30,7 +30,7 @@ module.exports = (req, res, next) => {
 
         next();
     } catch (err) {
-        // window.alert('Please login to continue')
+            // window.alert('Please login to continue')
         res.status(400).json({
             message: 'Invalid token'
         });
