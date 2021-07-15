@@ -151,6 +151,17 @@ router.post('/login', (req, res) => {
 });
 // end of copied code
 
+// LOGOUT USER
+router.post('/logout', (req, res) => {
+    try {
+        res.clearCookie('jwt');
+        res.status(200).json('Cookie deleted.');
+    } catch (err) {
+        console.log(err);
+        res.status(500).json({error: err});
+    }
+});
+
 router.get('/account', checkAuth, (req, res) => {
     console.log("GET authenticated userData");
     console.log(req.userData);

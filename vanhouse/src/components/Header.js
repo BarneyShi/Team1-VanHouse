@@ -35,6 +35,19 @@ function Header() {
     }
 
     const handleLogoutClicked = () => {
+        fetch('http://localhost:4000/login-router/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        }).then((response) => {
+            response.json()
+                .then((resJSON) => {
+                    console.log(resJSON);
+                });
+        });
+
         setUser(null);
         setLoginError("");
     }
@@ -88,16 +101,9 @@ function Header() {
             if (response.status === 200) {
                 response.json()
                     .then(response2 => {
-                        // setUser({
-                        //     userId: response2.userId,
-                        //     firstName: response2.firstName,
-                        //     lastName: response2.lastName,
-                        //     email: response2.email
-                        // });
                         console.log("logged in as...should be null");
                         console.log(user);
                         console.log("response2");
-                        console.log(response2);
                         setIsLoginClicked(false);
                     });
             }
