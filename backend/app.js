@@ -9,7 +9,7 @@ var mongoose = require("mongoose");
 /* ENV Variables */
 require("dotenv").config();
 
-var checkUser = require("./middleware/check-user");
+// var checkUser = require("./middleware/check-user");
 var indexRouter = require("./routes/index");
 var loginRouter = require("./routes/login-router");
 

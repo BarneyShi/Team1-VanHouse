@@ -62,8 +62,13 @@ function Header() {
         }).then((response) => {
             response.json()
                 .then((resJSON => {
-                    console.log(resJSON);
-                }));
+                        console.log(resJSON);
+                    })
+                )
+                .catch((err) => {
+                    console.log(err);
+                    window.alert('Please login to continue.');
+                });
         });
     }
 
@@ -101,9 +106,10 @@ function Header() {
             if (response.status === 200) {
                 response.json()
                     .then(response2 => {
+                        setUser(response2); // only setting this to re-render component automatically
                         console.log("logged in as...should be null");
                         console.log(user);
-                        console.log("response2");
+                        console.log(response2);
                         setIsLoginClicked(false);
                     });
             }

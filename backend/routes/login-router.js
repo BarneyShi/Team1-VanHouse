@@ -3,7 +3,7 @@ var router = express.Router();
 var bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
 var checkAuth = require("../middleware/check-auth");
-var checkUser = require("../middleware/check-user");
+// var checkUser = require("../middleware/check-user");
 
 
 let User = require('../models/User');
@@ -165,10 +165,11 @@ router.post('/logout', (req, res) => {
 router.get('/account', checkAuth, (req, res) => {
     console.log("GET authenticated userData");
     console.log(req.userData);
+    console.log(req.isAuth);
     try {
         return res.status(200).json(req.userData);
     } catch (err) {
-        return res.status(500).json({error: err});
+        return res.status(500).json(req.isAuth);
     }
 });
 
