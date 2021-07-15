@@ -56,26 +56,24 @@ router.post('/register', (req, res) => {
         });
 });
 
-// DELETE USER
-// this 'works' but is not actually deleting from mongo .. prob an issue with primary key
-// also we don't need this right now unless we create an admin user that can delete users
-router.delete('/deleteUser/:userId', checkAuth, (req, res) => {
-    console.log("here is the userData");
-    console.log(req.userData);
-    User.deleteOne({id: req.body.id})
-        .exec()
-        .then(result => {
-            res.status(200).json({
-                message: "User deleted"
-            });
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(500).json({
-                error: err
-            });
-        });
-});
+// // DELETE USER
+// // this 'works' but is not actually deleting from mongo .. prob an issue with primary key
+// // also we don't need this right now unless we create an admin user that can delete users
+// router.delete('/deleteUser/:userId', checkAuth, (req, res) => {
+//     User.deleteOne({id: req.body.id})
+//         .exec()
+//         .then(result => {
+//             res.status(200).json({
+//                 message: "User deleted"
+//             });
+//         })
+//         .catch((err) => {
+//             console.log(err);
+//             res.status(500).json({
+//                 error: err
+//             });
+//         });
+// });
 
 // end of copied code from https://www.youtube.com/watch?v=_EP2qCmLzSE
 
@@ -162,6 +160,8 @@ router.post('/logout', (req, res) => {
     }
 });
 
+
+// FOR TESTING CHECK-AUTH MIDDLEWARE
 router.get('/account', checkAuth, (req, res) => {
     console.log("GET authenticated userData");
     console.log(req.userData);

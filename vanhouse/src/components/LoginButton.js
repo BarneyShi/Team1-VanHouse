@@ -6,7 +6,6 @@ import "../styles/login.css"
 function LoginButton({
                          handleLoginClicked,
                          user,
-                         setUser,
                      }) {
     if (user !== null) {
         return (
@@ -28,8 +27,7 @@ LoginButton.defaultProps = {}
 
 LoginButton.propTypes = {
     handleLoginClicked: PropTypes.func.isRequired,
-    user: PropTypes.objectOf(PropTypes.object).isRequired,
-    setUser: PropTypes.func.isRequired,
+    user: PropTypes.objectOf(PropTypes.object).isRequired
 };
 
 export default LoginButton

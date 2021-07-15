@@ -127,16 +127,19 @@ function Header() {
                 body: JSON.stringify(regUser),
             }).then(() => {
                 console.log("Registered user to Mongo");
+                setRegUser({firstName: "", lastName: "", regEmail: "", regPassword: ""});
+                setIsRegistrationVisible(!isRegistrationVisible);
+                setIsRegisterButtonVisible(!isRegisterButtonVisible);
+                setIsLoginVisible(!isLoginVisible);
+                setIsLoginClicked(!isLoginClicked);
+                setConfirmPassword("");
+                setLoginError("");
+                console.log(regUser);
+                window.alert("Successfully registered! Please login to continue.");
+            }).catch((err) => {
+               console.log("Failed to register user to Mongo");
+               window.alert("Email already exists.")
             });
-            setRegUser({firstName: "", lastName: "", regEmail: "", regPassword: ""});
-            setIsRegistrationVisible(!isRegistrationVisible);
-            setIsRegisterButtonVisible(!isRegisterButtonVisible);
-            setIsLoginVisible(!isLoginVisible);
-            setIsLoginClicked(!isLoginClicked);
-            setConfirmPassword("");
-            setLoginError("");
-            console.log(regUser);
-            window.alert("Successfully registered! Please login to continue.");
         } else {
             window.confirm("Please re-check your registration information.");
         }
@@ -256,7 +259,6 @@ function Header() {
                 <div className="login-logout-button">
                     <LoginButton
                         user={user}
-                        setUser={setUser}
                         handleLoginClicked={handleLoginClicked}
                     />
                     <WelcomeUser
