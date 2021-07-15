@@ -97,6 +97,7 @@ function Header() {
             },
             body: JSON.stringify({email, password})
         }).then((response) => {
+            console.log(response.status);
             if (response.status === 401) {
                 // setIsLoginClicked(false);
                 setPassword("");
@@ -117,7 +118,6 @@ function Header() {
     }
 
     function Register() {
-        console.log(regUser);
         if (confirmPasswordError === "" && passwordError === "" && emailError === "") {
             fetch('http://localhost:4000/login-router/register', {
                 method: 'POST',
@@ -125,20 +125,23 @@ function Header() {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(regUser),
-            }).then(() => {
-                console.log("Registered user to Mongo");
-                setRegUser({firstName: "", lastName: "", regEmail: "", regPassword: ""});
-                setIsRegistrationVisible(!isRegistrationVisible);
-                setIsRegisterButtonVisible(!isRegisterButtonVisible);
-                setIsLoginVisible(!isLoginVisible);
-                setIsLoginClicked(!isLoginClicked);
-                setConfirmPassword("");
-                setLoginError("");
-                console.log(regUser);
-                window.alert("Successfully registered! Please login to continue.");
-            }).catch((err) => {
-               console.log("Failed to register user to Mongo");
-               window.alert("Email already exists.")
+            }).then((response) => {
+                console.log(response.status);
+                if (response.status === 201) {
+                    console.log("Registered user to Mongo");
+                    setRegUser({firstName: "", lastName: "", regEmail: "", regPassword: ""});
+                    setIsRegistrationVisible(!isRegistrationVisible);
+                    setIsRegisterButtonVisible(!isRegisterButtonVisible);
+                    setIsLoginVisible(!isLoginVisible);
+                    setIsLoginClicked(!isLoginClicked);
+                    setConfirmPassword("");
+                    setLoginError("");
+                    console.log(regUser);
+                    window.alert("Successfully registered! Please login to continue.");
+                } else {
+                    console.log("Failed to register user to Mongo");
+                    window.alert("Email already exists.")
+                }
             });
         } else {
             window.confirm("Please re-check your registration information.");

@@ -48,19 +48,20 @@ function RegistrationForm({
         () => {
             setPasswordError("");
 
-            if (!regUser.password) {
-                setPasswordError(`Please choose a password`);
+            if (regUser.password === null || regUser.password === undefined) {
+                return setPasswordError(`Please choose a password`);
             }
 
             if (regUser.password.length < config.min) {
-                setPasswordError(`Password must be at least ${config.min} characters.`);
+                return setPasswordError(`Password must be at least ${config.min} characters.`);
             }
 
             if (regUser.password.length > config.max) {
-                setPasswordError(
+                return setPasswordError(
                     `Password must be less than ${config.max} characters.`
                 );
             }
+            return null;
         },
         [regUser.password]
     );
