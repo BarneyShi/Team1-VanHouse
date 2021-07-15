@@ -22,15 +22,15 @@ function PostCollection({
 
   const [posts, setPosts] = useState([]);
 
-  useEffect(() => {
-    fetch("http://localhost:4000/getpost",
-     { method: "GET" })
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
-        setPosts(res);
-      });
-  }, [filterIdx]);
+  // useEffect(() => {
+  //   fetch("http://localhost:4000/getpost",
+  //    { method: "GET" })
+  //     .then((res) => res.json())
+  //     .then((res) => {
+  //       console.log(res);
+  //       setPosts(res);
+  //     });
+  // }, [filterIdx]);
 
   useEffect(() => {
     console.log("fetch1");

@@ -11,25 +11,18 @@ function Price({ setFilterPost, setFilterIdx }) {
 
 
   function Cancel() {
-
+    setState(1);
     fetch("http://localhost:4000/getpost", { method: "GET" })
       .then((res) => res.json())
       .then((res) => {
         console.log(res);
         setFilterPost(res);
-    setState(1);
+
 
       });
   }
 
   function getP() {
-    // const rr = [];
-    // storePost.forEach((item) => {
-    //   if (item.price >= low && item.price <= high) {
-    //     rr.push(item);
-    //   }
-    // });
-
 
     fetch(`http://localhost:4000/price?low=${low}&high=${high}`, {
       method: "GET",
