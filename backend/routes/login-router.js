@@ -105,11 +105,11 @@ router.post('/login', (req, res) => {
                 }
                 if (result) {
                     // https://www.youtube.com/watch?v=mbsmsi7l3r4
-                    const refreshToken = jwt.sign({
-                            email: user[0].email,
-                            firstName: user[0].firstName
-                        },
-                        process.env.REFRESH_TOKEN_SECRET);
+                    // const refreshToken = jwt.sign({
+                    //         email: user[0].email,
+                    //         firstName: user[0].firstName
+                    //     },
+                    //     process.env.REFRESH_TOKEN_SECRET);
 
                     const accessToken = jwt.sign(
                         {
