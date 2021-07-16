@@ -105,7 +105,9 @@ router.put("/:id/edit", function (req, res, next) {
         pets,
         laundry,
         furnished,
+        images,
       } = fields;
+      const parsedImgs = JSON.parse(images);
       const updatedPost = await PostModel.findOneAndUpdate(
         { id },
         {
@@ -124,6 +126,7 @@ router.put("/:id/edit", function (req, res, next) {
           pets,
           laundry,
           furnished,
+          images: parsedImgs,
         },
         { new: true }
       );

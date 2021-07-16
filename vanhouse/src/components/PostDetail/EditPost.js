@@ -1,9 +1,20 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { Form, Modal, Col, Row, Button } from "react-bootstrap";
+import addIcon from "../../assets/addIcon.png";
+import deleteIcon from "../../assets/deleteIcon.png";
+import "../../styles/editPost.css";
 
 export default function EditPost({ show, setDisplay, post, setPost }) {
   const formRef = useRef();
+  const [previewImages, setPreviewImages] = useState();
+  const [imageSizeValid, setImageSizeValid] = useState(true);
+  const [imageCountValid, setImageCountValid] = useState(true);
+  const [imageErrorMsg, setImageErrorMsg] = useState("");
+
+  useEffect(() => {
+    setPreviewImages(post?.images);
+  }, [post]);
 
   const editPost = async (event) => {
     event.preventDefault();
@@ -41,6 +52,7 @@ export default function EditPost({ show, setDisplay, post, setPost }) {
     formData.append("pets", pets.checked);
     formData.append("laundry", laundry.checked);
     formData.append("furnished", furnished.checked);
+    formData.append("images", JSON.stringify(previewImages));
 
     const reponse = await fetch(`http://localhost:4000/post/${post.id}/edit`, {
       method: "put",
@@ -49,6 +61,58 @@ export default function EditPost({ show, setDisplay, post, setPost }) {
     const updatedPost = await reponse.json();
     setPost(updatedPost);
     setDisplay(false);
+  };
+
+  const openUploading = () => {
+    formRef.current.images.click();
+  };
+
+  /* Disclaim: Reuse Naithan's function handleImageUpload in <NewPost /> */
+  const handleImageUpload = (e) => {
+    const maxImageSize = 1000000;
+    setImageErrorMsg("");
+    setImageSizeValid(true);
+    if (e.target.files) {
+      const imageList = [];
+      // Check image count is valid
+      const maxImageCount = 4;
+      if (e.target.files.length > maxImageCount) {
+        e.target.value = null; // CITATION: https://stackoverflow.com/a/42192710
+        // setPreviewImages(previewImages);
+        setImageErrorMsg(
+          "Too many images. Please select between 1 and 4 images."
+        );
+        setImageCountValid(false);
+        return;
+      }
+      for (let i = 0; i < e.target.files.length; i += 1) {
+        // Reject files that are too large
+        if (e.target.files[i].size > maxImageSize) {
+          e.target.value = null; // CITATION: https://stackoverflow.com/a/42192710
+          setImageErrorMsg(
+            "One or more image file size exceed 1MB. Please select files under 1MB."
+          );
+          setImageSizeValid(false);
+          return;
+        }
+        // Add valid files to the images state
+        if (e.target.files[i]) {
+          const fileReader = new FileReader();
+          fileReader.onload = (event) => {
+            imageList.push(event.target.result);
+            setPreviewImages([...previewImages, ...imageList]);
+          };
+          fileReader.readAsDataURL(e.target.files[i]);
+        }
+      }
+    }
+  };
+
+  const deleteImage = (event) => {
+    const imgSrc = event.target.getAttribute("data-ref");
+    const imgIndex = previewImages.indexOf(imgSrc);
+    previewImages.splice(imgIndex, 1);
+    setPreviewImages([...previewImages]);
   };
 
   return (
@@ -233,10 +297,45 @@ export default function EditPost({ show, setDisplay, post, setPost }) {
               multiple
               label="Upload image(s)"
               accept=".jpg, .jpeg, .png, .tiff"
+              style={{ display: "none" }}
+              name="images"
+              onChange={handleImageUpload}
             />
+            <Form.Text className="text-muted">Upload 1-4 images</Form.Text>
+            <Form.Text className="text-muted edit-image-errors">
+              {imageErrorMsg}
+            </Form.Text>
           </Form.Group>
 
-          <Form.Text className="text-muted">* required fields</Form.Text>
+          {previewImages?.map((e) => (
+            <span
+              key={Math.floor(Math.random() * 9999)}
+              className="preview-image">
+              <img
+                className="editPost-images"
+                width="84"
+                height="84"
+                alt="post-images"
+                src={e}
+              />
+              <img
+                className="preview-image-delete"
+                width="24"
+                data-ref={e}
+                src={deleteIcon}
+                alt="preview-delete"
+                onClick={deleteImage}
+              />
+            </span>
+          ))}
+          <img
+            id="add-icon"
+            width="40"
+            height="40"
+            src={addIcon}
+            alt="add-icon"
+            onClick={openUploading}
+          />
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setDisplay(false)}>
@@ -271,6 +370,7 @@ EditPost.propTypes = {
     utilities: PropTypes.bool,
     laundry: PropTypes.bool,
     furnished: PropTypes.bool,
+    images: PropTypes.arrayOf(PropTypes.string),
   }),
   setPost: PropTypes.func.isRequired,
 };
