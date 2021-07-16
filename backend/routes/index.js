@@ -27,7 +27,7 @@ router.get('/post/:postId', function(req, res) {
     if (result) {
       responseData.postInfo = result;
       dateIds = result.schedule;
-      return Comment.find({id: {$in: result.comment}});
+      return Comment.find({_id: {$in: result.comment}});
     } else {
       res.status(404).send({errorMessage: 'Post not found!'});
       return null;

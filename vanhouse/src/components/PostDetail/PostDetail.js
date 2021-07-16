@@ -28,13 +28,14 @@ export default function PostDetail() {
     "pk.eyJ1IjoiaWR1bm5vY29kaW5nOTUiLCJhIjoiY2tlMTFiMDh4NDF4cTJ5bWgxbDUxb2M5ciJ9.-L_x_0HZGSXFMRdactrn-Q";
 
   const { id } = useParams();
+  const [user, setUser] = useState();
   const [post, setPost] = useState();
   const [schedule, setSchedule] = useState([]);
   const [comments, setComments] = useState();
   const [postLoaded, setPostLoaded] = useState(false);
   const [mapLoaded, setMapLoaded] = useState(false);
   const [displayError, setDisplayError] = useState(false);
-  const [errorMsg, setErrorMsg] = useState([]);
+  const [errorMsg, setErrorMsg] = useState();
   const [coords, setCoords] = useState({
     latitude: 49.2827,
     longitude: -123.1207,
@@ -60,7 +61,7 @@ export default function PostDetail() {
       setPostLoaded(true);
     } catch (err) {
       getErrorString(err).then((errText) => {
-        setErrorMsg([...errorMsg, errText]);
+        setErrorMsg(errText);
         setDisplayError(true);
       });
     }
@@ -85,9 +86,26 @@ export default function PostDetail() {
       setMapLoaded(true);
     } catch (err) {
       getErrorString(err).then((errText) => {
-        setErrorMsg([...errorMsg, errText]);
+        setErrorMsg(errText);
         setDisplayError(true);
       });
+    }
+
+    try {
+      const response = await fetch(
+        "http://localhost:4000/login-router/account",
+        {
+          credentials: "include",
+        }
+      );
+      if (!response.ok) {
+        return;
+      }
+      const data = await response.json();
+      setUser({ userId: data.userId, username: data.firstName });
+    } catch (err) {
+      setUser();
+      console.log("Error while fetch user ", err);
     }
   }, []);
 
@@ -96,9 +114,20 @@ export default function PostDetail() {
   const addComment = (event) => {
     event.preventDefault();
     const { value } = commentRef.current;
+    if (value === "") {
+      setDisplayError(true);
+      setErrorMsg("Comment cannot be empty");
+      return;
+    }
+    if (!user) {
+      setDisplayError(true);
+      setErrorMsg("Please login first");
+      return;
+    }
     const form = new FormData();
     form.append("newComment", value);
-    form.append("userId", "user_0");
+    form.append("userId", user.userId);
+    form.append("username", user.username);
     fetch(`http://localhost:4000/post/${post.id}/comment`, {
       method: "POST",
       body: form,
@@ -108,8 +137,8 @@ export default function PostDetail() {
         setComments([
           ...comments,
           {
-            id: comments.length,
-            user: `Anon${comments.length}`,
+            _id: data._id,
+            username: user.username,
             text: data.comment.text,
             date: data.today,
           },
@@ -157,11 +186,13 @@ export default function PostDetail() {
         <Row>
           {/* Error Message  */}
           {displayError && (
-            <Alert className="connection_error_alert" variant="danger">
-              <Alert.Heading> Error getting post </Alert.Heading>
-              {errorMsg.map((e) => (
-                <p>{e}</p>
-              ))}
+            <Alert
+              id="postdetail_error_alert"
+              variant="danger"
+              onClose={() => setDisplayError(false)}
+              dismissible>
+              <Alert.Heading>Oops!</Alert.Heading>
+              <p>{errorMsg}</p>
             </Alert>
           )}
 
@@ -271,7 +302,7 @@ export default function PostDetail() {
             <h4 className="text-center">Comment</h4>
             {postLoaded ? (
               comments.map((e) => (
-                <div className="comment__block" key={e.id}>
+                <div className="comment__block" key={e._id}>
                   <span className="commnet_userinfo">
                     <img
                       className="comment__img"
@@ -282,7 +313,7 @@ export default function PostDetail() {
                   </span>
                   <span className="comment--rightBlock">
                     <p className="comment--user">
-                      <span className="comment--username">{e.user}</span>{" "}
+                      <span className="comment--username">{e.username}</span>{" "}
                       &#8226; {e.date}
                     </p>
                     <p className="comment__content">{e.text}</p>

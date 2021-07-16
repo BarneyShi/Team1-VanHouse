@@ -1,4 +1,5 @@
 var express = require("express");
+var mongoose = require("mongoose");
 var formidable = require("formidable");
 var { v4: uuid } = require("uuid");
 var router = express.Router();
@@ -32,40 +33,38 @@ router.post("/:id/comment", function (req, res, next) {
   // Disclaim: Code snippets from https://www.npmjs.com/package/formidable#readme
   const form = formidable({ multiples: true });
 
-  form.parse(req, (err, fields) => {
-    if (err) {
-      console.log("Error while creating a comment", err);
-      next(err);
-      return;
-    }
-    const { newComment } = fields;
-    const commentID = uuid();
+  try {
+    form.parse(req, async (err, fields) => {
+      if (err) {
+        throw new Error(err);
+      }
+      const { newComment, userId, username } = fields;
 
-    // New Comment
-    const today = getToday();
-    let comment = new CommentModel({
-      id: commentID,
-      user: "user_0",
-      text: newComment,
-      date: today,
+      // New Comment
+      const today = getToday();
+      let comment = new CommentModel({
+        user: userId,
+        username,
+        text: newComment,
+        date: today,
+      });
+      const savedComment = await comment.save();
+
+      // Update POST comment array
+      PostModel.findOneAndUpdate(
+        { id: postID },
+        { $push: { comment: mongoose.Types.ObjectId(savedComment._id) } }
+      )
+        .then((res) => console.log("Post's comment array's been updated", res))
+        .catch((err) => {
+          console.log("Error while update Post", err);
+        });
+      res.json({ comment, today, user: "user_0", _id: savedComment._id });
     });
-    comment
-      .save()
-      .then((res) => console.log("New comment has been made", res))
-      .catch((err) => {
-        console.log("Error while making a new comment", err);
-      });
-    // Update POST comment array
-    PostModel.findOneAndUpdate(
-      { id: postID },
-      { $push: { comment: commentID } }
-    )
-      .then((res) => console.log("Post's comment array's been updated", res))
-      .catch((err) => {
-        console.log("Error while update Post", err);
-      });
-    res.json({ comment, today, user: "user_0" });
-  });
+  } catch (err) {
+    console.log("Error while making a comment ", err);
+    next(err);
+  }
 });
 
 /* GET coords */

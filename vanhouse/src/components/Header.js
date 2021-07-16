@@ -112,6 +112,7 @@ function Header() {
                         console.log(user);
                         console.log(response2);
                         setIsLoginClicked(false);
+                        window.location.reload();
                     });
             }
         });
