@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 import "../styles/searchbar.css";
 import UserList from "./UserList";
 
-function Price({ setFilterPost, setFilterIdx }) {
+function Price({ setQuery }) {
   const [state, setState] = useState(0);
   const [low, setLow] = useState(0);
   const [high, setHigh] = useState(0);
@@ -12,27 +12,11 @@ function Price({ setFilterPost, setFilterIdx }) {
 
   function Cancel() {
     setState(1);
-    fetch("http://localhost:4000/getpost", { method: "GET" })
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
-        setFilterPost(res);
-
-
-      });
+    setQuery("");
   }
 
   function getP() {
-
-    fetch(`http://localhost:4000/price?low=${low}&high=${high}`, {
-      method: "GET",
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        // setPosts(res);
-        console.log(res);
-        setFilterPost(res);
-      });
+    setQuery(`http://localhost:4000/price?low=${low}&high=${high}`);
   }
   
 
@@ -79,12 +63,11 @@ function Price({ setFilterPost, setFilterIdx }) {
       </div>
     );
   } 
-  return <UserList setFilterPost={setFilterPost} />;
+  return <UserList setQuery={setQuery} />;
 }
 
 Price.propTypes = {
   // filterPost: PropTypes.instanceOf(Array).isRequired,
-  setFilterPost: PropTypes.func.isRequired,
-  setFilterIdx: PropTypes.func.isRequired,
+  setQuery: PropTypes.func.isRequired
 };
 export default Price;

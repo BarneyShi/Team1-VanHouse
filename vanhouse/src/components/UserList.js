@@ -6,51 +6,27 @@ import user2 from "../assets/img2.jpg";
 import user3 from "../assets/img3.jpg";
 import user4 from "../assets/user.svg";
 
-function UserList({ setFilterPost }) {
+function UserList({ setQuery }) {
 
     const [state, setState] = useState(0);
 
     const [userImg, setImg] = useState([user1, user2, user4]);
 
     const [list, setList] = useState();
+
     function filterUserPost(item) {
-        const url = `http://localhost:4000/userpost/${item.id}`;
-        fetch(url, {
-            method: "GET",
-        })
-            .then((res) => {
-                console.log(res);
-                // console.log(res.json());
-                return res.json();
-            })
-            .then((res) => {
-                // setPosts(res);
-                console.log(res);
-                setFilterPost(res);
-            });
+        const url = `http://localhost:4000/userpost/${item._id}`;
+        setQuery(url);
     }
-
     function Cancel() {
-        setState(1);
-
-        fetch("http://localhost:4000/getpost", { method: "GET" })
-            .then((res) => res.json())
-            .then((res) => {
-                console.log(res);
-                setFilterPost(res);
-
-
-            });
+        setQuery("");
     }
-
 
     useEffect(() => {
-        console.log("hahhahahhahah");
         fetch("http://localhost:4000/user",
             { method: "GET" })
             .then((res) => res.json())
             .then((res) => {
-                console.log("ddddddd");
                 const newName = [];
                 console.log(res);
                 const cardList = res.map((item, index) => {
@@ -118,7 +94,7 @@ function UserList({ setFilterPost }) {
 }
 
 UserList.propTypes = {
-    setFilterPost: PropTypes.func.isRequired,
+    setQuery: PropTypes.func.isRequired,
 };
 
 export default UserList;

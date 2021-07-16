@@ -8,7 +8,9 @@
     "@testing-library/user-event": "^12.1.10",
     "bootstrap": "^4.6.0",
     "concurrently": "^6.2.0",
+    "emailjs-com": "^3.1.0",
     "jquery": "^3.6.0",
+    "nodemon": "^2.0.9",
     "popper.js": "^1.16.1",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
@@ -22,10 +24,12 @@
   },
   "scripts": {
     "start": "concurrently \"react-scripts start\" \"cd ../backend && npm run devStart\"",
+    "start-front": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "start-no-lint": "DISABLE_ESLINT_PLUGIN=true react-scripts start"
+    "start-no-lint": "DISABLE_ESLINT_PLUGIN=true react-scripts start",
+    "start-back": "DEBUG=backend:* npm start"
   },
   "eslintConfig": {
     "extends": [

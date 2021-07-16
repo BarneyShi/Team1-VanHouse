@@ -4,39 +4,18 @@ import { Button } from "react-bootstrap";
 import "../styles/searchbar.css";
 import UserList from "./UserList";
 
-function Location({ setFilterIdx, setFilterPost }) {
+function Location({ setQuery }) {
   const [state, setState] = useState(0);
 
 
   function Cancel() {
     setState(1);
-
-    fetch("http://localhost:4000/getpost", { method: "GET" })
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
-        setFilterPost(res);
-
-
-      });
+    setQuery("");
   }
 
   function getByLocation(val) {
-    console.log(val);
     const url =`http://localhost:4000/location/${val}`;
-    fetch(url, {
-      method: "GET"
-    })
-      .then((res) => {
-        console.log(res);
-        // console.log(res.json());
-        return res.json();
-      })
-      .then((res) => {
-        // setPosts(res);
-        console.log(res);
-        setFilterPost(res);
-      });
+    setQuery(url);
   }
 
   if (state === 0) {
@@ -82,10 +61,9 @@ function Location({ setFilterIdx, setFilterPost }) {
     );
   }
 
-  return <UserList setFilterPost={setFilterPost} />;
+  return <UserList setQuery={setQuery} />;
 }
 Location.propTypes = {
-  setFilterPost: PropTypes.func.isRequired,
-  setFilterIdx: PropTypes.func.isRequired,
+  setQuery: PropTypes.func.isRequired
 };
 export default Location;

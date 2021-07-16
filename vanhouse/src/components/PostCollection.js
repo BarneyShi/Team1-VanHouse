@@ -1,61 +1,101 @@
 // CITATION: Font awesome button reference: https://www.w3schools.com/howto/howto_css_icon_buttons.asp
+// CITATION: I used this resource for learning about fetch: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
 // TODO - hide create-post-button when not logged in
 
-import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import "../styles/Post.css";
-import NewPost from "./NewPost";
+import { Button, Alert } from "react-bootstrap";
+import PropTypes from "prop-types";
 import Post from "./Post";
+import NewPost from "./NewPost";
 import SearchBar from "./SearchBar";
+import LoadingSpinner from "./LoadingSpinner";
+import getErrorString from "../utils";
+import "../styles/post.css";
 
 function PostCollection({
   setSearchFilter,
-  filterPost,
-  setStorePost,
-  reset,
-  filterIdx,
+  filterURL
 }) {
-  // Note: Temporarily adding in placeholder post JSON objects
-  // The objects currently only contain info used in the main page post display, not the detail view.
 
+  // State to hold posts retrieved from the server
   const [posts, setPosts] = useState([]);
-
-  // useEffect(() => {
-  //   fetch("http://localhost:4000/getpost",
-  //    { method: "GET" })
-  //     .then((res) => res.json())
-  //     .then((res) => {
-  //       console.log(res);
-  //       setPosts(res);
-  //     });
-  // }, [filterIdx]);
-
-  useEffect(() => {
-    console.log("fetch1");
-    (async () => {
-      fetch("http://localhost:4000/getpost", 
-      { method: "GET" })
-        .then((res) => res.json())
-        .then((res) => {
-        console.log(res);
-
-          setPosts(res);
-        });
-      // const json = await fetch("http://localhost:4000/getpost", { method: "GET" });
-      // console.log(json);
-      // console.log('fetch22');
-      // setPosts(json.json());
-    })();
-  }, []);
-
-  useEffect(() => {
-    setPosts(filterPost);
-  }, [filterPost]);
+  
+  // State to hold filtered posts retrieved from the server
+  const [filteredPosts, setFilteredPosts] = useState([]);
+  const [displayFiltered, setDisplayFiltered] = useState(false);
 
   // State to show/hide the NewPost component
   const [newPostVisible, setNewPostVisible] = useState(false);
+
+  // Loading and error display states
+  const [isLoadingPosts, setIsLoadingPosts] = useState(true);
+  const [displayError, setDisplayError] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+
+  // Query server for posts on mount
+  useEffect(() => {
+    setIsLoadingPosts(true);
+    fetch("http://localhost:4000/posts")
+      .then(res => {
+        if (!res.ok) {
+          throw res;
+        }
+        return res.json();
+      })
+      .then(data => {
+        setPosts(data);
+        setIsLoadingPosts(false);
+      })
+      .catch(error => {
+        getErrorString(error).then((errText) => {
+          setErrorMsg(errText);
+          setDisplayError(true);
+          setIsLoadingPosts(false);
+        });
+      });
+  }, []);
+
+  // Filter posts on state change
+  useEffect(() => {
+    // Display all saved posts if query string is empty
+    if (filterURL === "") {
+      setDisplayFiltered(false);
+      return;
+    }
+    setIsLoadingPosts(true);
+    fetch(filterURL)
+      .then(res => {
+        if (!res.ok) {
+          throw res;
+        }
+        return res.json();
+      })
+      .then(data => {
+        setFilteredPosts(data);
+        setDisplayFiltered(true);
+        setIsLoadingPosts(false);
+      })
+      .catch(error => {
+        getErrorString(error).then((errText) => {
+          setErrorMsg(errText);
+          setDisplayError(true);
+          setIsLoadingPosts(false);
+        });
+      });
+  }, [filterURL]);
+
+  // Create a POST request for a new rental listing
+  const postRentalListing = async (postObj) => {
+    const response = await fetch("http://localhost:4000/newPost", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(postObj)
+    });
+    return response;
+  }
 
   // Adds a post to the posts state
   // Callback function called by the NewPost component on form submission
@@ -66,58 +106,73 @@ function PostCollection({
     const month = `0${today.getMonth() + 1}`.slice(-2);
 
     const postToAdd = {
-      id: posts.length,
-      dateCreated: `${day}-${month}-${today.getYear() + 1900}`,
-      postTitle: postInfo.postTitle,
+      id: "",
+      date: `${day}-${month}-${today.getYear() + 1900}`,
+      title: postInfo.postTitle,
       price: postInfo.price,
-      paymentPeriod: postInfo.paymentPeriod,
-      email: postInfo.email,
+      images: postInfo.images,
+      author: "",
+      authorID: "",
       address: postInfo.address,
       postalCode: postInfo.postalCode,
+      phone: postInfo.phone,
+      email: postInfo.email,
       leaseLength: postInfo.lease,
+      paymentPeriod: postInfo.paymentPeriod,
       bedrooms: postInfo.bedrooms,
       bathrooms: postInfo.bathrooms,
-      squareFootage: postInfo.squareFootage,
+      sqft: postInfo.squareFootage,
       utilities: postInfo.utilities,
-      pets: postInfo.pets,
       laundry: postInfo.laundry,
+      pets: postInfo.pets,
       furnished: postInfo.furnished,
-      images: postInfo.images,
       schedule: postInfo.schedule,
-      author: "",
+      comment: [],
+      upvote: 0,
+      downvote: 0
     };
 
-    // fetch("http://localhost:4000/createpost?data=", {
-    //   method: "get",
-    //   body: JSON.stringify({
-    //     data: postToAdd,
-    //     cc: "yahahh",
-    //   }),
-    // })
-    //   .then((res) => res.json())
-    //   .then((res) => {
-    //     console.log(res);
-    //   });
-
-    const updatedPosts = [...posts, postToAdd];
-    setPosts(updatedPosts);
+    postRentalListing(postToAdd)
+      .then(res => {
+        if (!res.ok) {
+          throw res;
+        }
+        return res.json();
+      })
+      .then(data => {
+        const updatedPosts = [...posts, data];
+        setPosts(updatedPosts);
+      })
+      .catch(error => {
+        getErrorString(error).then((errText) => {
+          setErrorMsg(errText);
+          setDisplayError(true);
+          setIsLoadingPosts(false);
+        });
+      });
   };
 
-  // Map the posts state to a list of Post components
-  const postsList = posts?.map((post) => (
-    // Temporarily pass post object to PostDetail for display purposes,
-    // Once we integrate express and node, we will instead use a GET request in PostDetail
-    <Link to={{ pathname: `/post/${post.id}`, postObj: post }} key={post.id}>
+  const postObjToComponent = ((post) => (
+    <Link to={{pathname: `/post/${post._id}`, postObj: post}} key={post._id}>
       <Post
-        postId={post.id}
-        postDate={post.dateCreated}
-        postTitle={post.postTitle}
+        postId={post._id}
+        postDate={post.date}
+        postTitle={post.title}
         price={post.price}
+        paymentPeriod={post.paymentPeriod}
         mainImage={post.images[0]}
-        author={post.author}
         address={post.address}
       />
     </Link>
+  ));
+
+  // Map the posts state to a list of Post components
+  const postsList = posts?.map((post) => (
+    postObjToComponent(post)
+  ));
+
+  const filteredPostsList = filteredPosts?.map((post) => (
+    postObjToComponent(post)
   ));
 
   return (
@@ -143,17 +198,27 @@ function PostCollection({
         handleClose={() => setNewPostVisible(false)}
         submit={addPost}
       />
-      <div className="post_scroll_div">{postsList}</div>
+
+      <div className="post_scroll_div">
+        {displayError && 
+          <Alert className="connection_error_alert" variant="danger" onClose={() => setDisplayError(false)} dismissible>
+            <Alert.Heading> Error getting posts </Alert.Heading>
+            <p>
+              {errorMsg}
+            </p>
+          </Alert>
+        }
+        {!displayFiltered && !isLoadingPosts && postsList}
+        {displayFiltered && !isLoadingPosts && filteredPostsList}
+        {isLoadingPosts && <LoadingSpinner />}
+      </div>
     </div>
   );
 }
 
 PostCollection.propTypes = {
   setSearchFilter: PropTypes.func.isRequired,
-  reset: PropTypes.bool.isRequired,
-  filterPost: PropTypes.instanceOf(Array).isRequired,
-  filterIdx: PropTypes.number.isRequired,
-  setStorePost: PropTypes.func.isRequired,
+  filterURL: PropTypes.string.isRequired
 };
 
 export default PostCollection;

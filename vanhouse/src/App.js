@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import "./App.css";
-import Category from "./components/Category";
+import PostDetail from "./components/PostDetail/PostDetail";
 import Header from "./components/Header";
-import Location from "./components/Location";
-import PostCollection from "./components/PostCollection";
-import PostDetail from "./components/PostDetail";
-import Price from "./components/Price";
 import UserList from "./components/UserList";
+import Price from './components/Price';
+import Location from './components/Location';
+import Category from './components/Category';
+import "./App.css";
+import PostCollection from "./components/PostCollection";
 
 function App() {
   const [filterIdx, setFilterIdx] = useState(Number(0));
   const [reset, setReset] = useState(false);
-  const [filterPost, setFilterPost] = useState();
-  // const [storePost, setStorePost] = useState();
+  const [filterURL, setFilterURL] = useState("");
 
   return (
     <Router>
@@ -27,42 +26,37 @@ function App() {
                 {(filterIdx === 0 && (
                   <UserList
                     setReset={setReset}
-                    setFilterPost={setFilterPost}
+                    setQuery={setFilterURL}
                   />
                 )) ||
                   (filterIdx === 1 && (
                     <Category
                       setReset={setReset}
                       setFilterIdx={setFilterIdx}
-                      setFilterPost={setFilterPost}
+                      setQuery={setFilterURL}
                     />
                   )) ||
                   (filterIdx === 2 && (
                     <Price
                       setReset={setReset}
                       setFilterIdx={setFilterIdx}
-                      setFilterPost={setFilterPost}
+                      setQuery={setFilterURL}
                     />
                   )) ||
                   (filterIdx === 3 && (
                     <Location
                       setReset={setReset}
                       setFilterIdx={setFilterIdx}
-                      setFilterPost={setFilterPost}
+                      setQuery={setFilterURL}
                     />
                   ))}
               </Col>
               <Col>
                 <PostCollection
-                  filterIdx={filterIdx}
-                  reset={reset}
-                  setReset={setReset}
-                  setFilterPost={setFilterPost}
-                  filterPost={filterPost}
+                  filterURL={filterURL}
                   setSearchFilter={(i) => {
                     setFilterIdx(i);
                     setReset(true);
-                    console.log(reset);
                   }}
                 />
               </Col>

@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 import "../styles/searchbar.css";
 import UserList from "./UserList";
 
-function Category({ setFilterPost, setFilterIdx }) {
+function Category({ setQuery }) {
   const [state, setState] = useState(0);
   const [lowPrice, setLow] = useState(0);
   const [highPrice, setHigh] = useState(0);
@@ -12,31 +12,12 @@ function Category({ setFilterPost, setFilterIdx }) {
 
   function getByLocationAndPrice() {
     const url = `http://localhost:4000/category?low=${lowPrice}&high=${highPrice}&location=${loca}`;
-    fetch(url, {
-      method: "GET",
-    })
-      .then((res) => {
-        console.log(res);
-        // console.log(res.json());
-        return res.json();
-      })
-      .then((res) => {
-        // setPosts(res);
-        console.log(res);
-        setFilterPost(res);
-      });
+    setQuery(url);
   }
 
   function Cancel() {
     setState(1);
-    fetch("http://localhost:4000/getpost", { method: "GET" })
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res);
-        setFilterPost(res);
-
-
-      });
+    setQuery("");
   }
 
   if (state === 0) {
@@ -115,11 +96,10 @@ function Category({ setFilterPost, setFilterIdx }) {
     );
   }
 
-  return <UserList setFilterPost={setFilterPost} />;
+  return <UserList setQuery={setQuery} />;
 }
 Category.propTypes = {
-  setFilterPost: PropTypes.func.isRequired,
-  setFilterIdx: PropTypes.func.isRequired,
+  setQuery: PropTypes.func.isRequired,
 };
 
 export default Category;
