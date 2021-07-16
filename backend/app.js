@@ -59,7 +59,6 @@ app.use(function (err, req, res, next) {
   res.render("error");
 });
 
-console.log("12345 should be here: " + process.env.MONGO_PASSWORD);
 // let secret = require('crypto').randomBytes(64).toString('hex');
 // console.log(secret);
 

@@ -136,75 +136,78 @@ router.put("/:id/edit", function (req, res, next) {
 });
 
 /* PATCH rating */
-router.patch("/:id/vote", async function (req, res, next) {
-  const { id } = req.params;
-  const { method } = req.query;
+router.put("/:id/vote", async function (req, res, next) {
+  const { id: postId } = req.params;
+  const { method, userId } = req.query;
 
+  const postObjectId = postId;
+  const userObjectId = userId;
   try {
-    const user = "user_1";
-    const { upvote, downvote } = await UserModel.findOne({ id: user });
+    const { upvote, downvote } = await UserModel.findOne({
+      _id: userObjectId,
+    });
 
     let result;
     if (method === "upvote") {
-      let vote = upvote.includes(id) ? -1 : 1;
+      let vote = upvote.includes(postObjectId) ? -1 : 1;
       result = await PostModel.findOneAndUpdate(
-        { id },
+        { _id: postObjectId },
         { $inc: { upvote: vote } },
         { new: true }
       );
-      console.log("The result is ", result.upvote);
+      console.log("The upvote is ", postId);
       // Modify user's vote history arrays
       if (vote === 1) {
         await UserModel.findOneAndUpdate(
-          { id: user },
-          { $push: { upvote: id } }
+          { _id: userObjectId },
+          { $push: { upvote: postObjectId } }
         );
       } else {
         await UserModel.findOneAndUpdate(
-          { id: user },
-          { $pull: { upvote: id } }
+          { _id: userObjectId },
+          { $pull: { upvote: postObjectId } }
         );
       }
       // Substract 1 from downvote if user just upvoted
-      if (downvote.includes(id)) {
+      if (downvote.includes(postObjectId)) {
         result = await PostModel.findOneAndUpdate(
-          { id },
+          { _id: postObjectId },
           { $inc: { downvote: -1 } },
           { new: true }
         );
         await UserModel.findOneAndUpdate(
-          { id: user },
-          { $pull: { downvote: id } }
+          { _id: userObjectId },
+          { $pull: { downvote: postObjectId } }
         );
       }
     } else if (method === "downvote") {
-      let vote = downvote.includes(id) ? -1 : 1;
+      let vote = downvote.includes(postObjectId) ? -1 : 1;
       result = await PostModel.findOneAndUpdate(
-        { id },
+        { _id: postObjectId },
         { $inc: { downvote: vote } },
         { new: true }
       );
       // Modify user's vote history arrays
       if (vote === 1) {
         await UserModel.findOneAndUpdate(
-          { id: user },
-          { $push: { downvote: id } }
+          { _id: userObjectId },
+          { $push: { downvote: postObjectId } }
         );
       } else {
         await UserModel.findOneAndUpdate(
-          { id: user },
-          { $pull: { downvote: id } }
+          { _id: userObjectId },
+          { $pull: { downvote: postObjectId } }
         );
       }
-      if (upvote.includes(id)) {
+      if (upvote.includes(postObjectId)) {
         result = await PostModel.findOneAndUpdate(
-          { id },
+          { _id: postObjectId },
           { $inc: { upvote: -1 } },
           { new: true }
         );
         await UserModel.findOneAndUpdate(
-          { id: user },
-          { $pull: { upvote: id } }
+          { _id: userObjectId },
+          { $pull: { upvote: postObjectId } }
         );
       }
     }
@@ -212,6 +215,29 @@ router.patch("/:id/vote", async function (req, res, next) {
     res.json({ upvote: result.upvote, downvote: result.downvote });
   } catch (err) {
     console.log("Error while rating ", err);
+  }
+});
+
+/* GET Check vote */
+router.get("/:id/checkvote", async function (req, res, next) {
+  const { userId } = req.query;
+  const { id: postId } = req.params;
+  try {
+    const user = await UserModel.findOne({
+      _id: mongoose.Types.ObjectId(userId),
+    });
+    if (!user) {
+      throw new Error("User not found");
+    }
+    const { upvote, downvote } = user;
+    console.log("THE USER upvote", upvote);
+    res.json({
+      upvote: upvote.includes(mongoose.Types.ObjectId(postId)),
+      downvote: downvote.includes(mongoose.Types.ObjectId(postId)),
+    });
+  } catch (err) {
+    console.log("Error while checking if the user's rated ", err);
+    next(errƒ);
   }
 });
 

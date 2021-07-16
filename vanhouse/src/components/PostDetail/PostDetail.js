@@ -16,10 +16,10 @@ import ReactMapGL, { Marker } from "react-map-gl";
 import Report from "./Report";
 import EditPost from "./EditPost";
 import userLogo from "../../assets/user.svg";
-// import thumbUp from "../assets/thumb-up.svg";
+import thumbUp from "../../assets/thumb-up.svg";
 import thumbDown from "../../assets/thumb-down.svg";
 import upVote from "../../assets/thumbup-voted.svg";
-// import downVote from "../assets/thumbdown-voted.svg";
+import downVote from "../../assets/thumbdown-voted.svg";
 import LoadingSpinner from "../LoadingSpinner";
 import getErrorString from "../../utils";
 
@@ -32,6 +32,8 @@ export default function PostDetail() {
   const [post, setPost] = useState();
   const [schedule, setSchedule] = useState([]);
   const [comments, setComments] = useState();
+  const [vote, setVote] = useState({ upvote: false, downvote: false });
+  const [rating, setRating] = useState();
   const [postLoaded, setPostLoaded] = useState(false);
   const [mapLoaded, setMapLoaded] = useState(false);
   const [displayError, setDisplayError] = useState(false);
@@ -49,7 +51,6 @@ export default function PostDetail() {
     mapboxApiAccessToken: mapToken,
   });
 
-  // Get Post info and latitute&longtitude of the property
   useEffect(async () => {
     let postData;
     try {
@@ -58,6 +59,10 @@ export default function PostDetail() {
       setPost(postData.postInfo);
       setComments(postData.comments);
       setSchedule(postData.availableDates);
+      setRating({
+        upvote: postData.postInfo?.upvote,
+        downvote: postData.postInfo?.downvote,
+      });
       setPostLoaded(true);
     } catch (err) {
       getErrorString(err).then((errText) => {
@@ -99,15 +104,30 @@ export default function PostDetail() {
         }
       );
       if (!response.ok) {
-        return;
+        throw new Error("Not logged in");
       }
       const data = await response.json();
       setUser({ userId: data.userId, username: data.firstName });
     } catch (err) {
       setUser();
-      console.log("Error while fetch user ", err);
+      console.log("Errow while checking auth:", err.message);
     }
   }, []);
+
+  // Check if the user's rated this post
+  useEffect(async () => {
+    try {
+      if (!user) throw Error("Not logged in");
+      const response = await fetch(
+        `http://localhost:4000/post/${post._id}/checkvote?userId=${user.userId}`
+      );
+      if (!response.ok) throw Error("Failed to reach endpoint - checkvote");
+      const data = await response.json();
+      setVote(data);
+    } catch (err) {
+      console.log("Error while checking vote:", err.message);
+    }
+  }, [rating]);
 
   // Comment function
   const commentRef = useRef();
@@ -180,6 +200,30 @@ export default function PostDetail() {
   // Edit post hooks
   const [displayEditModal, setDisplayEditModal] = useState(false);
 
+  // Rating
+  const votePost = (method) => async () => {
+    try {
+      if (!user) {
+        setDisplayError(true);
+        setErrorMsg("Please log in first");
+        return;
+      }
+      const response = await fetch(
+        `http://localhost:4000/post/${post._id}/vote?userId=${user.userId}&method=${method}`,
+        {
+          method: "PUT",
+        }
+      );
+      if (!response.ok) {
+        throw new Error("failed to rate");
+      }
+      const data = await response.json();
+      setRating({ upvote: data.upvote, downvote: data.downvote });
+    } catch (err) {
+      console.log("Error while rating:", err);
+    }
+  };
+
   return (
     <>
       <Container fluid>
@@ -189,7 +233,10 @@ export default function PostDetail() {
             <Alert
               id="postdetail_error_alert"
               variant="danger"
-              onClose={() => setDisplayError(false)}
+              onClose={() => {
+                setDisplayError(false);
+                setErrorMsg("");
+              }}
               dismissible>
               <Alert.Heading>Oops!</Alert.Heading>
               <p>{errorMsg}</p>
@@ -209,20 +256,22 @@ export default function PostDetail() {
               <img
                 className="thumb"
                 id="thumbup-icon"
-                src={upVote}
+                src={vote?.upvote ? upVote : thumbUp}
                 alt="thumb-up"
+                onClick={votePost("upvote")}
               />
               <span className="review-count" id="thumbup-count">
-                {post?.upvote}
+                {rating?.upvote}
               </span>
               <img
                 className="thumb"
                 id="thumbdown-icon"
-                src={thumbDown}
+                src={vote?.downvote ? downVote : thumbDown}
                 alt="thumb-down"
+                onClick={votePost("downvote")}
               />
               <span className="review-count" id="thumbdown-count">
-                {post?.downvote}
+                {rating?.downvote}
               </span>
             </span>
 
