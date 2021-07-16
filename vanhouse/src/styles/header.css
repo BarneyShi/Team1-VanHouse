@@ -27,10 +27,13 @@
     width: 60px;
     vertical-align: top;
     justify-self: center;
+    margin-top: -15px;
 }
 
 .App-title {
     /*flex-basis: 1000%;*/
+    font-family: merriweather,serif;
+    font-weight: 700;
 }
 
 /*.login-logout-button {*/

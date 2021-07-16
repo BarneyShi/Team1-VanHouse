@@ -247,16 +247,16 @@ router.delete("/:id", async function (req, res, next) {
 
   try {
     // Delete records in POST document
-    const postToDelete = await PostModel.findOneAndDelete({ id });
+    const postToDelete = await PostModel.findOneAndDelete({ _id: id });
     // Delete comments of the post
     const { comment } = postToDelete;
     for (let id of comment) {
       const commentToDelete = await CommentModel.findOneAndDelete({
-        id,
+        _id: id,
       });
     }
 
-    res.json(postToDelete);
+    res.json({ postToDelete, comment });
   } catch (err) {
     console.log("Error while deleting post and its comments ", err);
     next(err);

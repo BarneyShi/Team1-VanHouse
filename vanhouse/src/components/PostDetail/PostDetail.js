@@ -10,7 +10,7 @@ import {
   Button,
   Modal,
 } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import "../../styles/postdetail.css";
 import ReactMapGL, { Marker } from "react-map-gl";
 import Report from "./Report";
@@ -28,6 +28,7 @@ export default function PostDetail() {
     "pk.eyJ1IjoiaWR1bm5vY29kaW5nOTUiLCJhIjoiY2tlMTFiMDh4NDF4cTJ5bWgxbDUxb2M5ciJ9.-L_x_0HZGSXFMRdactrn-Q";
 
   const { id } = useParams();
+  const history = useHistory();
   const [user, setUser] = useState();
   const [post, setPost] = useState();
   const [schedule, setSchedule] = useState([]);
@@ -38,6 +39,7 @@ export default function PostDetail() {
   const [mapLoaded, setMapLoaded] = useState(false);
   const [displayError, setDisplayError] = useState(false);
   const [errorMsg, setErrorMsg] = useState();
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [coords, setCoords] = useState({
     latitude: 49.2827,
     longitude: -123.1207,
@@ -185,11 +187,6 @@ export default function PostDetail() {
 
   // Schedule Hooks
   const [displaySchedule, setDisplaySchedule] = useState(false);
-  const selectedDate = [
-    { id: 0, date: "Sat Jan 1 2021" },
-    { id: 1, date: "Thur Feb 2 2021" },
-    { id: 2, date: "Wed Mar 3 2021" },
-  ];
 
   // Report function hooks
   const [displayReport, setDisplayReport] = useState(false);
@@ -221,6 +218,22 @@ export default function PostDetail() {
       setRating({ upvote: data.upvote, downvote: data.downvote });
     } catch (err) {
       console.log("Error while rating:", err);
+    }
+  };
+
+  // Delete post
+  const deletePost = async () => {
+    try {
+      const response = await fetch(`http://localhost:4000/post/${post._id}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) {
+        throw Error("failed to delete");
+      }
+      await response.json();
+      history.push("/");
+    } catch (err) {
+      console.log("Error while deleting post:", err);
     }
   };
 
@@ -294,7 +307,10 @@ export default function PostDetail() {
               onClick={() => setDisplayReport(true)}>
               Report
             </Button>
-            <Button variant="danger" id="deleteBtn">
+            <Button
+              variant="danger"
+              id="deleteBtn"
+              onClick={() => setDeleteConfirmation(true)}>
               Delete
             </Button>
           </Col>
@@ -461,6 +477,25 @@ export default function PostDetail() {
             post={post}
             setPost={setPost}
           />
+          {/* DELETE MODAL */}
+          <Modal
+            show={deleteConfirmation}
+            onHide={() => setDeleteConfirmation(false)}
+            centered>
+            <Modal.Header closeButton>
+              <Modal.Title>Are you sure you want to continue?</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Button variant="danger" onClick={deletePost}>
+                Delete
+              </Button>
+              <Button
+                variant="primary"
+                onClick={() => setDeleteConfirmation(false)}>
+                Cancel
+              </Button>
+            </Modal.Body>
+          </Modal>
         </Row>
       </Container>
     </>
