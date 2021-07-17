@@ -43,3 +43,7 @@ const b = [
     /V5H/,
     /V5J/,
 ];
+
+module.exports.vancouver = v;
+module.exports.burnaby = b;
+module.exports.richmond = l;
