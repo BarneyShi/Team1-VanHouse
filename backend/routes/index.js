@@ -99,7 +99,7 @@ router.get("/user", function (req, res, next) {
 });
 
 router.get("/userpost/:id", function (req, res, next) {
-  Post.find({authorID: req.params.id}, (err, data) => {
+  Post.find({authorID: mongoose.Types.ObjectId(req.params.id)}, (err, data) => {
     res.json(data);
   });
 });
