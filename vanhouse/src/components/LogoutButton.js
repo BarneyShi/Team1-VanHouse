@@ -4,26 +4,29 @@ import "../styles/login.css"
 
 
 function LogoutButton({
-                         isLoggedIn,
-                         handleLogoutClicked,
-                     }) {
+                          user,
+                          handleLogoutClicked,
+                      }) {
+    if (user === null) {
+        return (
+            <h2>
+
+            </h2>
+        )
+    }
     return (
         <div className="login-logout-button-div">
-            {isLoggedIn &&
             <button type='button' className="login-logout-button" onClick={handleLogoutClicked}>
                 Logout
             </button>
-            }
         </div>
     )
 }
 
-LogoutButton.defaultProps = {
-    // isLoggedIn: false
-}
+LogoutButton.defaultProps = {}
 
 LogoutButton.propTypes = {
-    isLoggedIn: PropTypes.bool.isRequired,
+    user: PropTypes.objectOf(PropTypes.object).isRequired,
     handleLogoutClicked: PropTypes.func.isRequired
 };
 

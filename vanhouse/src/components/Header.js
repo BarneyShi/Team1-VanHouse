@@ -5,7 +5,6 @@ import SearchBar from "./SearchBar";
 import LoginButton from "./LoginButton";
 import WelcomeUser from "./WelcomeUser";
 
-
 function Header() {
     const [isLoginClicked, setIsLoginClicked] = useState(false);
     const [isLoginVisible, setIsLoginVisible] = useState(true);
@@ -13,35 +12,22 @@ function Header() {
     const [isRegisterButtonVisible, setIsRegisterButtonVisible] = useState(true);
 
     // Login Form states
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-    // const [name, setName] = useState("");
     const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
-    const [user, setUser] = useState({firstName: "", email: ""});
+    const [user, setUser] = useState(null);
     const [loginError, setLoginError] = useState("");
 
     // Registration Form states
     const [firstName, setFirstName] = useState("");
-    const [surname, setSurname] = useState("");
+    const [lastName, setLastName] = useState("");
     const [regEmail, setRegEmail] = useState("");
     const [regPassword, setRegPassword] = useState("");
-    const [regUser, setRegUser] = useState({firstName: "", surname: "", email: "", password: ""});
+    const [regUser, setRegUser] = useState({firstName: "", lastName: "", email: "", password: ""});
     const [confirmPassword, setConfirmPassword] = useState("");
     const [confirmPasswordError, setConfirmPasswordError] = useState("");
     const [emailError, setEmailError] = useState("");
-    const [password, setPassword] = useState("");
     const [passwordError, setPasswordError] = useState("");
-
-    // User array state
-    const testUser = {
-        firstName: "Test",
-        surname: "User",
-        email: "test@test.com",
-        password: "test123"
-    }
-    const [userArr, setUserArr] = useState([testUser]);
-
 
     // Functions
     const handleLoginClicked = () => {
@@ -49,9 +35,41 @@ function Header() {
     }
 
     const handleLogoutClicked = () => {
-        setUser({firstName: "", email: ""});
-        setIsLoggedIn(false);
+        fetch('http://localhost:4000/login-router/logout', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include'
+        }).then((response) => {
+            response.json()
+                .then((resJSON) => {
+                    console.log(resJSON);
+                });
+        });
+
+        setUser(null);
         setLoginError("");
+    }
+
+    const handleAccountClicked = () => {
+        fetch('http://localhost:4000/login-router/account', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+        }).then((response) => {
+            response.json()
+                .then((resJSON => {
+                        console.log(resJSON);
+                    })
+                )
+                .catch((err) => {
+                    console.log(err);
+                    window.alert('Please login to continue.');
+                });
+        });
     }
 
     const handleCloseModal = () => {
@@ -69,38 +87,65 @@ function Header() {
     }
 
     function Login() {
-        userArr.forEach(i => {
-            if (email === i.email && password === i.password) {
-                setUser(i);
-                setIsLoggedIn(true);
-                setIsLoginClicked(false);
-                console.log("curr user");
-                console.log(user);
-            } else {
-                setLoginError("Invalid email or password");
+        fetch('http://localhost:4000/login-router/login', {
+            method: 'POST',
+            // https://stackoverflow.com/questions/36824106/express-doesnt-set-a-cookie
+            // Accessed July 13, 2021
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({email, password})
+        }).then((response) => {
+            console.log(response.status);
+            if (response.status === 401) {
+                // setIsLoginClicked(false);
+                setPassword("");
+                window.alert("Invalid email or password.");
+            }
+
+            if (response.status === 200) {
+                response.json()
+                    .then(response2 => {
+                        setUser(response2); // only setting this to re-render component automatically
+                        console.log("logged in as...should be null");
+                        console.log(user);
+                        console.log(response2);
+                        setIsLoginClicked(false);
+                    });
             }
         });
     }
 
     function Register() {
-        console.log(regUser);
         if (confirmPasswordError === "" && passwordError === "" && emailError === "") {
-            setUserArr(currArr => [...currArr, regUser]);
-            setRegUser({firstName: "", surname: "", regEmail: "", regPassword: ""});
-            setIsRegistrationVisible(!isRegistrationVisible);
-            setIsRegisterButtonVisible(!isRegisterButtonVisible);
-            setIsLoginVisible(!isLoginVisible);
-            setIsLoginClicked(!isLoginClicked);
-            setConfirmPassword("");
-            setLoginError("");
-            console.log(regUser);
-            console.log(userArr);
-            console.log("registered");
-            window.alert("Successfully registered! Please login to continue.");
+            fetch('http://localhost:4000/login-router/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(regUser),
+            }).then((response) => {
+                console.log(response.status);
+                if (response.status === 201) {
+                    console.log("Registered user to Mongo");
+                    setRegUser({firstName: "", lastName: "", regEmail: "", regPassword: ""});
+                    setIsRegistrationVisible(!isRegistrationVisible);
+                    setIsRegisterButtonVisible(!isRegisterButtonVisible);
+                    setIsLoginVisible(!isLoginVisible);
+                    setIsLoginClicked(!isLoginClicked);
+                    setConfirmPassword("");
+                    setLoginError("");
+                    console.log(regUser);
+                    window.alert("Successfully registered! Please login to continue.");
+                } else {
+                    console.log("Failed to register user to Mongo");
+                    window.alert("Email already exists.")
+                }
+            });
         } else {
             window.confirm("Please re-check your registration information.");
         }
-
     }
 
     function handleRegChange(e) {
@@ -109,15 +154,15 @@ function Header() {
             if (id === "firstName") {
                 return {
                     firstName: value,
-                    surname: prevValue.surname,
+                    lastName: prevValue.lastName,
                     email: prevValue.email,
                     password: prevValue.password
                 };
             }
-            if (id === "surname") {
+            if (id === "lastName") {
                 return {
                     firstName: prevValue.firstName,
-                    surname: value,
+                    lastName: value,
                     email: prevValue.email,
                     password: prevValue.password
                 };
@@ -125,7 +170,7 @@ function Header() {
             if (id === "regEmail") {
                 return {
                     firstName: prevValue.firstName,
-                    surname: prevValue.surname,
+                    lastName: prevValue.lastName,
                     email: value,
                     password: prevValue.password
                 };
@@ -133,7 +178,7 @@ function Header() {
             if (id === "regPassword") {
                 return {
                     firstName: prevValue.firstName,
-                    surname: prevValue.surname,
+                    lastName: prevValue.lastName,
                     email: prevValue.email,
                     password: value
                 };
@@ -146,6 +191,26 @@ function Header() {
         const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(String(regUser.email).toLowerCase());
     }
+
+    // function loggedInCondRender() {
+    //     fetch('http://localhost:4000/login-router/account', {
+    //         method: 'GET',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         credentials: 'include',
+    //     }).then((response) => {
+    //         response.json()
+    //             .then((resJSON => {
+    //                 console.log(resJSON);
+    //                 localStorage.setItem("currentUser", resJSON);
+    //                 return true;
+    //             }));
+    //     }).catch(err => {
+    //         console.log(err);
+    //         return false;
+    //     });
+    // }
 
     return (
         <div className="header-flexbox">
@@ -161,8 +226,8 @@ function Header() {
                 setIsRegisterButtonVisible={setIsRegisterButtonVisible}
                 firstName={firstName}
                 setFirstName={setFirstName}
-                surname={surname}
-                setSurname={setSurname}
+                lastName={lastName}
+                setLastName={setLastName}
                 email={email}
                 setEmail={setEmail}
                 password={password}
@@ -170,8 +235,6 @@ function Header() {
                 passwordError={passwordError}
                 setPasswordError={setPasswordError}
                 user={user}
-                isLoggedIn={isLoggedIn}
-                setIsLoggedIn={setIsLoggedIn}
                 loginError={loginError}
                 regEmail={regEmail}
                 setRegEmail={setRegEmail}
@@ -198,13 +261,14 @@ function Header() {
                 </div>
                 <div className="login-logout-button">
                     <LoginButton
-                        isLoggedIn={isLoggedIn}
+                        user={user}
                         handleLoginClicked={handleLoginClicked}
                     />
                     <WelcomeUser
-                        isLoggedIn={isLoggedIn}
                         user={user}
+                        setUser={setUser}
                         handleLogoutClicked={handleLogoutClicked}
+                        handleAccountClicked={handleAccountClicked}
                     />
                 </div>
 
@@ -214,7 +278,9 @@ function Header() {
                     <h2>Find your next home</h2>
                 </div>
                 <div className="space">
-                    <h2> </h2>
+                    <h2>
+
+                    </h2>
                 </div>
             </div>
 
