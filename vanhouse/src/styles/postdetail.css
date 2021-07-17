@@ -13,6 +13,10 @@ img.post-detail-thumbnail {
 .thumb {
   width: 25px;
   float: left;
+  transition: all .1s ease-in-out;
+}
+.thumb:hover {
+  transform: scale(1.2);
 }
 .thumb:hover {
   cursor: pointer;
@@ -65,11 +69,11 @@ img.post-detail-thumbnail {
   text-align: left;
 }
 .comment--username {
-  font-size: .8rem;
+  font-size: 0.8rem;
   font-weight: 700;
 }
 .comment--user {
-  font-size: .7rem;
+  font-size: 0.7rem;
   text-align: left;
 }
 .comment__img {
@@ -98,6 +102,14 @@ img.post-detail-thumbnail {
   height: max-content;
   margin-left: 10px;
 }
+.comment-editIcon {
+  margin-top: -8px;
+  width: 13px;
+  margin-left: 10px;
+}
+.comment-editIcon:hover {
+  cursor: pointer;
+}
 
 /* Report Modal */
 #reportForm {
@@ -112,4 +124,10 @@ img.post-detail-thumbnail {
   padding: 1px 5px;
   font-size: 0.9rem;
   margin: 5px 0 5px 5px;
+}
+#postdetail_error_alert {
+  flex-basis: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 20;
 }

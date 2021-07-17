@@ -9,17 +9,20 @@ import {
   ListGroupItem,
   Button,
   Modal,
+  OverlayTrigger,
+  Tooltip,
 } from "react-bootstrap";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import "../../styles/postdetail.css";
 import ReactMapGL, { Marker } from "react-map-gl";
 import Report from "./Report";
 import EditPost from "./EditPost";
 import userLogo from "../../assets/user.svg";
-// import thumbUp from "../assets/thumb-up.svg";
+import thumbUp from "../../assets/thumb-up.svg";
 import thumbDown from "../../assets/thumb-down.svg";
 import upVote from "../../assets/thumbup-voted.svg";
-// import downVote from "../assets/thumbdown-voted.svg";
+import downVote from "../../assets/thumbdown-voted.svg";
+import editIcon from "../../assets/editIcon.png";
 import LoadingSpinner from "../LoadingSpinner";
 import getErrorString from "../../utils";
 
@@ -28,13 +31,18 @@ export default function PostDetail() {
     "pk.eyJ1IjoiaWR1bm5vY29kaW5nOTUiLCJhIjoiY2tlMTFiMDh4NDF4cTJ5bWgxbDUxb2M5ciJ9.-L_x_0HZGSXFMRdactrn-Q";
 
   const { id } = useParams();
+  const history = useHistory();
+  const [user, setUser] = useState();
   const [post, setPost] = useState();
   const [schedule, setSchedule] = useState([]);
   const [comments, setComments] = useState();
+  const [vote, setVote] = useState({ upvote: false, downvote: false });
+  const [rating, setRating] = useState();
   const [postLoaded, setPostLoaded] = useState(false);
   const [mapLoaded, setMapLoaded] = useState(false);
   const [displayError, setDisplayError] = useState(false);
-  const [errorMsg, setErrorMsg] = useState([]);
+  const [errorMsg, setErrorMsg] = useState();
+  const [deleteConfirmation, setDeleteConfirmation] = useState(false);
   const [coords, setCoords] = useState({
     latitude: 49.2827,
     longitude: -123.1207,
@@ -48,7 +56,6 @@ export default function PostDetail() {
     mapboxApiAccessToken: mapToken,
   });
 
-  // Get Post info and latitute&longtitude of the property
   useEffect(async () => {
     let postData;
     try {
@@ -57,10 +64,14 @@ export default function PostDetail() {
       setPost(postData.postInfo);
       setComments(postData.comments);
       setSchedule(postData.availableDates);
+      setRating({
+        upvote: postData.postInfo?.upvote,
+        downvote: postData.postInfo?.downvote,
+      });
       setPostLoaded(true);
     } catch (err) {
       getErrorString(err).then((errText) => {
-        setErrorMsg([...errorMsg, errText]);
+        setErrorMsg(errText);
         setDisplayError(true);
       });
     }
@@ -85,20 +96,63 @@ export default function PostDetail() {
       setMapLoaded(true);
     } catch (err) {
       getErrorString(err).then((errText) => {
-        setErrorMsg([...errorMsg, errText]);
+        setErrorMsg(errText);
         setDisplayError(true);
       });
     }
+
+    try {
+      const response = await fetch(
+        "http://localhost:4000/login-router/account",
+        {
+          credentials: "include",
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Not logged in");
+      }
+      const data = await response.json();
+      setUser({ userId: data.userId, username: data.firstName });
+    } catch (err) {
+      setUser();
+      console.log("Errow while checking auth:", err.message);
+    }
   }, []);
+
+  // Check if the user's rated this post
+  useEffect(async () => {
+    try {
+      if (!user) throw Error("Not logged in");
+      const response = await fetch(
+        `http://localhost:4000/post/${post._id}/checkvote?userId=${user.userId}`
+      );
+      if (!response.ok) throw Error("Failed to reach endpoint - checkvote");
+      const data = await response.json();
+      setVote(data);
+    } catch (err) {
+      console.log("Error while checking vote:", err.message);
+    }
+  }, [rating]);
 
   // Comment function
   const commentRef = useRef();
   const addComment = (event) => {
     event.preventDefault();
     const { value } = commentRef.current;
+    if (value === "") {
+      setDisplayError(true);
+      setErrorMsg("Comment cannot be empty");
+      return;
+    }
+    if (!user) {
+      setDisplayError(true);
+      setErrorMsg("Please login first");
+      return;
+    }
     const form = new FormData();
     form.append("newComment", value);
-    form.append("userId", "user_0");
+    form.append("userId", user.userId);
+    form.append("username", user.username);
     fetch(`http://localhost:4000/post/${post.id}/comment`, {
       method: "POST",
       body: form,
@@ -108,8 +162,8 @@ export default function PostDetail() {
         setComments([
           ...comments,
           {
-            id: comments.length,
-            user: `Anon${comments.length}`,
+            _id: data._id,
+            username: user.username,
             text: data.comment.text,
             date: data.today,
           },
@@ -136,11 +190,6 @@ export default function PostDetail() {
 
   // Schedule Hooks
   const [displaySchedule, setDisplaySchedule] = useState(false);
-  const selectedDate = [
-    { id: 0, date: "Sat Jan 1 2021" },
-    { id: 1, date: "Thur Feb 2 2021" },
-    { id: 2, date: "Wed Mar 3 2021" },
-  ];
 
   // Report function hooks
   const [displayReport, setDisplayReport] = useState(false);
@@ -151,17 +200,73 @@ export default function PostDetail() {
   // Edit post hooks
   const [displayEditModal, setDisplayEditModal] = useState(false);
 
+  // Rating
+  const votePost = (method) => async () => {
+    try {
+      if (!user) {
+        setDisplayError(true);
+        setErrorMsg("Please log in first");
+        return;
+      }
+      const response = await fetch(
+        `http://localhost:4000/post/${post._id}/vote?userId=${user.userId}&method=${method}`,
+        {
+          method: "PUT",
+        }
+      );
+      if (!response.ok) {
+        throw new Error("failed to rate");
+      }
+      const data = await response.json();
+      setRating({ upvote: data.upvote, downvote: data.downvote });
+    } catch (err) {
+      console.log("Error while rating:", err);
+    }
+  };
+  // Delete post
+  const deletePost = async () => {
+    try {
+      const response = await fetch(`http://localhost:4000/post/${post._id}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) {
+        throw Error("failed to delete");
+      }
+      await response.json();
+      history.push("/");
+    } catch (err) {
+      console.log("Error while deleting post:", err);
+    }
+  };
+  // Delete comment: TODO
+  const renderCommentTooltip = (props) => <Tooltip {...props}>Delete</Tooltip>;
+  const deleteComment = async (e) => {
+    // try {
+    //   await fetch(`http://localhost:4000/${post._id}/comment`, {
+    //     method: "DELETE",
+    //   });
+    // } catch (err) {
+    //   console.log("Error while deleting comment:", err);
+    // }
+    const commentId = e.target.getAttribute("data-id");
+  };
+
   return (
     <>
       <Container fluid>
         <Row>
           {/* Error Message  */}
           {displayError && (
-            <Alert className="connection_error_alert" variant="danger">
-              <Alert.Heading> Error getting post </Alert.Heading>
-              {errorMsg.map((e) => (
-                <p>{e}</p>
-              ))}
+            <Alert
+              id="postdetail_error_alert"
+              variant="danger"
+              onClose={() => {
+                setDisplayError(false);
+                setErrorMsg("");
+              }}
+              dismissible>
+              <Alert.Heading>Oops!</Alert.Heading>
+              <p>{errorMsg}</p>
             </Alert>
           )}
 
@@ -178,20 +283,22 @@ export default function PostDetail() {
               <img
                 className="thumb"
                 id="thumbup-icon"
-                src={upVote}
+                src={vote?.upvote ? upVote : thumbUp}
                 alt="thumb-up"
+                onClick={votePost("upvote")}
               />
               <span className="review-count" id="thumbup-count">
-                {post?.upvote}
+                {rating?.upvote}
               </span>
               <img
                 className="thumb"
                 id="thumbdown-icon"
-                src={thumbDown}
+                src={vote?.downvote ? downVote : thumbDown}
                 alt="thumb-down"
+                onClick={votePost("downvote")}
               />
               <span className="review-count" id="thumbdown-count">
-                {post?.downvote}
+                {rating?.downvote}
               </span>
             </span>
 
@@ -214,7 +321,10 @@ export default function PostDetail() {
               onClick={() => setDisplayReport(true)}>
               Report
             </Button>
-            <Button variant="danger" id="deleteBtn">
+            <Button
+              variant="danger"
+              id="deleteBtn"
+              onClick={() => setDeleteConfirmation(true)}>
               Delete
             </Button>
           </Col>
@@ -271,7 +381,7 @@ export default function PostDetail() {
             <h4 className="text-center">Comment</h4>
             {postLoaded ? (
               comments.map((e) => (
-                <div className="comment__block" key={e.id}>
+                <div className="comment__block" key={e._id}>
                   <span className="commnet_userinfo">
                     <img
                       className="comment__img"
@@ -282,10 +392,23 @@ export default function PostDetail() {
                   </span>
                   <span className="comment--rightBlock">
                     <p className="comment--user">
-                      <span className="comment--username">{e.user}</span>{" "}
+                      <span className="comment--username">{e.username}</span>{" "}
                       &#8226; {e.date}
                     </p>
                     <p className="comment__content">{e.text}</p>
+                  </span>
+                  <span>
+                    <OverlayTrigger
+                      placement="top"
+                      overlay={renderCommentTooltip}>
+                      <img
+                        className="comment-editIcon"
+                        src={editIcon}
+                        data-id={e._id}
+                        onClick={deleteComment}
+                        alt="edit"
+                      />
+                    </OverlayTrigger>
                   </span>
                 </div>
               ))
@@ -381,6 +504,25 @@ export default function PostDetail() {
             post={post}
             setPost={setPost}
           />
+          {/* DELETE MODAL */}
+          <Modal
+            show={deleteConfirmation}
+            onHide={() => setDeleteConfirmation(false)}
+            centered>
+            <Modal.Header closeButton>
+              <Modal.Title>Are you sure you want to continue?</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Button variant="danger" onClick={deletePost}>
+                Delete
+              </Button>
+              <Button
+                variant="primary"
+                onClick={() => setDeleteConfirmation(false)}>
+                Cancel
+              </Button>
+            </Modal.Body>
+          </Modal>
         </Row>
       </Container>
     </>

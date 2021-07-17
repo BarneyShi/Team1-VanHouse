@@ -13,6 +13,7 @@ require("dotenv").config();
 var indexRouter = require("./routes/index");
 var postRouter = require("./routes/post");
 var loginRouter = require("./routes/login-router");
+var postRouter = require("./routes/post");
 
 var app = express();
 
@@ -39,6 +40,7 @@ app.use("/", indexRouter);
 app.use("/post", postRouter);
 
 app.use("/login-router", loginRouter);
+app.use("/post", postRouter);
 
 
 // catch 404 and forward to error handler
@@ -57,7 +59,6 @@ app.use(function (err, req, res, next) {
   res.render("error");
 });
 
-console.log("12345 should be here: " + process.env.MONGO_PASSWORD);
 // let secret = require('crypto').randomBytes(64).toString('hex');
 // console.log(secret);
 

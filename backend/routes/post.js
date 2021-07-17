@@ -1,4 +1,5 @@
 var express = require("express");
+var mongoose = require("mongoose");
 var formidable = require("formidable");
 var { v4: uuid } = require("uuid");
 var router = express.Router();
@@ -32,46 +33,43 @@ router.post("/:id/comment", function (req, res, next) {
   // Disclaim: Code snippets from https://www.npmjs.com/package/formidable#readme
   const form = formidable({ multiples: true });
 
-  form.parse(req, (err, fields) => {
-    if (err) {
-      console.log("Error while creating a comment", err);
-      next(err);
-      return;
-    }
-    const { newComment } = fields;
-    const commentID = uuid();
+  try {
+    form.parse(req, async (err, fields) => {
+      if (err) {
+        throw new Error(err);
+      }
+      const { newComment, userId, username } = fields;
 
-    // New Comment
-    const today = getToday();
-    let comment = new CommentModel({
-      id: commentID,
-      user: "user_0",
-      text: newComment,
-      date: today,
+      // New Comment
+      const today = getToday();
+      let comment = new CommentModel({
+        user: userId,
+        username,
+        text: newComment,
+        date: today,
+      });
+      const savedComment = await comment.save();
+
+      // Update POST comment array
+      PostModel.findOneAndUpdate(
+        { id: postID },
+        { $push: { comment: mongoose.Types.ObjectId(savedComment._id) } }
+      )
+        .then((res) => console.log("Post's comment array's been updated", res))
+        .catch((err) => {
+          console.log("Error while update Post", err);
+        });
+      res.json({ comment, today, user: "user_0", _id: savedComment._id });
     });
-    comment
-      .save()
-      .then((res) => console.log("New comment has been made", res))
-      .catch((err) => {
-        console.log("Error while making a new comment", err);
-      });
-    // Update POST comment array
-    PostModel.findOneAndUpdate(
-      { id: postID },
-      { $push: { comment: commentID } }
-    )
-      .then((res) => console.log("Post's comment array's been updated", res))
-      .catch((err) => {
-        console.log("Error while update Post", err);
-      });
-    res.json({ comment, today, user: "user_0" });
-  });
+  } catch (err) {
+    console.log("Error while making a comment ", err);
+    next(err);
+  }
 });
 
 /* GET coords */
 router.get("/:id/coords", async function (req, res, next) {
   const { location } = req.query;
-
   try {
     const coords = await getCoords(location);
     res.json(coords);
@@ -107,7 +105,9 @@ router.put("/:id/edit", function (req, res, next) {
         pets,
         laundry,
         furnished,
+        images,
       } = fields;
+      const parsedImgs = JSON.parse(images);
       const updatedPost = await PostModel.findOneAndUpdate(
         { id },
         {
@@ -126,6 +126,7 @@ router.put("/:id/edit", function (req, res, next) {
           pets,
           laundry,
           furnished,
+          images: parsedImgs,
         },
         { new: true }
       );
@@ -138,75 +139,78 @@ router.put("/:id/edit", function (req, res, next) {
 });
 
 /* PATCH rating */
-router.patch("/:id/vote", async function (req, res, next) {
-  const { id } = req.params;
-  const { method } = req.query;
+router.put("/:id/vote", async function (req, res, next) {
+  const { id: postId } = req.params;
+  const { method, userId } = req.query;
 
+  const postObjectId = postId;
+  const userObjectId = userId;
   try {
-    const user = "user_1";
-    const { upvote, downvote } = await UserModel.findOne({ id: user });
+    const { upvote, downvote } = await UserModel.findOne({
+      _id: userObjectId,
+    });
 
     let result;
     if (method === "upvote") {
-      let vote = upvote.includes(id) ? -1 : 1;
+      let vote = upvote.includes(postObjectId) ? -1 : 1;
       result = await PostModel.findOneAndUpdate(
-        { id },
+        { _id: postObjectId },
         { $inc: { upvote: vote } },
         { new: true }
       );
-      console.log("The result is ", result.upvote);
+      console.log("The upvote is ", postId);
       // Modify user's vote history arrays
       if (vote === 1) {
         await UserModel.findOneAndUpdate(
-          { id: user },
-          { $push: { upvote: id } }
+          { _id: userObjectId },
+          { $push: { upvote: postObjectId } }
         );
       } else {
         await UserModel.findOneAndUpdate(
-          { id: user },
-          { $pull: { upvote: id } }
+          { _id: userObjectId },
+          { $pull: { upvote: postObjectId } }
         );
       }
       // Substract 1 from downvote if user just upvoted
-      if (downvote.includes(id)) {
+      if (downvote.includes(postObjectId)) {
         result = await PostModel.findOneAndUpdate(
-          { id },
+          { _id: postObjectId },
           { $inc: { downvote: -1 } },
           { new: true }
         );
         await UserModel.findOneAndUpdate(
-          { id: user },
-          { $pull: { downvote: id } }
+          { _id: userObjectId },
+          { $pull: { downvote: postObjectId } }
         );
       }
     } else if (method === "downvote") {
-      let vote = downvote.includes(id) ? -1 : 1;
+      let vote = downvote.includes(postObjectId) ? -1 : 1;
       result = await PostModel.findOneAndUpdate(
-        { id },
+        { _id: postObjectId },
         { $inc: { downvote: vote } },
         { new: true }
       );
       // Modify user's vote history arrays
       if (vote === 1) {
         await UserModel.findOneAndUpdate(
-          { id: user },
-          { $push: { downvote: id } }
+          { _id: userObjectId },
+          { $push: { downvote: postObjectId } }
         );
       } else {
         await UserModel.findOneAndUpdate(
-          { id: user },
-          { $pull: { downvote: id } }
+          { _id: userObjectId },
+          { $pull: { downvote: postObjectId } }
         );
       }
-      if (upvote.includes(id)) {
+      if (upvote.includes(postObjectId)) {
         result = await PostModel.findOneAndUpdate(
-          { id },
+          { _id: postObjectId },
           { $inc: { upvote: -1 } },
           { new: true }
         );
         await UserModel.findOneAndUpdate(
-          { id: user },
-          { $pull: { upvote: id } }
+          { _id: userObjectId },
+          { $pull: { upvote: postObjectId } }
         );
       }
     }
@@ -217,22 +221,45 @@ router.patch("/:id/vote", async function (req, res, next) {
   }
 });
 
+/* GET Check vote */
+router.get("/:id/checkvote", async function (req, res, next) {
+  const { userId } = req.query;
+  const { id: postId } = req.params;
+  try {
+    const user = await UserModel.findOne({
+      _id: mongoose.Types.ObjectId(userId),
+    });
+    if (!user) {
+      throw new Error("User not found");
+    }
+    const { upvote, downvote } = user;
+    console.log("THE USER upvote", upvote);
+    res.json({
+      upvote: upvote.includes(mongoose.Types.ObjectId(postId)),
+      downvote: downvote.includes(mongoose.Types.ObjectId(postId)),
+    });
+  } catch (err) {
+    console.log("Error while checking if the user's rated ", err);
+    next(errƒ);
+  }
+});
+
 /* DELETE Post */
 router.delete("/:id", async function (req, res, next) {
   const { id } = req.params;
 
   try {
     // Delete records in POST document
-    const postToDelete = await PostModel.findOneAndDelete({ id });
+    const postToDelete = await PostModel.findOneAndDelete({ _id: id });
     // Delete comments of the post
     const { comment } = postToDelete;
     for (let id of comment) {
       const commentToDelete = await CommentModel.findOneAndDelete({
-        id,
+        _id: id,
       });
     }
 
-    res.json(postToDelete);
+    res.json({ postToDelete, comment });
   } catch (err) {
     console.log("Error while deleting post and its comments ", err);
     next(err);
