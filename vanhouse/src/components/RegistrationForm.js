@@ -48,19 +48,20 @@ function RegistrationForm({
         () => {
             setPasswordError("");
 
-            if (!regUser.password) {
-                setPasswordError(`Please choose a password`);
+            if (regUser.password === null || regUser.password === undefined) {
+                return setPasswordError(`Please choose a password`);
             }
 
             if (regUser.password.length < config.min) {
-                setPasswordError(`Password must be at least ${config.min} characters.`);
+                return setPasswordError(`Password must be at least ${config.min} characters.`);
             }
 
             if (regUser.password.length > config.max) {
-                setPasswordError(
+                return setPasswordError(
                     `Password must be less than ${config.max} characters.`
                 );
             }
+            return null;
         },
         [regUser.password]
     );
@@ -97,11 +98,11 @@ function RegistrationForm({
             <div className="form-group">
                 <input
                     type="text"
-                    name="surname"
-                    id="surname"
+                    name="lastName"
+                    id="lastName"
                     placeholder="Enter last name"
                     onChange={handleRegChange}
-                    value={regUser.surname}
+                    value={regUser.lastName}
                 />
             </div>
 
