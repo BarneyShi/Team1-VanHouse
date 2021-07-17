@@ -131,5 +131,6 @@ router.post('/newPost', function(req, res) {
   }).catch((error) => {
     res.send(error);
   });
+});
 
 module.exports = router;

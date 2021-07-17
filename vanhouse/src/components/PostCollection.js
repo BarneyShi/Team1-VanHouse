@@ -11,7 +11,7 @@ import NewPost from "./NewPost";
 import SearchBar from "./SearchBar";
 import LoadingSpinner from "./LoadingSpinner";
 import getErrorString from "../utils";
-import "../styles/post.css";
+import "./post.css";
 
 function PostCollection({
   setSearchFilter,
