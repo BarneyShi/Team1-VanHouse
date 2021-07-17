@@ -9,7 +9,7 @@ let PostSchema = new mongoose.Schema(
     },
     date: String,
     title: String,
-    price: String,
+    price: Number,
     images: Array,
     author: String,
     authorID: String,
@@ -28,7 +28,8 @@ let PostSchema = new mongoose.Schema(
     furnished: Boolean,
     schedule: Array,
     comment: Array,
-    rating: Array,
+    upvote: Number,
+    downvote: Number
   },
   {
     collection: "post",

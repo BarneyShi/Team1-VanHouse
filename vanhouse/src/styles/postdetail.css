@@ -47,7 +47,7 @@ img.post-detail-thumbnail {
   display: block;
 }
 #comment {
-  margin-top: 1rem;
+  margin-top: 0;
 }
 #comment h4 {
   border-top: 0.5px #80808070 solid;
@@ -63,6 +63,17 @@ img.post-detail-thumbnail {
 .comment__content {
   font-size: 0.9rem;
   text-align: left;
+}
+.comment--username {
+  font-size: .8rem;
+  font-weight: 700;
+}
+.comment--user {
+  font-size: .7rem;
+  text-align: left;
+}
+.comment__img {
+  margin-top: 10px;
 }
 .comment__block {
   padding: 0 3%;
@@ -86,4 +97,19 @@ img.post-detail-thumbnail {
 .comment__input form button {
   height: max-content;
   margin-left: 10px;
+}
+
+/* Report Modal */
+#reportForm {
+  text-align: left;
+  padding-left: 40px;
+}
+#viewFullInfoBtn {
+  margin-right: 0;
+}
+#editPost--btn {
+  float: left;
+  padding: 1px 5px;
+  font-size: 0.9rem;
+  margin: 5px 0 5px 5px;
 }
