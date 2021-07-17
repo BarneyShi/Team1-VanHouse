@@ -9,6 +9,8 @@ import {
   ListGroupItem,
   Button,
   Modal,
+  OverlayTrigger,
+  Tooltip,
 } from "react-bootstrap";
 import { useHistory, useParams } from "react-router-dom";
 import "../../styles/postdetail.css";
@@ -20,6 +22,7 @@ import thumbUp from "../../assets/thumb-up.svg";
 import thumbDown from "../../assets/thumb-down.svg";
 import upVote from "../../assets/thumbup-voted.svg";
 import downVote from "../../assets/thumbdown-voted.svg";
+import editIcon from "../../assets/editIcon.png";
 import LoadingSpinner from "../LoadingSpinner";
 import getErrorString from "../../utils";
 
@@ -220,7 +223,6 @@ export default function PostDetail() {
       console.log("Error while rating:", err);
     }
   };
-
   // Delete post
   const deletePost = async () => {
     try {
@@ -235,6 +237,18 @@ export default function PostDetail() {
     } catch (err) {
       console.log("Error while deleting post:", err);
     }
+  };
+  // Delete comment: TODO
+  const renderCommentTooltip = (props) => <Tooltip {...props}>Delete</Tooltip>;
+  const deleteComment = async (e) => {
+    // try {
+    //   await fetch(`http://localhost:4000/${post._id}/comment`, {
+    //     method: "DELETE",
+    //   });
+    // } catch (err) {
+    //   console.log("Error while deleting comment:", err);
+    // }
+    const commentId = e.target.getAttribute("data-id");
   };
 
   return (
@@ -382,6 +396,19 @@ export default function PostDetail() {
                       &#8226; {e.date}
                     </p>
                     <p className="comment__content">{e.text}</p>
+                  </span>
+                  <span>
+                    <OverlayTrigger
+                      placement="top"
+                      overlay={renderCommentTooltip}>
+                      <img
+                        className="comment-editIcon"
+                        src={editIcon}
+                        data-id={e._id}
+                        onClick={deleteComment}
+                        alt="edit"
+                      />
+                    </OverlayTrigger>
                   </span>
                 </div>
               ))

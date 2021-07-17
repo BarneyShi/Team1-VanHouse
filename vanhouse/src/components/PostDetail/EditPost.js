@@ -11,6 +11,7 @@ export default function EditPost({ show, setDisplay, post, setPost }) {
   const [imageSizeValid, setImageSizeValid] = useState(true);
   const [imageCountValid, setImageCountValid] = useState(true);
   const [imageErrorMsg, setImageErrorMsg] = useState("");
+  const [executing, setExecuting] = useState(false);
 
   useEffect(() => {
     setPreviewImages(post?.images);
@@ -18,6 +19,7 @@ export default function EditPost({ show, setDisplay, post, setPost }) {
 
   const editPost = async (event) => {
     event.preventDefault();
+    setExecuting(true);
     const form = formRef.current;
     const {
       title,
@@ -60,6 +62,7 @@ export default function EditPost({ show, setDisplay, post, setPost }) {
     });
     const updatedPost = await reponse.json();
     setPost(updatedPost);
+    setExecuting(false);
     setDisplay(false);
   };
 
@@ -341,8 +344,8 @@ export default function EditPost({ show, setDisplay, post, setPost }) {
           <Button variant="secondary" onClick={() => setDisplay(false)}>
             Close
           </Button>
-          <Button variant="primary" type="submit">
-            Continue
+          <Button disabled={executing} variant="primary" type="submit">
+            {executing ? "Waiting..." : "Continue"}
           </Button>
         </Modal.Footer>
       </Form>

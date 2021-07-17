@@ -102,6 +102,14 @@ img.post-detail-thumbnail {
   height: max-content;
   margin-left: 10px;
 }
+.comment-editIcon {
+  margin-top: -8px;
+  width: 13px;
+  margin-left: 10px;
+}
+.comment-editIcon:hover {
+  cursor: pointer;
+}
 
 /* Report Modal */
 #reportForm {
