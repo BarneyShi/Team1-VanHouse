@@ -59,7 +59,7 @@ router.post("/:id/comment", function (req, res, next) {
         .catch((err) => {
           console.log("Error while update Post", err);
         });
-      res.json({ comment, today, user: "user_0", _id: savedComment._id });
+      res.json({ comment, today, user: username, _id: savedComment._id });
     });
   } catch (err) {
     console.log("Error while making a comment ", err);
