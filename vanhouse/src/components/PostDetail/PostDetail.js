@@ -132,7 +132,7 @@ export default function PostDetail() {
     } catch (err) {
       console.log("Error while checking vote:", err.message);
     }
-  }, [rating]);
+  }, [rating, user]);
 
   // Comment function
   const commentRef = useRef();
@@ -163,7 +163,7 @@ export default function PostDetail() {
           ...comments,
           {
             _id: data._id,
-            username: user.username,
+            username: data.user,
             text: data.comment.text,
             date: data.today,
           },
