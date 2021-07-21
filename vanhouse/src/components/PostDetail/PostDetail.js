@@ -440,7 +440,10 @@ export default function PostDetail() {
                   {schedule.map((object) => (
                     <span className="date-list-item" key={object.id}>
                       <ListGroup.Item variant="primary">
-                        {object.date}
+                        <a
+                          href={`mailto:${post.email}?subject=[VanHouse - ${post.address}] Request to schedule a home tour on ${object.date}`}>
+                          {object.date}
+                        </a>
                       </ListGroup.Item>
                     </span>
                   ))}

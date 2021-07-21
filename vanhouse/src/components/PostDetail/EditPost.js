@@ -364,7 +364,7 @@ EditPost.propTypes = {
     address: PropTypes.string,
     postalCode: PropTypes.string,
     price: PropTypes.string,
-    paymentPeriod: PropTypes.string,
+    paymentPeriod: PropTypes.number,
     bedrooms: PropTypes.string,
     bathrooms: PropTypes.string,
     sqft: PropTypes.string,
