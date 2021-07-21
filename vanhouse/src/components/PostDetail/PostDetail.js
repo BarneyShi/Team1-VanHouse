@@ -241,14 +241,24 @@ export default function PostDetail() {
   // Delete comment: TODO
   const renderCommentTooltip = (props) => <Tooltip {...props}>Delete</Tooltip>;
   const deleteComment = async (e) => {
-    // try {
-    //   await fetch(`http://localhost:4000/${post._id}/comment`, {
-    //     method: "DELETE",
-    //   });
-    // } catch (err) {
-    //   console.log("Error while deleting comment:", err);
-    // }
-    const commentId = e.target.getAttribute("data-id");
+    try {
+      const commentId = e.target.getAttribute("data-id");
+      const response = await fetch(
+        `http://localhost:4000/post/${post._id}/comment?commentId=${commentId}`,
+        {
+          method: "DELETE",
+        }
+      );
+      if (!response.ok) {
+        throw Error("Response error");
+      }
+      const data = await response.json();
+      const { _id: deleteCommentId } = data;
+      const res = comments.filter((c) => c._id !== deleteCommentId);
+      setComments([...res]);
+    } catch (err) {
+      console.log("Error while deleting comment:", err);
+    }
   };
 
   return (

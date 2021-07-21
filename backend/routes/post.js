@@ -266,4 +266,24 @@ router.delete("/:id", async function (req, res, next) {
   }
 });
 
+/* DELETE COMMENT */
+router.delete("/:id/comment", async function (req, res, next) {
+  try {
+    const { id } = req.params;
+    const { commentId } = req.query;
+
+    const commentToDelete = await CommentModel.findOneAndDelete({
+      _id: commentId,
+    });
+    const postToUpdate = await PostModel.findOneAndUpdate(
+      { _id: id },
+      { $pull: { comment: mongoose.Types.ObjectId(commentId) } },
+      { new: true }
+    );
+    res.json(commentToDelete);
+  } catch (err) {
+    console.log("Error while deleting comment:", err);
+  }
+});
+
 module.exports = router;
