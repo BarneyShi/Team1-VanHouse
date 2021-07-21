@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import Admin from "./components/Admin/Admin";
 import PostDetail from "./components/PostDetail/PostDetail";
 import Header from "./components/Header";
 import UserList from "./components/UserList";
@@ -69,6 +70,9 @@ function App() {
         </Route>
         <Route path="/post/:id">
           <PostDetail />
+        </Route>
+        <Route path="/admin">
+          <Admin />
         </Route>
       </div>
     </Router>

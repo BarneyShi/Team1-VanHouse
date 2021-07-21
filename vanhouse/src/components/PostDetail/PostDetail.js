@@ -24,7 +24,7 @@ import upVote from "../../assets/thumbup-voted.svg";
 import downVote from "../../assets/thumbdown-voted.svg";
 import editIcon from "../../assets/editIcon.png";
 import LoadingSpinner from "../LoadingSpinner";
-import getErrorString from "../../utils";
+import { getErrorString } from "../../utils";
 
 export default function PostDetail() {
   const mapToken =
