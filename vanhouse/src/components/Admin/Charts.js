@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import {
+  Pie,
+  PieChart,
   BarChart,
   Bar,
   CartesianGrid,
@@ -11,13 +13,17 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import LoadingSpinner from "../LoadingSpinner";
-import { daysFromNow } from "../../utils";
+import { daysFromNow, priceRange } from "../../utils";
 
 export default function Charts({ posts }) {
   const [daysBeforeNow, setDays] = useState([]);
+  const [priceStat, setPriceStat] = useState([]);
   useEffect(() => {
     if (posts) {
       const datesArr = posts.map((p) => p.date);
+      const priceArr = posts.map((p) => p.price);
+      const priceData = priceRange(priceArr);
+      setPriceStat([...priceData]);
       const daysArr = daysFromNow(datesArr);
       const data = [0, 1, 2, 3, 4, 5, 6, 7].map((e) => ({
         days: e,
@@ -33,7 +39,8 @@ export default function Charts({ posts }) {
   }, [posts]);
   return posts ? (
     <>
-      <ResponsiveContainer width="90%" aspect={2.8}>
+      {/* CITATION: https://codesandbox.io/s/simple-bar-chart-tpz8r?file=/src/App.tsx */}
+      <ResponsiveContainer width="90%" aspect={3.2}>
         <BarChart
           data={daysBeforeNow}
           margin={{
@@ -59,6 +66,23 @@ export default function Charts({ posts }) {
           <Bar dataKey="DailyPosts" fill="#8884d8" />
         </BarChart>
       </ResponsiveContainer>
+      {/* CITATION: https://codesandbox.io/s/simple-area-chart-4ujxw?file=/src/App.tsx:707-1078 */}
+      <div>
+        <ResponsiveContainer width={400} height={400}>
+          <PieChart>
+            <Pie
+              dataKey="amount"
+              data={priceStat}
+              cx={200}
+              cy={200}
+              outerRadius={150}
+              fill="#8884d8"
+              label
+            />
+            <Tooltip />
+          </PieChart>
+        </ResponsiveContainer>
+      </div>
     </>
   ) : (
     <LoadingSpinner />
