@@ -20,3 +20,7 @@
 .admin-alert {
   margin-top: 2vh;
 }
+#admin-user-modalbody {
+  display: flex;
+  justify-content: center;
+}

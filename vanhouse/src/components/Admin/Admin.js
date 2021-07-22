@@ -3,9 +3,11 @@ import { Tab, Row, Col, Nav, Container, Button } from "react-bootstrap";
 import Charts from "./Charts";
 import "../../styles/admin.css";
 import PostAdmin from "./PostAdmin";
+import UserAdmin from "./UserAdmin";
 
 export default function Admin() {
   const [posts, setPosts] = useState();
+  const [users, setUsers] = useState();
   useEffect(async () => {
     try {
       const response = await fetch("/posts");
@@ -46,12 +48,7 @@ export default function Admin() {
                 <PostAdmin posts={posts} />
               </Tab.Pane>
               <Tab.Pane eventKey="third">
-                <input
-                  className="admin-post-searchbox"
-                  name="post"
-                  placeholder="Search by user ID or username"
-                />
-                <Button className="admin-post-searchBtn">Search</Button>
+                <UserAdmin users={users} />
               </Tab.Pane>
             </Tab.Content>
           </Col>

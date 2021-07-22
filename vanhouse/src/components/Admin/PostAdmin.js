@@ -104,6 +104,7 @@ export default function PostAdmin({ posts }) {
           adminPosts.map((post) => (
             <ListGroup.Item
               action
+              active={selectedPost?._id === post._id}
               key={post._id}
               as="li"
               onClick={() => {
