@@ -5,7 +5,13 @@ import addIcon from "../../assets/addIcon.png";
 import deleteIcon from "../../assets/deleteIcon.png";
 import "../../styles/editPost.css";
 
-export default function EditPost({ show, setDisplay, post, setPost }) {
+export default function EditPost({
+  show,
+  setDisplay,
+  post,
+  setPost,
+  setUpdaedPost,
+}) {
   const formRef = useRef();
   const [previewImages, setPreviewImages] = useState();
   const [imageSizeValid, setImageSizeValid] = useState(true);
@@ -62,6 +68,7 @@ export default function EditPost({ show, setDisplay, post, setPost }) {
     });
     const updatedPost = await reponse.json();
     setPost(updatedPost);
+    setUpdaedPost(updatedPost);
     setExecuting(false);
     setDisplay(false);
   };
@@ -363,8 +370,8 @@ EditPost.propTypes = {
     phone: PropTypes.string,
     address: PropTypes.string,
     postalCode: PropTypes.string,
-    price: PropTypes.string,
-    paymentPeriod: PropTypes.number,
+    price: PropTypes.number,
+    paymentPeriod: PropTypes.string,
     bedrooms: PropTypes.string,
     bathrooms: PropTypes.string,
     sqft: PropTypes.string,
@@ -376,4 +383,5 @@ EditPost.propTypes = {
     images: PropTypes.arrayOf(PropTypes.string),
   }),
   setPost: PropTypes.func.isRequired,
+  setUpdaedPost: PropTypes.func,
 };

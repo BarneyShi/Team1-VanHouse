@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Tab, Row, Col, Nav, Container, Button } from "react-bootstrap";
 import Charts from "./Charts";
 import "../../styles/admin.css";
+import PostAdmin from "./PostAdmin";
 
 export default function Admin() {
   const [posts, setPosts] = useState();
@@ -42,12 +43,7 @@ export default function Admin() {
                 <Charts posts={posts} />
               </Tab.Pane>
               <Tab.Pane eventKey="second">
-                <input
-                  className="admin-post-searchbox"
-                  name="post"
-                  placeholder="Search by post ID"
-                />
-                <Button className="admin-post-searchBtn">Search</Button>
+                <PostAdmin posts={posts} />
               </Tab.Pane>
               <Tab.Pane eventKey="third">
                 <input
