@@ -116,7 +116,8 @@ router.post('/login', (req, res) => {
                             userId: user[0]._id,
                             email: user[0].email,
                             firstName: user[0].firstName,
-                            lastName: user[0].lastName
+                            lastName: user[0].lastName,
+                            admin: user[0].admin
                         },
                         process.env.ACCESS_TOKEN_SECRET,
                         {
@@ -138,7 +139,8 @@ router.post('/login', (req, res) => {
                         userId: user[0]._id,
                         firstName: user[0].firstName,
                         lastName: user[0].lastName,
-                        email: user[0].email
+                        email: user[0].email,
+                        admin: user[0].admin
                     };
                     return res.status(200).json(sendUser);
                 }
