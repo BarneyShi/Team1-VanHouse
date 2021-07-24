@@ -15,7 +15,10 @@ import "./post.css";
 
 function PostCollection({
   setSearchFilter,
-  filterURL
+  filterURL,
+  appPosts,
+  setAppPosts,
+  setQuery
 }) {
 
   // State to hold posts retrieved from the server
@@ -39,8 +42,13 @@ function PostCollection({
   // Query server for posts on mount
   useEffect(() => {
     setIsLoadingPosts(true);
+    if (appPosts.length > 0) {
+      setPosts(appPosts);
+      setIsLoadingPosts(false);
+    }
     fetch("http://localhost:4000/posts")
       .then(res => {
+        setIsLoadingPosts(false);
         if (!res.ok) {
           throw res;
         }
@@ -48,13 +56,11 @@ function PostCollection({
       })
       .then(data => {
         setPosts(data);
-        setIsLoadingPosts(false);
       })
       .catch(error => {
         getErrorString(error).then((errText) => {
           setErrorMsg(errText);
           setDisplayError(true);
-          setIsLoadingPosts(false);
         });
       });
   }, []);
@@ -87,6 +93,13 @@ function PostCollection({
         });
       });
   }, [filterURL]);
+
+  useEffect(() => {
+    setAppPosts(posts);
+  }, [posts]);
+
+  // CITATION: syntax to avoid ESLint error on return block statement: https://stackoverflow.com/a/55937086
+  useEffect(() => () => setQuery(""), []);
 
   // Create a POST request for a new rental listing
   const postRentalListing = async (postObj) => {
@@ -245,7 +258,10 @@ function PostCollection({
 
 PostCollection.propTypes = {
   setSearchFilter: PropTypes.func.isRequired,
-  filterURL: PropTypes.string.isRequired
+  filterURL: PropTypes.string.isRequired,
+  appPosts: PropTypes.instanceOf(Array).isRequired,
+  setAppPosts: PropTypes.func.isRequired,
+  setQuery: PropTypes.func.isRequired
 };
 
 export default PostCollection;
