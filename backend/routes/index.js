@@ -6,6 +6,7 @@ const Comment = require("../models/Comment.js");
 const Schedule = require("../models/Schedule.js");
 const User = require("../models/User");
 const postCode = require("../util/postCode");
+const checkAuth = require("../middleware/check-auth");
 
 const summaryProj = {_id: 1, id: 1, date: 1, title: 1, price: 1, paymentPeriod: 1, images: {$slice: 1}, author: 1, address: 1};
 
@@ -107,7 +108,7 @@ router.get("/userpost/:id", function (req, res, next) {
 });
 
 // Add a new property listing to the database
-router.post('/newPost', function(req, res) {
+router.post('/newPost', checkAuth, function(req, res) {
   // Map schedule dates to an array of schedule objects
   let datesToSchedule = req.body.schedule;
   let schedule = datesToSchedule.map((d) => {
@@ -136,3 +137,4 @@ router.post('/newPost', function(req, res) {
 });
 
 module.exports = router;
+

@@ -33,6 +33,9 @@ function PostCollection({
   const [displayError, setDisplayError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
+  const [user, setUser] = useState();
+
+
   // Query server for posts on mount
   useEffect(() => {
     setIsLoadingPosts(true);
@@ -92,6 +95,7 @@ function PostCollection({
       headers: {
         "Content-Type": "application/json"
       },
+      credentials: 'include',
       body: JSON.stringify(postObj)
     });
     return response;
@@ -104,6 +108,7 @@ function PostCollection({
     const today = new Date();
     const day = `0${today.getDate()}`.slice(-2);
     const month = `0${today.getMonth() + 1}`.slice(-2);
+    setIsLoadingPosts(false);
 
     const postToAdd = {
       id: "",
@@ -111,8 +116,8 @@ function PostCollection({
       title: postInfo.postTitle,
       price: postInfo.price,
       images: postInfo.images,
-      author: "",
-      authorID: "",
+      author: user.username,
+      authorID: user.userId,
       address: postInfo.address,
       postalCode: postInfo.postalCode,
       phone: postInfo.phone,
@@ -134,6 +139,7 @@ function PostCollection({
 
     postRentalListing(postToAdd)
       .then(res => {
+        setIsLoadingPosts(false);
         if (!res.ok) {
           throw res;
         }
@@ -147,10 +153,31 @@ function PostCollection({
         getErrorString(error).then((errText) => {
           setErrorMsg(errText);
           setDisplayError(true);
-          setIsLoadingPosts(false);
         });
       });
   };
+
+  const presentCreatePost = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:4000/login-router/account",
+        {
+          credentials: "include",
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Please login to create a new post");
+      }
+      const data = await response.json();
+      setUser({ userId: data.userId, username: data.firstName });
+      setNewPostVisible(true);
+    } catch (err) {
+      setUser();
+      setErrorMsg(err.message);
+      setDisplayError(true);
+      console.log("Error while checking auth:", err.message);
+    }
+  }
 
   const postObjToComponent = ((post) => (
     <Link to={{pathname: `/post/${post._id}`, postObj: post}} key={post._id}>
@@ -186,7 +213,7 @@ function PostCollection({
         <Button
           id="createPostBtn"
           variant="primary"
-          onClick={() => setNewPostVisible(true)}
+          onClick={presentCreatePost}
         >
           {" "}
           Post{" "}
@@ -202,7 +229,7 @@ function PostCollection({
       <div className="post_scroll_div">
         {displayError && 
           <Alert className="connection_error_alert" variant="danger" onClose={() => setDisplayError(false)} dismissible>
-            <Alert.Heading> Error getting posts </Alert.Heading>
+            <Alert.Heading> Oops </Alert.Heading>
             <p>
               {errorMsg}
             </p>
@@ -222,3 +249,4 @@ PostCollection.propTypes = {
 };
 
 export default PostCollection;
+
