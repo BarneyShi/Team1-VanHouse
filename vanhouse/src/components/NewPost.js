@@ -9,6 +9,7 @@ import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 import Schedule from "./PostDetail/Schedule";
+import ImagePrep from "./ImagePrep";
 
 // Presents a modal view with a form for creating a new post
 function NewPost({ showModalForm, submit, handleClose }) {
@@ -32,6 +33,8 @@ function NewPost({ showModalForm, submit, handleClose }) {
 
   // Hooks for displaying <Schedule />
   const [displaySchedule, setDisplaySchedule] = useState(false);
+
+  const [displayImagePrep, setDisplayImagePrep] = useState(false);
 
   // Image validation states
   const [imageSizeValid, setImageSizeValid] = useState(true);
@@ -74,9 +77,14 @@ function NewPost({ showModalForm, submit, handleClose }) {
     if (!imageSizeValid) {
       return;
     }
-    setDisplaySchedule(true);
+    setDisplayImagePrep(true);
     handleClose();
   };
+
+  const handleImageSubmit = (imgs) => {
+    setImages(imgs);
+    setDisplaySchedule(true);
+  }
 
   // Creates a new post object using states as params and calls the submit callback prop
   const handleScheduleSubmit = async (schedule) => {
@@ -367,6 +375,11 @@ function NewPost({ showModalForm, submit, handleClose }) {
           </Modal.Footer>
         </Form>
       </Modal>
+      <ImagePrep
+        show={displayImagePrep}
+        handleClose={() => {setDisplayImagePrep(false)}}
+        handleSubmit={handleImageSubmit}
+      />
       <Schedule
         show={displaySchedule}
         onHide={() => {setDisplaySchedule(false);}}
