@@ -121,7 +121,6 @@ function PostCollection({
     const today = new Date();
     const day = `0${today.getDate()}`.slice(-2);
     const month = `0${today.getMonth() + 1}`.slice(-2);
-    setIsLoadingPosts(true);
 
     const postToAdd = {
       id: "",
@@ -151,7 +150,6 @@ function PostCollection({
     };
 
     const res = await postRentalListing(postToAdd);
-    setIsLoadingPosts(false);
     try {
       if (!res.ok) {
         throw res;

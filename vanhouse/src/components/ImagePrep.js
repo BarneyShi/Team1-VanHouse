@@ -87,7 +87,7 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
 
   return (
     <div>
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} size="lg" centered>
         <Form onSubmit={submitClicked}>
           <Modal.Header>
             <Modal.Title>Select Images</Modal.Title>

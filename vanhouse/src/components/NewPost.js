@@ -36,11 +36,6 @@ function NewPost({ showModalForm, submit, handleClose }) {
 
   const [displayImagePrep, setDisplayImagePrep] = useState(false);
 
-  // Image validation states
-  const [imageSizeValid, setImageSizeValid] = useState(true);
-  const [imageCountValid, setImageCountValid] = useState(true);
-  const [imageErrorMsg, setImageErrorMsg] = useState("");
-
   const [executing, setExecuting] = useState(false);
   
   // Resets the states
@@ -74,9 +69,6 @@ function NewPost({ showModalForm, submit, handleClose }) {
   // PostCollection component using the callback
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!imageSizeValid) {
-      return;
-    }
     setDisplayImagePrep(true);
     handleClose();
   };
@@ -110,48 +102,6 @@ function NewPost({ showModalForm, submit, handleClose }) {
     });
     setExecuting(false);
     setDisplaySchedule(false);
-  };
-
-  // Sets image states based on form file input
-  // Rejects images if the list is too long or if image files are too large
-  const handleImageUpload = (e) => {
-    const maxImageSize = 1000000;
-    setImageSizeValid(true);
-    if (e.target.files) {
-      const imageList = [];
-      // Check image count is valid
-      const maxImageCount = 4;
-      if (e.target.files.length > maxImageCount) {
-        e.target.value = null; // CITATION: https://stackoverflow.com/a/42192710
-        setImages([]);
-        setImageErrorMsg(
-          "Too many images. Please select between 1 and 4 images."
-        );
-        setImageCountValid(false);
-        return;
-      }
-      for (let i = 0; i < e.target.files.length; i += 1) {
-        // Reject files that are too large
-        if (e.target.files[i].size > maxImageSize) {
-          e.target.value = null; // CITATION: https://stackoverflow.com/a/42192710
-          setImages([]);
-          setImageErrorMsg(
-            "Image file size exceeds 1MB. Please select files under 1MB."
-          );
-          setImageSizeValid(false);
-          return;
-        }
-        // Add valid files to the images state
-        if (e.target.files[i]) {
-          const fileReader = new FileReader();
-          fileReader.onload = (event) => {
-            imageList.push(event.target.result);
-            setImages(imageList);
-          };
-          fileReader.readAsDataURL(e.target.files[i]);
-        }
-      }
-    }
   };
 
   return (
@@ -347,21 +297,6 @@ function NewPost({ showModalForm, submit, handleClose }) {
                 </Form.Group>
               </Col>
             </Row>
-
-            <Form.Group as={Col} controlId="formImages">
-              <Form.File
-                id="uploadImagesButton"
-                multiple
-                required
-                label="Upload 1-4 images *"
-                feedback={imageErrorMsg}
-                accept=".jpg, .jpeg, .png, .tiff"
-                isInvalid={!imageSizeValid || !imageCountValid}
-                onChange={(e) => {
-                  handleImageUpload(e);
-                }}
-              />
-            </Form.Group>
 
             <Form.Text className="text-muted">* required fields</Form.Text>
           </Modal.Body>
