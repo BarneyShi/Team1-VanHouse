@@ -238,16 +238,15 @@ function PostCollection({
         handleClose={() => setNewPostVisible(false)}
         submit={addPost}
       />
-
+      {displayError && 
+        <Alert className="connection_error_alert" variant="danger" onClose={() => setDisplayError(false)} dismissible>
+          <Alert.Heading> Oops </Alert.Heading>
+          <p>
+            {errorMsg}
+          </p>
+        </Alert>
+      }
       <div className="post_scroll_div">
-        {displayError && 
-          <Alert className="connection_error_alert" variant="danger" onClose={() => setDisplayError(false)} dismissible>
-            <Alert.Heading> Oops </Alert.Heading>
-            <p>
-              {errorMsg}
-            </p>
-          </Alert>
-        }
         {!displayFiltered && !isLoadingPosts && postsList}
         {displayFiltered && !isLoadingPosts && filteredPostsList}
         {isLoadingPosts && <LoadingSpinner />}
