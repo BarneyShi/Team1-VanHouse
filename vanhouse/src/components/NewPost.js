@@ -5,7 +5,7 @@
    CITATION: I learned the FileReader approach to uploading images from https://stackoverflow.com/a/43992687
 */
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 import Schedule from "./PostDetail/Schedule";
@@ -38,6 +38,8 @@ function NewPost({ showModalForm, submit, handleClose }) {
   const [imageCountValid, setImageCountValid] = useState(true);
   const [imageErrorMsg, setImageErrorMsg] = useState("");
 
+  const [executing, setExecuting] = useState(false);
+  
   // Resets the states
   const resetStates = (show) => {
     if (show) {
@@ -77,8 +79,9 @@ function NewPost({ showModalForm, submit, handleClose }) {
   };
 
   // Creates a new post object using states as params and calls the submit callback prop
-  const handleScheduleSubmit = (schedule) => {
-    submit({
+  const handleScheduleSubmit = async (schedule) => {
+    setExecuting(true);
+    const res = await submit({
       postTitle,
       price,
       paymentPeriod,
@@ -97,6 +100,8 @@ function NewPost({ showModalForm, submit, handleClose }) {
       images,
       schedule,
     });
+    setExecuting(false);
+    setDisplaySchedule(false);
   };
 
   // Sets image states based on form file input
@@ -364,8 +369,9 @@ function NewPost({ showModalForm, submit, handleClose }) {
       </Modal>
       <Schedule
         show={displaySchedule}
-        onHide={() => setDisplaySchedule(false)}
+        onHide={() => {setDisplaySchedule(false);}}
         handleSubmit={handleScheduleSubmit}
+        executing={executing}
       />
     </div>
   );

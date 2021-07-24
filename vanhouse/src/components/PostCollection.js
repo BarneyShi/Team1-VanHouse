@@ -117,11 +117,11 @@ function PostCollection({
   // Adds a post to the posts state
   // Callback function called by the NewPost component on form submission
   // CITATION: The idea to use .slice(-2) to add leading zeros to the day/month from https://stackoverflow.com/a/3605248
-  const addPost = (postInfo) => {
+  const addPost = async (postInfo) => {
     const today = new Date();
     const day = `0${today.getDate()}`.slice(-2);
     const month = `0${today.getMonth() + 1}`.slice(-2);
-    setIsLoadingPosts(false);
+    setIsLoadingPosts(true);
 
     const postToAdd = {
       id: "",
@@ -150,24 +150,22 @@ function PostCollection({
       downvote: 0
     };
 
-    postRentalListing(postToAdd)
-      .then(res => {
-        setIsLoadingPosts(false);
-        if (!res.ok) {
-          throw res;
-        }
-        return res.json();
-      })
-      .then(data => {
-        const updatedPosts = [...posts, data];
-        setPosts(updatedPosts);
-      })
-      .catch(error => {
-        getErrorString(error).then((errText) => {
-          setErrorMsg(errText);
-          setDisplayError(true);
-        });
-      });
+    const res = await postRentalListing(postToAdd);
+    setIsLoadingPosts(false);
+    try {
+      if (!res.ok) {
+        throw res;
+      }
+      const data = await res.json();
+      const updatedPosts = [...posts, data];
+      setPosts(updatedPosts);
+    }
+    catch(error) {
+      const errText = await getErrorString(error);
+      setErrorMsg(errText);
+      setDisplayError(true);
+    }
+    return true;
   };
 
   const presentCreatePost = async () => {
