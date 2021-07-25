@@ -28,6 +28,7 @@ router.get('/posts', function(req, res) {
 });
 
 // Get posts to display on homepage
+// CITATION: I learned the sort, skip, and limit functions here: https://docs.mongodb.com/manual/reference/method/cursor.skip/
 router.get('/postsPage', function(req, res) {
   Post.find({}, summaryProj)
   .sort({date: -1, _id: 1})
