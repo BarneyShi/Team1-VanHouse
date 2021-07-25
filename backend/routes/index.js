@@ -8,7 +8,7 @@ const User = require("../models/User");
 const postCode = require("../util/postCode");
 const checkAuth = require("../middleware/check-auth");
 
-const summaryProj = {_id: 1, id: 1, date: 1, title: 1, price: 1, paymentPeriod: 1, images: {$slice: -1}, author: 1, address: 1};
+const summaryProj = {_id: 1, id: 1, date: 1, title: 1, price: 1, paymentPeriod: 1, mainImage: 1, author: 1, address: 1};
 
 // Get posts to display on homepage
 router.get('/posts', function(req, res) {

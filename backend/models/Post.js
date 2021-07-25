@@ -11,6 +11,7 @@ let PostSchema = new mongoose.Schema(
     title: String,
     price: Number,
     images: Array,
+    mainImage: String,
     author: String,
     authorID: String,
     address: String,

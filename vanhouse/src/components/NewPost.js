@@ -30,6 +30,7 @@ function NewPost({ showModalForm, submit, handleClose }) {
   const [laundry, setLaundry] = useState(false);
   const [furnished, setFurnished] = useState(false);
   const [images, setImages] = useState([]);
+  const [mainImage, setMainImage] = useState("");
 
   // Hooks for displaying <Schedule />
   const [displaySchedule, setDisplaySchedule] = useState(false);
@@ -57,6 +58,7 @@ function NewPost({ showModalForm, submit, handleClose }) {
       setLaundry(false);
       setFurnished(false);
       setImages([]);
+      setMainImage("");
     }
   };
 
@@ -73,8 +75,9 @@ function NewPost({ showModalForm, submit, handleClose }) {
     handleClose();
   };
 
-  const handleImageSubmit = (imgs) => {
+  const handleImageSubmit = (imgs, mainImg) => {
     setImages(imgs);
+    setMainImage(mainImg);
     setDisplaySchedule(true);
   }
 
@@ -98,6 +101,7 @@ function NewPost({ showModalForm, submit, handleClose }) {
       laundry,
       furnished,
       images,
+      mainImage,
       schedule,
     });
     setExecuting(false);

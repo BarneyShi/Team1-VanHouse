@@ -128,6 +128,7 @@ function PostCollection({
       title: postInfo.postTitle,
       price: postInfo.price,
       images: postInfo.images,
+      mainImage: postInfo.mainImage,
       author: user.username,
       authorID: user.userId,
       address: postInfo.address,
@@ -196,7 +197,7 @@ function PostCollection({
         postTitle={post.title}
         price={post.price}
         paymentPeriod={post.paymentPeriod}
-        mainImage={post.images[0]}
+        mainImage={post.mainImage}
         address={post.address}
       />
     </Link>

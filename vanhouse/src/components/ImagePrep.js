@@ -9,8 +9,6 @@ import React, { useState, useEffect, useRef, useCallback } from "react";
 import PropTypes from "prop-types";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 import Cropper from 'react-easy-crop'
-import addIcon from "../assets/addIcon.png";
-import deleteIcon from "../assets/deleteIcon.png";
 import "../styles/imagePrep.css";
 import { scaleImage, getCroppedImg } from "./cropUtils"
 
@@ -56,13 +54,9 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
       return;
     }
     let mainImage = await getCroppedImg(images[0], croppedAreaPixels);
-    mainImage = await scaleImage(mainImage, 400, 300);
-    const imageList = [...images];
-    imageList.push(mainImage);
-    setImages(imageList);
-    console.log(imageList[imageList.length-1]);
-    console.log(imageList.length);
-    handleSubmit(imageList);
+    mainImage = await scaleImage(mainImage, 300, 180);
+    console.log(mainImage);
+    handleSubmit(images, mainImage);
     handleClose();
   };
 
@@ -70,7 +64,7 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
   // Rejects images if the list is too long or if image files are too large
   const handleImageUpload = (e) => {
     setImageErrorMsg("");
-    const maxImageSize = 2000000;
+    const maxImageSize = 1000000;
     setImageSizeValid(true);
     if (e.target.files) {
       const imageList = [];
@@ -91,7 +85,7 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
           e.target.value = null; // CITATION: https://stackoverflow.com/a/42192710
           setImages([]);
           setImageErrorMsg(
-            "Image file size exceeds 2MB. Please select files under 2MB."
+            "Image file size exceeds 1MB. Please select files under 1MB."
           );
           setImageSizeValid(false);
           return;
@@ -171,7 +165,7 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
                         image={images[0]}
                         crop={crop}
                         zoom={zoom}
-                        aspect={4 / 3}
+                        aspect={5 / 3}
                         onCropChange={setCrop}
                         onCropComplete={onCropComplete}
                         onZoomChange={setZoom}
