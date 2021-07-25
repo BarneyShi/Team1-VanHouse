@@ -1,0 +1,51 @@
+.user-image {
+  margin-left: 5px;
+  padding:3px;
+}
+
+.main-image {
+  margin-left: 5px;
+  border: 3px solid green;
+  padding:1px;
+}
+
+.preview-image {
+  position: relative;
+}
+.preview-image:hover {
+  opacity: 0.5;
+}
+.preview-image-delete {
+  position: absolute;
+  font-size: 1rem;
+  font-weight: 500;
+  color: red;
+  right: 1px;
+}
+.preview-image-delete {
+  cursor: pointer;
+}
+.edit-image-errors {
+  color: red !important;
+}
+
+.image-thumbs-div {
+  display: flex;
+}
+
+.image-scroll-div {
+  position: relative;
+  width: 100%;
+  display:flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.crop-div {
+  float: center;
+  position: relative;
+  width: 60%;
+  height: 20rem;
+}

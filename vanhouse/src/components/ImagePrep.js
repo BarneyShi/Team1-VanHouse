@@ -5,12 +5,19 @@
    CITATION: I learned the FileReader approach to uploading images from https://stackoverflow.com/a/43992687
 */
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import PropTypes from "prop-types";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
+import Cropper from 'react-easy-crop'
+import addIcon from "../assets/addIcon.png";
+import deleteIcon from "../assets/deleteIcon.png";
+import "../styles/imagePrep.css";
+import { scaleImage, getCroppedImg } from "./cropUtils"
 
 // Presents a modal view with a form for creating a new post
 function ImagePrep({ show, handleSubmit, handleClose }) {
+
+  const formRef = useRef();
 
   // States set by form inputs
   const [images, setImages] = useState([]);
@@ -19,7 +26,16 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
   const [imageSizeValid, setImageSizeValid] = useState(true);
   const [imageCountValid, setImageCountValid] = useState(true);
   const [imageErrorMsg, setImageErrorMsg] = useState("");
-  
+
+  // CITATION: The next 5 lines are from https://codesandbox.io/s/y09komm059?file=/src/canvasUtils.js:427-2287
+  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const [zoom, setZoom] = useState(1);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  const onCropComplete = useCallback((area, areaPixels) => {
+    setCroppedAreaPixels(areaPixels);
+  }, []);
+
+
   // Resets the states
   const resetStates = (doReinit) => {
     if (doReinit) {
@@ -34,25 +50,33 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
 
   // Create a post object with the form details and send this to the
   // PostCollection component using the callback
-  const submitClicked = (e) => {
+  const submitClicked = async (e) => {
     e.preventDefault();
     if (!imageSizeValid) {
       return;
     }
-    handleSubmit(images);
+    let mainImage = await getCroppedImg(images[0], croppedAreaPixels);
+    mainImage = await scaleImage(mainImage, 400, 300);
+    const imageList = [...images];
+    imageList.push(mainImage);
+    setImages(imageList);
+    console.log(imageList[imageList.length-1]);
+    console.log(imageList.length);
+    handleSubmit(imageList);
     handleClose();
   };
 
   // Sets image states based on form file input
   // Rejects images if the list is too long or if image files are too large
   const handleImageUpload = (e) => {
-    const maxImageSize = 1000000;
+    setImageErrorMsg("");
+    const maxImageSize = 2000000;
     setImageSizeValid(true);
     if (e.target.files) {
       const imageList = [];
       // Check image count is valid
       const maxImageCount = 4;
-      if (e.target.files.length > maxImageCount) {
+      if (e.target.files.length+images.length > maxImageCount) {
         e.target.value = null; // CITATION: https://stackoverflow.com/a/42192710
         setImages([]);
         setImageErrorMsg(
@@ -67,7 +91,7 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
           e.target.value = null; // CITATION: https://stackoverflow.com/a/42192710
           setImages([]);
           setImageErrorMsg(
-            "Image file size exceeds 1MB. Please select files under 1MB."
+            "Image file size exceeds 2MB. Please select files under 2MB."
           );
           setImageSizeValid(false);
           return;
@@ -77,7 +101,7 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
           const fileReader = new FileReader();
           fileReader.onload = (event) => {
             imageList.push(event.target.result);
-            setImages(imageList);
+            setImages([...imageList]);
           };
           fileReader.readAsDataURL(e.target.files[i]);
         }
@@ -85,10 +109,20 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
     }
   };
 
+  const selectAsMain = (event) => {
+    const imgSrc = event.target.getAttribute("src");
+    const imgIndex = images.indexOf(imgSrc);
+    const imageList = [...images];
+    const oldMainImg = imageList[0];
+    imageList[0] = imageList[imgIndex];
+    imageList[imgIndex] = oldMainImg;
+    setImages(imageList);
+  }
+
   return (
     <div>
       <Modal show={show} onHide={handleClose} size="lg" centered>
-        <Form onSubmit={submitClicked}>
+        <Form ref={formRef} onSubmit={submitClicked}>
           <Modal.Header>
             <Modal.Title>Select Images</Modal.Title>
           </Modal.Header>
@@ -96,6 +130,7 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
             <Form.Group as={Col} controlId="formImages">
               <Form.File
                 id="uploadImagesButton"
+                name="imageFilePicker"
                 multiple
                 required
                 label="Upload 1-4 images *"
@@ -107,7 +142,47 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
                 }}
               />
             </Form.Group>
-
+            {images.length > 0 && 
+              <p>Select main image</p>
+            }
+            <Row>
+              {images?.map((e, idx) => (
+                <span
+                  key={Math.floor(Math.random() * 9999)}
+                  className="preview-image">
+                  <img
+                    className={idx !== 0 ? "user-image" : "main-image"}
+                    width="84"
+                    height="84"
+                    alt="post-images"
+                    src={e}
+                    onClick={selectAsMain}
+                  />
+                </span>
+              ))}
+            </Row>
+            {images.length > 0 && 
+              <div>
+                <p>Crop main image</p>
+                <Row>
+                  <div className="image-scroll-div">           
+                    <div className="crop-div">
+                      <Cropper
+                        image={images[0]}
+                        crop={crop}
+                        zoom={zoom}
+                        aspect={4 / 3}
+                        onCropChange={setCrop}
+                        onCropComplete={onCropComplete}
+                        onZoomChange={setZoom}
+                      />
+                    </div>                  
+                  </div>
+                </Row>
+                <p>Scroll to zoom</p>
+              </div>
+              
+            }
             <Form.Text className="text-muted">* required fields</Form.Text>
           </Modal.Body>
           <Modal.Footer>
