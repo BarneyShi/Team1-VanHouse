@@ -1,8 +1,7 @@
 // CITATION: Font awesome button reference: https://www.w3schools.com/howto/howto_css_icon_buttons.asp
 // CITATION: I used this resource for learning about fetch: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
-// TODO - hide create-post-button when not logged in
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Button, Alert } from "react-bootstrap";
 import PropTypes from "prop-types";
@@ -33,11 +32,14 @@ function PostCollection({
 
   // Loading and error display states
   const [isLoadingPosts, setIsLoadingPosts] = useState(true);
+  const [fetchingNextPosts, setFetchingNextPosts] = useState(false);
+  const [morePostsAvailable, setMorePostsAvailable] = useState(true);
   const [displayError, setDisplayError] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
   const [user, setUser] = useState();
 
+  const fetchSpinnerRef = useRef();
 
   // Query server for posts on mount
   useEffect(() => {
@@ -45,20 +47,21 @@ function PostCollection({
     if (appPosts.length > 0) {
       setPosts(appPosts);
       setIsLoadingPosts(false);
+      return;
     }
     fetch("http://localhost:4000/posts")
       .then(res => {
-        setIsLoadingPosts(false);
         if (!res.ok) {
           throw res;
         }
         return res.json();
       })
       .then(data => {
+        setIsLoadingPosts(false);
         setPosts(data);
-        console.log(data[0]);
       })
       .catch(error => {
+        setIsLoadingPosts(false);
         getErrorString(error).then((errText) => {
           setErrorMsg(errText);
           setDisplayError(true);
@@ -153,7 +156,7 @@ function PostCollection({
         throw res;
       }
       const data = await res.json();
-      const updatedPosts = [...posts, data];
+      const updatedPosts = [data, ...posts];
       setPosts(updatedPosts);
     }
     catch(error) {
@@ -209,6 +212,40 @@ function PostCollection({
     postObjToComponent(post)
   ));
 
+  // Call when the "See more posts..." button is clicked
+  const getMorePosts = () => {
+    setFetchingNextPosts(true);
+    fetch("http://localhost:4000/postsPage")
+      .then(res => {
+        if (!res.ok) {
+          throw res;
+        }
+        return res.json();
+      })
+      .then(data => {
+        setFetchingNextPosts(false);
+        console.log(data.length);
+        if (data.length === 0) {
+          setMorePostsAvailable(false);
+          return;
+        }
+        const newPosts = [...posts, ...data];
+        setPosts(newPosts);
+      })
+      .catch(error => {
+        setFetchingNextPosts(false);
+        getErrorString(error).then((errText) => {
+          setErrorMsg(errText);
+          setDisplayError(true);
+        });
+      });
+  }
+
+  // CITATION: I found the scrollIntoView function here: https://stackoverflow.com/q/45719909 
+  useEffect(() => {
+    fetchSpinnerRef.current?.scrollIntoView({behavior: "smooth"});
+  }, [fetchingNextPosts]);
+
   return (
     <div className="post_collection_div">
       <div id="post_collection_tools_div">
@@ -244,6 +281,12 @@ function PostCollection({
         {!displayFiltered && !isLoadingPosts && postsList}
         {displayFiltered && !isLoadingPosts && filteredPostsList}
         {isLoadingPosts && <LoadingSpinner />}
+        {fetchingNextPosts && <div id="fetchSpinnerDiv" ref={fetchSpinnerRef}><LoadingSpinner /></div>}
+        {!isLoadingPosts && !fetchingNextPosts && morePostsAvailable &&
+          <Button id="getMorePostsBtn" variant="link" onClick={getMorePosts}>
+            See more posts...
+          </Button>
+        }
       </div>
     </div>
   );

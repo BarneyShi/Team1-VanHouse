@@ -134,30 +134,14 @@
   align-items: center;
   justify-content: center;
 }
-/*
-.post_div h3 {
-  font-size: 1.1rem;
-}
 
-.post_div h6 {
-  font-size: 0.85rem;
+#getMorePostsBtn {
+  flex-basis: 100%;
+  text-align: center;
+  justify-self: center;
+  align-self: flex-end;
+  margin-bottom: 6px;
 }
-
-.post_div p {
-  font-size: 0.7rem;
-}
-
-.post_div img {
-  object-fit:cover;
-  max-width: 95%;
-  max-height: 12rem;
-  height: auto;
-  width: auto;
-  border-radius: 10%;
-  border: 1px solid black;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.1);
-}
-*/
 
 .post_div img {
   object-fit:cover;
@@ -199,6 +183,12 @@
 .create_post_button:hover {
   color: rgb(1, 98, 204);
   transition: color 0.2s ease;
+}
+
+#fetchSpinnerDiv {
+  height: 1rem;
+  flex-basis: 100%;
+  float: bottom;
 }
 
 

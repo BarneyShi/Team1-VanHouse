@@ -10,10 +10,17 @@ const checkAuth = require("../middleware/check-auth");
 
 // CITATION: Syntax to just get images[0]: https://joshtronic.com/2020/07/19/how-to-get-the-first-and-last-item-from-an-array-in-mongodb/
 const summaryProj = {_id: 1, id: 1, date: 1, title: 1, price: 1, paymentPeriod: 1, mainImage: 1, author: 1, address: 1};
+let pageSize = 4;
+let pageOffset = 0;
 
 // Get posts to display on homepage
 router.get('/posts', function(req, res) {
-  Post.find({}, summaryProj).then((result) => {
+  Post.find({}, summaryProj)
+  .sort({date: -1, _id: 1})
+  .skip(0)
+  .limit(pageSize)
+  .then((result) => {
+    pageOffset = 1;
     res.send(result);
   }).catch((error) => {
     res.send(error);
@@ -21,8 +28,13 @@ router.get('/posts', function(req, res) {
 });
 
 // Get posts to display on homepage
-router.get('/postPage', function(req, res) {
-  Post.find({}, summaryProj).then((result) => {
+router.get('/postsPage', function(req, res) {
+  Post.find({}, summaryProj)
+  .sort({date: -1, _id: 1})
+  .skip(pageOffset*pageSize)
+  .limit(pageSize)
+  .then((result) => {
+    pageOffset++;
     res.send(result);
   }).catch((error) => {
     res.send(error);

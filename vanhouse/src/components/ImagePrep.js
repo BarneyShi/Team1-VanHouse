@@ -55,7 +55,6 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
     }
     let mainImage = await getCroppedImg(images[0], croppedAreaPixels);
     mainImage = await scaleImage(mainImage, 300, 180);
-    console.log(mainImage);
     handleSubmit(images, mainImage);
     handleClose();
   };
