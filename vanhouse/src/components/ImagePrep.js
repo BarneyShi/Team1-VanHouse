@@ -10,12 +10,12 @@ import PropTypes from "prop-types";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 import Cropper from 'react-easy-crop'
 import "../styles/imagePrep.css";
-import { scaleImage, getCroppedImg } from "./cropUtils"
 
 // Presents a modal view with a form for creating a new post
 function ImagePrep({ show, handleSubmit, handleClose }) {
 
   const formRef = useRef();
+  const canvasRef = useRef();
 
   // States set by form inputs
   const [images, setImages] = useState([]);
@@ -46,6 +46,60 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
     resetStates(show);
   }, [show]);
 
+  // CITATION: This functions is adapted from the react-easy-crop npm package example code:
+  // https://codesandbox.io/s/y09komm059?file=/src/canvasUtils.js:0-2287
+  const createImage = (url) =>
+    new Promise((resolve, reject) => {
+      const image = new Image()
+      image.addEventListener('load', () => resolve(image))
+      image.addEventListener('error', (error) => reject(error))
+      image.setAttribute('crossOrigin', 'anonymous') // needed to avoid cross-origin issues on CodeSandbox
+      image.src = url
+  });
+
+  // CITATION: This function is taken from https://stackoverflow.com/a/20965997
+  const scaleImage = async (imageSrc, width, height) => {
+    const image = await createImage(imageSrc);
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+
+    // set its dimension to target size
+    canvas.width = width;
+    canvas.height = height;
+
+    // draw source image into the off-screen canvas:
+    ctx.drawImage(image, 0, 0, width, height);
+
+    // encode image to data-uri with base64 version of compressed image
+    return canvas.toDataURL();
+  }
+
+  // CITATION: This functions is adapted from the react-easy-crop npm package example code:
+  // https://codesandbox.io/s/y09komm059?file=/src/canvasUtils.js:0-2287
+  const getCroppedImg = async (imageSrc, pixelCrop) => {
+    const image = await createImage(imageSrc);
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    const maxSize = Math.max(image.width, image.height);
+    const safeArea = 2 * ((maxSize / 2) * Math.sqrt(2));
+    canvas.width = safeArea;
+    canvas.height = safeArea;
+    ctx.drawImage(
+      image,
+      safeArea / 2 - image.width * 0.5,
+      safeArea / 2 - image.height * 0.5
+    );
+    const data = ctx.getImageData(0, 0, safeArea, safeArea);
+    canvas.width = pixelCrop.width;
+    canvas.height = pixelCrop.height;
+    ctx.putImageData(
+      data,
+      Math.round(0 - safeArea / 2 + image.width * 0.5 - pixelCrop.x),
+      Math.round(0 - safeArea / 2 + image.height * 0.5 - pixelCrop.y)
+    );
+    return canvas.toDataURL('image/jpeg');
+  }
+
   // Create a post object with the form details and send this to the
   // PostCollection component using the callback
   const submitClicked = async (e) => {
@@ -53,6 +107,7 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
     if (!imageSizeValid) {
       return;
     }
+    
     let mainImage = await getCroppedImg(images[0], croppedAreaPixels);
     mainImage = await scaleImage(mainImage, 300, 180);
     handleSubmit(images, mainImage);
@@ -173,8 +228,8 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
                   </div>
                 </Row>
                 <p>Scroll to zoom</p>
+                <canvas id="targetCanvas" ref={canvasRef}/>
               </div>
-              
             }
             <Form.Text className="text-muted">* required fields</Form.Text>
           </Modal.Body>

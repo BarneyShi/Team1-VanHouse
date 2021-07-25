@@ -49,3 +49,8 @@
   width: 60%;
   height: 20rem;
 }
+
+#targetCanvas {
+  height: 0;
+  width: 0;
+}
