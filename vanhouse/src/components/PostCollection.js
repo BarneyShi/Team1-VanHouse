@@ -56,6 +56,7 @@ function PostCollection({
       })
       .then(data => {
         setPosts(data);
+        console.log(data[0]);
       })
       .catch(error => {
         getErrorString(error).then((errText) => {

@@ -37,14 +37,12 @@ router.get('/post/:postId', function(req, res) {
   }).then((comments) => {
     if (comments) {
       responseData.comments = comments;
-      return Schedule.find({id: {$in: dateIds}});
+      return Schedule.find({_id: {$in: dateIds}});
     } else {
       return null;
     }
   }).then((dates) => {
     if (dates) {
-      // Slice off the thumbnail image
-      responseData.postInfo.images = responseData.postInfo.images.slice(0, responseData.postInfo.images.length-1);
       responseData.availableDates = dates;
       res.send(responseData);
     }

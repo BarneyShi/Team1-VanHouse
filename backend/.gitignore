@@ -6,6 +6,8 @@
 .pnp.js
 **/.env
 
+vanhouse2.js
+
 # testing
 /coverage
 
