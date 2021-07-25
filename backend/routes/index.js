@@ -8,11 +8,20 @@ const User = require("../models/User");
 const postCode = require("../util/postCode");
 const checkAuth = require("../middleware/check-auth");
 
+// CITATION: Syntax to just get images[0]: https://joshtronic.com/2020/07/19/how-to-get-the-first-and-last-item-from-an-array-in-mongodb/
 const summaryProj = {_id: 1, id: 1, date: 1, title: 1, price: 1, paymentPeriod: 1, mainImage: 1, author: 1, address: 1};
 
 // Get posts to display on homepage
 router.get('/posts', function(req, res) {
-  // CITATION: Syntax to just get images[0]: https://joshtronic.com/2020/07/19/how-to-get-the-first-and-last-item-from-an-array-in-mongodb/
+  Post.find({}, summaryProj).then((result) => {
+    res.send(result);
+  }).catch((error) => {
+    res.send(error);
+  });
+});
+
+// Get posts to display on homepage
+router.get('/postPage', function(req, res) {
   Post.find({}, summaryProj).then((result) => {
     res.send(result);
   }).catch((error) => {

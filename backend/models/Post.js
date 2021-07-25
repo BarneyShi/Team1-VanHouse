@@ -7,7 +7,7 @@ let PostSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    date: String,
+    date: Date,
     title: String,
     price: Number,
     images: Array,

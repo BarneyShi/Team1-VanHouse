@@ -119,13 +119,9 @@ function PostCollection({
   // Callback function called by the NewPost component on form submission
   // CITATION: The idea to use .slice(-2) to add leading zeros to the day/month from https://stackoverflow.com/a/3605248
   const addPost = async (postInfo) => {
-    const today = new Date();
-    const day = `0${today.getDate()}`.slice(-2);
-    const month = `0${today.getMonth() + 1}`.slice(-2);
-
     const postToAdd = {
       id: "",
-      date: `${day}-${month}-${today.getYear() + 1900}`,
+      date: new Date(),
       title: postInfo.postTitle,
       price: postInfo.price,
       images: postInfo.images,
