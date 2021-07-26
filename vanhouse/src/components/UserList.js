@@ -5,20 +5,22 @@ import user1 from "../assets/img1.jpg";
 import user2 from "../assets/img2.jpg";
 import user3 from "../assets/img3.jpg";
 import user4 from "../assets/user.svg";
+import '../styles/userlist.css';
 
-function UserList({ setQuery }) {
+
+function UserList({ setQuery, setUserId }) {
 
     const [state, setState] = useState(0);
-
     const [userImg, setImg] = useState([user1, user2, user4]);
-
     const [list, setList] = useState();
 
     function filterUserPost(item) {
+        setUserId(item._id);
         const url = `http://localhost:4000/userpost/${item._id}`;
         setQuery(url);
     }
     function Cancel() {
+        setUserId("");
         setQuery("");
     }
 
@@ -29,65 +31,28 @@ function UserList({ setQuery }) {
             .then((res) => {
                 const newName = [];
                 console.log(res);
-                const cardList = res.map((item, index) => {
-                    const style = {
-                        width: "35px",
-                        height: "35px",
-                        borderRadius: "100%",
-                    };
-                    const ButtonStyle = {
-                        display: "flex",
-                        alignItems: "center",
-                    };
-                    return (
-                        <div
-                            style={{
-                                display: "flex",
-                                alignItems: "center",
-                                marginTop: "10px",
-                            }}
-                            key={item}
-                        >
-                            <div>
-                                <img style={style} alt="User avatar" src={userImg[2]} />
-                            </div>
-                            <button type="button" style={{ fontSize: "20px", outline: "none", border: 'none' }}
-
-                                    onClick={() => filterUserPost(item)}>
-                                {item.firstName} {item.lastName}
-                            </button>
-                        </div>
-
-                    );
-
-                });
+                const cardList = res.map((item, index) => (
+                    <div className="user-item" key={item} >
+                        <img alt="User avatar" src={userImg[2]} />
+                        <button type="button" onClick={() => filterUserPost(item)}>
+                            {item.firstName} {item.lastName}
+                        </button>
+                    </div>
+                ));
                 setList(cardList);
             });
     }, []);
 
-    const boxStyle = {
-        boxShadow: "0 8px 20px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.1)",
-        borderRadius: "3px",
-        paddingBottom: "10px",
-        height: "86vh",
-    };
 
     return (
-
-        <div style={boxStyle}>
+        <div className="user-box">
             <h2>User List</h2>
             <Container fluid>{list}</Container>
 
-            <div style={{ display: "flex" }}>
-                <button type="button" style={  { marginLeft: "auto" }}
-                    onClick={Cancel}
-                >
-                    Cancel
-                </button>
+            <div className="cancel-btn">
+                <button type="button" onClick={Cancel}>Cancel</button>
             </div>
-
         </div>
-
     );
 
 
@@ -95,6 +60,7 @@ function UserList({ setQuery }) {
 
 UserList.propTypes = {
     setQuery: PropTypes.func.isRequired,
+    setUserId: PropTypes.func.isRequired
 };
 
 export default UserList;

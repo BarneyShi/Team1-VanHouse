@@ -19,7 +19,7 @@
   margin:auto;
   text-align: center;
   flex-basis: 85%;
-  height: 2.5rem;
+  /* height: 2.5rem; */
 }
 
 .searchInput {
@@ -53,4 +53,18 @@
   width:80%;
       margin-top:10px;
       margin-bottom: 10px;
+}
+
+.citys{
+  margin-right: 10px;
+}
+.price-num{
+  width:70px;
+}
+.price-num2{
+  width:70px;
+  margin-right: 10px;
+}
+.keyword{
+  min-width:70px;
 }

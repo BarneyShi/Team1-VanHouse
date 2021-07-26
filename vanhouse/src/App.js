@@ -14,6 +14,7 @@ function App() {
   const [filterIdx, setFilterIdx] = useState(Number(0));
   const [reset, setReset] = useState(false);
   const [filterURL, setFilterURL] = useState("");
+  const [userId, setUserId] = useState("");
 
   return (
     <Router>
@@ -27,6 +28,7 @@ function App() {
                   <UserList
                     setReset={setReset}
                     setQuery={setFilterURL}
+                    setUserId={setUserId}
                   />
                 )) ||
                   (filterIdx === 1 && (
@@ -54,10 +56,12 @@ function App() {
               <Col>
                 <PostCollection
                   filterURL={filterURL}
+                  userId={userId}
                   setSearchFilter={(i) => {
                     setFilterIdx(i);
                     setReset(true);
                   }}
+                  setQuery={setFilterURL}
                 />
               </Col>
             </Row>

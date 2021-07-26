@@ -51,6 +51,48 @@ router.get('/post/:postId', function(req, res) {
   });
 });
 
+router.get("/search", function(req, res, next){
+  const {high, low, location, keyword, userid} = req.query;
+  let con = {};
+  let numLow = Number(low);
+  let numHigh = Number(high);
+  if(!(numLow === 0 && numHigh === 0)){
+
+    con.price = { $gte: numLow, $lte: numHigh};
+  }
+  
+  
+  let searchArr = [];
+  if(location != 'city'){
+    if (location === "Vancouver") {
+      searchArr = postCode.vancouver;
+    } else if (location === "Burnaby") {
+      searchArr = postCode.burnaby;
+    } else if (location === "Richmond"){
+      searchArr = postCode.richmond;
+    }
+    con.postalCode = {$in:searchArr}
+  }
+
+  if(keyword !== ""){
+    con.$or = [
+      {title :{$regex:keyword, "$options":"i"}},
+      {address :{$regex:keyword, "$options":"i"}},
+    ];
+  }
+
+  if(userid !== ""){
+    con.authorID = mongoose.Types.ObjectId(userid);
+  }
+  // console.log("location is null ", location == null)
+  // console.log("con is : ", con)
+  // console.log("keyword is : ", "-"+keyword+"-", keyword == null)
+
+
+  Post.find(con, summaryProj, (err, data) => {
+    res.json(data);
+  });
+});
 
 router.get("/price", function (req, res, next) {
   const { high, low } = req.query;
