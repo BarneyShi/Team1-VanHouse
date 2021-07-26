@@ -59,7 +59,7 @@ export default function PostDetail() {
   useEffect(async () => {
     let postData;
     try {
-      const postResponse = await fetch(`http://localhost:4000/post/${id}`);
+      const postResponse = await fetch(`/post/${id}`);
       postData = await postResponse.json();
       setPost(postData.postInfo);
       setComments(postData.comments);
@@ -78,7 +78,7 @@ export default function PostDetail() {
 
     try {
       const coordsResponse = await fetch(
-        `http://localhost:4000/post/${id}/coords?location=${postData.postInfo.postalCode}`
+        `/post/${id}/coords?location=${postData.postInfo.postalCode}`
       );
       const data = await coordsResponse.json();
       setProperty({
@@ -102,12 +102,9 @@ export default function PostDetail() {
     }
 
     try {
-      const response = await fetch(
-        "http://localhost:4000/login-router/account",
-        {
-          credentials: "include",
-        }
-      );
+      const response = await fetch("/login-router/account", {
+        credentials: "include",
+      });
       if (!response.ok) {
         throw new Error("Not logged in");
       }
@@ -124,7 +121,7 @@ export default function PostDetail() {
     try {
       if (!user) throw Error("Not logged in");
       const response = await fetch(
-        `http://localhost:4000/post/${post._id}/checkvote?userId=${user.userId}`
+        `/post/${post._id}/checkvote?userId=${user.userId}`
       );
       if (!response.ok) throw Error("Failed to reach endpoint - checkvote");
       const data = await response.json();
@@ -153,9 +150,10 @@ export default function PostDetail() {
     form.append("newComment", value);
     form.append("userId", user.userId);
     form.append("username", user.username);
-    fetch(`http://localhost:4000/post/${post.id}/comment`, {
+    fetch(`/post/${post.id}/comment`, {
       method: "POST",
       body: form,
+      credentials: "include",
     })
       .then((response) => response.json())
       .then((data) => {
@@ -209,9 +207,10 @@ export default function PostDetail() {
         return;
       }
       const response = await fetch(
-        `http://localhost:4000/post/${post._id}/vote?userId=${user.userId}&method=${method}`,
+        `/post/${post._id}/vote?userId=${user.userId}&method=${method}`,
         {
           method: "PUT",
+          credentials: "include",
         }
       );
       if (!response.ok) {
@@ -226,8 +225,9 @@ export default function PostDetail() {
   // Delete post
   const deletePost = async () => {
     try {
-      const response = await fetch(`http://localhost:4000/post/${post._id}`, {
+      const response = await fetch(`/post/${post._id}`, {
         method: "DELETE",
+        credentials: "include",
       });
       if (!response.ok) {
         throw Error("failed to delete");
@@ -244,9 +244,10 @@ export default function PostDetail() {
     try {
       const commentId = e.target.getAttribute("data-id");
       const response = await fetch(
-        `http://localhost:4000/post/${post._id}/comment?commentId=${commentId}`,
+        `/${post._id}/comment?commentId=${commentId}`,
         {
           method: "DELETE",
+          credentials: "include",
         }
       );
       if (!response.ok) {
@@ -410,19 +411,21 @@ export default function PostDetail() {
                     </p>
                     <p className="comment__content">{e.text}</p>
                   </span>
-                  <span>
-                    <OverlayTrigger
-                      placement="top"
-                      overlay={renderCommentTooltip}>
-                      <img
-                        className="comment-editIcon"
-                        src={editIcon}
-                        data-id={e._id}
-                        onClick={deleteComment}
-                        alt="edit"
-                      />
-                    </OverlayTrigger>
-                  </span>
+                  {user && post && user.userId === post.authorID ? (
+                    <span>
+                      <OverlayTrigger
+                        placement="top"
+                        overlay={renderCommentTooltip}>
+                        <img
+                          className="comment-editIcon"
+                          src={editIcon}
+                          data-id={e._id}
+                          onClick={deleteComment}
+                          alt="edit"
+                        />
+                      </OverlayTrigger>
+                    </span>
+                  ) : null}
                 </div>
               ))
             ) : (

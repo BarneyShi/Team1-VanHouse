@@ -62,13 +62,16 @@ export default function EditPost({
     formData.append("furnished", furnished.checked);
     formData.append("images", JSON.stringify(previewImages));
 
-    const reponse = await fetch(`http://localhost:4000/post/${post.id}/edit`, {
+    const reponse = await fetch(`/post/${post.id}/edit`, {
       method: "put",
       body: formData,
+      credentials: "include",
     });
     const updatedPost = await reponse.json();
     setPost(updatedPost);
-    setUpdaedPost(updatedPost);
+    if (typeof setUpdaedPost === "function") {
+      setUpdaedPost(updatedPost);
+    }
     setExecuting(false);
     setDisplay(false);
   };

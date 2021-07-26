@@ -1,12 +1,12 @@
 var express = require("express");
 var mongoose = require("mongoose");
 var formidable = require("formidable");
-var { v4: uuid } = require("uuid");
 var router = express.Router();
 var PostModel = require("../models/Post");
 var ScheduleModel = require("../models/Schedule");
 var CommentModel = require("../models/Comment");
 var UserModel = require("../models/User");
+const checkAuth = require("../middleware/check-auth");
 
 var getToday = require("../util/util").getToday;
 var getCoords = require("../util/util").getCoordinates;
@@ -28,7 +28,7 @@ router.get("/:id", async function (req, res, next) {
 });
 
 /* POST comment */
-router.post("/:id/comment", function (req, res, next) {
+router.post("/:id/comment", checkAuth, function (req, res, next) {
   const { id: postID } = req.params;
   // Disclaim: Code snippets from https://www.npmjs.com/package/formidable#readme
   const form = formidable({ multiples: true });
@@ -79,7 +79,7 @@ router.get("/:id/coords", async function (req, res, next) {
 });
 
 /* PUT post */
-router.put("/:id/edit", function (req, res, next) {
+router.put("/:id/edit", checkAuth, function (req, res, next) {
   const { id } = req.params;
   // Disclaim: Code snippets from https://www.npmjs.com/package/formidable#readme
   const form = formidable({ multiples: true });
@@ -139,7 +139,7 @@ router.put("/:id/edit", function (req, res, next) {
 });
 
 /* PATCH rating */
-router.put("/:id/vote", async function (req, res, next) {
+router.put("/:id/vote", checkAuth, async function (req, res, next) {
   const { id: postId } = req.params;
   const { method, userId } = req.query;
 
@@ -245,7 +245,7 @@ router.get("/:id/checkvote", async function (req, res, next) {
 });
 
 /* DELETE Post */
-router.delete("/:id", async function (req, res, next) {
+router.delete("/:id", checkAuth, async function (req, res, next) {
   const { id } = req.params;
 
   try {
@@ -267,7 +267,7 @@ router.delete("/:id", async function (req, res, next) {
 });
 
 /* DELETE COMMENT */
-router.delete("/:id/comment", async function (req, res, next) {
+router.delete("/:id/comment", checkAuth, async function (req, res, next) {
   try {
     const { id } = req.params;
     const { commentId } = req.query;
