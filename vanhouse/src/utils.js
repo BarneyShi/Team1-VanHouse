@@ -16,10 +16,7 @@ export const getErrorString = async (error) => {
 
 export const daysFromNow = (arr) => {
   const today = moment();
-  return arr.map((date) => {
-    const m = moment(date, "DD-MM-YYYY");
-    return today.diff(moment(m), "days");
-  });
+  return arr.map((date) => today.diff(date, "days"));
 };
 
 export const priceRange = (arr) => {

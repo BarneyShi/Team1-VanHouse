@@ -94,6 +94,7 @@ Charts.propTypes = {
     PropTypes.shape({
       id: PropTypes.string,
       title: PropTypes.string,
+      date: PropTypes.instanceOf(Date),
       email: PropTypes.string,
       phone: PropTypes.string,
       address: PropTypes.string,
