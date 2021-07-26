@@ -318,12 +318,13 @@ export default function PostDetail() {
               onClick={() => setDisplaySchedule(true)}>
               Book a home tour!
             </Button>
-
-            <Button
-              onClick={() => setDisplayEditModal(true)}
-              id="editPost--btn">
-              Edit Post
-            </Button>
+            {user && post && user.userId === post.authorID ? (
+              <Button
+                onClick={() => setDisplayEditModal(true)}
+                id="editPost--btn">
+                Edit Post
+              </Button>
+            ) : null}
 
             <Button
               variant="warning"
@@ -331,12 +332,14 @@ export default function PostDetail() {
               onClick={() => setDisplayReport(true)}>
               Report
             </Button>
-            <Button
-              variant="danger"
-              id="deleteBtn"
-              onClick={() => setDeleteConfirmation(true)}>
-              Delete
-            </Button>
+            {user && post && user.userId === post.authorID ? (
+              <Button
+                variant="danger"
+                id="deleteBtn"
+                onClick={() => setDeleteConfirmation(true)}>
+                Delete
+              </Button>
+            ) : null}
           </Col>
 
           <Col xs={12} md={6}>
