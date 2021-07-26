@@ -10,10 +10,11 @@ const checkAuth = require("../middleware/check-auth");
 
 // CITATION: Syntax to just get images[0]: https://joshtronic.com/2020/07/19/how-to-get-the-first-and-last-item-from-an-array-in-mongodb/
 const summaryProj = {_id: 1, id: 1, date: 1, title: 1, price: 1, paymentPeriod: 1, mainImage: 1, author: 1, address: 1};
-let pageSize = 4;
-let pageOffset = 0;
 
-// Get posts to display on homepage
+let pageSize = 4; // number of posts to fetch
+let pageOffset = 0; // stores the number of pages fetched so far
+
+// Get the most recent posts to display on homepage and reset the pageOffset
 router.get('/posts', function(req, res) {
   Post.find({}, summaryProj)
   .sort({date: -1, _id: 1})
@@ -27,7 +28,7 @@ router.get('/posts', function(req, res) {
   });
 });
 
-// Get posts to display on homepage
+// Get posts the next set of posts to display on homepage
 // CITATION: I learned the sort, skip, and limit functions here: https://docs.mongodb.com/manual/reference/method/cursor.skip/
 router.get('/postsPage', function(req, res) {
   Post.find({}, summaryProj)

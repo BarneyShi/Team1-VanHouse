@@ -167,6 +167,7 @@ function PostCollection({
     return true;
   };
 
+  // Present the NewPost modal view if the user is logged in
   const presentCreatePost = async () => {
     try {
       const response = await fetch(
@@ -189,6 +190,7 @@ function PostCollection({
     }
   }
 
+  // Wrap Post components in Link components to connect to postDetail route
   const postObjToComponent = ((post) => (
     <Link to={{pathname: `/post/${post._id}`, postObj: post}} key={post._id}>
       <Post
@@ -212,7 +214,8 @@ function PostCollection({
     postObjToComponent(post)
   ));
 
-  // Call when the "See more posts..." button is clicked
+  // Fetch some more posts from the server
+  // Called when the "See more posts..." button is clicked
   const getMorePosts = () => {
     setFetchingNextPosts(true);
     fetch("http://localhost:4000/postsPage")
@@ -241,6 +244,7 @@ function PostCollection({
       });
   }
 
+  // Scroll to bottom of the component when fetching new posts
   // CITATION: I found the scrollIntoView function here: https://stackoverflow.com/q/45719909 
   useEffect(() => {
     fetchSpinnerRef.current?.scrollIntoView({behavior: "smooth"});

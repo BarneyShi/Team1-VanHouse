@@ -14,9 +14,6 @@ import "../styles/imagePrep.css";
 // Presents a modal view with a form for creating a new post
 function ImagePrep({ show, handleSubmit, handleClose }) {
 
-  const formRef = useRef();
-  const canvasRef = useRef();
-
   // States set by form inputs
   const [images, setImages] = useState([]);
 
@@ -25,7 +22,11 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
   const [imageCountValid, setImageCountValid] = useState(true);
   const [imageErrorMsg, setImageErrorMsg] = useState("");
 
-  // CITATION: The next 5 lines are from https://codesandbox.io/s/y09komm059?file=/src/canvasUtils.js:427-2287
+  // Canvas ref used for cropping and resizing images
+  const canvasRef = useRef(); 
+
+  // CITATION: The next 6 lines are from react-easy-crop example code:
+  // https://codesandbox.io/s/y09komm059?file=/src/canvasUtils.js:427-2287
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
@@ -33,9 +34,8 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
     setCroppedAreaPixels(areaPixels);
   }, []);
 
-
-  // Resets the states
-  const resetStates = (doReinit) => {
+  // Reset the image state
+  const resetState = (doReinit) => {
     if (doReinit) {
       setImages([]);
     }
@@ -43,7 +43,7 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
 
   // Reset the states whenever the modal view is presented
   useEffect(() => {
-    resetStates(show);
+    resetState(show);
   }, [show]);
 
   // CITATION: This functions is adapted from the react-easy-crop npm package example code:
@@ -157,6 +157,7 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
     }
   };
 
+  // Select which image will be used as the main image displayed on the homepage
   const selectAsMain = (event) => {
     const imgSrc = event.target.getAttribute("src");
     const imgIndex = images.indexOf(imgSrc);
@@ -170,7 +171,7 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
   return (
     <div>
       <Modal show={show} onHide={handleClose} size="lg" centered>
-        <Form ref={formRef} onSubmit={submitClicked}>
+        <Form onSubmit={submitClicked}>
           <Modal.Header>
             <Modal.Title>Select Images</Modal.Title>
           </Modal.Header>
