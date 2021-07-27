@@ -9,6 +9,9 @@ function Header() {
     const [isLoginVisible, setIsLoginVisible] = useState(true);
     const [isRegistrationVisible, setIsRegistrationVisible] = useState(false);
     const [isRegisterButtonVisible, setIsRegisterButtonVisible] = useState(true);
+    const [isForgotVisible, setIsForgotVisible] = useState(false);
+    const [isForgotButtonVisible, setIsForgotButtonVisible] = useState(true);
+    const [isFooterVisible, setIsFooterVisible] = useState(true);
 
     // Login Form states
     const [email, setEmail] = useState("");
@@ -28,7 +31,8 @@ function Header() {
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
 
-    // Forgot password form states
+    // Forgot password states
+    const [forgotEmail, setForgotEmail] = useState("");
 
     // Functions
     const handleLoginClicked = () => {
@@ -85,6 +89,9 @@ function Header() {
         setRegUser("");
         setEmail("");
         setPassword("");
+        setIsForgotVisible(false);
+        setIsForgotButtonVisible(true);
+        setIsFooterVisible(true);
     }
 
     function Login() {
@@ -194,6 +201,16 @@ function Header() {
         return re.test(String(regUser.email).toLowerCase());
     }
 
+    function Forgot() {
+        if (emailError === "") {
+            console.log("Need to figure out what to do here");
+        }
+    }
+
+    function handleForgotChange(e) {
+        setForgotEmail(e.target);
+    }
+
     // function loggedInCondRender() {
     //     fetch('http://localhost:4000/login-router/account', {
     //         method: 'GET',
@@ -252,6 +269,14 @@ function Header() {
                 emailError={emailError}
                 setEmailError={setEmailError}
                 validateEmail={validateEmail}
+                isForgotVisible={isForgotVisible}
+                setIsForgotVisible={setIsForgotVisible}
+                isForgotButtonVisible={isForgotButtonVisible}
+                setIsForgotButtonVisible={setIsForgotButtonVisible}
+                handleForgotChange={handleForgotChange}
+                forgot={Forgot}
+                isFooterVisible={isFooterVisible}
+                setIsFooterVisible={setIsFooterVisible}
             />
             <div className="top-line-flexbox">
                 <div className="title-and-logo-flexbox">
@@ -285,7 +310,6 @@ function Header() {
                     </h2>
                 </div>
             </div>
-
         </div>
     )
 }

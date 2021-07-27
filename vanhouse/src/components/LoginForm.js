@@ -3,6 +3,7 @@ import {Button, Form, Modal} from "react-bootstrap";
 import PropTypes from "prop-types";
 import RegistrationForm from "./RegistrationForm"
 import "../styles/login.css"
+import ForgotPassword from "./ForgotPassword";
 
 function LoginForm({
                        show,
@@ -39,15 +40,33 @@ function LoginForm({
                        setConfirmPasswordError,
                        emailError,
                        setEmailError,
-                       validateEmail
+                       validateEmail,
+                       isForgotVisible,
+                       setIsForgotVisible,
+                       isForgotButtonVisible,
+                       setIsForgotButtonVisible,
+                       handleForgotChange,
+                       forgot,
+                       isFooterVisible,
+                       setIsFooterVisible
                    }) {
 
     // https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30
     // Accessed June 7, 2021
-    const setVisibilities = () => {
+    const setRegVisibilities = () => {
         setIsRegistrationVisible(!isRegistrationVisible);
         setIsLoginVisible(!isLoginVisible);
         setIsRegisterButtonVisible(!isRegisterButtonVisible);
+        setIsForgotButtonVisible(!isForgotButtonVisible);
+        setIsFooterVisible(!isFooterVisible);
+    }
+
+    const setForgotVisibilities = () => {
+        setIsForgotVisible(!isForgotVisible);
+        setIsLoginVisible(!isLoginVisible);
+        setIsRegisterButtonVisible(!isRegisterButtonVisible);
+        setIsForgotButtonVisible(!isForgotButtonVisible);
+        // setIsFooterVisible(false);
     }
 
     const handleSubmit = e => {
@@ -91,19 +110,35 @@ function LoginForm({
             </Form>
             }
 
-            <Modal.Footer>
-                <Button
-                    variant="outline-info">
-                    Forgot password?
-                </Button>
-            </Modal.Footer>
+            {isFooterVisible &&
+            <Modal.Footer className="login-modal-footers">
+                <div className="forgot-button-and-form">
+                    {isForgotButtonVisible &&
+                    <Button
+                        variant="outline-info"
+                        onClick={() => setForgotVisibilities()}>
+                        Forgot password?
+                    </Button>
+                    }
 
-            <Modal.Footer>
+                    {isForgotVisible &&
+                    <ForgotPassword
+                        emailError={emailError}
+                        handleClose={handleClose}
+                        handleForgotChange={handleForgotChange}
+                        handleCloseForgot={handleClose}
+                        forgot={forgot}
+                    />
+                    }
+                </div>
+            </Modal.Footer>
+            }
+            <Modal.Footer className="login-modal-footers">
                 <div className="register-button-and-form">
                     {isRegisterButtonVisible &&
                     <Button
                         variant="outline-success"
-                        onClick={() => setVisibilities()}>
+                        onClick={() => setRegVisibilities()}>
                         Register for a new account
                     </Button>
                     }
@@ -128,7 +163,6 @@ function LoginForm({
                     }
                 </div>
             </Modal.Footer>
-
         </Modal>
     )
 }
@@ -174,7 +208,15 @@ LoginForm.propTypes = {
     handleRegChange: PropTypes.func.isRequired,
     emailError: PropTypes.string.isRequired,
     setEmailError: PropTypes.func.isRequired,
-    validateEmail: PropTypes.func.isRequired
+    validateEmail: PropTypes.func.isRequired,
+    isForgotVisible: PropTypes.bool,
+    setIsForgotVisible: PropTypes.func,
+    isForgotButtonVisible: PropTypes.bool,
+    setIsForgotButtonVisible: PropTypes.func,
+    handleForgotChange: PropTypes.func,
+    forgot: PropTypes.func,
+    isFooterVisible: PropTypes.bool,
+    setIsFooterVisible: PropTypes.func
 };
 
 export default LoginForm

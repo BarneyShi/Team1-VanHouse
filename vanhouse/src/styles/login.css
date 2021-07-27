@@ -80,3 +80,7 @@ body {
 /*    flex-wrap: wrap;*/
 /*    justify-content: flex-end;*/
 /*}*/
+
+.login-modal-footers {
+    justify-content: center;
+}
