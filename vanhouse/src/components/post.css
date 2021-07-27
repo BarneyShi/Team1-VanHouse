@@ -20,6 +20,7 @@
   padding: auto;
   margin: auto;
   background-color: rgba(15, 15, 26, 0.1);
+  padding: 10px 1px;
 }
 
 #createPostBtn {
