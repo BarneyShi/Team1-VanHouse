@@ -22,6 +22,10 @@ function SearchBar({getData, setQuery, userId}){
     }
     
     function Cancel() {
+        setLocation("city");
+        setLow("");
+        setHigh("");
+        setKeyword("");
         setQuery("");
     }
 
