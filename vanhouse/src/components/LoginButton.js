@@ -27,7 +27,8 @@ LoginButton.defaultProps = {}
 
 LoginButton.propTypes = {
     handleLoginClicked: PropTypes.func.isRequired,
-    user: PropTypes.objectOf(PropTypes.object).isRequired
+    // user: PropTypes.objectOf(PropTypes.object)
+    user: PropTypes.shape({ firstName: PropTypes.string }),
 };
 
 export default LoginButton

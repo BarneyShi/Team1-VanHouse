@@ -21,7 +21,6 @@ function WelcomeUser({
             response.json()
                 .then((resJSON => {
                     console.log(resJSON);
-                    // localStorage.setItem("currentUser", JSON.stringify(resJSON));
                     setUser({
                         userId: resJSON.userId,
                         email: resJSON.email,
@@ -29,7 +28,7 @@ function WelcomeUser({
                         lastName: resJSON.lastName
                     });
                 }));
-        }).catch(err => {
+        }).catch(() => {
             console.log("Not logged in");
             setUser(null);
         });
@@ -67,8 +66,9 @@ WelcomeUser.defaultProps =
 
 WelcomeUser.propTypes =
     {
-        user: PropTypes.objectOf(PropTypes.object).isRequired,
-        setUser: PropTypes.func.isRequired,
+        // user: PropTypes.objectOf(PropTypes.object),
+        user: PropTypes.shape({ firstName: PropTypes.string }),
+        setUser: PropTypes.func,
         handleLogoutClicked: PropTypes.func.isRequired,
         handleAccountClicked: PropTypes.func.isRequired,
     };

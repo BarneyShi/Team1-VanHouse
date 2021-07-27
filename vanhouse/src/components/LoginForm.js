@@ -1,31 +1,35 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {Button, Form, Modal} from "react-bootstrap";
 import PropTypes from "prop-types";
 import RegistrationForm from "./RegistrationForm"
 import "../styles/login.css"
 
 function LoginForm({
-                       setIsRegistrationVisible,
-                       isRegistrationVisible,
-                       setIsLoginVisible,
-                       isLoginVisible,
-                       setIsRegisterButtonVisible,
-                       isRegisterButtonVisible,
-                       submit,
                        show,
                        handleClose,
-                       loginError,
-                       name,
-                       setName,
+                       submit,
+                       isLoginVisible,
+                       setIsLoginVisible,
+                       isRegistrationVisible,
+                       isRegisterButtonVisible,
+                       setIsRegistrationVisible,
+                       setIsRegisterButtonVisible,
+                       // firstName,
+                       // setFirstName,
+                       // lastName,
+                       // setLastName,
                        email,
                        setEmail,
+                       // password,
                        setPassword,
                        passwordError,
                        setPasswordError,
-                       regEmail,
-                       setRegEmail,
+                       // user,
+                       loginError,
+                       // regEmail,
+                       // setRegEmail,
                        regPassword,
-                       setRegPassword,
+                       // setRegPassword,
                        register,
                        regUser,
                        handleRegChange,
@@ -91,7 +95,7 @@ function LoginForm({
                 {isRegisterButtonVisible &&
                 <Button
                     variant="success"
-                    onClick={(e) => setVisibilities()}>
+                    onClick={() => setVisibilities()}>
                     Register for a new account
                 </Button>
                 }
@@ -127,18 +131,20 @@ LoginForm.defaultProps = {
 }
 
 LoginForm.propTypes = {
-    setIsRegistrationVisible: PropTypes.func.isRequired,
-    isRegistrationVisible: PropTypes.bool.isRequired,
-    setIsLoginVisible: PropTypes.func.isRequired,
-    isLoginVisible: PropTypes.bool.isRequired,
-    setIsRegisterButtonVisible: PropTypes.func.isRequired,
-    isRegisterButtonVisible: PropTypes.bool.isRequired,
-    submit: PropTypes.func.isRequired,
     show: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
+    submit: PropTypes.func.isRequired,
+    isLoginVisible: PropTypes.bool.isRequired,
+    setIsLoginVisible: PropTypes.func.isRequired,
+    isRegistrationVisible: PropTypes.bool.isRequired,
+    setIsRegistrationVisible: PropTypes.func.isRequired,
+    isRegisterButtonVisible: PropTypes.bool.isRequired,
+    setIsRegisterButtonVisible: PropTypes.func.isRequired,
+    // firstName: PropTypes.string,
+    // setFirstName: PropTypes.func.isRequired,
+    // lastName: PropTypes.string,
+    // setLastName: PropTypes.func.isRequired,
     loginError: PropTypes.string,
-    name: PropTypes.string.isRequired,
-    setName: PropTypes.func.isRequired,
     email: PropTypes.string.isRequired,
     setEmail: PropTypes.func.isRequired,
     // password: PropTypes.string.isRequired,
@@ -149,13 +155,15 @@ LoginForm.propTypes = {
     setConfirmPassword: PropTypes.func.isRequired,
     confirmPasswordError: PropTypes.string.isRequired,
     setConfirmPasswordError: PropTypes.func.isRequired,
-    // user: PropTypes.objectOf(PropTypes.object).isRequired
-    regEmail: PropTypes.string.isRequired,
-    setRegEmail: PropTypes.func.isRequired,
+    // user: PropTypes.objectOf(PropTypes.object),
+    // user: PropTypes.shape({ firstName: PropTypes.string }),
+    // regEmail: PropTypes.string.isRequired,
+    // setRegEmail: PropTypes.func.isRequired,
     regPassword: PropTypes.string.isRequired,
-    setRegPassword: PropTypes.func.isRequired,
+    // setRegPassword: PropTypes.func.isRequired,
     register: PropTypes.func.isRequired,
-    regUser: PropTypes.objectOf(PropTypes.object).isRequired,
+    // regUser: PropTypes.objectOf(PropTypes.object).isRequired,
+    regUser: PropTypes.shape({ firstName: PropTypes.string }),
     handleRegChange: PropTypes.func.isRequired,
     emailError: PropTypes.string.isRequired,
     setEmailError: PropTypes.func.isRequired,
