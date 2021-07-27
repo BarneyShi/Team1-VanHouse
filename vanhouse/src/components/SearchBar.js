@@ -20,6 +20,10 @@ function SearchBar({getData, setQuery, userId}){
         //   setLocation(Number(e.target.value));
         setLocation(e.target.value);
     }
+    
+    function Cancel() {
+        setQuery("");
+    }
 
     function searchByCondition() {
         if(low !== "" && high !== "" && Number(low) > Number(high)){
@@ -64,7 +68,7 @@ function SearchBar({getData, setQuery, userId}){
                     <img src={search} alt="Search" className="imgstyle"/>
                 </Button>
 
-                <Button variant="outline-secondary " onClick={() => searchAll()}>
+                <Button variant="outline-secondary " onClick={() => Cancel()}>
                     Cancel
                 </Button>
             
