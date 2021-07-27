@@ -146,10 +146,10 @@ function RegistrationForm({
             </Form.Text>
             <br/>
             <div className="registration-form-buttons">
-                <Button variant="secondary" onClick={handleClose}>
+                <Button className="reg-close-button" variant="secondary" onClick={handleClose}>
                     Close
                 </Button>
-                <Button variant="success" onClick={register}>
+                <Button variant="primary" onClick={register}>
                     Register
                 </Button>
             </div>

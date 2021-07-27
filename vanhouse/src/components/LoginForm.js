@@ -1,6 +1,5 @@
 import React from "react";
 import {Button, Form, Modal} from "react-bootstrap";
-import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
 import RegistrationForm from "./RegistrationForm"
 import "../styles/login.css"
@@ -89,44 +88,47 @@ function LoginForm({
                         Login
                     </Button>
                 </Modal.Footer>
-                <Modal.Footer>
-                    <Link to="/forgot">
-                        Forgot password?
-                    </Link>
-                </Modal.Footer>
             </Form>
             }
 
-            <div className="register-button-and-form">
-                {isRegisterButtonVisible &&
+            <Modal.Footer>
                 <Button
-                    variant="success"
-                    onClick={() => setVisibilities()}>
-                    Register for a new account
+                    variant="outline-info">
+                    Forgot password?
                 </Button>
-                }
+            </Modal.Footer>
 
-                {isRegistrationVisible &&
-                <RegistrationForm
-                    emailError={emailError}
-                    setEmailError={setEmailError}
-                    register={register}
-                    regUser={regUser}
-                    handleRegChange={handleRegChange}
-                    confirmPassword={confirmPassword}
-                    setConfirmPassword={setConfirmPassword}
-                    confirmPasswordError={confirmPasswordError}
-                    setConfirmPasswordError={setConfirmPasswordError}
-                    regPassword={regPassword}
-                    handleClose={handleClose}
-                    validateEmail={validateEmail}
-                    passwordError={passwordError}
-                    setPasswordError={setPasswordError}
-                />
-                }
-                <br/>
-                <br/>
-            </div>
+            <Modal.Footer>
+                <div className="register-button-and-form">
+                    {isRegisterButtonVisible &&
+                    <Button
+                        variant="outline-success"
+                        onClick={() => setVisibilities()}>
+                        Register for a new account
+                    </Button>
+                    }
+
+                    {isRegistrationVisible &&
+                    <RegistrationForm
+                        emailError={emailError}
+                        setEmailError={setEmailError}
+                        register={register}
+                        regUser={regUser}
+                        handleRegChange={handleRegChange}
+                        confirmPassword={confirmPassword}
+                        setConfirmPassword={setConfirmPassword}
+                        confirmPasswordError={confirmPasswordError}
+                        setConfirmPasswordError={setConfirmPasswordError}
+                        regPassword={regPassword}
+                        handleClose={handleClose}
+                        validateEmail={validateEmail}
+                        passwordError={passwordError}
+                        setPasswordError={setPasswordError}
+                    />
+                    }
+                </div>
+            </Modal.Footer>
+
         </Modal>
     )
 }

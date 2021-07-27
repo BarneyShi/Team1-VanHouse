@@ -21,16 +21,21 @@ body {
 
 .registration-form-buttons {
     /*padding-bottom: 5px;*/
-    display: flex;
+    /*display: flex;*/
     /*flex-direction: row;*/
     /*flex-wrap: wrap;*/
     /*width: 50%;*/
+    /*justify-content: center;*/
     justify-content: center;
 }
 
-Button {
+.reg-close-button {
     margin-right: 10px;
 }
+
+/*Button {*/
+/*    margin-right: 10px;*/
+/*}*/
 
 /*.Login-Modal Button:hover {*/
 /*    background-color: rgb(128, 181, 250);*/
