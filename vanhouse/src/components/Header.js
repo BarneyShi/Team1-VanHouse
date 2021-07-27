@@ -28,6 +28,8 @@ function Header() {
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
 
+    // Forgot password form states
+
     // Functions
     const handleLoginClicked = () => {
         setIsLoginClicked(true);

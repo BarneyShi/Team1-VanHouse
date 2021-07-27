@@ -1,5 +1,6 @@
 import React from "react";
 import {Button, Form, Modal} from "react-bootstrap";
+import {Link} from "react-router-dom";
 import PropTypes from "prop-types";
 import RegistrationForm from "./RegistrationForm"
 import "../styles/login.css"
@@ -88,6 +89,11 @@ function LoginForm({
                         Login
                     </Button>
                 </Modal.Footer>
+                <Modal.Footer>
+                    <Link to="/forgot">
+                        Forgot password?
+                    </Link>
+                </Modal.Footer>
             </Form>
             }
 
@@ -124,7 +130,6 @@ function LoginForm({
         </Modal>
     )
 }
-
 
 LoginForm.defaultProps = {
     loginError: ""
@@ -163,7 +168,7 @@ LoginForm.propTypes = {
     // setRegPassword: PropTypes.func.isRequired,
     register: PropTypes.func.isRequired,
     // regUser: PropTypes.objectOf(PropTypes.object).isRequired,
-    regUser: PropTypes.shape({ firstName: PropTypes.string }),
+    regUser: PropTypes.shape({firstName: PropTypes.string}),
     handleRegChange: PropTypes.func.isRequired,
     emailError: PropTypes.string.isRequired,
     setEmailError: PropTypes.func.isRequired,

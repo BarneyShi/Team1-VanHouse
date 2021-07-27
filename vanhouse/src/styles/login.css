@@ -67,3 +67,11 @@ Button {
     height: 8px;
     font-size: 13px;
 }
+
+/*.login-modal-footer {*/
+/*    !*white-space: pre-line;*!*/
+/*    !*text-overflow: initial;*!*/
+/*    display: flex;*/
+/*    flex-wrap: wrap;*/
+/*    justify-content: flex-end;*/
+/*}*/
