@@ -1,10 +1,13 @@
+import emailjs from "emailjs-com";
+
 var express = require("express");
 var router = express.Router();
 var bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
 var checkAuth = require("../middleware/check-auth");
 // var checkUser = require("../middleware/check-user");
-
+var crypto = require("crypto");
+var nodemailer = require("nodemailer");
 
 let User = require('../models/User');
 
@@ -163,6 +166,62 @@ router.post('/logout', (req, res) => {
         console.log(err);
         res.status(500).json({error: err});
     }
+});
+
+// FORGOT PASSWORD
+// https://www.youtube.com/watch?v=NOuiitBbAcU
+// Accessed Jul 27, 2021
+router.post('/forgot', (req, res) => {
+    User.findOne({email: req.body.email})
+        .then((user) => {
+            if (user === null) {
+                return res.status(403).json({
+                    message: "User not found."
+                });
+            } else {
+                const token = crypto.randomBytes(20).toString('hex');
+                User.updateOne({
+                    resetToken: token,
+                    expireToken: Date.now() + 3600000,
+                });
+
+                const transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        user: `${process.env.EMAIL_ADDRESS}`,
+                        pass: `${process.env.EMAIL_PASSWORD}`,
+                    },
+                });
+
+                const mailOptions = {
+                    from: `${process.env.EMAIL_ADDRESS}`,
+                    to: `${user.email}`,
+                    subject: `Link to reset password`,
+                    text:
+                    `You requested a password reset for your account. \n\n` +
+                        `Please click on the following link within one hour of receiving this email: \n\n` +
+                        `http://localhost:4000/resetPassword/${token}\n\n` +
+                        `If you did not request this, please ignore this email and your password will remain unchanged. \n`,
+                };
+
+                console.log("Sending email");
+
+                transporter.sendMail(mailOptions, (err, response) => {
+                    if (err) {
+                        console.error("There was an error: ", err);
+                    } else {
+                        console.log("Here is the response: ", response);
+                        res.status(200).json({
+                            message: "Recovery email sent."
+                        });
+                    }
+                });
+
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        });
 });
 
 

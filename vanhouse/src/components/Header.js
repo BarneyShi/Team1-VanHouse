@@ -209,9 +209,31 @@ function Header() {
 
     function submitForgotPassword() {
         if (emailError === "") {
-            console.log("Need to figure out what to do here");
+            console.log("We are in submitForgotPassword");
+            if (forgotEmail === null) {
+                console.log("Please enter an email.");
+            } else {
+                fetch('http://localhost:4000/login-router/forgot', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: forgotEmail,
+                }).then((response) => {
+                    console.log(response.data);
+                    if (response.status === 200) {
+                        console.log("Forgot password");
+                        window.alert("Reset password link sent. Please check your email.");
+                    } else {
+                        console.log("Failed forgot password");
+                        window.alert("User not found. Please register to continue.");
+                    }
+                }).catch(err => {
+                    console.log(err);
+                });
+            }
         } else {
-            window.confirm("Please enter a valid email address.");
+            window.confirm("Please re-check your information.");
         }
     }
 
