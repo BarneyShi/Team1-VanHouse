@@ -46,7 +46,8 @@ function LoginForm({
                        isForgotButtonVisible,
                        setIsForgotButtonVisible,
                        handleForgotChange,
-                       forgot,
+                       submitForgotPassword,
+                       validateForgotEmail,
                        isFooterVisible,
                        setIsFooterVisible
                    }) {
@@ -125,10 +126,12 @@ function LoginForm({
                     {isForgotVisible &&
                     <ForgotPassword
                         emailError={emailError}
+                        validateForgotEmail={validateForgotEmail}
+                        setEmailError={setEmailError}
                         handleClose={handleClose}
                         handleForgotChange={handleForgotChange}
                         handleCloseForgot={handleClose}
-                        forgot={forgot}
+                        submitForgotPassword={submitForgotPassword}
                     />
                     }
                 </div>
@@ -216,7 +219,8 @@ LoginForm.propTypes = {
     isForgotButtonVisible: PropTypes.bool,
     setIsForgotButtonVisible: PropTypes.func,
     handleForgotChange: PropTypes.func,
-    forgot: PropTypes.func,
+    submitForgotPassword: PropTypes.func,
+    validateForgotEmail: PropTypes.func,
     isFooterVisible: PropTypes.bool,
     setIsFooterVisible: PropTypes.func
 };

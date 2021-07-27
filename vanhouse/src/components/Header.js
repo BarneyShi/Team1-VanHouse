@@ -31,8 +31,8 @@ function Header() {
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
 
-    // Forgot password states
-    const [forgotEmail, setForgotEmail] = useState("");
+    // submitForgotPassword password states
+    const [forgotEmail, setForgotEmail] = useState("email");
 
     // Functions
     const handleLoginClicked = () => {
@@ -201,14 +201,25 @@ function Header() {
         return re.test(String(regUser.email).toLowerCase());
     }
 
-    function Forgot() {
+    function validateForgotEmail() {
+        console.log("Are we getting here?")
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(forgotEmail).toLowerCase());
+    }
+
+    function submitForgotPassword() {
         if (emailError === "") {
             console.log("Need to figure out what to do here");
+        } else {
+            window.confirm("Please enter a valid email address.");
         }
     }
 
     function handleForgotChange(e) {
-        setForgotEmail(e.target);
+        setForgotEmail(e.target.value);
+        console.log(forgotEmail);
+        console.log(emailError);
+        return forgotEmail;
     }
 
     // function loggedInCondRender() {
@@ -274,7 +285,8 @@ function Header() {
                 isForgotButtonVisible={isForgotButtonVisible}
                 setIsForgotButtonVisible={setIsForgotButtonVisible}
                 handleForgotChange={handleForgotChange}
-                forgot={Forgot}
+                submitForgotPassword={submitForgotPassword}
+                validateForgotEmail={validateForgotEmail}
                 isFooterVisible={isFooterVisible}
                 setIsFooterVisible={setIsFooterVisible}
             />

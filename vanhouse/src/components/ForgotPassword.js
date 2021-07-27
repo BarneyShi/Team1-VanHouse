@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import PropTypes from "prop-types";
 import "../styles/login.css"
 import {Button, Form} from "react-bootstrap";
@@ -8,18 +8,38 @@ function ForgotPassword({
                             handleForgotChange,
                             forgotEmail,
                             emailError,
+                            validateForgotEmail,
+                            setEmailError,
                             handleCloseForgot,
-                            forgot
+                            submitForgotPassword
                         }) {
+
+    // email validation
+    useEffect(
+        () => {
+            if (!forgotEmail) {
+                setEmailError("");
+            } else if (validateForgotEmail(forgotEmail)) {
+                setEmailError("");
+            } else {
+                setEmailError("Please enter a valid email.");
+            }
+        },
+        [forgotEmail]
+    );
+
     return (
         <Form>
             <h2>Forgot Password</h2>
             <br/>
+            <span>If your are registered in our system, you will receive an email to reset your password.</span>
+            <br/>
+            <br/>
             <div className="form-group">
                 <input
                     type="email"
-                    name="regEmail"
-                    id="regEmail"
+                    name="forgotEmail"
+                    id="forgotEmail"
                     placeholder="sample@sample.com"
                     onChange={handleForgotChange}
                     value={forgotEmail}
@@ -31,7 +51,7 @@ function ForgotPassword({
                 <Button className="reg-close-button" variant="secondary" onClick={handleCloseForgot}>
                     Close
                 </Button>
-                <Button variant="primary" onClick={forgot}>
+                <Button variant="primary" onClick={submitForgotPassword}>
                     Submit
                 </Button>
             </div>
@@ -45,8 +65,10 @@ ForgotPassword.propTypes = {
     handleForgotChange: PropTypes.func,
     forgotEmail: PropTypes.string,
     emailError: PropTypes.string.isRequired,
+    validateForgotEmail: PropTypes.func.isRequired,
+    setEmailError: PropTypes.func.isRequired,
     handleCloseForgot: PropTypes.func,
-    forgot: PropTypes.func
+    submitForgotPassword: PropTypes.func
 };
 
 export default ForgotPassword
