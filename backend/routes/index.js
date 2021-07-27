@@ -54,16 +54,18 @@ router.get('/post/:postId', function(req, res) {
 router.get("/search", function(req, res, next){
   const {high, low, location, keyword, userid} = req.query;
   let con = {};
-  let numLow = Number(low);
-  let numHigh = Number(high);
-  if(!(numLow === 0 && numHigh === 0)){
-
+  let numLow = low === "" ? 0 : Number(low);
+  if(numLow !== 0){
+    con.price = { $gte: numLow};
+  }
+  if(high !== ""){
+    let numHigh = Number(high);
     con.price = { $gte: numLow, $lte: numHigh};
   }
   
   
   let searchArr = [];
-  if(location != 'city'){
+  if(location != 'city' && location !== ""){
     if (location === "Vancouver") {
       searchArr = postCode.vancouver;
     } else if (location === "Burnaby") {
@@ -84,12 +86,14 @@ router.get("/search", function(req, res, next){
   if(userid !== ""){
     con.authorID = mongoose.Types.ObjectId(userid);
   }
+
   // console.log("location is null ", location == null)
   // console.log("con is : ", con)
   // console.log("keyword is : ", "-"+keyword+"-", keyword == null)
 
 
   Post.find(con, summaryProj, (err, data) => {
+    // console.log(data);
     res.json(data);
   });
 });

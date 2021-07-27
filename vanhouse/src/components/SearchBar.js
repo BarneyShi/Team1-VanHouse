@@ -11,8 +11,8 @@ function SearchBar({getData, setQuery, userId}){
     // const [Click,setClick] = useState({getData, setQuery})
 
 
-    const [low, setLow] = useState(0);
-    const [high, setHigh] = useState(0);
+    const [low, setLow] = useState("");
+    const [high, setHigh] = useState("");
     const [location, setLocation] = useState("city");
     const [keyword, setKeyword] = useState("");
 
@@ -22,7 +22,7 @@ function SearchBar({getData, setQuery, userId}){
     }
 
     function searchByCondition() {
-        if(low > high){
+        if(low !== "" && high !== "" && Number(low) > Number(high)){
             alert("Incorrect price range");
             return;
         }
@@ -32,8 +32,8 @@ function SearchBar({getData, setQuery, userId}){
 
     function searchAll() {
         setLocation("city");
-        setLow(0);
-        setHigh(0);
+        setLow("");
+        setHigh("");
         setKeyword("");
         setQuery(`http://localhost:4000/posts`);
     }
@@ -49,13 +49,13 @@ function SearchBar({getData, setQuery, userId}){
                 <InputGroup.Text className="">Price:</InputGroup.Text>
                 <FormControl className="price-num" type="text" value={low}
                     onChange={(e) => {
-                        setLow(Number(e.target.value));
+                        setLow(e.target.value);
                     }}
                 />
                 <InputGroup.Text className="">-</InputGroup.Text>
                 <FormControl className="price-num2" type="text" value={high}
                     onChange={(e) => {
-                        setHigh(Number(e.target.value));
+                        setHigh(e.target.value);
                     }}
                 />
                 <FormControl className="col keyword" placeholder="Keyword"  value={keyword}
