@@ -14,7 +14,7 @@ function ForgotPassword({
     return (
         <Form>
             <h2>Forgot Password</h2>
-
+            <br/>
             <div className="form-group">
                 <input
                     type="email"
@@ -32,7 +32,7 @@ function ForgotPassword({
                     Close
                 </Button>
                 <Button variant="primary" onClick={forgot}>
-                    Register
+                    Submit
                 </Button>
             </div>
         </Form>

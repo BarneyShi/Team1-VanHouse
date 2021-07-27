@@ -116,6 +116,7 @@ function LoginForm({
                     {isForgotButtonVisible &&
                     <Button
                         variant="outline-info"
+                        size="lg"
                         onClick={() => setForgotVisibilities()}>
                         Forgot password?
                     </Button>
@@ -138,6 +139,7 @@ function LoginForm({
                     {isRegisterButtonVisible &&
                     <Button
                         variant="outline-success"
+                        size="lg"
                         onClick={() => setRegVisibilities()}>
                         Register for a new account
                     </Button>

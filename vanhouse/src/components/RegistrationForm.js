@@ -79,8 +79,8 @@ function RegistrationForm({
 
     return (
         <Form>
-            <h2>Register to comment, post, and more!</h2>
-
+            <h2>Register</h2>
+            <br/>
             <div className="form-group">
                 <input
                     type="text"
