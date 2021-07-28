@@ -24,6 +24,8 @@ function ResetPassword() {
                 body: JSON.stringify({resetToken: token, password: resetPassword}),
             }).then((response) => {
                 if (response.status === 200) {
+                    // https://www.youtube.com/watch?v=tiAlSpyWIDs
+                    // Accessed July 28, 2021
                     history.push(`/`);
                     window.alert("Password reset. Please login to continue.")
                 } else {

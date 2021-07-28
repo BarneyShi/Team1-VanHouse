@@ -18,7 +18,9 @@ function AccountDetails({
             <h2>Your Account</h2>
             <br/>
             <br/>
-            <h3>Posts</h3>
+            <br/>
+            <br/>
+            <h4>*** COMING SOON ***</h4>
         </div>
     )
 }
