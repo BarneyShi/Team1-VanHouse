@@ -1,10 +1,13 @@
 import React, {useState} from "react";
+import {useHistory} from "react-router-dom";
 import "../styles/header.css";
 import LoginForm from "./LoginForm";
 import LoginButton from "./LoginButton";
 import WelcomeUser from "./WelcomeUser";
 
 function Header() {
+    const history = useHistory();
+
     const [isLoginClicked, setIsLoginClicked] = useState(false);
     const [isLoginVisible, setIsLoginVisible] = useState(true);
     const [isRegistrationVisible, setIsRegistrationVisible] = useState(false);
@@ -68,6 +71,7 @@ function Header() {
             response.json()
                 .then((resJSON => {
                         console.log(resJSON);
+                        history.push(`/account`);
                     })
                 )
                 .catch((err) => {
