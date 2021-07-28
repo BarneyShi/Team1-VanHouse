@@ -224,6 +224,11 @@ function Header() {
                 }).then((response) => {
                     console.log(response);
                     if (response.status === 200) {
+                        setIsRegisterButtonVisible(!isRegisterButtonVisible);
+                        setIsLoginVisible(!isLoginVisible);
+                        setIsLoginClicked(!isLoginClicked);
+                        setIsForgotVisible(!isForgotVisible);
+                        setIsForgotButtonVisible(!isForgotButtonVisible);
                         window.alert("Reset password link sent. Please check your email.");
                     } else {
                         console.log("Failed forgot password");
