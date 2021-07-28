@@ -234,6 +234,7 @@ export default function PostDetail() {
       }
       await response.json();
       history.push("/");
+      history.go(0);
     } catch (err) {
       console.log("Error while deleting post:", err);
     }
