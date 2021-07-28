@@ -15,6 +15,7 @@ import "./post.css";
 function PostCollection({
   setSearchFilter,
   filterURL,
+  userId,
   appPosts,
   setAppPosts,
   setQuery
@@ -252,20 +253,26 @@ function PostCollection({
 
   return (
     <div className="post_collection_div">
-      <div id="post_collection_tools_div">
-        <SearchBar
-          getData={(i) => {
-            setSearchFilter(i);
-          }}
-        />
-        <Button
-          id="createPostBtn"
-          variant="primary"
-          onClick={presentCreatePost}
-        >
-          {" "}
-          Post{" "}
-        </Button>{" "}
+      <div id="post_collection_tools_div" className="row">
+        <div className="col-md-10 col-sm-12">
+          <SearchBar
+            getData={(i) => {
+              setSearchFilter(i);
+            }}
+            setQuery = {setQuery}
+            userId={userId}
+          />
+        </div>
+        <div className="col-md-2 col-sm-12">
+          <Button
+            id="createPostBtn"
+            variant="primary"
+            onClick={presentCreatePost}
+          >
+            {" "}
+            Post{" "}
+          </Button>{" "}
+        </div>
       </div>
 
       <NewPost
@@ -299,6 +306,7 @@ function PostCollection({
 PostCollection.propTypes = {
   setSearchFilter: PropTypes.func.isRequired,
   filterURL: PropTypes.string.isRequired,
+  userId: PropTypes.string.isRequired,
   appPosts: PropTypes.instanceOf(Array).isRequired,
   setAppPosts: PropTypes.func.isRequired,
   setQuery: PropTypes.func.isRequired

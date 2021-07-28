@@ -1,0 +1,29 @@
+
+.user-box{
+    box-shadow: 0 8px 20px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.1);
+    border-radius: 3px;
+    padding-bottom: 10px;
+    height: 86vh;
+}
+
+.user-item{
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+.user-item img{
+    width: 35px;
+    height: 35px;
+    border-radius: 100%;
+}
+.user-item button{
+    font-size: 20px;
+    outline: none;
+    border: none;
+}
+
+.cancel-btn{
+    position: absolute;
+    bottom : 15px;
+    right: 20px;
+}
