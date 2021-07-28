@@ -36,7 +36,7 @@ function App() {
       setUser(data);
     } catch (err) {
       setUser();
-      console.log("Errow while checking auth:", err.message);
+      console.log("Error while checking auth:", err.message);
     }
   },[])
 

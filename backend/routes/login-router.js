@@ -102,7 +102,7 @@ router.post('/login', (req, res) => {
                         },
                         process.env.ACCESS_TOKEN_SECRET,
                         {
-                            expiresIn: "15m"
+                            expiresIn: "1800000"
                         }
                     );
 
@@ -211,12 +211,16 @@ router.post('/forgot', (req, res) => {
 // https://itnext.io/password-reset-emails-in-your-react-app-made-easy-with-nodemailer-bb27968310d7
 // Accessed July 27, 2021
 router.get('/checkResetToken', (req, res, next) => {
-    User.findOne({
+    console.log("the request!!!!!");
+    console.log(req);
+    User.find({
         resetToken: req.query.resetToken,
         expireToken: {
             $gt: Date.now(),
         },
     }).then(user => {
+        console.log("backend of checkResetToken");
+        console.log(user);
         if (user === null) {
             console.log("Password reset link expired or otherwise invalid.");
             res.status(401).json({
@@ -225,13 +229,17 @@ router.get('/checkResetToken', (req, res, next) => {
         }
         res.status(200).json({
             email: user.email,
+            message: "Sending user back to front end."
         });
+    }).catch(err => {
+        console.log(err);
     });
 });
 
 router.put('/resetPassword', (req, res, next) => {
     User.findOne({email: req.body.email})
         .then(user => {
+            console.log(user);
             if (user === null) {
                 console.log("User does not exist.");
                 res.status(404).json({

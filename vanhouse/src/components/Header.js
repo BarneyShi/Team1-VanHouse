@@ -34,9 +34,6 @@ function Header() {
     // submitForgotPassword states
     const [forgotEmail, setForgotEmail] = useState("email");
 
-    // resetPassword states
-    const [resetPassword, setResetPassword] = useState("reset");
-
     // Functions
     const handleLoginClicked = () => {
         setIsLoginClicked(true);
@@ -250,39 +247,6 @@ function Header() {
         return forgotEmail;
     }
 
-    function submitResetPassword() {
-        console.log("we are in submitResetPassword");
-        if (!resetPassword) {
-            console.log("Please enter a new password.");
-            window.alert("Please enter a new password.");
-        } else {
-            fetch('http://localhost:4000/login-router/resetPassword', {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({user, resetPassword}),
-            }).then((response) => {
-                console.log(response);
-                if (response.status === 200) {
-                    console.log("back from successful reset password");
-                    window.alert("Password reset. Please login to continue.")
-                } else {
-                    console.log("Failed reset password");
-                    window.alert("Failed to reset password.");
-                }
-            }).catch(err => {
-                console.log(err);
-            });
-        }
-    }
-
-    function handleResetPasswordChange(e) {
-        setResetPassword(e.target.value);
-        console.log(resetPassword);
-        return resetPassword;
-    }
-
     // function loggedInCondRender() {
     //     fetch('http://localhost:4000/login-router/account', {
     //         method: 'GET',
@@ -350,10 +314,6 @@ function Header() {
                 validateForgotEmail={validateForgotEmail}
                 isFooterVisible={isFooterVisible}
                 setIsFooterVisible={setIsFooterVisible}
-                resetPassword={resetPassword}
-                setResetPassword={setResetPassword}
-                submitResetPassword={submitResetPassword}
-                handleResetPasswordChange={handleResetPasswordChange}
             />
             <div className="top-line-flexbox">
                 <div className="title-and-logo-flexbox">
