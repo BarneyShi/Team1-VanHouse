@@ -14,6 +14,7 @@ function App() {
   const [filterIdx, setFilterIdx] = useState(Number(0));
   const [reset, setReset] = useState(false);
   const [filterURL, setFilterURL] = useState("");
+  const [posts, setPosts] = useState([]);
 
   return (
     <Router>
@@ -58,6 +59,9 @@ function App() {
                     setFilterIdx(i);
                     setReset(true);
                   }}
+                  appPosts={posts}
+                  setAppPosts={setPosts}
+                  setQuery={setFilterURL}
                 />
               </Col>
             </Row>

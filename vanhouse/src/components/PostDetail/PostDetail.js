@@ -115,7 +115,7 @@ export default function PostDetail() {
       setUser({ userId: data.userId, username: data.firstName });
     } catch (err) {
       setUser();
-      console.log("Errow while checking auth:", err.message);
+      console.log("Error while checking auth:", err.message);
     }
   }, []);
 
