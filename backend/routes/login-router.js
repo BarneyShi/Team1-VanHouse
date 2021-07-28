@@ -164,10 +164,16 @@ router.post('/forgot', (req, res) => {
                 });
             }
             const token = crypto.randomBytes(20).toString('hex');
-            user[0].update({
-                resetToken: token,
-                expireToken: Date.now() + 3600000,
-            });
+            // user[0].update({
+            //     resetToken: token,
+            //     expireToken: Date.now() + 3600000,
+            // });
+            user[0].resetToken = token;
+            user[0].expireToken = Date.now() + 3600000;
+            user[0].save()
+                .then((savedUser) => {
+                    res.json({message: "tokens added to user"});
+                });
 
             const transporter = nodemailer.createTransport({
                 service: 'gmail',
@@ -237,10 +243,16 @@ router.get('/checkResetToken', (req, res, next) => {
     });
 });
 
-router.put('/resetPassword', (req, res, next) => {
-    User.find({email: req.body.thisUser.email})
+router.post('/resetPassword', (req, res, next) => {
+    console.log("the request!!!");
+    console.log(req.body);
+    User.find({
+        resetToken: req.body.resetToken,
+        expireToken: {
+            $gt: Date.now(),
+        },
+    })
         .then(user => {
-            console.log(user);
             if (user.length < 1) {
                 console.log("User does not exist.");
                 res.status(404).json({
@@ -253,8 +265,8 @@ router.put('/resetPassword', (req, res, next) => {
                             error: err
                         });
                     } else {
-                        user.update({
-                            password: hashedPassword,
+                        user[0].update({
+                            password: hash,
                             resetToken: null,
                             expireToken: null
                         }).then((result) => {

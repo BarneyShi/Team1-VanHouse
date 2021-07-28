@@ -11,33 +11,33 @@ function ResetPassword() {
 
     const {token} = useParams();
 
-    const confirmResetToken = () => {
-        console.log("we have the token");
-        console.log(token);
-        fetch('http://localhost:4000/login-router/checkResetToken', {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            query: {resetToken: token}
-        }).then((response) => {
-            if (response.status === 200) {
-                response.json()
-                    .then(dbUser => {
-                        setThisUser(dbUser);
-                        console.log("verified user with token");
-                        console.log(thisUser);
-                    });
-            }
-        }).catch(() => {
-            console.log("Could not verify token.");
-            setThisUser(null);
-        });
-    }
-
-    useEffect(() => {
-        confirmResetToken();
-    }, []);
+    // const confirmResetToken = () => {
+    //     console.log("we have the token");
+    //     console.log(token);
+    //     fetch(`http://localhost:4000/login-router/checkResetToken`, {
+    //         method: 'GET',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         // query: {resetToken: token}
+    //     }).then((response) => {
+    //         if (response.status === 200) {
+    //             response.json()
+    //                 .then(dbUser => {
+    //                     setThisUser(dbUser);
+    //                     console.log("verified user with token");
+    //                     console.log(thisUser);
+    //                 });
+    //         }
+    //     }).catch(() => {
+    //         console.log("Could not verify token.");
+    //         setThisUser(null);
+    //     });
+    // }
+    //
+    // useEffect(() => {
+    //     confirmResetToken();
+    // }, []);
 
     function submitResetPassword() {
         console.log("we are in submitResetPassword");
@@ -46,11 +46,11 @@ function ResetPassword() {
             window.alert("Please enter a new password.");
         } else {
             fetch('http://localhost:4000/login-router/resetPassword', {
-                method: 'PUT',
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({thisUser, resetPassword}),
+                body: JSON.stringify({resetToken: token, password: resetPassword}),
             }).then((response) => {
                 console.log(response);
                 if (response.status === 200) {
