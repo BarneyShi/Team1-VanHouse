@@ -9,7 +9,7 @@ import Post from "./Post";
 import NewPost from "./NewPost";
 import SearchBar from "./SearchBar";
 import LoadingSpinner from "./LoadingSpinner";
-import getErrorString from "../utils";
+import { getErrorString } from "../utils";
 import "./post.css";
 
 function PostCollection({
