@@ -46,12 +46,21 @@
   align-items: center;
   justify-content: center;
   width: 16rem;
-  height: 21rem;
+  min-height: 20rem;
   padding: 6px;
   margin: 10px;
-  border: 1px solid black;
-  border-radius: 5%;
+  border: 1px solid rgba(0,0,0,0.3);
+  border-radius: 3%;
+  background-color: rgb(239,239,239);
   box-shadow: 0 8px 16px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.1);
+}
+
+.post_card {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0,0,0,0);
+  border: 0;
 }
 
 .post_div:hover {
@@ -80,27 +89,68 @@
   padding: 1px;
 }
 
-.post_div h3 {
-  font-size: 1.1rem;
+.post_listgroup {
+  background-color: rgba(0,0,0,0);
+  padding: 0;
+  margin: 0;
+  width: 100%;
 }
 
-.post_div h6 {
-  font-size: 0.85rem;
+.post_listgroup > * {
+  background-color: rgba(0,0,0,0);
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  padding-right: 0;
+  padding-left: 0;
+  margin: 0;
+  width: 100%;
+  font-size: 0.9rem;
+  border: 0;
 }
 
-.post_div p {
-  font-size: 0.7rem;
+.post_datetext {
+  font-size: 0.75rem;
+  color: dark-gray;
+  padding-bottom: 0.5rem;
+}
+
+.post_header {
+  background-color: rgba(0,0,0,0);
+  border: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;      /* CITATION:  https://stackoverflow.com/a/13924997 */
+  display: -webkit-box;         /* CITATION:  https://stackoverflow.com/a/13924997 */
+  -webkit-line-clamp: 2;        /* CITATION:  https://stackoverflow.com/a/13924997 */
+  -webkit-box-orient: vertical; /* CITATION:  https://stackoverflow.com/a/13924997 */
+}
+
+.postCardBody {
+  height: 6rem;
+}
+
+.forceHeightDiv {
+  height: 3.7rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#getMorePostsBtn {
+  flex-basis: 100%;
+  text-align: center;
+  justify-self: center;
+  align-self: flex-end;
+  margin-bottom: 6px;
 }
 
 .post_div img {
   object-fit:cover;
-  max-width: 95%;
-  max-height: 12rem;
+  max-height: 13rem;
   height: auto;
   width: auto;
-  border-radius: 10%;
-  border: 1px solid black;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.1);
+  border-radius: 4%;
+  border: 1px solid rgba(0,0,0,0.55);
+  /*box-shadow: 0 8px 16px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.1);*/
 }
 
 .post_header_div {
@@ -133,6 +183,12 @@
 .create_post_button:hover {
   color: rgb(1, 98, 204);
   transition: color 0.2s ease;
+}
+
+#fetchSpinnerDiv {
+  height: 1rem;
+  flex-basis: 100%;
+  float: bottom;
 }
 
 

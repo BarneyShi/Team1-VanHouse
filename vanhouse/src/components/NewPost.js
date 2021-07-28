@@ -5,10 +5,11 @@
    CITATION: I learned the FileReader approach to uploading images from https://stackoverflow.com/a/43992687
 */
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 import Schedule from "./PostDetail/Schedule";
+import ImagePrep from "./ImagePrep";
 
 // Presents a modal view with a form for creating a new post
 function NewPost({ showModalForm, submit, handleClose }) {
@@ -29,15 +30,15 @@ function NewPost({ showModalForm, submit, handleClose }) {
   const [laundry, setLaundry] = useState(false);
   const [furnished, setFurnished] = useState(false);
   const [images, setImages] = useState([]);
+  const [mainImage, setMainImage] = useState("");
 
   // Hooks for displaying <Schedule />
   const [displaySchedule, setDisplaySchedule] = useState(false);
 
-  // Image validation states
-  const [imageSizeValid, setImageSizeValid] = useState(true);
-  const [imageCountValid, setImageCountValid] = useState(true);
-  const [imageErrorMsg, setImageErrorMsg] = useState("");
+  const [displayImagePrep, setDisplayImagePrep] = useState(false);
 
+  const [executing, setExecuting] = useState(false);
+  
   // Resets the states
   const resetStates = (show) => {
     if (show) {
@@ -57,6 +58,7 @@ function NewPost({ showModalForm, submit, handleClose }) {
       setLaundry(false);
       setFurnished(false);
       setImages([]);
+      setMainImage("");
     }
   };
 
@@ -69,16 +71,20 @@ function NewPost({ showModalForm, submit, handleClose }) {
   // PostCollection component using the callback
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!imageSizeValid) {
-      return;
-    }
-    setDisplaySchedule(true);
+    setDisplayImagePrep(true);
     handleClose();
   };
 
+  const handleImageSubmit = (imgs, mainImg) => {
+    setImages(imgs);
+    setMainImage(mainImg);
+    setDisplaySchedule(true);
+  }
+
   // Creates a new post object using states as params and calls the submit callback prop
-  const handleScheduleSubmit = (schedule) => {
-    submit({
+  const handleScheduleSubmit = async (schedule) => {
+    setExecuting(true);
+    const res = await submit({
       postTitle,
       price,
       paymentPeriod,
@@ -95,50 +101,11 @@ function NewPost({ showModalForm, submit, handleClose }) {
       laundry,
       furnished,
       images,
+      mainImage,
       schedule,
     });
-  };
-
-  // Sets image states based on form file input
-  // Rejects images if the list is too long or if image files are too large
-  const handleImageUpload = (e) => {
-    const maxImageSize = 1000000;
-    setImageSizeValid(true);
-    if (e.target.files) {
-      const imageList = [];
-      // Check image count is valid
-      const maxImageCount = 4;
-      if (e.target.files.length > maxImageCount) {
-        e.target.value = null; // CITATION: https://stackoverflow.com/a/42192710
-        setImages([]);
-        setImageErrorMsg(
-          "Too many images. Please select between 1 and 4 images."
-        );
-        setImageCountValid(false);
-        return;
-      }
-      for (let i = 0; i < e.target.files.length; i += 1) {
-        // Reject files that are too large
-        if (e.target.files[i].size > maxImageSize) {
-          e.target.value = null; // CITATION: https://stackoverflow.com/a/42192710
-          setImages([]);
-          setImageErrorMsg(
-            "Image file size exceeds 1MB. Please select files under 1MB."
-          );
-          setImageSizeValid(false);
-          return;
-        }
-        // Add valid files to the images state
-        if (e.target.files[i]) {
-          const fileReader = new FileReader();
-          fileReader.onload = (event) => {
-            imageList.push(event.target.result);
-            setImages(imageList);
-          };
-          fileReader.readAsDataURL(e.target.files[i]);
-        }
-      }
-    }
+    setExecuting(false);
+    setDisplaySchedule(false);
   };
 
   return (
@@ -335,21 +302,6 @@ function NewPost({ showModalForm, submit, handleClose }) {
               </Col>
             </Row>
 
-            <Form.Group as={Col} controlId="formImages">
-              <Form.File
-                id="uploadImagesButton"
-                multiple
-                required
-                label="Upload 1-4 images *"
-                feedback={imageErrorMsg}
-                accept=".jpg, .jpeg, .png, .tiff"
-                isInvalid={!imageSizeValid || !imageCountValid}
-                onChange={(e) => {
-                  handleImageUpload(e);
-                }}
-              />
-            </Form.Group>
-
             <Form.Text className="text-muted">* required fields</Form.Text>
           </Modal.Body>
           <Modal.Footer>
@@ -362,10 +314,16 @@ function NewPost({ showModalForm, submit, handleClose }) {
           </Modal.Footer>
         </Form>
       </Modal>
+      <ImagePrep
+        show={displayImagePrep}
+        handleClose={() => {setDisplayImagePrep(false)}}
+        handleSubmit={handleImageSubmit}
+      />
       <Schedule
         show={displaySchedule}
-        onHide={() => setDisplaySchedule(false)}
+        onHide={() => {setDisplaySchedule(false);}}
         handleSubmit={handleScheduleSubmit}
+        executing={executing}
       />
     </div>
   );
