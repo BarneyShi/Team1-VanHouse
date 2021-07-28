@@ -253,7 +253,8 @@ function Header() {
     function submitResetPassword() {
         console.log("we are in submitResetPassword");
         if (!resetPassword) {
-            console.log("Please enter an email.");
+            console.log("Please enter a new password.");
+            window.alert("Please enter a new password.");
         } else {
             fetch('http://localhost:4000/login-router/resetPassword', {
                 method: 'PUT',

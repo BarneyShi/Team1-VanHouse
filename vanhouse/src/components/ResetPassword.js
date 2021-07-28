@@ -69,13 +69,11 @@ function ResetPassword({
 ResetPassword.defaultProps = {}
 
 ResetPassword.propTypes = {
-    handleForgotChange: PropTypes.func,
-    forgotEmail: PropTypes.string,
-    emailError: PropTypes.string.isRequired,
-    validateForgotEmail: PropTypes.func.isRequired,
-    setEmailError: PropTypes.func.isRequired,
-    handleCloseForgot: PropTypes.func,
-    submitForgotPassword: PropTypes.func
+    handleResetPasswordChange: PropTypes.func,
+    resetPassword: PropTypes.string,
+    handleCloseResetPassword: PropTypes.func,
+    submitResetPassword: PropTypes.func,
+    setUser: PropTypes.func
 };
 
 export default ResetPassword
