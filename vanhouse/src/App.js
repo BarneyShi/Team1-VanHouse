@@ -9,6 +9,7 @@ import Location from './components/Location';
 import Category from './components/Category';
 import "./App.css";
 import PostCollection from "./components/PostCollection";
+import ResetPassword from "./components/ResetPassword";
 
 function App() {
   const [filterIdx, setFilterIdx] = useState(Number(0));
@@ -65,6 +66,9 @@ function App() {
         </Route>
         <Route path="/post/:id">
           <PostDetail />
+        </Route>
+        <Route exact path="/resetPassword/:token">
+          <ResetPassword />
         </Route>
       </div>
     </Router>

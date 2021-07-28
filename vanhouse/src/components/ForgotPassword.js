@@ -32,7 +32,7 @@ function ForgotPassword({
         <Form>
             <h2>Forgot Password</h2>
             <br/>
-            <span>If your are registered in our system, you will receive an email to reset your password.</span>
+            <span>If you are registered in our system, you will receive an email to reset your password.</span>
             <br/>
             <br/>
             <div className="form-group">

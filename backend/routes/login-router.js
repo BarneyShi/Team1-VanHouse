@@ -204,6 +204,56 @@ router.post('/forgot', (req, res) => {
         });
 });
 
+// RESET PASSWORD
+// https://www.youtube.com/watch?v=MfqyFcP6hTY
+// https://itnext.io/password-reset-emails-in-your-react-app-made-easy-with-nodemailer-bb27968310d7
+// Accessed July 27, 2021
+router.get('/checkResetToken', (req, res, next) => {
+    User.findOne({
+        resetToken: req.query.resetToken,
+        expireToken: {
+            $gt: Date.now(),
+        },
+    }).then(user => {
+        if (user === null) {
+            console.log("Password reset link expired or otherwise invalid.");
+            res.status(401).json({
+                message: "Password reset link is invalid."
+            });
+        }
+        res.status(200).json({
+            email: user.email,
+        });
+    });
+});
+
+router.put('/resetPassword', (req, res, next) => {
+    User.findOne({email: req.body.email})
+        .then(user => {
+            if (user === null) {
+                console.log("User does not exist.");
+                res.status(404).json({
+                    message: "User does not exist. Cannot reset password."
+                });
+            }
+            console.log("user exists. will update.");
+            bcrypt
+                .hash(req.body.password, 10)
+                .then(hashedPassword => {
+                    user.update({
+                        password: hashedPassword,
+                        resetToken: null,
+                        expireToken: null
+                    });
+                })
+                .then(() => {
+                    console.log("Password reset successfully.");
+                    res.status(200).send({
+                        message: "Password updated."
+                    });
+                });
+        });
+});
 
 // FOR TESTING CHECK-AUTH MIDDLEWARE
 router.get('/account', checkAuth, (req, res) => {
