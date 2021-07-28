@@ -1,5 +1,3 @@
-import emailjs from "emailjs-com";
-
 var express = require("express");
 var router = express.Router();
 var bcrypt = require("bcrypt");
@@ -63,26 +61,6 @@ router.post('/register', (req, res) => {
             });
         });
 });
-
-// // DELETE USER
-// // this 'works' but is not actually deleting from mongo .. prob an issue with primary key
-// // also we don't need this right now unless we create an admin user that can delete users
-// router.delete('/deleteUser/:userId', checkAuth, (req, res) => {
-//     User.deleteOne({id: req.body.id})
-//         .exec()
-//         .then(result => {
-//             res.status(200).json({
-//                 message: "User deleted"
-//             });
-//         })
-//         .catch((err) => {
-//             console.log(err);
-//             res.status(500).json({
-//                 error: err
-//             });
-//         });
-// });
-
 // end of copied code from https://www.youtube.com/watch?v=_EP2qCmLzSE
 
 // LOGIN USER
@@ -172,54 +150,56 @@ router.post('/logout', (req, res) => {
 // https://www.youtube.com/watch?v=NOuiitBbAcU
 // Accessed Jul 27, 2021
 router.post('/forgot', (req, res) => {
-    User.findOne({email: req.body.email})
+    console.log("we are in backend of forgot");
+    User.find({email: req.body.forgotEmail})
+        .exec()
         .then((user) => {
-            if (user === null) {
-                return res.status(403).json({
+            console.log(user);
+            if (user.length < 1) {
+                return res.status(401).json({
                     message: "User not found."
                 });
-            } else {
-                const token = crypto.randomBytes(20).toString('hex');
-                User.updateOne({
-                    resetToken: token,
-                    expireToken: Date.now() + 3600000,
-                });
-
-                const transporter = nodemailer.createTransport({
-                    service: 'gmail',
-                    auth: {
-                        user: `${process.env.EMAIL_ADDRESS}`,
-                        pass: `${process.env.EMAIL_PASSWORD}`,
-                    },
-                });
-
-                const mailOptions = {
-                    from: `${process.env.EMAIL_ADDRESS}`,
-                    to: `${user.email}`,
-                    subject: `Link to reset password`,
-                    text:
-                    `You requested a password reset for your account. \n\n` +
-                        `Please click on the following link within one hour of receiving this email: \n\n` +
-                        `http://localhost:4000/resetPassword/${token}\n\n` +
-                        `If you did not request this, please ignore this email and your password will remain unchanged. \n`,
-                };
-
-                console.log("Sending email");
-
-                transporter.sendMail(mailOptions, (err, response) => {
-                    if (err) {
-                        console.error("There was an error: ", err);
-                    } else {
-                        console.log("Here is the response: ", response);
-                        res.status(200).json({
-                            message: "Recovery email sent."
-                        });
-                    }
-                });
-
             }
+            const token = crypto.randomBytes(20).toString('hex');
+            user[0].updateOne({
+                resetToken: token,
+                expireToken: Date.now() + 3600000,
+            });
+
+            const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: process.env.EMAIL_ADDRESS,
+                    pass: process.env.EMAIL_PASSWORD,
+                },
+            });
+
+            const mailOptions = {
+                from: `vanhouse455@gmail.com`,
+                to: `${user[0].email}`,
+                subject: `Link to reset password`,
+                text:
+                    `You requested a password reset for your account. \n\n` +
+                    `Please click on the following link within one hour of receiving this email: \n\n` +
+                    `http://localhost:4000/resetPassword/${token}\n\n` +
+                    `If you did not request this, please ignore this email and your password will remain unchanged. \n`,
+            };
+
+            console.log("Sending email");
+
+            transporter.sendMail(mailOptions, (err, response) => {
+                if (err) {
+                    console.error("There was an error: ", err);
+                } else {
+                    console.log("Here is the response: ", response);
+                    res.status(200).json({
+                        message: "Recovery email sent."
+                    });
+                }
+            });
         })
         .catch((err) => {
+            console.log("Error in sending email");
             console.log(err);
         });
 });

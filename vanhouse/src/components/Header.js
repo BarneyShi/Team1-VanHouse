@@ -145,7 +145,6 @@ function Header() {
                     setIsLoginClicked(!isLoginClicked);
                     setConfirmPassword("");
                     setLoginError("");
-                    console.log(regUser);
                     window.alert("Successfully registered! Please login to continue.");
                 } else {
                     console.log("Failed to register user to Mongo");
@@ -208,9 +207,12 @@ function Header() {
     }
 
     function submitForgotPassword() {
+        console.log("the forgot form email");
+        console.log(forgotEmail);
+        const em = forgotEmail;
         if (emailError === "") {
             console.log("We are in submitForgotPassword");
-            if (forgotEmail === null) {
+            if (!forgotEmail) {
                 console.log("Please enter an email.");
             } else {
                 fetch('http://localhost:4000/login-router/forgot', {
@@ -218,11 +220,10 @@ function Header() {
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: forgotEmail,
+                    body: JSON.stringify({em, forgotEmail}),
                 }).then((response) => {
-                    console.log(response.data);
+                    console.log(response);
                     if (response.status === 200) {
-                        console.log("Forgot password");
                         window.alert("Reset password link sent. Please check your email.");
                     } else {
                         console.log("Failed forgot password");
@@ -232,14 +233,11 @@ function Header() {
                     console.log(err);
                 });
             }
-        } else {
-            window.confirm("Please re-check your information.");
         }
     }
 
     function handleForgotChange(e) {
         setForgotEmail(e.target.value);
-        console.log(forgotEmail);
         console.log(emailError);
         return forgotEmail;
     }

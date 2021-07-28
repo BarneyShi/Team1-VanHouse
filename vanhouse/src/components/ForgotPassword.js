@@ -28,31 +28,6 @@ function ForgotPassword({
         [forgotEmail]
     );
 
-    function sendEmail() {
-        if (forgotEmail === null) {
-            console.log("Please enter an email.");
-        } else {
-            fetch('http://localhost:4000/login-router/forgot', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: forgotEmail,
-            }).then((response) => {
-                console.log(response.data);
-                if (response.status === 200) {
-                    console.log("Forgot password");
-                    window.alert("Reset password link sent. Please check your email.");
-                } else {
-                    console.log("Failed forgot password");
-                    window.alert("User not found. Please register to continue.");
-                }
-            }).catch(err => {
-                console.log(err);
-            });
-        }
-    }
-
     return (
         <Form>
             <h2>Forgot Password</h2>
