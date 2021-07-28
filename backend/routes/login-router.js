@@ -238,31 +238,40 @@ router.get('/checkResetToken', (req, res, next) => {
 });
 
 router.put('/resetPassword', (req, res, next) => {
-    User.findOne({email: req.body.thisUser.email})
+    User.find({email: req.body.thisUser.email})
         .then(user => {
             console.log(user);
-            if (user === null) {
+            if (user.length < 1) {
                 console.log("User does not exist.");
                 res.status(404).json({
                     message: "User does not exist. Cannot reset password."
                 });
-            }
-            console.log("user exists. will update.");
-            bcrypt
-                .hash(req.body.password, 10)
-                .then(hashedPassword => {
-                    user.update({
-                        password: hashedPassword,
-                        resetToken: null,
-                        expireToken: null
-                    });
-                })
-                .then(() => {
-                    console.log("Password reset successfully.");
-                    res.status(200).send({
-                        message: "Password updated."
-                    });
+            } else {
+                bcrypt.hash(req.body.password, 10, (err, hash) => {
+                    if (err) {
+                        return res.status(500).json({
+                            error: err
+                        });
+                    } else {
+                        user.update({
+                            password: hashedPassword,
+                            resetToken: null,
+                            expireToken: null
+                        }).then((result) => {
+                            console.log(result);
+                            res.status(200).json({
+                                message: "Successfully reset password."
+                            });
+                        })
+                            .catch((err) => {
+                                console.log(err);
+                                res.status(500).json({
+                                    error: err
+                                });
+                            });
+                    }
                 });
+            }
         });
 });
 

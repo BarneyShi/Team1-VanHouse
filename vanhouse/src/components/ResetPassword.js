@@ -9,15 +9,16 @@ function ResetPassword() {
     const [resetPassword, setResetPassword] = useState("reset");
     const [thisUser, setThisUser] = useState(null);
 
-    const token = useParams();
+    const {token} = useParams();
 
     const confirmResetToken = () => {
+        console.log("we have the token");
+        console.log(token);
         fetch('http://localhost:4000/login-router/checkResetToken', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
             },
-            credentials: 'include',
             query: {resetToken: token}
         }).then((response) => {
             if (response.status === 200) {
@@ -25,7 +26,7 @@ function ResetPassword() {
                     .then(dbUser => {
                         setThisUser(dbUser);
                         console.log("verified user with token");
-                        console.log(dbUser);
+                        console.log(thisUser);
                     });
             }
         }).catch(() => {
