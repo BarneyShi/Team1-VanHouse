@@ -1,9 +1,11 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {Button, Form} from "react-bootstrap";
-import { useParams } from 'react-router-dom';
+import {useHistory, useParams} from 'react-router-dom';
 import "../styles/login.css"
 
 function ResetPassword() {
+
+    const history = useHistory();
 
     // resetPassword states
     const [resetPassword, setResetPassword] = useState("reset");
@@ -22,6 +24,7 @@ function ResetPassword() {
                 body: JSON.stringify({resetToken: token, password: resetPassword}),
             }).then((response) => {
                 if (response.status === 200) {
+                    history.push(`/`);
                     window.alert("Password reset. Please login to continue.")
                 } else {
                     window.alert("Failed to reset password. \n\n" +

@@ -12,6 +12,7 @@ import Category from './components/Category';
 import "./App.css";
 import PostCollection from "./components/PostCollection";
 import ResetPassword from "./components/ResetPassword";
+import AccountDetails from "./components/AccountDetails";
 
 function App() {
   const [user, setUser] = useState();
@@ -101,6 +102,9 @@ function App() {
         </Route>
         <Route exact path="/resetPassword/:token">
           <ResetPassword />
+        </Route>
+        <Route exact path="/account">
+          <AccountDetails />
         </Route>
       </div>
     </Router>

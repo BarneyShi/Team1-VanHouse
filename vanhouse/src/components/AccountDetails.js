@@ -6,14 +6,19 @@ function AccountDetails({
                          handleAccountClicked,
                          user
                      }) {
-    if (user !== null) {
-        return (
-            <h2> </h2>
-        )
-    }
+    // if (user !== null) {
+    //     return (
+    //         <h2> </h2>
+    //     )
+    // }
     return (
         <div>
-            <h2>HELLO</h2>
+            <br/>
+            <br/>
+            <h2>Your Account</h2>
+            <br/>
+            <br/>
+            <h3>Posts</h3>
         </div>
     )
 }
