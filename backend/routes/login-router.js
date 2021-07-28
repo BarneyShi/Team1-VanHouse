@@ -156,6 +156,7 @@ router.post('/forgot', (req, res) => {
     User.find({email: req.body.forgotEmail})
         .exec()
         .then((user) => {
+            console.log("the user we are updating in /forgot");
             console.log(user);
             if (user.length < 1) {
                 return res.status(401).json({
@@ -163,7 +164,7 @@ router.post('/forgot', (req, res) => {
                 });
             }
             const token = crypto.randomBytes(20).toString('hex');
-            user[0].updateOne({
+            user[0].update({
                 resetToken: token,
                 expireToken: Date.now() + 3600000,
             });
@@ -237,7 +238,7 @@ router.get('/checkResetToken', (req, res, next) => {
 });
 
 router.put('/resetPassword', (req, res, next) => {
-    User.findOne({email: req.body.email})
+    User.findOne({email: req.body.thisUser.email})
         .then(user => {
             console.log(user);
             if (user === null) {

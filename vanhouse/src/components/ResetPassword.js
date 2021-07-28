@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import {Button, Form} from "react-bootstrap";
+import { useParams } from 'react-router-dom';
 import "../styles/login.css"
 
 function ResetPassword() {
@@ -8,6 +9,8 @@ function ResetPassword() {
     const [resetPassword, setResetPassword] = useState("reset");
     const [thisUser, setThisUser] = useState(null);
 
+    const token = useParams();
+
     const confirmResetToken = () => {
         fetch('http://localhost:4000/login-router/checkResetToken', {
             method: 'GET',
@@ -15,13 +18,14 @@ function ResetPassword() {
                 'Content-Type': 'application/json'
             },
             credentials: 'include',
+            query: {resetToken: token}
         }).then((response) => {
             if (response.status === 200) {
                 response.json()
                     .then(dbUser => {
-                        setThisUser(dbUser); // only setting this to re-render component automatically
+                        setThisUser(dbUser);
                         console.log("verified user with token");
-                        console.log(response);
+                        console.log(dbUser);
                     });
             }
         }).catch(() => {
