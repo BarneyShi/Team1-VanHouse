@@ -14,10 +14,10 @@
 .title-and-logo-flexbox {
     display: flex;
     justify-content: center;
-    text-align: center;
+    /*text-align: center;*/
     align-items: center;
     flex-basis: 10%;
-    min-width: 87%;
+    min-width: 89%;
     flex-direction: row;
     position: relative;
 }
@@ -31,28 +31,15 @@
 }
 
 .App-title {
-    /*flex-basis: 1000%;*/
-    font-family: merriweather,serif;
+    font-family: merriweather, serif;
     font-weight: 700;
 }
 
-/*.login-logout-button {*/
-/*    font-family: Arial;*/
-/*    font-size: 1rem;*/
-/*    color: white;*/
-/*    !*background-color: whitesmoke;*!*/
-/*    background-color: dodgerblue;*/
-/*    border: 0;*/
-/*    border-radius: 40%;*/
-/*    line-height: 2rem;*/
-/*    float: right;*/
-/*}*/
-
 .login-logout-button-div {
     float: right;
-    flex-basis: 10%;
+    /*flex-basis: 10%;*/
     padding: 10px;
-    margin-right: 12px;
+    /*margin-right: 30px;*/
 }
 
 .login-logout-button:hover {

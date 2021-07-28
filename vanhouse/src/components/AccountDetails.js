@@ -1,11 +1,7 @@
 import React from "react";
-import PropTypes from "prop-types";
 import "../styles/login.css"
 
-function AccountDetails({
-                         handleAccountClicked,
-                         user
-                     }) {
+function AccountDetails() {
     // if (user !== null) {
     //     return (
     //         <h2> </h2>
@@ -24,12 +20,5 @@ function AccountDetails({
         </div>
     )
 }
-
-AccountDetails.defaultProps = {}
-
-AccountDetails.propTypes = {
-    handleAccountClicked: PropTypes.func.isRequired,
-    user: PropTypes.objectOf(PropTypes.object).isRequired
-};
 
 export default AccountDetails
