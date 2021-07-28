@@ -7,42 +7,11 @@ function ResetPassword() {
 
     // resetPassword states
     const [resetPassword, setResetPassword] = useState("reset");
-    const [thisUser, setThisUser] = useState(null);
 
     const {token} = useParams();
 
-    // const confirmResetToken = () => {
-    //     console.log("we have the token");
-    //     console.log(token);
-    //     fetch(`http://localhost:4000/login-router/checkResetToken`, {
-    //         method: 'GET',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         // query: {resetToken: token}
-    //     }).then((response) => {
-    //         if (response.status === 200) {
-    //             response.json()
-    //                 .then(dbUser => {
-    //                     setThisUser(dbUser);
-    //                     console.log("verified user with token");
-    //                     console.log(thisUser);
-    //                 });
-    //         }
-    //     }).catch(() => {
-    //         console.log("Could not verify token.");
-    //         setThisUser(null);
-    //     });
-    // }
-    //
-    // useEffect(() => {
-    //     confirmResetToken();
-    // }, []);
-
     function submitResetPassword() {
-        console.log("we are in submitResetPassword");
         if (!resetPassword) {
-            console.log("Please enter a new password.");
             window.alert("Please enter a new password.");
         } else {
             fetch('http://localhost:4000/login-router/resetPassword', {
@@ -52,13 +21,12 @@ function ResetPassword() {
                 },
                 body: JSON.stringify({resetToken: token, password: resetPassword}),
             }).then((response) => {
-                console.log(response);
                 if (response.status === 200) {
-                    console.log("back from successful reset password");
                     window.alert("Password reset. Please login to continue.")
                 } else {
-                    console.log("Failed reset password");
-                    window.alert("Failed to reset password.");
+                    window.alert("Failed to reset password. \n\n" +
+                        "Your link may have expired or it may be another issue. \n\n" +
+                        "Please try again.");
                 }
             }).catch(err => {
                 console.log(err);
@@ -68,7 +36,6 @@ function ResetPassword() {
 
     function handleResetPasswordChange(e) {
         setResetPassword(e.target.value);
-        console.log(resetPassword);
         return resetPassword;
     }
 

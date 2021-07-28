@@ -40,7 +40,6 @@ router.post('/register', (req, res) => {
                         });
                         user.save()
                             .then((result) => {
-                                console.log(result);
                                 res.status(201).json({
                                     message: "Successfully registered new user"
                                 });
@@ -152,12 +151,9 @@ router.post('/logout', (req, res) => {
 // https://www.youtube.com/watch?v=NOuiitBbAcU
 // Accessed Jul 27, 2021
 router.post('/forgot', (req, res) => {
-    console.log("we are in backend of forgot");
     User.find({email: req.body.forgotEmail})
         .exec()
         .then((user) => {
-            console.log("the user we are updating in /forgot");
-            console.log(user);
             if (user.length < 1) {
                 return res.status(401).json({
                     message: "User not found."
@@ -217,35 +213,7 @@ router.post('/forgot', (req, res) => {
 // https://www.youtube.com/watch?v=MfqyFcP6hTY
 // https://itnext.io/password-reset-emails-in-your-react-app-made-easy-with-nodemailer-bb27968310d7
 // Accessed July 27, 2021
-router.get('/checkResetToken', (req, res, next) => {
-    console.log("the request!!!!!");
-    console.log(req);
-    User.find({
-        resetToken: req.query.resetToken,
-        expireToken: {
-            $gt: Date.now(),
-        },
-    }).then(user => {
-        console.log("backend of checkResetToken");
-        console.log(user);
-        if (user === null) {
-            console.log("Password reset link expired or otherwise invalid.");
-            res.status(401).json({
-                message: "Password reset link is invalid."
-            });
-        }
-        res.status(200).json({
-            email: user.email,
-            message: "Sending user back to front end."
-        });
-    }).catch(err => {
-        console.log(err);
-    });
-});
-
 router.post('/resetPassword', (req, res, next) => {
-    console.log("the request!!!");
-    console.log(req.body);
     User.find({
         resetToken: req.body.resetToken,
         expireToken: {
@@ -270,7 +238,6 @@ router.post('/resetPassword', (req, res, next) => {
                             resetToken: null,
                             expireToken: null
                         }).then((result) => {
-                            console.log(result);
                             res.status(200).json({
                                 message: "Successfully reset password."
                             });
