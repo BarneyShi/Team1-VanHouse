@@ -24,7 +24,7 @@ import upVote from "../../assets/thumbup-voted.svg";
 import downVote from "../../assets/thumbdown-voted.svg";
 import editIcon from "../../assets/editIcon.png";
 import LoadingSpinner from "../LoadingSpinner";
-import getErrorString from "../../utils";
+import { getErrorString } from "../../utils";
 
 export default function PostDetail() {
   const mapToken =
@@ -59,7 +59,7 @@ export default function PostDetail() {
   useEffect(async () => {
     let postData;
     try {
-      const postResponse = await fetch(`http://localhost:4000/post/${id}`);
+      const postResponse = await fetch(`/post/${id}`);
       postData = await postResponse.json();
       setPost(postData.postInfo);
       setComments(postData.comments);
@@ -78,7 +78,7 @@ export default function PostDetail() {
 
     try {
       const coordsResponse = await fetch(
-        `http://localhost:4000/post/${id}/coords?location=${postData.postInfo.postalCode}`
+        `/post/${id}/coords?location=${postData.postInfo.postalCode}`
       );
       const data = await coordsResponse.json();
       setProperty({
@@ -102,12 +102,9 @@ export default function PostDetail() {
     }
 
     try {
-      const response = await fetch(
-        "http://localhost:4000/login-router/account",
-        {
-          credentials: "include",
-        }
-      );
+      const response = await fetch("/login-router/account", {
+        credentials: "include",
+      });
       if (!response.ok) {
         throw new Error("Not logged in");
       }
@@ -115,7 +112,7 @@ export default function PostDetail() {
       setUser({ userId: data.userId, username: data.firstName });
     } catch (err) {
       setUser();
-      console.log("Errow while checking auth:", err.message);
+      console.log("Error while checking auth:", err.message);
     }
   }, []);
 
@@ -124,7 +121,7 @@ export default function PostDetail() {
     try {
       if (!user) throw Error("Not logged in");
       const response = await fetch(
-        `http://localhost:4000/post/${post._id}/checkvote?userId=${user.userId}`
+        `/post/${post._id}/checkvote?userId=${user.userId}`
       );
       if (!response.ok) throw Error("Failed to reach endpoint - checkvote");
       const data = await response.json();
@@ -153,9 +150,10 @@ export default function PostDetail() {
     form.append("newComment", value);
     form.append("userId", user.userId);
     form.append("username", user.username);
-    fetch(`http://localhost:4000/post/${post.id}/comment`, {
+    fetch(`/post/${post.id}/comment`, {
       method: "POST",
       body: form,
+      credentials: "include",
     })
       .then((response) => response.json())
       .then((data) => {
@@ -209,9 +207,10 @@ export default function PostDetail() {
         return;
       }
       const response = await fetch(
-        `http://localhost:4000/post/${post._id}/vote?userId=${user.userId}&method=${method}`,
+        `/post/${post._id}/vote?userId=${user.userId}&method=${method}`,
         {
           method: "PUT",
+          credentials: "include",
         }
       );
       if (!response.ok) {
@@ -226,14 +225,16 @@ export default function PostDetail() {
   // Delete post
   const deletePost = async () => {
     try {
-      const response = await fetch(`http://localhost:4000/post/${post._id}`, {
+      const response = await fetch(`/post/${post._id}`, {
         method: "DELETE",
+        credentials: "include",
       });
       if (!response.ok) {
         throw Error("failed to delete");
       }
       await response.json();
       history.push("/");
+      history.go(0);
     } catch (err) {
       console.log("Error while deleting post:", err);
     }
@@ -241,14 +242,25 @@ export default function PostDetail() {
   // Delete comment: TODO
   const renderCommentTooltip = (props) => <Tooltip {...props}>Delete</Tooltip>;
   const deleteComment = async (e) => {
-    // try {
-    //   await fetch(`http://localhost:4000/${post._id}/comment`, {
-    //     method: "DELETE",
-    //   });
-    // } catch (err) {
-    //   console.log("Error while deleting comment:", err);
-    // }
-    const commentId = e.target.getAttribute("data-id");
+    try {
+      const commentId = e.target.getAttribute("data-id");
+      const response = await fetch(
+        `/${post._id}/comment?commentId=${commentId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
+      if (!response.ok) {
+        throw Error("Response error");
+      }
+      const data = await response.json();
+      const { _id: deleteCommentId } = data;
+      const res = comments.filter((c) => c._id !== deleteCommentId);
+      setComments([...res]);
+    } catch (err) {
+      console.log("Error while deleting comment:", err);
+    }
   };
 
   return (
@@ -308,12 +320,13 @@ export default function PostDetail() {
               onClick={() => setDisplaySchedule(true)}>
               Book a home tour!
             </Button>
-
-            <Button
-              onClick={() => setDisplayEditModal(true)}
-              id="editPost--btn">
-              Edit Post
-            </Button>
+            {user && post && user.userId === post.authorID ? (
+              <Button
+                onClick={() => setDisplayEditModal(true)}
+                id="editPost--btn">
+                Edit Post
+              </Button>
+            ) : null}
 
             <Button
               variant="warning"
@@ -321,12 +334,14 @@ export default function PostDetail() {
               onClick={() => setDisplayReport(true)}>
               Report
             </Button>
-            <Button
-              variant="danger"
-              id="deleteBtn"
-              onClick={() => setDeleteConfirmation(true)}>
-              Delete
-            </Button>
+            {user && post && user.userId === post.authorID ? (
+              <Button
+                variant="danger"
+                id="deleteBtn"
+                onClick={() => setDeleteConfirmation(true)}>
+                Delete
+              </Button>
+            ) : null}
           </Col>
 
           <Col xs={12} md={6}>
@@ -397,19 +412,21 @@ export default function PostDetail() {
                     </p>
                     <p className="comment__content">{e.text}</p>
                   </span>
-                  <span>
-                    <OverlayTrigger
-                      placement="top"
-                      overlay={renderCommentTooltip}>
-                      <img
-                        className="comment-editIcon"
-                        src={editIcon}
-                        data-id={e._id}
-                        onClick={deleteComment}
-                        alt="edit"
-                      />
-                    </OverlayTrigger>
-                  </span>
+                  {user && post && user.userId === post.authorID ? (
+                    <span>
+                      <OverlayTrigger
+                        placement="top"
+                        overlay={renderCommentTooltip}>
+                        <img
+                          className="comment-editIcon"
+                          src={editIcon}
+                          data-id={e._id}
+                          onClick={deleteComment}
+                          alt="edit"
+                        />
+                      </OverlayTrigger>
+                    </span>
+                  ) : null}
                 </div>
               ))
             ) : (
@@ -440,7 +457,10 @@ export default function PostDetail() {
                   {schedule.map((object) => (
                     <span className="date-list-item" key={object.id}>
                       <ListGroup.Item variant="primary">
-                        {object.date}
+                        <a
+                          href={`mailto:${post.email}?subject=[VanHouse - ${post.address}] Request to schedule a home tour on ${object.date}`}>
+                          {object.date}
+                        </a>
                       </ListGroup.Item>
                     </span>
                   ))}

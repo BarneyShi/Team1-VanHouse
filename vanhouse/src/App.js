@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+import Admin from "./components/Admin/Admin";
+import NotAuthorized from './components/Admin/NotAuthorized';
 import PostDetail from "./components/PostDetail/PostDetail";
 import Header from "./components/Header";
 import UserList from "./components/UserList";
@@ -12,9 +14,31 @@ import PostCollection from "./components/PostCollection";
 import ResetPassword from "./components/ResetPassword";
 
 function App() {
+  const [user, setUser] = useState();
   const [filterIdx, setFilterIdx] = useState(Number(0));
   const [reset, setReset] = useState(false);
   const [filterURL, setFilterURL] = useState("");
+  const [userId, setUserId] = useState("");
+  const [posts, setPosts] = useState([]);
+
+  useEffect( async ()=> {
+    try {
+      const response = await fetch(
+        "/login-router/account",
+        {
+          credentials: "include",
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Not logged in");
+      }
+      const data = await response.json();
+      setUser(data);
+    } catch (err) {
+      setUser();
+      console.log("Errow while checking auth:", err.message);
+    }
+  },[])
 
   return (
     <Router>
@@ -28,6 +52,7 @@ function App() {
                   <UserList
                     setReset={setReset}
                     setQuery={setFilterURL}
+                    setUserId={setUserId}
                   />
                 )) ||
                   (filterIdx === 1 && (
@@ -55,10 +80,14 @@ function App() {
               <Col>
                 <PostCollection
                   filterURL={filterURL}
+                  userId={userId}
                   setSearchFilter={(i) => {
                     setFilterIdx(i);
                     setReset(true);
                   }}
+                  appPosts={posts}
+                  setAppPosts={setPosts}
+                  setQuery={setFilterURL}
                 />
               </Col>
             </Row>
@@ -66,6 +95,9 @@ function App() {
         </Route>
         <Route path="/post/:id">
           <PostDetail />
+        </Route>
+        <Route path="/admin">
+          {user?.admin ? <Admin />: <NotAuthorized />}
         </Route>
         <Route exact path="/resetPassword/:token">
           <ResetPassword />

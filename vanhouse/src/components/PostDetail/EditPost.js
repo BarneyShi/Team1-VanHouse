@@ -5,7 +5,13 @@ import addIcon from "../../assets/addIcon.png";
 import deleteIcon from "../../assets/deleteIcon.png";
 import "../../styles/editPost.css";
 
-export default function EditPost({ show, setDisplay, post, setPost }) {
+export default function EditPost({
+  show,
+  setDisplay,
+  post,
+  setPost,
+  setUpdaedPost,
+}) {
   const formRef = useRef();
   const [previewImages, setPreviewImages] = useState();
   const [imageSizeValid, setImageSizeValid] = useState(true);
@@ -56,12 +62,16 @@ export default function EditPost({ show, setDisplay, post, setPost }) {
     formData.append("furnished", furnished.checked);
     formData.append("images", JSON.stringify(previewImages));
 
-    const reponse = await fetch(`http://localhost:4000/post/${post.id}/edit`, {
+    const reponse = await fetch(`/post/${post.id}/edit`, {
       method: "put",
       body: formData,
+      credentials: "include",
     });
     const updatedPost = await reponse.json();
     setPost(updatedPost);
+    if (typeof setUpdaedPost === "function") {
+      setUpdaedPost(updatedPost);
+    }
     setExecuting(false);
     setDisplay(false);
   };
@@ -363,7 +373,7 @@ EditPost.propTypes = {
     phone: PropTypes.string,
     address: PropTypes.string,
     postalCode: PropTypes.string,
-    price: PropTypes.string,
+    price: PropTypes.number,
     paymentPeriod: PropTypes.string,
     bedrooms: PropTypes.string,
     bathrooms: PropTypes.string,
@@ -376,4 +386,5 @@ EditPost.propTypes = {
     images: PropTypes.arrayOf(PropTypes.string),
   }),
   setPost: PropTypes.func.isRequired,
+  setUpdaedPost: PropTypes.func,
 };

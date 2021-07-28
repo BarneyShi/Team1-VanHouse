@@ -5,7 +5,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../../styles/Schedule.css";
 
-function Schedule({ show, onHide, handleSubmit }) {
+function Schedule({ show, onHide, handleSubmit, executing }) {
   // CITATION: Modal https://react-bootstrap.github.io/components/modal/
   // CITATION: DatePicker https://www.npmjs.com/package/react-datepicker
 
@@ -61,17 +61,16 @@ function Schedule({ show, onHide, handleSubmit }) {
 
   const submitSchedule = () => {
     handleSubmit(selectedDate);
-    onHide();
     setSelectedDate([]);
   };
 
   return (
     <Modal show={show} onHide={onHide} size="lg" centered>
       <Modal.Header closeButton>
-        <Modal.Title>Your post has been published!</Modal.Title>
+        <Modal.Title>Select some available dates</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>Now tell tenants when you&apos;re avaiable for a home tour!</p>
+        <p>Let tenants know when you&apos;re available for a home tour!</p>
         <ListGroup id="date-list-group">
           {selectedDate.map((object) => (
             <span className="date-list-item" key={object.id}>
@@ -100,7 +99,9 @@ function Schedule({ show, onHide, handleSubmit }) {
         <p id="datepicker-text">You can pick multiple dates!</p>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={submitSchedule}>Submit</Button>
+        <Button disabled={executing} variant="primary" onClick={submitSchedule}>
+          {executing ? "Waiting..." : "Submit"}
+        </Button>
       </Modal.Footer>
     </Modal>
   );
@@ -110,6 +111,7 @@ Schedule.propTypes = {
   show: PropTypes.bool.isRequired,
   onHide: PropTypes.func.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  executing: PropTypes.bool.isRequired
 };
 
 export default Schedule;
