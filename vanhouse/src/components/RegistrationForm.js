@@ -98,6 +98,7 @@ function RegistrationForm({
     return (
         <Form>
             <h2>Register</h2>
+            <br/>
             <span>For full access to our features, including ability to </span>
             <br/>
             <span> posting your own properties, please register.</span>
