@@ -48,14 +48,12 @@ function AccountDetails() {
         <div>
             <br/>
             <br/>
-            <h2>Your Account</h2>
             <br/>
             <br/>
             <br/>
             <br/>
-            <h4>*** COMING SOON ***</h4>
             <br/>
-            <h3>Your posts</h3>
+            <h4>*** PAGE UNDER CONSTRUCTION ***</h4>
         </div>
     )
 }
