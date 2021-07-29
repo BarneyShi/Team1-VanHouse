@@ -20,24 +20,25 @@ function WelcomeUser({
         }).then((response) => {
             response.json()
                 .then((resJSON => {
-                    console.log(resJSON);
-                    setUser({
-                        userId: resJSON.userId,
-                        email: resJSON.email,
-                        firstName: resJSON.firstName,
-                        lastName: resJSON.lastName,
-                        admin: resJSON.admin
-                    });
-                }));
+                        setUser({
+                            userId: resJSON.userId,
+                            email: resJSON.email,
+                            firstName: resJSON.firstName,
+                            lastName: resJSON.lastName,
+                            admin: resJSON.admin
+                        });
+                    }))
+                .catch(() => {
+                    setUser(null);
+                })
         }).catch(() => {
-            console.log("Not logged in");
             setUser(null);
         });
     }
 
     useEffect(() => {
         loggedInCondRender();
-    }, []);
+    });
 
     if (user === null) {
         return (
@@ -67,8 +68,7 @@ WelcomeUser.defaultProps =
 
 WelcomeUser.propTypes =
     {
-        // user: PropTypes.objectOf(PropTypes.object),
-        user: PropTypes.shape({ firstName: PropTypes.string }),
+        user: PropTypes.shape({firstName: PropTypes.string}),
         setUser: PropTypes.func,
         handleLogoutClicked: PropTypes.func.isRequired,
         handleAccountClicked: PropTypes.func.isRequired,

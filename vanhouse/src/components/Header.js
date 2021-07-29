@@ -1,5 +1,4 @@
-import React, {useState} from "react";
-import {Button} from "react-bootstrap";
+import React, {useEffect, useState} from "react";
 import {useHistory} from "react-router-dom";
 import "../styles/header.css";
 import LoginForm from "./LoginForm";
@@ -143,6 +142,8 @@ function Header() {
                     setRegUser({firstName: "", lastName: "", regEmail: "", regPassword: ""});
                     setIsRegistrationVisible(!isRegistrationVisible);
                     setIsRegisterButtonVisible(!isRegisterButtonVisible);
+                    setIsForgotButtonVisible(!isForgotButtonVisible);
+                    setIsFooterVisible(!isFooterVisible);
                     setIsLoginVisible(!isLoginVisible);
                     setIsLoginClicked(!isLoginClicked);
                     setConfirmPassword("");
@@ -154,6 +155,7 @@ function Header() {
                 }
             });
         } else {
+            e.preventDefault();
             window.confirm("Please re-check your registration information.");
         }
     }

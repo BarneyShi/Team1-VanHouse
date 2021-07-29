@@ -3,7 +3,6 @@ var router = express.Router();
 var bcrypt = require("bcrypt");
 var jwt = require("jsonwebtoken");
 var checkAuth = require("../middleware/check-auth");
-// var checkUser = require("../middleware/check-user");
 var crypto = require("crypto");
 var nodemailer = require("nodemailer");
 
@@ -12,7 +11,6 @@ let User = require('../models/User');
 // REGISTER USER
 // https://www.youtube.com/watch?v=_EP2qCmLzSE
 // Accessed July 13, 2021
-// the path will be /login-router/register
 
 // https://www.youtube.com/watch?v=7CqJlxBYj-M
 // Accessed July 11, 2021
@@ -75,7 +73,7 @@ router.post('/login', (req, res) => {
                     message: 'Auth failed'
                 });
             }
-            // now need to check password
+
             bcrypt.compare(req.body.password, user[0].password, (err, result) => {
                 if (err) {
                     return res.status(401).json({
@@ -84,13 +82,6 @@ router.post('/login', (req, res) => {
                     });
                 }
                 if (result) {
-                    // https://www.youtube.com/watch?v=mbsmsi7l3r4
-                    // const refreshToken = jwt.sign({
-                    //         email: user[0].email,
-                    //         firstName: user[0].firstName
-                    //     },
-                    //     process.env.REFRESH_TOKEN_SECRET);
-
                     const accessToken = jwt.sign(
                         {
                             userId: user[0]._id,
@@ -108,13 +99,11 @@ router.post('/login', (req, res) => {
                     // https://www.youtube.com/watch?v=mbsmsi7l3r4
                     // https://www.youtube.com/watch?v=S-ZIfNuT5H8&list=PL4cUxeGkcC9iqqESP8335DA5cRFp8loyp&index=11
                     // Accessed July 13, 2021
-                    // res.json({accessToken: accessToken, refreshToken: refreshToken});
                     res.cookie('jwt', accessToken,
                         {
                             httpOnly: true,
                             maxAge: 180000
                         });
-                    // res.setHeader('auth-token', accessToken);
                     let sendUser = {
                         userId: user[0]._id,
                         firstName: user[0].firstName,
@@ -160,10 +149,6 @@ router.post('/forgot', (req, res) => {
                 });
             }
             const token = crypto.randomBytes(20).toString('hex');
-            // user[0].update({
-            //     resetToken: token,
-            //     expireToken: Date.now() + 3600000,
-            // });
             user[0].resetToken = token;
             user[0].expireToken = Date.now() + 3600000;
             user[0].save()
@@ -264,11 +249,5 @@ router.get('/account', checkAuth, (req, res) => {
         return res.status(500).json({error: err});
     }
 });
-
-// Making refresh tokens
-// router.post('/token', (req, res) => {
-//     const refreshToken = req.body.token
-// })
-
 
 module.exports = router;

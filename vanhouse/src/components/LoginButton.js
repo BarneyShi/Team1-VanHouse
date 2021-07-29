@@ -27,11 +27,8 @@ LoginButton.defaultProps = {}
 
 LoginButton.propTypes = {
     handleLoginClicked: PropTypes.func.isRequired,
-
     // https://stackoverflow.com/questions/52864510/react-warning-failed-prop-type-invalid-prop-of-type-object-supplied
     // Accessed July 27, 2021
-
-    // user: PropTypes.objectOf(PropTypes.object)
     user: PropTypes.shape({ firstName: PropTypes.string }),
 };
 

@@ -1,7 +1,5 @@
 // https://www.youtube.com/watch?v=8Ip0pcwbWYM
 // Accessed July 13, 2021
-// Starting from 7:35 of this video, need to add protection to routes:
-// adding or editing posts, reviewing/commenting
 
 // https://www.youtube.com/watch?v=mbsmsi7l3r4
 // Accessed July 13, 2021
@@ -27,7 +25,6 @@ module.exports = (req, res, next) => {
 
         next();
     } catch (err) {
-            // window.alert('Please login to continue')
         res.status(400).json({
             message: 'Invalid token'
         });
