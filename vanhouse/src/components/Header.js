@@ -112,7 +112,6 @@ function Header() {
         }).then((response) => {
             console.log(response.status);
             if (response.status === 401) {
-                // setIsLoginClicked(false);
                 setPassword("");
                 window.alert("Invalid email or password.");
             }
@@ -121,9 +120,6 @@ function Header() {
                 response.json()
                     .then(response2 => {
                         setUser(response2); // only setting this to re-render component automatically
-                        console.log("logged in as...should be null");
-                        console.log(user);
-                        console.log(response2);
                         setIsLoginClicked(false);
                         window.location.reload();
                     });

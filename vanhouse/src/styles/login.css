@@ -47,3 +47,8 @@ body {
     border-radius: 5%;
     margin-top: 80px;
 }
+
+.account-details-page-message {
+    color: orangered;
+    padding-top: 80px;
+}

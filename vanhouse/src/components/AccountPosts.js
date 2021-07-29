@@ -3,7 +3,7 @@ import {Dropdown} from "react-bootstrap";
 import PropTypes from "prop-types";
 import "../styles/login.css"
 
-function WelcomeUser({
+function AccountPosts({
                          user,
                          setUser,
                          handleLogoutClicked,
@@ -25,8 +25,7 @@ function WelcomeUser({
                         userId: resJSON.userId,
                         email: resJSON.email,
                         firstName: resJSON.firstName,
-                        lastName: resJSON.lastName,
-                        admin: resJSON.admin
+                        lastName: resJSON.lastName
                     });
                 }));
         }).catch(() => {
@@ -37,6 +36,7 @@ function WelcomeUser({
 
     useEffect(() => {
         loggedInCondRender();
+        console.log(user);
     }, []);
 
     if (user === null) {
@@ -62,16 +62,15 @@ function WelcomeUser({
     )
 }
 
-WelcomeUser.defaultProps =
+AccountPosts.defaultProps =
     {}
 
-WelcomeUser.propTypes =
+AccountPosts.propTypes =
     {
-        // user: PropTypes.objectOf(PropTypes.object),
         user: PropTypes.shape({ firstName: PropTypes.string }),
         setUser: PropTypes.func,
         handleLogoutClicked: PropTypes.func.isRequired,
         handleAccountClicked: PropTypes.func.isRequired,
     };
 
-export default WelcomeUser
+export default AccountPosts

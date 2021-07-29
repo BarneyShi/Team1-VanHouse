@@ -114,7 +114,7 @@ router.post('/login', (req, res) => {
                             httpOnly: true,
                             maxAge: 180000
                         });
-                    res.setHeader('auth-token', accessToken);
+                    // res.setHeader('auth-token', accessToken);
                     let sendUser = {
                         userId: user[0]._id,
                         firstName: user[0].firstName,
