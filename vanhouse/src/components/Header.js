@@ -54,6 +54,7 @@ function Header() {
             response.json()
                 .then((resJSON) => {
                     console.log(resJSON);
+                    window.location.reload();
                 });
         });
 
@@ -259,29 +260,20 @@ function Header() {
             <LoginForm
                 show={isLoginClicked}
                 handleClose={handleCloseModal}
-                submit={Login}
+                login={Login}
                 isLoginVisible={isLoginVisible}
                 setIsLoginVisible={setIsLoginVisible}
                 isRegistrationVisible={isRegistrationVisible}
                 setIsRegistrationVisible={setIsRegistrationVisible}
                 isRegisterButtonVisible={isRegisterButtonVisible}
                 setIsRegisterButtonVisible={setIsRegisterButtonVisible}
-                firstName={firstName}
-                setFirstName={setFirstName}
-                lastName={lastName}
-                setLastName={setLastName}
                 email={email}
                 setEmail={setEmail}
-                password={password}
                 setPassword={setPassword}
                 passwordError={passwordError}
                 setPasswordError={setPasswordError}
-                user={user}
                 loginError={loginError}
-                regEmail={regEmail}
-                setRegEmail={setRegEmail}
                 regPassword={regPassword}
-                setRegPassword={setRegPassword}
                 register={Register}
                 regUser={regUser}
                 handleRegChange={handleRegChange}
