@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {Dropdown} from "react-bootstrap";
 import PropTypes from "prop-types";
-import "../styles/login.css"
+import "../styles/header.css"
 
 function WelcomeUser({
                          user,
@@ -20,14 +20,14 @@ function WelcomeUser({
         }).then((response) => {
             response.json()
                 .then((resJSON => {
-                        setUser({
-                            userId: resJSON.userId,
-                            email: resJSON.email,
-                            firstName: resJSON.firstName,
-                            lastName: resJSON.lastName,
-                            admin: resJSON.admin
-                        });
-                    }))
+                    setUser({
+                        userId: resJSON.userId,
+                        email: resJSON.email,
+                        firstName: resJSON.firstName,
+                        lastName: resJSON.lastName,
+                        admin: resJSON.admin
+                    });
+                }))
                 .catch(() => {
                     setUser(null);
                 })
@@ -49,17 +49,18 @@ function WelcomeUser({
     }
 
     return (
-        <Dropdown>
-            <div className="dropdown-stuff">
-                <Dropdown.Toggle className="dropdown-toggle-button" variant="outline-success">
-                    <span className="welcome-text">Hi, {user.firstName}!</span>
+        <div className="welcome-user-div">
+            <Dropdown>
+                <Dropdown.Toggle variant="outline-success">
+                    <span>Hi, {user.firstName}!</span>
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
                     <Dropdown.Item onClick={handleAccountClicked}>Account</Dropdown.Item>
                     <Dropdown.Item onClick={handleLogoutClicked}>Logout</Dropdown.Item>
                 </Dropdown.Menu>
-            </div>
-        </Dropdown>
+            </Dropdown>
+        </div>
+
     )
 }
 
