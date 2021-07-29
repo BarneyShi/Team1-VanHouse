@@ -58,7 +58,6 @@ function LoginForm({
         setIsLoginVisible(!isLoginVisible);
         setIsRegisterButtonVisible(!isRegisterButtonVisible);
         setIsForgotButtonVisible(!isForgotButtonVisible);
-        // setIsFooterVisible(false);
     }
 
     const handleSubmit = e => {

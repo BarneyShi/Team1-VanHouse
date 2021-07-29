@@ -7,7 +7,6 @@ function ResetPassword() {
 
     const history = useHistory();
 
-    // resetPassword states
     const [resetPassword, setResetPassword] = useState("");
 
     const {token} = useParams();
