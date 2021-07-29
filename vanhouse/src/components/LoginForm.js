@@ -21,7 +21,6 @@ function LoginForm({
                        passwordError,
                        setPasswordError,
                        loginError,
-                       regPassword,
                        register,
                        regUser,
                        handleRegChange,
@@ -150,7 +149,6 @@ function LoginForm({
                         setConfirmPassword={setConfirmPassword}
                         confirmPasswordError={confirmPasswordError}
                         setConfirmPasswordError={setConfirmPasswordError}
-                        regPassword={regPassword}
                         handleClose={handleClose}
                         validateEmail={validateEmail}
                         passwordError={passwordError}
@@ -187,7 +185,6 @@ LoginForm.propTypes = {
     setConfirmPassword: PropTypes.func.isRequired,
     confirmPasswordError: PropTypes.string.isRequired,
     setConfirmPasswordError: PropTypes.func.isRequired,
-    regPassword: PropTypes.string.isRequired,
     register: PropTypes.func.isRequired,
     regUser: PropTypes.shape({firstName: PropTypes.string}),
     handleRegChange: PropTypes.func.isRequired,

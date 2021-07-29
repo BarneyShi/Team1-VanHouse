@@ -25,11 +25,7 @@ function Header() {
     const [loginError, setLoginError] = useState("");
 
     // Registration Form states
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [regEmail, setRegEmail] = useState("");
-    const [regPassword, setRegPassword] = useState("");
-    const [regUser, setRegUser] = useState({firstName: "", lastName: "", email: "", password: ""});
+    const [regUser, setRegUser] = useState({firstName: "", lastName: "", email: "", password: null});
     const [confirmPassword, setConfirmPassword] = useState("");
     const [confirmPasswordError, setConfirmPasswordError] = useState("");
     const [emailError, setEmailError] = useState("");
@@ -95,8 +91,6 @@ function Header() {
         setIsRegisterButtonVisible(true);
         setLoginError("");
         setConfirmPassword("");
-        setRegPassword("");
-        setRegEmail("");
         setRegUser("");
         setEmail("");
         setPassword("");
@@ -273,7 +267,6 @@ function Header() {
                 passwordError={passwordError}
                 setPasswordError={setPasswordError}
                 loginError={loginError}
-                regPassword={regPassword}
                 register={Register}
                 regUser={regUser}
                 handleRegChange={handleRegChange}
