@@ -36,7 +36,7 @@ function Header() {
     const [passwordError, setPasswordError] = useState("");
 
     // submitForgotPassword states
-    const [forgotEmail, setForgotEmail] = useState("email");
+    const [forgotEmail, setForgotEmail] = useState(null);
 
     // Functions
     const handleLoginClicked = () => {
@@ -102,6 +102,7 @@ function Header() {
         setIsForgotVisible(false);
         setIsForgotButtonVisible(true);
         setIsFooterVisible(true);
+        setForgotEmail(null);
     }
 
     function Login() {
@@ -211,7 +212,6 @@ function Header() {
     }
 
     function validateForgotEmail() {
-        console.log("Are we getting here?")
         const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         return re.test(String(forgotEmail).toLowerCase());
     }
@@ -221,7 +221,7 @@ function Header() {
         if (emailError === "") {
             e.preventDefault();
             if (!forgotEmail) {
-                console.log("Please enter an email.");
+                window.alert("Please enter an email.");
             } else {
                 fetch('http://localhost:4000/login-router/forgot', {
                     method: 'POST',
@@ -236,6 +236,7 @@ function Header() {
                         setIsLoginClicked(!isLoginClicked);
                         setIsForgotVisible(!isForgotVisible);
                         setIsForgotButtonVisible(!isForgotButtonVisible);
+                        setForgotEmail(null);
                         window.alert("Reset password link sent. Please check your email.");
                     } else {
                         window.alert("User not found. Please register to continue.");
@@ -249,7 +250,7 @@ function Header() {
 
     function handleForgotChange(e) {
         setForgotEmail(e.target.value);
-        console.log(emailError);
+        console.log(forgotEmail);
         return forgotEmail;
     }
 
@@ -297,6 +298,8 @@ function Header() {
                 setIsForgotButtonVisible={setIsForgotButtonVisible}
                 handleForgotChange={handleForgotChange}
                 submitForgotPassword={submitForgotPassword}
+                forgotEmail={forgotEmail}
+                setForgotEmail={setForgotEmail}
                 validateForgotEmail={validateForgotEmail}
                 isFooterVisible={isFooterVisible}
                 setIsFooterVisible={setIsFooterVisible}

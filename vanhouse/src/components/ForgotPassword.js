@@ -17,7 +17,7 @@ function ForgotPassword({
     // email validation
     useEffect(
         () => {
-            if (!forgotEmail) {
+            if (forgotEmail === null) {
                 setEmailError("");
             } else if (validateForgotEmail(forgotEmail)) {
                 setEmailError("");
@@ -62,13 +62,13 @@ function ForgotPassword({
 ForgotPassword.defaultProps = {}
 
 ForgotPassword.propTypes = {
-    handleForgotChange: PropTypes.func,
-    forgotEmail: PropTypes.string,
+    handleForgotChange: PropTypes.func.isRequired,
+    forgotEmail: PropTypes.string.isRequired,
     emailError: PropTypes.string.isRequired,
     validateForgotEmail: PropTypes.func.isRequired,
     setEmailError: PropTypes.func.isRequired,
-    handleCloseForgot: PropTypes.func,
-    submitForgotPassword: PropTypes.func
+    handleCloseForgot: PropTypes.func.isRequired,
+    submitForgotPassword: PropTypes.func.isRequired
 };
 
 export default ForgotPassword

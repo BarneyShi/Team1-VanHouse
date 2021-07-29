@@ -47,6 +47,7 @@ function LoginForm({
                        setIsForgotButtonVisible,
                        handleForgotChange,
                        submitForgotPassword,
+                       forgotEmail,
                        validateForgotEmail,
                        isFooterVisible,
                        setIsFooterVisible
@@ -117,7 +118,6 @@ function LoginForm({
                     {isForgotButtonVisible &&
                     <Button
                         variant="outline-info"
-                        size="lg"
                         onClick={() => setForgotVisibilities()}>
                         Forgot password?
                     </Button>
@@ -132,6 +132,7 @@ function LoginForm({
                         handleForgotChange={handleForgotChange}
                         handleCloseForgot={handleClose}
                         submitForgotPassword={submitForgotPassword}
+                        forgotEmail={forgotEmail}
                     />
                     }
                 </div>
@@ -142,7 +143,6 @@ function LoginForm({
                     {isRegisterButtonVisible &&
                     <Button
                         variant="outline-success"
-                        size="lg"
                         onClick={() => setRegVisibilities()}>
                         Register for a new account
                     </Button>
@@ -220,6 +220,7 @@ LoginForm.propTypes = {
     setIsForgotButtonVisible: PropTypes.func,
     handleForgotChange: PropTypes.func,
     submitForgotPassword: PropTypes.func,
+    forgotEmail: PropTypes.string,
     validateForgotEmail: PropTypes.func,
     isFooterVisible: PropTypes.bool,
     setIsFooterVisible: PropTypes.func
