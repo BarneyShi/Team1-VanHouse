@@ -249,26 +249,6 @@ function Header() {
         return forgotEmail;
     }
 
-    // function loggedInCondRender() {
-    //     fetch('http://localhost:4000/login-router/account', {
-    //         method: 'GET',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         credentials: 'include',
-    //     }).then((response) => {
-    //         response.json()
-    //             .then((resJSON => {
-    //                 console.log(resJSON);
-    //                 localStorage.setItem("currentUser", resJSON);
-    //                 return true;
-    //             }));
-    //     }).catch(err => {
-    //         console.log(err);
-    //         return false;
-    //     });
-    // }
-
     return (
         <div className="header-flexbox">
             <LoginForm

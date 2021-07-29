@@ -37,9 +37,7 @@
 
 .login-logout-button-div {
     float: right;
-    /*flex-basis: 10%;*/
     padding: 10px;
-    /*margin-right: 30px;*/
 }
 
 .login-logout-button:hover {
@@ -56,29 +54,6 @@
     flex-basis: 10%;
     padding: 12px;
 }
-
-/*.welcome-user-inner-div {*/
-/*    font-family: Arial;*/
-/*    font-size: 1rem;*/
-/*    color: #2b58ab;*/
-/*    background-color: whitesmoke;*/
-/*    !*border: 0;*!*/
-/*    border-radius: 20%;*/
-/*    border: 1px dotted;*/
-/*    line-height: 2rem;*/
-/*    float: right;*/
-/*}*/
-
-/*.welcome-text {*/
-/*    font-family: Arial;*/
-/*    font-size: 1rem;*/
-/*    color: #2b58ab;*/
-/*    background-color: whitesmoke;*/
-/*    border: 0;*/
-/*    border-radius: 30%;*/
-/*    line-height: 2rem;*/
-/*    float: right;*/
-/*}*/
 
 .subtitle-flexbox {
     display: flex;

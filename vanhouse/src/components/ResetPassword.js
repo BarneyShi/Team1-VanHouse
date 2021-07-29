@@ -50,7 +50,6 @@ function ResetPassword() {
             <h2>Reset Password</h2>
             <br/>
             <Form.Group>
-                <Form.Label>New password</Form.Label>
                 <Form.Control
                     type="password"
                     placeholder="Enter new password"
