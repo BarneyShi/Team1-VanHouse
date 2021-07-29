@@ -51,7 +51,7 @@ function ForgotPassword({
                 <Button className="reg-close-button" variant="secondary" onClick={handleCloseForgot}>
                     Close
                 </Button>
-                <Button variant="primary" onClick={submitForgotPassword}>
+                <Button type="submit" variant="primary" onClick={submitForgotPassword}>
                     Submit
                 </Button>
             </div>

@@ -146,7 +146,7 @@ function RegistrationForm({
                 <Button className="reg-close-button" variant="secondary" onClick={handleClose}>
                     Close
                 </Button>
-                <Button variant="primary" onClick={register}>
+                <Button type="submit" variant="primary" onClick={register}>
                     Register
                 </Button>
             </div>

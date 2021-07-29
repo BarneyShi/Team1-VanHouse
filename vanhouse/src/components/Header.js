@@ -131,8 +131,9 @@ function Header() {
         });
     }
 
-    function Register() {
+    function Register(e) {
         if (confirmPasswordError === "" && passwordError === "" && emailError === "") {
+            e.preventDefault();
             fetch('http://localhost:4000/login-router/register', {
                 method: 'POST',
                 headers: {
@@ -211,12 +212,10 @@ function Header() {
         return re.test(String(forgotEmail).toLowerCase());
     }
 
-    function submitForgotPassword() {
-        console.log("the forgot form email");
-        console.log(forgotEmail);
+    function submitForgotPassword(e) {
         const em = forgotEmail;
         if (emailError === "") {
-            console.log("We are in submitForgotPassword");
+            e.preventDefault();
             if (!forgotEmail) {
                 console.log("Please enter an email.");
             } else {
@@ -227,7 +226,6 @@ function Header() {
                     },
                     body: JSON.stringify({em, forgotEmail}),
                 }).then((response) => {
-                    console.log(response);
                     if (response.status === 200) {
                         setIsRegisterButtonVisible(!isRegisterButtonVisible);
                         setIsLoginVisible(!isLoginVisible);
@@ -236,7 +234,6 @@ function Header() {
                         setIsForgotButtonVisible(!isForgotButtonVisible);
                         window.alert("Reset password link sent. Please check your email.");
                     } else {
-                        console.log("Failed forgot password");
                         window.alert("User not found. Please register to continue.");
                     }
                 }).catch(err => {
