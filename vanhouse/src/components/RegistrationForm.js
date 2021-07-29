@@ -98,9 +98,9 @@ function RegistrationForm({
     return (
         <Form>
             <h2>Register</h2>
-            <span>For full access to our features, including</span>
+            <span>For full access to our features, including ability to </span>
             <br/>
-            <span> posting your properties, please register.</span>
+            <span> posting your own properties, please register.</span>
             <br/>
             <br/>
             <div className="form-group">
