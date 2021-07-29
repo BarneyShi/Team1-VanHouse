@@ -12,7 +12,8 @@ function ResetPassword() {
 
     const {token} = useParams();
 
-    function submitResetPassword() {
+    function submitResetPassword(e) {
+        e.preventDefault();
         if (!resetPassword) {
             window.alert("Please enter a new password.");
         } else {
@@ -59,7 +60,7 @@ function ResetPassword() {
             </Form.Group>
 
             <div className="reset-password-form-buttons">
-                <Button variant="primary" onClick={submitResetPassword}>
+                <Button type="submit" variant="primary" onClick={submitResetPassword}>
                     Reset password
                 </Button>
             </div>
