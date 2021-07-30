@@ -1,0 +1,28 @@
+.editPost-images {
+  margin-left: 5px;
+}
+#add-icon {
+  margin-left: 15px;
+}
+#add-icon:hover {
+  cursor: pointer;
+}
+.preview-image {
+  position: relative;
+}
+.preview-image:hover {
+  opacity: 0.5;
+}
+.preview-image-delete {
+  position: absolute;
+  font-size: 1rem;
+  font-weight: 500;
+  color: red;
+  right: 1px;
+}
+.preview-image-delete {
+  cursor: pointer;
+}
+.edit-image-errors {
+  color: red !important;
+}

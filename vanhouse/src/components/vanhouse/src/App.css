@@ -1,0 +1,12 @@
+body {
+  padding-bottom: 10px;
+  background-color: whitesmoke;
+}
+
+@media screen and (max-width: 800px) {
+  #AppMainRow {
+    display:flex;
+    flex-direction: column-reverse;
+    flex-wrap: wrap;
+  }
+}
