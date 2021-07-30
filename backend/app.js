@@ -9,7 +9,6 @@ var mongoose = require("mongoose");
 /* ENV Variables */
 require("dotenv").config();
 
-// var checkUser = require("./middleware/check-user");
 var indexRouter = require("./routes/index");
 var postRouter = require("./routes/post");
 var loginRouter = require("./routes/login-router");
@@ -35,8 +34,6 @@ app.use(cookieParser());
 const publicPath = path.join(__dirname, "../vanhouse", 'build');
 app.use(express.static(publicPath));
 
-// perpetuating user
-// app.use(checkUser);
 app.use("/", indexRouter);
 
 app.use("/post", postRouter);
