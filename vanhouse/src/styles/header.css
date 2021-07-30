@@ -8,18 +8,10 @@
     align-items: center;
 }
 
-/*.top-line-flexbox {*/
-/*    display: flex;*/
-/*    justify-content: space-evenly;*/
-/*}*/
-
 .title-and-logo-flexbox {
     display: flex;
-    /*justify-content: flex-start;*/
     align-items: center;
-    /*flex-basis: 10%;*/
     min-width: 25%;
-    /*flex-direction: row;*/
     position: relative;
     padding: 5px;
 }
@@ -46,26 +38,13 @@
 }
 
 .home-button {
-    /*margin-top: 10px;*/
-    /*margin-right: 10px;*/
-    /*align-items: center;*/
-    /*float: right;*/
-    /*flex-basis: 10%;*/
     padding: 8px;
 }
 
 .welcome-user-div {
-    /*float: right;*/
-    /*flex-basis: 10%;*/
     padding: 10px;
     align-items: center;
-    /*border: 10px;*/
 }
-
-/*.login-logout-button-div {*/
-/*    float: right;*/
-/*    !*padding: 10px;*!*/
-/*}*/
 
 .login-logout-button {
     display: flex;
@@ -80,22 +59,3 @@
 .login-error {
     color: tomato;
 }
-
-/*.subtitle-flexbox {*/
-/*    !*display: flex;*!*/
-/*    justify-content: flex-start;*/
-/*    !*text-align: center;*!*/
-/*    align-items: center;*/
-/*    !*flex-direction: row;*!*/
-/*}*/
-
-/*.subtitle {*/
-/*    !*flex-basis: 10%;*!*/
-/*    !*min-width: 80%;*!*/
-/*    font-family: merriweather, serif;*/
-/*}*/
-
-/*.space {*/
-/*    flex-basis: 10%;*/
-/*    min-width: 10%;*/
-/*}*/

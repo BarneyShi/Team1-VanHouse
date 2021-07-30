@@ -1,11 +1,9 @@
 import React, {useEffect, useState} from "react";
-import PropTypes from "prop-types";
 import "../styles/login.css"
 
 function AccountDetails() {
     const [user, setUser] = useState(null);
     const loadAccountDetails = () => {
-        // fetch('http://localhost:4000/login-router/account', {
         fetch(`/login-router/account`, {
             method: 'GET',
             headers: {
