@@ -1,28 +1,64 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import PropTypes from "prop-types";
 import "../styles/login.css"
 
-function AccountDetails({
-                         handleAccountClicked,
-                         user
-                     }) {
-    if (user !== null) {
+function AccountDetails() {
+    const [user, setUser] = useState(null);
+    const loadAccountDetails = () => {
+        // fetch('http://localhost:4000/login-router/account', {
+        fetch(`/login-router/account`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            credentials: 'include',
+        }).then((response) => {
+            response.json()
+                .then((resJSON => {
+                    console.log(resJSON);
+                    setUser({
+                        userId: resJSON.userId,
+                        email: resJSON.email,
+                        firstName: resJSON.firstName,
+                        lastName: resJSON.lastName,
+                        admin: resJSON.admin
+                    });
+                }));
+        }).catch(() => {
+            setUser(null);
+        });
+    }
+
+    useEffect(() => {
+        loadAccountDetails();
+    }, []);
+
+    if (user === null) {
         return (
-            <h2> </h2>
+            <div>
+                <br/>
+                <br/>
+                <h2 className="account-details-page-message">
+                    Please login to see this page!
+                </h2>
+            </div>
         )
     }
+
     return (
         <div>
-            <h2>HELLO</h2>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <h4>*** PAGE UNDER CONSTRUCTION ***</h4>
         </div>
     )
 }
 
-AccountDetails.defaultProps = {}
-
-AccountDetails.propTypes = {
-    handleAccountClicked: PropTypes.func.isRequired,
-    user: PropTypes.objectOf(PropTypes.object).isRequired
-};
+AccountDetails.propTypes = {};
 
 export default AccountDetails

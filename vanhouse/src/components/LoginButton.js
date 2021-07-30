@@ -15,11 +15,9 @@ function LoginButton({
         )
     }
     return (
-        <div className="login-logout-button-div">
-            <Button type='button' variant="outline-secondary" onClick={handleLoginClicked}>
-                Login
-            </Button>
-        </div>
+        <Button type='button' variant="outline-secondary" onClick={handleLoginClicked}>
+            Login
+        </Button>
     )
 }
 
@@ -27,7 +25,9 @@ LoginButton.defaultProps = {}
 
 LoginButton.propTypes = {
     handleLoginClicked: PropTypes.func.isRequired,
-    user: PropTypes.objectOf(PropTypes.object).isRequired
+    // https://stackoverflow.com/questions/52864510/react-warning-failed-prop-type-invalid-prop-of-type-object-supplied
+    // Accessed July 27, 2021
+    user: PropTypes.shape({firstName: PropTypes.string}),
 };
 
 export default LoginButton

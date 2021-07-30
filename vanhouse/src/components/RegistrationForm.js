@@ -1,9 +1,6 @@
 import React, {useEffect} from "react";
 import PropTypes from "prop-types";
 import {Button, Form} from "react-bootstrap";
-
-import {propTypes} from "react-bootstrap/esm/Image";
-
 import "../styles/login.css"
 
 function RegistrationForm({
@@ -19,8 +16,7 @@ function RegistrationForm({
                               handleRegChange,
                               validateEmail,
                               passwordError,
-                              setPasswordError,
-                              regPassword
+                              setPasswordError
                           }) {
 
     // https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30
@@ -42,7 +38,7 @@ function RegistrationForm({
 
 
     // password validation
-    const config = {min: 6, max: 10}
+    const config = {min: 6, max: 15}
 
     useEffect(
         () => {
@@ -61,6 +57,25 @@ function RegistrationForm({
                     `Password must be less than ${config.max} characters.`
                 );
             }
+
+            const reNum = /^(?=.*\d)/;
+            const numBool = reNum.test(String(regUser.password).toLowerCase());
+
+            if (!numBool) {
+                return setPasswordError(
+                    `Password must contain at least 1 number.`
+                );
+            }
+
+            const reChar = /^(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]/;
+            const charBool = reChar.test(String(regUser.password).toLowerCase());
+
+            if (!charBool) {
+                return setPasswordError(
+                    `Password must contain at least 1 special character.`
+                );
+            }
+
             return null;
         },
         [regUser.password]
@@ -82,8 +97,13 @@ function RegistrationForm({
 
     return (
         <Form>
-            <h2>Register to comment, post, and more!</h2>
-
+            <h2>Register</h2>
+            <br/>
+            <span>For full access to our features, including ability to </span>
+            <br/>
+            <span> posting your own properties, please register.</span>
+            <br/>
+            <br/>
             <div className="form-group">
                 <input
                     type="text"
@@ -146,10 +166,10 @@ function RegistrationForm({
             </Form.Text>
             <br/>
             <div className="registration-form-buttons">
-                <Button variant="secondary" onClick={handleClose}>
+                <Button className="reg-close-button" variant="secondary" onClick={handleClose}>
                     Close
                 </Button>
-                <Button variant="success" onClick={register}>
+                <Button type="submit" variant="primary" onClick={register}>
                     Register
                 </Button>
             </div>
@@ -157,7 +177,8 @@ function RegistrationForm({
     )
 }
 
-RegistrationForm.defaultProps = {};
+RegistrationForm.defaultProps = {
+};
 
 RegistrationForm.propTypes = {
     emailError: PropTypes.string.isRequired,
@@ -166,7 +187,6 @@ RegistrationForm.propTypes = {
     setConfirmPassword: PropTypes.func.isRequired,
     confirmPasswordError: PropTypes.string.isRequired,
     setConfirmPasswordError: PropTypes.func.isRequired,
-    regPassword: PropTypes.string.isRequired,
     handleClose: PropTypes.func.isRequired,
     register: PropTypes.func.isRequired,
     regUser: PropTypes.objectOf(PropTypes.object).isRequired,

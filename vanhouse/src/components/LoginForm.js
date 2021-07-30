@@ -1,31 +1,26 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {Button, Form, Modal} from "react-bootstrap";
 import PropTypes from "prop-types";
 import RegistrationForm from "./RegistrationForm"
 import "../styles/login.css"
+import ForgotPassword from "./ForgotPassword";
 
 function LoginForm({
-                       setIsRegistrationVisible,
-                       isRegistrationVisible,
-                       setIsLoginVisible,
-                       isLoginVisible,
-                       setIsRegisterButtonVisible,
-                       isRegisterButtonVisible,
-                       submit,
                        show,
                        handleClose,
-                       loginError,
-                       name,
-                       setName,
+                       login,
+                       isLoginVisible,
+                       setIsLoginVisible,
+                       isRegistrationVisible,
+                       setIsRegistrationVisible,
+                       isRegisterButtonVisible,
+                       setIsRegisterButtonVisible,
                        email,
                        setEmail,
                        setPassword,
                        passwordError,
                        setPasswordError,
-                       regEmail,
-                       setRegEmail,
-                       regPassword,
-                       setRegPassword,
+                       loginError,
                        register,
                        regUser,
                        handleRegChange,
@@ -35,20 +30,39 @@ function LoginForm({
                        setConfirmPasswordError,
                        emailError,
                        setEmailError,
-                       validateEmail
+                       validateEmail,
+                       isForgotVisible,
+                       setIsForgotVisible,
+                       isForgotButtonVisible,
+                       setIsForgotButtonVisible,
+                       handleForgotChange,
+                       submitForgotPassword,
+                       forgotEmail,
+                       validateForgotEmail,
+                       isFooterVisible,
+                       setIsFooterVisible
                    }) {
 
     // https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30
     // Accessed June 7, 2021
-    const setVisibilities = () => {
+    const setRegVisibilities = () => {
         setIsRegistrationVisible(!isRegistrationVisible);
         setIsLoginVisible(!isLoginVisible);
         setIsRegisterButtonVisible(!isRegisterButtonVisible);
+        setIsForgotButtonVisible(!isForgotButtonVisible);
+        setIsFooterVisible(!isFooterVisible);
+    }
+
+    const setForgotVisibilities = () => {
+        setIsForgotVisible(!isForgotVisible);
+        setIsLoginVisible(!isLoginVisible);
+        setIsRegisterButtonVisible(!isRegisterButtonVisible);
+        setIsForgotButtonVisible(!isForgotButtonVisible);
     }
 
     const handleSubmit = e => {
         e.preventDefault();
-        submit(email);
+        login(email);
     }
 
     return (
@@ -87,61 +101,82 @@ function LoginForm({
             </Form>
             }
 
-            <div className="register-button-and-form">
-                {isRegisterButtonVisible &&
-                <Button
-                    variant="success"
-                    onClick={(e) => setVisibilities()}>
-                    Register for a new account
-                </Button>
-                }
+            {isFooterVisible &&
+            <Modal.Footer className="login-modal-footers">
+                <div className="forgot-button-and-form">
+                    {isForgotButtonVisible &&
+                    <Button
+                        variant="outline-info"
+                        onClick={() => setForgotVisibilities()}>
+                        Forgot password?
+                    </Button>
+                    }
 
-                {isRegistrationVisible &&
-                <RegistrationForm
-                    emailError={emailError}
-                    setEmailError={setEmailError}
-                    register={register}
-                    regUser={regUser}
-                    handleRegChange={handleRegChange}
-                    confirmPassword={confirmPassword}
-                    setConfirmPassword={setConfirmPassword}
-                    confirmPasswordError={confirmPasswordError}
-                    setConfirmPasswordError={setConfirmPasswordError}
-                    regPassword={regPassword}
-                    handleClose={handleClose}
-                    validateEmail={validateEmail}
-                    passwordError={passwordError}
-                    setPasswordError={setPasswordError}
-                />
-                }
-                <br/>
-                <br/>
-            </div>
+                    {isForgotVisible &&
+                    <ForgotPassword
+                        emailError={emailError}
+                        validateForgotEmail={validateForgotEmail}
+                        setEmailError={setEmailError}
+                        handleClose={handleClose}
+                        handleForgotChange={handleForgotChange}
+                        handleCloseForgot={handleClose}
+                        submitForgotPassword={submitForgotPassword}
+                        forgotEmail={forgotEmail}
+                    />
+                    }
+                </div>
+            </Modal.Footer>
+            }
+            <Modal.Footer className="login-modal-footers">
+                <div className="register-button-and-form">
+                    {isRegisterButtonVisible &&
+                    <Button
+                        variant="outline-success"
+                        onClick={() => setRegVisibilities()}>
+                        Register for a new account
+                    </Button>
+                    }
+
+                    {isRegistrationVisible &&
+                    <RegistrationForm
+                        emailError={emailError}
+                        setEmailError={setEmailError}
+                        register={register}
+                        regUser={regUser}
+                        handleRegChange={handleRegChange}
+                        confirmPassword={confirmPassword}
+                        setConfirmPassword={setConfirmPassword}
+                        confirmPasswordError={confirmPasswordError}
+                        setConfirmPasswordError={setConfirmPasswordError}
+                        handleClose={handleClose}
+                        validateEmail={validateEmail}
+                        passwordError={passwordError}
+                        setPasswordError={setPasswordError}
+                    />
+                    }
+                </div>
+            </Modal.Footer>
         </Modal>
     )
 }
-
 
 LoginForm.defaultProps = {
     loginError: ""
 }
 
 LoginForm.propTypes = {
-    setIsRegistrationVisible: PropTypes.func.isRequired,
-    isRegistrationVisible: PropTypes.bool.isRequired,
-    setIsLoginVisible: PropTypes.func.isRequired,
-    isLoginVisible: PropTypes.bool.isRequired,
-    setIsRegisterButtonVisible: PropTypes.func.isRequired,
-    isRegisterButtonVisible: PropTypes.bool.isRequired,
-    submit: PropTypes.func.isRequired,
     show: PropTypes.bool.isRequired,
     handleClose: PropTypes.func.isRequired,
+    login: PropTypes.func.isRequired,
+    isLoginVisible: PropTypes.bool.isRequired,
+    setIsLoginVisible: PropTypes.func.isRequired,
+    isRegistrationVisible: PropTypes.bool.isRequired,
+    setIsRegistrationVisible: PropTypes.func.isRequired,
+    isRegisterButtonVisible: PropTypes.bool.isRequired,
+    setIsRegisterButtonVisible: PropTypes.func.isRequired,
     loginError: PropTypes.string,
-    name: PropTypes.string.isRequired,
-    setName: PropTypes.func.isRequired,
     email: PropTypes.string.isRequired,
     setEmail: PropTypes.func.isRequired,
-    // password: PropTypes.string.isRequired,
     setPassword: PropTypes.func.isRequired,
     passwordError: PropTypes.string.isRequired,
     setPasswordError: PropTypes.func.isRequired,
@@ -149,17 +184,22 @@ LoginForm.propTypes = {
     setConfirmPassword: PropTypes.func.isRequired,
     confirmPasswordError: PropTypes.string.isRequired,
     setConfirmPasswordError: PropTypes.func.isRequired,
-    // user: PropTypes.objectOf(PropTypes.object).isRequired
-    regEmail: PropTypes.string.isRequired,
-    setRegEmail: PropTypes.func.isRequired,
-    regPassword: PropTypes.string.isRequired,
-    setRegPassword: PropTypes.func.isRequired,
     register: PropTypes.func.isRequired,
-    regUser: PropTypes.objectOf(PropTypes.object).isRequired,
+    regUser: PropTypes.shape({firstName: PropTypes.string}),
     handleRegChange: PropTypes.func.isRequired,
     emailError: PropTypes.string.isRequired,
     setEmailError: PropTypes.func.isRequired,
-    validateEmail: PropTypes.func.isRequired
+    validateEmail: PropTypes.func.isRequired,
+    isForgotVisible: PropTypes.bool,
+    setIsForgotVisible: PropTypes.func,
+    isForgotButtonVisible: PropTypes.bool,
+    setIsForgotButtonVisible: PropTypes.func,
+    handleForgotChange: PropTypes.func,
+    submitForgotPassword: PropTypes.func,
+    forgotEmail: PropTypes.string,
+    validateForgotEmail: PropTypes.func,
+    isFooterVisible: PropTypes.bool,
+    setIsFooterVisible: PropTypes.func
 };
 
 export default LoginForm

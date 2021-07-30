@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import {Dropdown} from "react-bootstrap";
 import PropTypes from "prop-types";
-import "../styles/login.css"
+import "../styles/header.css"
 
 function WelcomeUser({
                          user,
@@ -11,7 +11,8 @@ function WelcomeUser({
                      }) {
 
     const loggedInCondRender = () => {
-        fetch('http://localhost:4000/login-router/account', {
+        // fetch('http://localhost:4000/login-router/account', {
+        fetch(`/login-router/account`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -20,17 +21,18 @@ function WelcomeUser({
         }).then((response) => {
             response.json()
                 .then((resJSON => {
-                    console.log(resJSON);
-                    // localStorage.setItem("currentUser", JSON.stringify(resJSON));
                     setUser({
                         userId: resJSON.userId,
                         email: resJSON.email,
                         firstName: resJSON.firstName,
-                        lastName: resJSON.lastName
+                        lastName: resJSON.lastName,
+                        admin: resJSON.admin
                     });
-                }));
-        }).catch(err => {
-            console.log("Not logged in");
+                }))
+                .catch(() => {
+                    setUser(null);
+                })
+        }).catch(() => {
             setUser(null);
         });
     }
@@ -48,17 +50,18 @@ function WelcomeUser({
     }
 
     return (
-        <Dropdown>
-            <div className="dropdown-stuff">
-                <Dropdown.Toggle className="dropdown-toggle-button" variant="outline-success">
-                    <span className="welcome-text">Hi, {user.firstName}!</span>
+        <div className="welcome-user-div">
+            <Dropdown>
+                <Dropdown.Toggle variant="outline-success">
+                    <span>Hi, {user.firstName}!</span>
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
                     <Dropdown.Item onClick={handleAccountClicked}>Account</Dropdown.Item>
                     <Dropdown.Item onClick={handleLogoutClicked}>Logout</Dropdown.Item>
                 </Dropdown.Menu>
-            </div>
-        </Dropdown>
+            </Dropdown>
+        </div>
+
     )
 }
 
@@ -67,8 +70,8 @@ WelcomeUser.defaultProps =
 
 WelcomeUser.propTypes =
     {
-        user: PropTypes.objectOf(PropTypes.object).isRequired,
-        setUser: PropTypes.func.isRequired,
+        user: PropTypes.shape({firstName: PropTypes.string}),
+        setUser: PropTypes.func,
         handleLogoutClicked: PropTypes.func.isRequired,
         handleAccountClicked: PropTypes.func.isRequired,
     };

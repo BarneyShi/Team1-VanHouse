@@ -12,58 +12,43 @@ body {
     font-size: 14px;
     border-radius: 5px;
     border: 1px solid lightgray;
-    margin: 5px;
-    margin-bottom: 0px;
+    margin: 5px 5px 0px;
     padding: 5px 10px;
     width: 250px;
     height: 30px;
 }
 
 .registration-form-buttons {
-    /*padding-bottom: 5px;*/
-    display: flex;
-    /*flex-direction: row;*/
-    /*flex-wrap: wrap;*/
-    /*width: 50%;*/
     justify-content: center;
 }
 
-Button {
+.reg-close-button {
     margin-right: 10px;
 }
-
-/*.Login-Modal Button:hover {*/
-/*    background-color: rgb(128, 181, 250);*/
-/*}*/
-
-/*.register-button {*/
-/*    background-color: #72b872;*/
-/*}*/
-
-/*.register-button:hover {*/
-/*    background-color: #5b915b;*/
-/*}*/
-
-/*.button {*/
-/*    height: 30px;*/
-/*    min-width: 150px;*/
-/*    border-radius: 10px;*/
-/*    border: none;*/
-/*    background-color: rgb(111, 170, 247);*/
-/*    font-weight: bold;*/
-/*    text-transform: uppercase;*/
-/*    font-size: 12px;*/
-/*    cursor: pointer;*/
-/*    color: white;*/
-/*}*/
-
-/*button:hover {*/
-/*    background-color: rgb(128, 181, 250);*/
-/*}*/
 
 .error {
     color: tomato;
     margin-bottom: 10px;
     height: 8px;
     font-size: 13px;
+}
+.login-modal-footers {
+    justify-content: center;
+}
+
+.reset-password-form-div {
+    max-width: 500px;
+    display: inline-block;
+    justify-content: center;
+    text-align: center;
+    border: 4px solid #4261a5;
+    padding: 30px 30px;
+    box-shadow: 2px 2px 2px 2px lightgrey;
+    border-radius: 5%;
+    margin-top: 80px;
+}
+
+.account-details-page-message {
+    color: orangered;
+    padding-top: 80px;
 }

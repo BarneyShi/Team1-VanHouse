@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Admin from "./components/Admin/Admin";
@@ -11,6 +11,8 @@ import Location from './components/Location';
 import Category from './components/Category';
 import "./App.css";
 import PostCollection from "./components/PostCollection";
+import ResetPassword from "./components/ResetPassword";
+import AccountDetails from "./components/AccountDetails";
 
 function App() {
   const [user, setUser] = useState();
@@ -35,7 +37,7 @@ function App() {
       setUser(data);
     } catch (err) {
       setUser();
-      console.log("Errow while checking auth:", err.message);
+      console.log("Error while checking auth:", err.message);
     }
   },[])
 
@@ -97,6 +99,12 @@ function App() {
         </Route>
         <Route path="/admin">
           {user?.admin ? <Admin />: <NotAuthorized />}
+        </Route>
+        <Route exact path="/resetPassword/:token">
+          <ResetPassword />
+        </Route>
+        <Route exact path="/account">
+          <AccountDetails />
         </Route>
       </div>
     </Router>

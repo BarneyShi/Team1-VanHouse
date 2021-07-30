@@ -2,11 +2,6 @@ let mongoose = require("mongoose");
 
 let UserSchema = new mongoose.Schema(
     {
-        // id: {
-        //     type: String,
-        //     required: true,
-        //     unique: true,
-        // },
         posts: Array,
         email: {
             type: String,
@@ -17,6 +12,8 @@ let UserSchema = new mongoose.Schema(
         firstName: {type: String, required: true},
         lastName: {type: String, required: true},
         password: {type: String, required: true},
+        resetToken: String,
+        expireToken: Date,
         upvote: Array,
         downvote: Array,
         admin: {
