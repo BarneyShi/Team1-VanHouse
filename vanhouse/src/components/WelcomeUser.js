@@ -39,7 +39,7 @@ function WelcomeUser({
 
     useEffect(() => {
         loggedInCondRender();
-    });
+    }, []);
 
     if (user === null) {
         return (
