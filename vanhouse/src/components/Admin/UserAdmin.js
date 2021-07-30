@@ -13,9 +13,11 @@ import LoadingSpinner from "../LoadingSpinner";
 
 export default function UserAdmin({ users }) {
   const [tempUsers, setTempUsers] = useState();
+  const [originalUsers, setOriginalUsers] = useState();
   const [selectedUser, setSelectedUser] = useState();
   const [showModal, setModal] = useState(false);
   const [updatedPost, setUpdaedPost] = useState();
+  const [errorMsg, setErrorMsg] = useState();
 
   const fetchUsers = async () => {
     try {
@@ -25,6 +27,7 @@ export default function UserAdmin({ users }) {
       }
       const data = await response.json();
       setTempUsers(data);
+      setOriginalUsers(data);
     } catch (err) {
       console.log("Error while fetch users for analysis:", err);
     }
@@ -33,6 +36,28 @@ export default function UserAdmin({ users }) {
   useEffect(() => {
     fetchUsers();
   }, []);
+
+  const searchUser = async () => {
+    const originalUser = tempUsers;
+    try {
+      const keyword = document.getElementById("admin-user-searchInput").value;
+      const response = await fetch(`/admin/user?keyword=${keyword}`);
+      if (!response.ok) {
+        throw Error(response.statusText);
+      }
+      const data = await response.json();
+      if (data) {
+        setTempUsers([data]);
+        return;
+      }
+      setErrorMsg("No result");
+      setTempUsers([...originalUser]);
+    } catch (err) {
+      console.log("Error while searching user:", err);
+      setTempUsers([...originalUser]);
+      setErrorMsg("No result");
+    }
+  };
 
   const handleClose = () => {
     setModal(false);
@@ -73,6 +98,10 @@ export default function UserAdmin({ users }) {
     }
   };
 
+  const cancel = () => {
+    setTempUsers([...originalUsers]);
+  };
+
   useEffect(() => {
     setTempUsers(users);
   }, [users]);
@@ -80,11 +109,28 @@ export default function UserAdmin({ users }) {
   return (
     <>
       <input
+        id="admin-user-searchInput"
         className="admin-searchbox"
         name="post"
         placeholder="Search by user ID or username"
       />
-      <Button className="admin-post-searchBtn">Search</Button>
+      <Button className="admin-searchBtn" onClick={searchUser}>
+        Search
+      </Button>
+      <Button variant="info" className="admin-searchBtn" onClick={cancel}>
+        Cancel
+      </Button>
+      {/* CITATION: https://react-bootstrap.github.io/components/list-group/ */}
+      {errorMsg ? (
+        <Alert
+          className="admin-alert"
+          variant="danger"
+          dismissible
+          onClose={() => setErrorMsg()}>
+          <Alert.Heading>Oops!</Alert.Heading>
+          <p>{errorMsg}</p>
+        </Alert>
+      ) : null}
       <ListGroup as="ul" className="admin-list">
         {tempUsers ? (
           tempUsers.map((user) => (
