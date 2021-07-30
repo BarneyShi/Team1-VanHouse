@@ -58,12 +58,12 @@ app.use(function (err, req, res, next) {
 
 
 // for deploying
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'vanhouse', 'build', 'index.html'));
-// });
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'vanhouse', 'build', 'index.html'));
+});
 
 // let protected = ['favicon.ico']
-//
+
 // app.get("*", (req, res) => {
 //
 //   let path = req.params['0'].substring(1)
@@ -76,10 +76,6 @@ app.use(function (err, req, res, next) {
 //     res.sendFile(path.join(__dirname, 'vanhouse', 'build', 'index.html'));
 //   }
 // });
-
-
-// let secret = require('crypto').randomBytes(64).toString('hex');
-// console.log(secret);
 
 /* Connect to Mongo Atlas */
 /* CITATION: https://dev.to/dalalrohit/how-to-connect-to-mongodb-atlas-using-node-js-k9i */

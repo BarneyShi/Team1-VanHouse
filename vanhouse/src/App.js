@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { HashRouter as Router, Route } from "react-router-dom";
 import Admin from "./components/Admin/Admin";
 import NotAuthorized from './components/Admin/NotAuthorized';
 import PostDetail from "./components/PostDetail/PostDetail";
@@ -72,7 +72,7 @@ function App() {
           <Route path="/admin">
             {user?.admin ? <Admin />: <NotAuthorized />}
           </Route>
-          <Route exact path="/resetPassword/:token">
+          <Route path="/login-router/resetPassword/:token">
             <ResetPassword />
           </Route>
           <Route path="/login-router/account">
