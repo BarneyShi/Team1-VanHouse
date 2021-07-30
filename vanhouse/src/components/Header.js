@@ -40,7 +40,6 @@ function Header() {
     }
 
     const handleLogoutClicked = () => {
-        // fetch('http://localhost:4000/login-router/logout', {
         fetch(`/login-router/logout`, {
             method: 'POST',
             headers: {
@@ -65,7 +64,6 @@ function Header() {
     }
 
     const handleAccountClicked = () => {
-        // fetch('http://localhost:4000/login-router/account', {
         fetch(`/login-router/account`, {
             method: 'GET',
             headers: {
@@ -103,7 +101,6 @@ function Header() {
     }
 
     function Login() {
-        // fetch('http://localhost:4000/login-router/login', {
         fetch(`/login-router/login`, {
             method: 'POST',
             // https://stackoverflow.com/questions/36824106/express-doesnt-set-a-cookie
@@ -134,7 +131,6 @@ function Header() {
     function Register(e) {
         if (confirmPasswordError === "" && passwordError === "" && emailError === "") {
             e.preventDefault();
-            // fetch('http://localhost:4000/login-router/register', {
             fetch(`/login-router/register`, {
                 method: 'POST',
                 headers: {
@@ -222,7 +218,6 @@ function Header() {
             if (!forgotEmail) {
                 window.alert("Please enter an email.");
             } else {
-                // fetch('http://localhost:4000/login-router/forgot', {
                 fetch(`/login-router/forgot`, {
                     method: 'POST',
                     headers: {

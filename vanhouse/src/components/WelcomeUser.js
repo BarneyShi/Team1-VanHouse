@@ -11,7 +11,6 @@ function WelcomeUser({
                      }) {
 
     const loggedInCondRender = () => {
-        // fetch('http://localhost:4000/login-router/account', {
         fetch(`/login-router/account`, {
             method: 'GET',
             headers: {
