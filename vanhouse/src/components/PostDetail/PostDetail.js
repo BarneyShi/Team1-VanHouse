@@ -245,7 +245,7 @@ export default function PostDetail() {
     try {
       const commentId = e.target.getAttribute("data-id");
       const response = await fetch(
-        `/${post._id}/comment?commentId=${commentId}`,
+        `/post/${post._id}/comment?commentId=${commentId}`,
         {
           method: "DELETE",
           credentials: "include",
@@ -412,7 +412,7 @@ export default function PostDetail() {
                     </p>
                     <p className="comment__content">{e.text}</p>
                   </span>
-                  {user && post && user.userId === post.authorID ? (
+                  {user && post && user.userId === e.user ? (
                     <span>
                       <OverlayTrigger
                         placement="top"
