@@ -36,7 +36,9 @@ The website will support users in publishing available apartments/houses/rooms f
 
 ### `3-7 "standard" requirements (will most likely complete)`
 :heavy_check_mark: Properties will have a map API on their details page so users can easily discern where they are.  
-:x: Tenants will be able to post reviews of properties they have stayed at, and hosts will be able to review their tenants.  
+:warning: Tenants will be able to post reviews of properties they have stayed at, and hosts will be able to review their tenants.  
+:speech_balloon: Since users are already able to post comments on properties (see next standard goal), we thought that a separate function for reviewing properties would be redundant. Thus, we consider the comment function to be the 'review properties' function.  
+:speech_balloon: As for hosts being able to review their tenants, we ultimately decided that such a function could be easily be used maliciously. We have thus removed this standard goal from our final project.  
 :heavy_check_mark: Users will be able to post comments on property detail pages.  
 :heavy_check_mark: Each user and property will have a “Report” function on their page.  
 :heavy_check_mark: Hosts will be able to upload images of their properties.  
