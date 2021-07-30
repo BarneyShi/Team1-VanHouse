@@ -30,20 +30,20 @@ The website will support users in publishing available apartments/houses/rooms f
 ## `Project task requirements:`
 ### `3-5 minimal requirements`
 :heavy_check_mark: Hosts will be able to create, read, update, and delete postings about their real estate properties.
-- The website will facilitate scheduling of meetings between hosts/tenants.
-- Users will be able to search for properties according to different filters and sort the results in several different ways.
-- Users will be able to log into or sign up for an account on the website.
+:heavy_check_mark: The website will facilitate scheduling of meetings between hosts/tenants.
+:heavy_check_mark: Users will be able to search for properties according to different filters and sort the results in several different ways.
+:heavy_check_mark: Users will be able to log into or sign up for an account on the website.
 
 ### `3-7 "standard" requirements (will most likely complete)`
-- Properties will have a map API on their details page so users can easily discern where they are.
-- Tenants will be able to post reviews of properties they have stayed at, and hosts will be able to review their tenants. 
-- Users will be able to post comments on property detail pages. 
-- Each user and property will have a “Report” function on their page. 
-- Hosts will be able to upload images of their properties.
+:heavy_check_mark: Properties will have a map API on their details page so users can easily discern where they are.
+:x: Tenants will be able to post reviews of properties they have stayed at, and hosts will be able to review their tenants. 
+:heavy_check_mark: Users will be able to post comments on property detail pages. 
+:heavy_check_mark: Each user and property will have a “Report” function on their page. 
+:heavy_check_mark: Hosts will be able to upload images of their properties.
 
 ### `2-3 stretch requirements (plan to complete at least 1!)`
-- Users will be able to send direct messages to other users. 
-- Users will be able to search by keyword (instead of just by location or specific address and then filtering). 
+:x: Users will be able to send direct messages to other users. 
+ Users will be able to search by keyword (instead of just by location or specific address and then filtering). 
 
 ## `Pick 2 of your minimal requirements and break each of them down into ~2-5 smaller tasks!`
 - Create, read, update, delete posted real estates
