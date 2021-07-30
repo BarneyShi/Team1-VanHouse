@@ -34,7 +34,7 @@ function SearchBar({getData, setQuery, userId}){
             alert("Incorrect price range");
             return;
         }
-        const url = `http://localhost:4000/search?low=${low}&high=${high}&location=${location}&keyword=${keyword}&userid=${userId}`;
+        const url = `/search?low=${low}&high=${high}&location=${location}&keyword=${keyword}&userid=${userId}`;
         setQuery(url);
     }
 
@@ -43,7 +43,7 @@ function SearchBar({getData, setQuery, userId}){
         setLow("");
         setHigh("");
         setKeyword("");
-        setQuery(`http://localhost:4000/posts`);
+        setQuery(`/posts`);
     }
 
     return(

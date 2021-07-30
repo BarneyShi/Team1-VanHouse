@@ -16,7 +16,7 @@ function UserList({ setQuery, setUserId }) {
 
     function filterUserPost(item) {
         setUserId(item._id);
-        const url = `http://localhost:4000/userpost/${item._id}`;
+        const url = `/userpost/${item._id}`;
         setQuery(url);
     }
     function Cancel() {
@@ -25,7 +25,7 @@ function UserList({ setQuery, setUserId }) {
     }
 
     useEffect(() => {
-        fetch("http://localhost:4000/user",
+        fetch("/user",
             { method: "GET" })
             .then((res) => res.json())
             .then((res) => {

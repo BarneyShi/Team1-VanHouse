@@ -31,7 +31,9 @@ app.use(logger("dev"));
 app.use(express.json({ limit: "6mb" }));
 app.use(express.urlencoded({ limit: "6mb", extended: true }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
+// app.use(express.static(path.join(__dirname, "public")));
+const publicPath = path.join(__dirname, "../vanhouse", 'build');
+app.use(express.static(publicPath));
 
 // perpetuating user
 // app.use(checkUser);

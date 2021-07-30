@@ -1,0 +1,21 @@
+# CITATION: Deploying to Heroku with git actions  https://github.com/marketplace/actions/deploy-to-heroku
+# CITATION: Deploying to Heroku with git actions https://remarkablemark.org/blog/2021/03/12/github-actions-deploy-to-heroku/
+# CITATION: To use multiple package.json files with Heroku: https://stackoverflow.com/a/47132360
+
+name: Deploy
+
+on:
+  push:
+    branches:
+      - project_5
+
+jobs:
+  heroku:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: ${{secrets.HEROKU_APP_NAME}}
+          heroku_email: ${{secrets.HEROKU_EMAIL}}

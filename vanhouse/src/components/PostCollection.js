@@ -50,7 +50,7 @@ function PostCollection({
       setIsLoadingPosts(false);
       return;
     }
-    fetch("http://localhost:4000/posts")
+    fetch("/posts")
       .then(res => {
         if (!res.ok) {
           throw res;
@@ -108,7 +108,7 @@ function PostCollection({
 
   // Create a POST request for a new rental listing
   const postRentalListing = async (postObj) => {
-    const response = await fetch("http://localhost:4000/newPost", {
+    const response = await fetch("/newPost", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -172,7 +172,7 @@ function PostCollection({
   const presentCreatePost = async () => {
     try {
       const response = await fetch(
-        "http://localhost:4000/login-router/account",
+        "/login-router/account",
         {
           credentials: "include",
         }
@@ -219,7 +219,7 @@ function PostCollection({
   // Called when the "See more posts..." button is clicked
   const getMorePosts = () => {
     setFetchingNextPosts(true);
-    fetch("http://localhost:4000/postsPage")
+    fetch("/postsPage")
       .then(res => {
         if (!res.ok) {
           throw res;

@@ -205,5 +205,12 @@ router.post('/newPost', checkAuth, function(req, res) {
   });
 });
 
+// Serve the homepage
+router.get('/', function(req, res) {
+  const publicPath = path.join(__dirname, "../../vanhouse", 'build');
+  console.log(publicPath);
+  res.sendFile(path.join(publicPath, 'index.html'));
+});
+
 module.exports = router;
 
