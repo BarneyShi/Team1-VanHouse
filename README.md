@@ -1,8 +1,6 @@
 # Team1-Project
-## `Project Description` 
-VanHouse is an app for landlords and prospective tenants to find and rent property. Landlords can post property listings including details and images. Users can search for properties that match their criteria, review/comment on listings, and contact landlords to arrange meetings.
 
-## `Project Proposal`
+## `Project Description`
 We plan to build an app for landlords and prospective tenants to rent property. Landlords (or tenants looking for roommates) will post property listings including details and images. Interested tenants can schedule meetings with the poster. We will include review and comment functionality for each listing and build a booking tool to help with scheduling meetings between prospective tenants and landlords.
 
 ## `Who is it for?`

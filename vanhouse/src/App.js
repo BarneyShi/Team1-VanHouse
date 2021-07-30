@@ -6,9 +6,6 @@ import NotAuthorized from './components/Admin/NotAuthorized';
 import PostDetail from "./components/PostDetail/PostDetail";
 import Header from "./components/Header";
 import UserList from "./components/UserList";
-import Price from './components/Price';
-import Location from './components/Location';
-import Category from './components/Category';
 import "./App.css";
 import PostCollection from "./components/PostCollection";
 
@@ -47,38 +44,13 @@ function App() {
           <Container fluid>
             <Row id="AppMainRow">
               <Col lg={3} md={3}>
-                {(filterIdx === 0 && (
-                  <UserList
-                    setReset={setReset}
-                    setQuery={setFilterURL}
-                    setUserId={setUserId}
-                  />
-                )) ||
-                  (filterIdx === 1 && (
-                    <Category
-                      setReset={setReset}
-                      setFilterIdx={setFilterIdx}
-                      setQuery={setFilterURL}
-                    />
-                  )) ||
-                  (filterIdx === 2 && (
-                    <Price
-                      setReset={setReset}
-                      setFilterIdx={setFilterIdx}
-                      setQuery={setFilterURL}
-                    />
-                  )) ||
-                  (filterIdx === 3 && (
-                    <Location
-                      setReset={setReset}
-                      setFilterIdx={setFilterIdx}
-                      setQuery={setFilterURL}
-                    />
-                  ))}
+                <UserList setReset={setReset} 
+                  setQuery={setFilterURL}
+                  setUserId={setUserId}
+                />
               </Col>
               <Col>
-                <PostCollection
-                  filterURL={filterURL}
+                <PostCollection filterURL={filterURL}
                   userId={userId}
                   setSearchFilter={(i) => {
                     setFilterIdx(i);
