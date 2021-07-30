@@ -5,6 +5,7 @@
   "scripts": {
     "start": "node ./bin/www",
     "devStart": "nodemon ./bin/www",
+    "prod-start": "NODE_ENV=production nodemon ./bin/www",
     "serverStart": "DEBUG=backend:* npm start"
   },
   "dependencies": {

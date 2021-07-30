@@ -112,7 +112,7 @@ export default function PostDetail() {
       setUser({ userId: data.userId, username: data.firstName });
     } catch (err) {
       setUser();
-      console.log("Error while checking auth:", err.message);
+      // console.log("Error while checking auth:", err.message);
     }
   }, []);
 
@@ -127,7 +127,7 @@ export default function PostDetail() {
       const data = await response.json();
       setVote(data);
     } catch (err) {
-      console.log("Error while checking vote:", err.message);
+      // console.log("Error while checking vote:", err.message);
     }
   }, [rating, user]);
 
@@ -245,7 +245,7 @@ export default function PostDetail() {
     try {
       const commentId = e.target.getAttribute("data-id");
       const response = await fetch(
-        `/${post._id}/comment?commentId=${commentId}`,
+        `/post/${post._id}/comment?commentId=${commentId}`,
         {
           method: "DELETE",
           credentials: "include",
@@ -412,7 +412,7 @@ export default function PostDetail() {
                     </p>
                     <p className="comment__content">{e.text}</p>
                   </span>
-                  {user && post && user.userId === post.authorID ? (
+                  {user && post && user.userId === e.user ? (
                     <span>
                       <OverlayTrigger
                         placement="top"

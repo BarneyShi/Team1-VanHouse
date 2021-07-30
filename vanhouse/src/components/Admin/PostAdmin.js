@@ -30,18 +30,22 @@ export default function PostAdmin({ posts }) {
   };
 
   const searchPost = async () => {
+    const originalPosts = adminPosts;
     try {
       setAdminPosts();
       const postId = document.getElementById("admin-searcbox-post").value;
-      const response = await fetch(`/post/${postId}`);
+      const response = await fetch(`/admin/post?postID=${postId}`);
       if (!response.ok) {
         throw Error(`failed to find ${postId}`);
       }
       const data = await response.json();
-      setAdminPosts([data.postInfo]);
+      if (data) {
+        setAdminPosts([...data]);
+      }
     } catch (err) {
       console.log("Error while searching post:", err);
       setErrorMsg("No result");
+      setAdminPosts([...originalPosts]);
     }
   };
 
@@ -73,6 +77,10 @@ export default function PostAdmin({ posts }) {
     }
   };
 
+  const cancel = () => {
+    setAdminPosts([...posts]);
+  };
+
   useEffect(() => {
     setAdminPosts(posts);
   }, [posts]);
@@ -89,12 +97,19 @@ export default function PostAdmin({ posts }) {
         name="post"
         placeholder="Search by post ID"
       />
-      <Button onClick={searchPost} className="admin-post-searchBtn">
+      <Button onClick={searchPost} className="admin-searchBtn">
         Search
+      </Button>
+      <Button variant="info" onClick={cancel} className="admin-searchBtn">
+        Cancel
       </Button>
       {/* CITATION: https://react-bootstrap.github.io/components/list-group/ */}
       {errorMsg ? (
-        <Alert className="admin-alert" variant="danger" dismissible>
+        <Alert
+          className="admin-alert"
+          variant="danger"
+          dismissible
+          onClose={() => setErrorMsg()}>
           <Alert.Heading>Oops!</Alert.Heading>
           <p>{errorMsg}</p>
         </Alert>
