@@ -171,7 +171,7 @@ router.post('/forgot', (req, res) => {
                 text:
                     `You requested a password reset for your account. \n\n` +
                     `Please click on the following link within one hour of receiving this email: \n\n` +
-                    `https://vanhouse.herokuapp.com/resetPassword/${token}\n\n` +
+                    `https://vanhouse.herokuapp.com/login-router/resetPassword/${token}\n\n` +
                     `If you did not request this, please ignore this email and your password will remain unchanged. \n`,
             };
 

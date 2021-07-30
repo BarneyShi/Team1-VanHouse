@@ -4,6 +4,7 @@ import "../styles/login.css"
 
 function AccountDetails() {
     const [user, setUser] = useState(null);
+
     const loadAccountDetails = () => {
         fetch(`/login-router/account`, {
             method: 'GET',
