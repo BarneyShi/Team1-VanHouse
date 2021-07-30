@@ -75,7 +75,7 @@ function App() {
           <Route exact path="/resetPassword/:token">
             <ResetPassword />
           </Route>
-          <Route exact path="/account">
+          <Route path="/account">
             <AccountDetails />
           </Route>
         </div>
