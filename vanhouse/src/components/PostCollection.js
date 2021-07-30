@@ -294,9 +294,11 @@ function PostCollection({
         {isLoadingPosts && <LoadingSpinner />}
         {fetchingNextPosts && <div id="fetchSpinnerDiv" ref={fetchSpinnerRef}><LoadingSpinner /></div>}
         {!isLoadingPosts && !fetchingNextPosts && morePostsAvailable &&
-          <Button id="getMorePostsBtn" variant="link" onClick={getMorePosts}>
-            See more posts...
-          </Button>
+          <div id="getMorePostsDiv">
+            <Button id="getMorePostsBtn" variant="link" onClick={getMorePosts}>
+              See more posts...
+            </Button>
+          </div>
         }
       </div>
     </div>
