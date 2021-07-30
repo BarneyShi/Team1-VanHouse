@@ -35,8 +35,6 @@ app.use(cookieParser());
 const publicPath = path.join(__dirname, "../vanhouse", 'build');
 app.use(express.static(publicPath));
 
-// perpetuating user
-// app.use(checkUser);
 app.use("/", indexRouter);
 
 app.use("/post", postRouter);
@@ -58,9 +56,6 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render("error");
 });
-
-// let secret = require('crypto').randomBytes(64).toString('hex');
-// console.log(secret);
 
 /* Connect to Mongo Atlas */
 /* CITATION: https://dev.to/dalalrohit/how-to-connect-to-mongodb-atlas-using-node-js-k9i */
