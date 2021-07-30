@@ -72,10 +72,10 @@ function App() {
           <Route path="/admin">
             {user?.admin ? <Admin />: <NotAuthorized />}
           </Route>
-          <Route path="/resetPassword/:token">
+          <Route path="/login-router/resetPassword/:token">
             <ResetPassword />
           </Route>
-          <Route path="/account">
+          <Route path="/login-router/account">
             <AccountDetails />
           </Route>
         </div>
