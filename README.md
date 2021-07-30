@@ -35,8 +35,8 @@ The website will support users in publishing available apartments/houses/rooms f
 :heavy_check_mark: Users will be able to log into or sign up for an account on the website.
 
 ### `3-7 "standard" requirements (will most likely complete)`
-:heavy_check_mark: Properties will have a map API on their details page so users can easily discern where they are.
-:x: Tenants will be able to post reviews of properties they have stayed at, and hosts will be able to review their tenants. 
+:heavy_check_mark: Properties will have a map API on their details page so users can easily discern where they are.  
+:x: Tenants will be able to post reviews of properties they have stayed at, and hosts will be able to review their tenants.  
 :heavy_check_mark: Users will be able to post comments on property detail pages. 
 :heavy_check_mark: Each user and property will have a “Report” function on their page. 
 :heavy_check_mark: Hosts will be able to upload images of their properties.
