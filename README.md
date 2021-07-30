@@ -29,7 +29,7 @@ The website will support users in publishing available apartments/houses/rooms f
 
 ## `Project task requirements:`
 ### `3-5 minimal requirements`
-	:heavy_check_mark:- Hosts will be able to create, read, update, and delete postings about their real estate properties.
+:heavy_check_mark: Hosts will be able to create, read, update, and delete postings about their real estate properties.
 - The website will facilitate scheduling of meetings between hosts/tenants.
 - Users will be able to search for properties according to different filters and sort the results in several different ways.
 - Users will be able to log into or sign up for an account on the website.
