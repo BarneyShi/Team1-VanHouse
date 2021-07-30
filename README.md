@@ -44,8 +44,8 @@ The website will support users in publishing available apartments/houses/rooms f
 * :heavy_check_mark: Hosts will be able to upload images of their properties.  
 
 ### `2-3 stretch requirements (plan to complete at least 1!)`
-* Users will be able to send direct messages to other users.   
-* Users will be able to search by keyword (instead of just by location or specific address and then filtering).   
+* :x: Users will be able to send direct messages to other users.   
+* :heavy_check_mark: Users will be able to search by keyword (instead of just by location or specific address and then filtering).   
 
 ## `Pick 2 of your minimal requirements and break each of them down into ~2-5 smaller tasks!`
 - Create, read, update, delete posted real estates
