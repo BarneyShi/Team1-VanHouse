@@ -1,7 +1,7 @@
 /* Post Component CSS */
 
-  /* CITATION: I used the box-shadow parameter settings from here: 
-                https://www.w3schools.com/css/tryit.asp?filename=trycss_buttons_shadow */
+/* CITATION: I used the box-shadow parameter settings from here: 
+https://www.w3schools.com/css/tryit.asp?filename=trycss_buttons_shadow */
 
 .post_collection_div {
   width: 100%;
@@ -24,8 +24,10 @@
 }
 
 #createPostBtn {
+  float: right;
   flex-basis: 5%;
   height: 2.5rem;
+  margin-right: 0;
 }
 
 .post_scroll_div {
@@ -135,12 +137,23 @@
   justify-content: center;
 }
 
-#getMorePostsBtn {
+#getMorePostsDiv {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   flex-basis: 100%;
   text-align: center;
   justify-self: center;
   align-self: flex-end;
-  margin-bottom: 6px;
+  height: 5rem;
+}
+
+#getMorePostsBtn {
+  float: bottom;
+  flex-basis: 100%;
+  text-align: center;
+  justify-self: center;
+  height: 3rem;
 }
 
 .post_div img {
