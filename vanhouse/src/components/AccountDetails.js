@@ -5,7 +5,8 @@ import "../styles/login.css"
 function AccountDetails() {
     const [user, setUser] = useState(null);
     const loadAccountDetails = () => {
-        fetch('http://localhost:4000/login-router/account', {
+        // fetch('http://localhost:4000/login-router/account', {
+        fetch(`/login-router/account`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

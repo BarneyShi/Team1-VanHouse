@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import {Button} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import "../styles/header.css";
@@ -40,7 +40,8 @@ function Header() {
     }
 
     const handleLogoutClicked = () => {
-        fetch('http://localhost:4000/login-router/logout', {
+        // fetch('http://localhost:4000/login-router/logout', {
+        fetch(`/login-router/logout`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -64,7 +65,8 @@ function Header() {
     }
 
     const handleAccountClicked = () => {
-        fetch('http://localhost:4000/login-router/account', {
+        // fetch('http://localhost:4000/login-router/account', {
+        fetch(`/login-router/account`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -101,7 +103,8 @@ function Header() {
     }
 
     function Login() {
-        fetch('http://localhost:4000/login-router/login', {
+        // fetch('http://localhost:4000/login-router/login', {
+        fetch(`/login-router/login`, {
             method: 'POST',
             // https://stackoverflow.com/questions/36824106/express-doesnt-set-a-cookie
             // Accessed July 13, 2021
@@ -131,7 +134,8 @@ function Header() {
     function Register(e) {
         if (confirmPasswordError === "" && passwordError === "" && emailError === "") {
             e.preventDefault();
-            fetch('http://localhost:4000/login-router/register', {
+            // fetch('http://localhost:4000/login-router/register', {
+            fetch(`/login-router/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -218,7 +222,8 @@ function Header() {
             if (!forgotEmail) {
                 window.alert("Please enter an email.");
             } else {
-                fetch('http://localhost:4000/login-router/forgot', {
+                // fetch('http://localhost:4000/login-router/forgot', {
+                fetch(`/login-router/forgot`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

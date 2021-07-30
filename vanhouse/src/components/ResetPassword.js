@@ -16,7 +16,8 @@ function ResetPassword() {
         if (!resetPassword) {
             window.alert("Please enter a new password.");
         } else {
-            fetch('http://localhost:4000/login-router/resetPassword', {
+            // fetch('http://localhost:4000/login-router/resetPassword', {
+            fetch(`/login-router/resetPassword`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
