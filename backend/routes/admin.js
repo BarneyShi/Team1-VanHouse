@@ -1,22 +1,53 @@
-var express = require("express");
-var mongoose = require("mongoose");
-var router = express.Router();
-var checkAuth = require("../middleware/check-auth");
-var UserModel = require("../models/User");
+const express = require("express");
+const mongoose = require("mongoose");
+const router = express.Router();
+const checkAuth = require("../middleware/check-auth");
+const UserModel = require("../models/User");
+const PostModel = require("../models/Post");
 
 /* GET check username */
 router.get("/user", async function (req, res, next) {
   try {
-    const { userId } = req.query;
-    const user = await UserModel.findOne({
-      _id: mongoose.Types.ObjectId(userId),
-    });
+    const { keyword } = req.query;
+    let user;
+    if (mongoose.Types.ObjectId.isValid(keyword)) {
+      user = await UserModel.findOne({
+        $or: [
+          { _id: mongoose.Types.ObjectId(keyword) },
+          { firstName: keyword },
+          { email: keyword },
+        ],
+      });
+    } else {
+      user = await UserModel.findOne({
+        $or: [{ firstName: keyword }, { email: keyword }],
+      });
+    }
     if (!user) {
-      throw Error("User not found");
+      res.send(null);
     }
     res.send(user);
   } catch (err) {
-    console.log("Error while get username:", err);
+    console.log("Error while get user:", err);
+    res.send(null);
+  }
+});
+
+/* GET search Post by ID */
+router.get("/post", async function (req, res) {
+  try {
+    const { postID } = req.query;
+    const post = await PostModel.findOne({
+      _id: mongoose.Types.ObjectId(postID),
+    });
+    if (post) {
+      res.send([post]);
+      return;
+    }
+    res.send(null);
+  } catch (err) {
+    console.log("Error while searching by ID:", err);
+    res.send(null);
   }
 });
 
