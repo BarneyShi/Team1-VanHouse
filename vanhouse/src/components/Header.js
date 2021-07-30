@@ -74,7 +74,8 @@ function Header() {
             response.json()
                 .then((resJSON => {
                         console.log(resJSON);
-                        history.replace(`login-router/account`);
+                        history.push(`/login-router/account`);
+                        window.location.reload();
                     })
                 )
                 .catch((err) => {
