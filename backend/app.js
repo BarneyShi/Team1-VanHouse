@@ -56,6 +56,12 @@ app.use(function (err, req, res, next) {
   res.render("error");
 });
 
+
+// for deploying
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+});
+
 // let secret = require('crypto').randomBytes(64).toString('hex');
 // console.log(secret);
 
