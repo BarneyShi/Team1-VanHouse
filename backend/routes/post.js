@@ -11,22 +11,6 @@ const checkAuth = require("../middleware/check-auth");
 var getToday = require("../util/util").getToday;
 var getCoords = require("../util/util").getCoordinates;
 
-/* GET post detail */
-router.get("/:id", async function (req, res, next) {
-  const { id } = req.params;
-
-  try {
-    const post = await PostModel.findOne({ id });
-    const { schedule: scheduleID, comment: commentID } = post;
-    const schedule = await ScheduleModel.findOne({ id: scheduleID });
-    const comment = await CommentModel.findOne({ id: commentID });
-
-    res.send({ post, schedule, comment });
-  } catch (err) {
-    console.log("Error while fetching post detail. ", err);
-  }
-});
-
 /* POST comment */
 router.post("/:id/comment", checkAuth, function (req, res, next) {
   const { id: postID } = req.params;
