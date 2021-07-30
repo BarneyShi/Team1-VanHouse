@@ -59,7 +59,7 @@ app.use(function (err, req, res, next) {
 
 // for deploying
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+  res.sendFile(path.join(__dirname, 'vanhouse', 'build', 'index.html'));
 });
 
 // let secret = require('crypto').randomBytes(64).toString('hex');
