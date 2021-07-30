@@ -112,7 +112,7 @@ export default function PostDetail() {
       setUser({ userId: data.userId, username: data.firstName });
     } catch (err) {
       setUser();
-      console.log("Error while checking auth:", err.message);
+      // console.log("Error while checking auth:", err.message);
     }
   }, []);
 
@@ -127,7 +127,7 @@ export default function PostDetail() {
       const data = await response.json();
       setVote(data);
     } catch (err) {
-      console.log("Error while checking vote:", err.message);
+      // console.log("Error while checking vote:", err.message);
     }
   }, [rating, user]);
 
