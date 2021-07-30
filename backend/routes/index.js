@@ -14,13 +14,6 @@ const summaryProj = {_id: 1, id: 1, date: 1, title: 1, price: 1, paymentPeriod: 
 let pageSize = 4; // number of posts to fetch
 let pageOffset = 0; // stores the number of pages fetched so far
 
-// Serve the homepage
-router.get('/', function(req, res) {
-  const publicPath = path.join(__dirname, "../../vanhouse", 'build');
-  console.log(publicPath);
-  res.sendFile(path.join(publicPath, 'index.html'));
-});
-
 // Get the most recent posts to display on homepage and reset the pageOffset
 router.get('/posts', function(req, res) {
   Post.find({}, summaryProj)
@@ -210,6 +203,13 @@ router.post('/newPost', checkAuth, function(req, res) {
   }).catch((error) => {
     res.send(error);
   });
+});
+
+// Serve the homepage
+router.get('/', function(req, res) {
+  const publicPath = path.join(__dirname, "../../vanhouse", 'build');
+  console.log(publicPath);
+  res.sendFile(path.join(publicPath, 'index.html'));
 });
 
 module.exports = router;
