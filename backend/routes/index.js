@@ -86,8 +86,8 @@ router.get("/search", function(req, res, next){
     let numHigh = Number(high);
     con.price = { $gte: numLow, $lte: numHigh};
   }
-  
-  
+
+
   let searchArr = [];
   if(location != 'city' && location !== ""){
     if (location === "Vancouver") {
@@ -139,7 +139,7 @@ router.get("/location/:path", function (req, res) {
   } else {
     searchArr = postCode.richmond;
   }
-  
+
   Post.find({ postalCode: { $in: searchArr } }, summaryProj, function (err, data) {
     res.json(data);
   });
@@ -156,11 +156,11 @@ router.get("/category", function (req, res, next) {
     searchArr = postCode.richmond;
   }
   Post.find(
-    { postalCode: { $in: searchArr }, price: { $gte: low, $lte: high } },
-    summaryProj,
-    function (err, data) {
-      res.json(data);
-    }
+      { postalCode: { $in: searchArr }, price: { $gte: low, $lte: high } },
+      summaryProj,
+      function (err, data) {
+        res.json(data);
+      }
   );
 });
 
