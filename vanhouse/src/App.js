@@ -8,6 +8,8 @@ import Header from "./components/Header";
 import UserList from "./components/UserList";
 import "./App.css";
 import PostCollection from "./components/PostCollection";
+import ResetPassword from "./components/ResetPassword";
+import AccountDetails from "./components/AccountDetails";
 
 function App() {
   const [user, setUser] = useState();
@@ -69,6 +71,12 @@ function App() {
           </Route>
           <Route path="/admin">
             {user?.admin ? <Admin />: <NotAuthorized />}
+          </Route>
+          <Route exact path="/resetPassword/:token">
+            <ResetPassword />
+          </Route>
+          <Route exact path="/account">
+            <AccountDetails />
           </Route>
         </div>
       </Router>
