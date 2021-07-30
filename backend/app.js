@@ -62,20 +62,20 @@ app.use(function (err, req, res, next) {
 //   res.sendFile(path.join(__dirname, 'vanhouse', 'build', 'index.html'));
 // });
 
-let protected = ['favicon.ico']
-
-app.get("*", (req, res) => {
-
-  let path = req.params['0'].substring(1)
-
-  if (protected.includes(path)) {
-    // Return the actual file
-    res.sendFile(`${__dirname}/build/${path}`);
-  } else {
-    // Otherwise, redirect to /build/index.html
-    res.sendFile(path.join(__dirname, 'vanhouse', 'build', 'index.html'));
-  }
-});
+// let protected = ['favicon.ico']
+//
+// app.get("*", (req, res) => {
+//
+//   let path = req.params['0'].substring(1)
+//
+//   if (protected.includes(path)) {
+//     // Return the actual file
+//     res.sendFile(`${__dirname}/build/${path}`);
+//   } else {
+//     // Otherwise, redirect to /build/index.html
+//     res.sendFile(path.join(__dirname, 'vanhouse', 'build', 'index.html'));
+//   }
+// });
 
 
 // let secret = require('crypto').randomBytes(64).toString('hex');
