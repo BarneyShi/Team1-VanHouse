@@ -30,7 +30,8 @@ app.use(logger("dev"));
 app.use(express.json({ limit: "6mb" }));
 app.use(express.urlencoded({ limit: "6mb", extended: true }));
 app.use(cookieParser());
-// app.use(express.static(path.join(__dirname, "public")));
+
+// CITATION: I learned about the syntax for serving static pages here: https://stackoverflow.com/a/66559385
 const publicPath = path.join(__dirname, "../vanhouse", 'build');
 app.use(express.static(publicPath));
 
