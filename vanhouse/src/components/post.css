@@ -177,6 +177,18 @@ https://www.w3schools.com/css/tryit.asp?filename=trycss_buttons_shadow */
   float: bottom;
 }
 
+#no_results_div {
+  height: 100%;
+}
+
+.no_results_alert {
+  background-color: rgb(245,245,245);
+  border:0;
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
 
 /* Adjust sizing to respond to different screen sizes */
 @media screen and (max-width: 600px) {

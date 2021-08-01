@@ -36,6 +36,7 @@ function PostCollection({
   const [fetchingNextPosts, setFetchingNextPosts] = useState(false);
   const [morePostsAvailable, setMorePostsAvailable] = useState(true);
   const [displayError, setDisplayError] = useState(false);
+  const [searchResEmpty, setSearchResEmpty] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
   const [user, setUser] = useState();
@@ -72,6 +73,7 @@ function PostCollection({
 
   // Filter posts on state change
   useEffect(() => {
+    setSearchResEmpty(false);
     // Display all saved posts if query string is empty
     if (filterURL === "") {
       setDisplayFiltered(false);
@@ -89,6 +91,9 @@ function PostCollection({
         setFilteredPosts(data);
         setDisplayFiltered(true);
         setIsLoadingPosts(false);
+        if (data.length === 0) {
+          setSearchResEmpty(true);
+        }
       })
       .catch(error => {
         getErrorString(error).then((errText) => {
@@ -293,7 +298,14 @@ function PostCollection({
         {displayFiltered && !isLoadingPosts && filteredPostsList}
         {isLoadingPosts && <LoadingSpinner />}
         {fetchingNextPosts && <div id="fetchSpinnerDiv" ref={fetchSpinnerRef}><LoadingSpinner /></div>}
-        {!isLoadingPosts && !fetchingNextPosts && morePostsAvailable &&
+        {displayFiltered && searchResEmpty && 
+          <div id="no_results_div" ref={fetchSpinnerRef}>
+            <Alert className="no_results_alert" variant="light">
+              <Alert.Heading> Sorry, we didn't find any posts matching your search criteria </Alert.Heading>
+            </Alert>
+          </div>
+        }
+        {!isLoadingPosts && !fetchingNextPosts && morePostsAvailable && !displayFiltered &&
           <div id="getMorePostsDiv">
             <Button id="getMorePostsBtn" variant="link" onClick={getMorePosts}>
               See more posts...
