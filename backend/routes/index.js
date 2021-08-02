@@ -12,23 +12,16 @@ const checkAuth = require("../middleware/check-auth");
 // Projection to retrieve only relevant post data on homepage
 const summaryProj = {_id: 1, id: 1, date: 1, title: 1, price: 1, paymentPeriod: 1, mainImage: 1, author: 1, address: 1};
 
-// Store page position and offset info
-let pageSize = 4; // number of posts to fetch
-let pageOffset = 0; // stores the number of pages fetched so far for the homepage
-let searchPageOffset = 0; // stores the number of pages fetched so far for searches
-
-// Store search filter criteria for paging
-let con = null; 
-let authorID = null;
-
 // Search the Posts cluster for documents
-const findPostsByPage = async (params, projection, page, offset, incCallback) => {
+// CITATION: I learned the sort, skip, and limit functions here: https://docs.mongodb.com/manual/reference/method/cursor.skip/
+const findPostsByPage = async (params, projection, pageSize, pageOffset) => {
+  let page = parseInt(pageSize);
+  let offset = parseInt(pageOffset);
   const res = await Post.find(params, projection)
   .sort({date: -1, _id: 1})
   .skip(page*offset)
   .limit(page)
   .then((result) => {
-    incCallback(offset+1);
     return result;
   }).catch((error) => {
     return error;
@@ -36,27 +29,10 @@ const findPostsByPage = async (params, projection, page, offset, incCallback) =>
   return res;
 }
 
-// Callback function for updating paging offset when not performing a search
-const setPageOffset = (offset) => {
-  pageOffset = offset;
-}
-
-// Callback function for updating paging offset when filtering posts
-const setSearchPageOffset = (offset) => {
-  searchPageOffset = offset;
-}
-
 // Get the most recent posts to display on homepage and reset pageOffset
 router.get('/posts', function(req, res) {
-  findPostsByPage({}, summaryProj, pageSize, 0, setPageOffset).then((result) => {
-    res.send(result);
-  });
-});
-
-// Get pageSize number of posts to display on homepage
-// CITATION: I learned the sort, skip, and limit functions here: https://docs.mongodb.com/manual/reference/method/cursor.skip/
-router.get('/postsPage', function(req, res) {
-  findPostsByPage({}, summaryProj, pageSize, pageOffset, setPageOffset).then((result) => {
+  const {pageSize, pageOffset} = req.query;
+  findPostsByPage({}, summaryProj, parseInt(pageSize), parseInt(pageOffset)).then((result) => {
     res.send(result);
   });
 });
@@ -94,8 +70,8 @@ router.get('/post/:postId', function(req, res) {
 
 
 router.get("/search", function(req, res, next){
-  const {high, low, location, keyword, userid} = req.query;
-  con = {};
+  const {high, low, location, keyword, userid, pageSize, pageOffset} = req.query;
+  let con = {};
   let numLow = low === "" ? 0 : Number(low);
   if(numLow !== 0){
     con.price = { $gte: numLow};
@@ -128,13 +104,7 @@ router.get("/search", function(req, res, next){
     con.authorID = mongoose.Types.ObjectId(userid);
   }
 
-  findPostsByPage(con, summaryProj, pageSize, 0, setSearchPageOffset).then((result) => {
-    res.send(result);
-  });
-});
-
-router.get("/next/search", function(req, res, next) {
-  findPostsByPage(con, summaryProj, pageSize, searchPageOffset, setSearchPageOffset).then((result) => {
+  findPostsByPage(con, summaryProj, pageSize, pageOffset).then((result) => {
     res.send(result);
   });
 });
@@ -146,21 +116,9 @@ router.get("/user", function (req, res, next) {
 });
 
 router.get("/userpost/:id", function (req, res, next) {
-  authorID = {authorID: mongoose.Types.ObjectId(req.params.id)};
-  Post.find(authorID, summaryProj)
-  .sort({date: -1, _id: 1})
-  .skip(0)
-  .limit(pageSize)
-  .then((result) => {
-    searchPageOffset = 1;
-    res.send(result);
-  }).catch((error) => {
-    res.send(error);
-  });
-});
-
-router.get("/next/userpost/:id", function (req, res, next) {
-  findPostsByPage(authorID, summaryProj, pageSize, searchPageOffset, setSearchPageOffset).then((result) => {
+  const authorID = {authorID: mongoose.Types.ObjectId(req.params.id)};
+  const {pageSize, pageOffset} = req.query;
+  findPostsByPage(authorID, summaryProj, pageSize, pageOffset).then((result) => {
     res.send(result);
   });
 });

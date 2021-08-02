@@ -41,6 +41,11 @@ function PostCollection({
 
   const [user, setUser] = useState();
 
+  const [pageSize, setPageSize] = useState(4);
+  const [pageOffset, setPageOffset] = useState(0);
+  const [searchPageOffset, setSearchPageOffset] = useState(0);
+
+
   const fetchSpinnerRef = useRef();
 
   // Query server for posts on mount
@@ -51,7 +56,8 @@ function PostCollection({
       setIsLoadingPosts(false);
       return;
     }
-    fetch("/posts")
+    setPageOffset(0);
+    fetch(`/posts?pageSize=${pageSize}&pageOffset=${0}`)
       .then(res => {
         if (!res.ok) {
           throw res;
@@ -60,7 +66,10 @@ function PostCollection({
       })
       .then(data => {
         setIsLoadingPosts(false);
-        setPosts(data);
+        setPageOffset(1);
+        if (Array.isArray(data)) {
+          setPosts(data);
+        }
       })
       .catch(error => {
         setIsLoadingPosts(false);
@@ -81,7 +90,14 @@ function PostCollection({
       return;
     } 
     setIsLoadingPosts(true);
-    fetch(filterURL)
+    setSearchPageOffset(0);
+    let url = "";
+    if (filterURL.startsWith("/userpost")) {
+      url = filterURL.concat(`?pageSize=${pageSize}&pageOffset=${0}`);
+    } else {
+      url = filterURL.concat(`&pageSize=${pageSize}&pageOffset=${0}`);
+    }
+    fetch(url)
       .then(res => {
         if (!res.ok) {
           throw res;
@@ -89,9 +105,12 @@ function PostCollection({
         return res.json();
       })
       .then(data => {
-        setFilteredPosts(data);
+        if(Array.isArray(data)) {
+          setFilteredPosts(data);
+        }
         setDisplayFiltered(true);
         setIsLoadingPosts(false);
+        setSearchPageOffset(1);
         if (data.length === 0) {
           setSearchResEmpty(true);
         }
@@ -221,13 +240,14 @@ function PostCollection({
     postObjToComponent(post)
   ));
 
-  const getPage = async (url, postState, setPostsState, setAvailability) => {
+  const getPage = async (url, postState, setPostsState, setAvailability, offset, setOffset) => {
     const res = await fetch(url);
     if (!res.ok) {
       throw res;
     }
     const data = await res.json();
     setFetchingNextPosts(false);
+    setOffset(offset+1);
     if (data.length === 0) {
       setAvailability(true);
       return;
@@ -241,17 +261,22 @@ function PostCollection({
   // Called when the "See more posts..." button is clicked
   const getMorePosts = () => {
     setFetchingNextPosts(true);
-    let url = "/postsPage";
+    let url = `/posts?pageSize=${pageSize}&pageOffset=${pageOffset}`;
     let postsState = posts;
     let setPostsState = setPosts;
     let setEmpty = setPostsResEmpty;
+    let incOffset = setPageOffset;
+    let offset = pageOffset;
     if (displayFiltered) {
-      url = "/next".concat(filterURL);
+      url = filterURL.concat(`&pageSize=${pageSize}&pageOffset=${searchPageOffset}`);
+      setSearchPageOffset(searchPageOffset + 1);
       postsState = filteredPosts;
       setPostsState = setFilteredPosts;
       setEmpty = setSearchResEmpty;
+      incOffset = setSearchPageOffset;
+      offset = searchPageOffset;
     }
-    getPage(url, postsState, setPostsState, setEmpty)
+    getPage(url, postsState, setPostsState, setEmpty, offset, incOffset)
       .catch(error => {
         setFetchingNextPosts(false);
         getErrorString(error).then((errText) => {
