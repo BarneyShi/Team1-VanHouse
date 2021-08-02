@@ -13,7 +13,6 @@ import AccountDetails from "./components/AccountDetails";
 
 function App() {
   const [user, setUser] = useState();
-  const [filterIdx, setFilterIdx] = useState(Number(0));
   const [reset, setReset] = useState(false);
   const [filterURL, setFilterURL] = useState("");
   const [userId, setUserId] = useState("");
@@ -34,7 +33,7 @@ function App() {
       setUser(data);
     } catch (err) {
       setUser();
-      console.log("Errow while checking auth:", err.message);
+      console.log("Error while checking auth:", err.message);
     }
   },[])
 
