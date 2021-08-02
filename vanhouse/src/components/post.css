@@ -16,10 +16,7 @@ https://www.w3schools.com/css/tryit.asp?filename=trycss_buttons_shadow */
 
 #post_collection_tools_div {
   flex-grow: 8;
-  display: flex;
-  direction: column;
-  justify-content: space-between;
-  align-items: center;
+  display: block;
   width: 100%;
   padding: 10px;
   margin: 0;
@@ -28,13 +25,18 @@ https://www.w3schools.com/css/tryit.asp?filename=trycss_buttons_shadow */
 
 #searchDiv {
   flex-basis: 85%;
+  width: 85%;
+  float: left;
+  overflow: hidden;
 }
 
 #createPostDiv {
   flex-basis: 15%;
+  width: 15%;
   display: flex;
   justify-content: flex-end;
   margin-right: 0;
+  float:right;
 }
 
 .post_scroll_div {
@@ -48,7 +50,6 @@ https://www.w3schools.com/css/tryit.asp?filename=trycss_buttons_shadow */
   min-width: 50%;
   width: 100%;
   overflow-y:auto;
-  padding: 6px;
 }
 
 .post_div {
@@ -204,6 +205,25 @@ https://www.w3schools.com/css/tryit.asp?filename=trycss_buttons_shadow */
     border-radius: 0;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.0), 0 6px 20px 0 rgba(0,0,0,0.0);
   }
+
+  /* #post_collection_tools_div {
+    flex-grow: 8;
+    display:block;
+    width: 100%;
+    padding: 10px;
+    margin: 0;
+  }
+
+  #searchDiv {
+    float: left;
+  }
+  
+  #createPostDiv {
+    float: right;
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 0;
+  } */
 }
 
 

@@ -268,7 +268,11 @@ function PostCollection({
     let incOffset = setPageOffset;
     let offset = pageOffset;
     if (displayFiltered) {
-      url = filterURL.concat(`&pageSize=${pageSize}&pageOffset=${searchPageOffset}`);
+      if (filterURL.startsWith("/userpost")) {
+        url = filterURL.concat(`?pageSize=${pageSize}&pageOffset=${searchPageOffset}`);
+      } else {
+        url = filterURL.concat(`&pageSize=${pageSize}&pageOffset=${searchPageOffset}`);
+      }
       setSearchPageOffset(searchPageOffset + 1);
       postsState = filteredPosts;
       setPostsState = setFilteredPosts;
