@@ -8,8 +8,8 @@ const User = require("../models/User");
 const postCode = require("../util/postCode");
 const checkAuth = require("../middleware/check-auth");
 
-// CITATION: Syntax to just get images[0]: https://joshtronic.com/2020/07/19/how-to-get-the-first-and-last-item-from-an-array-in-mongodb/
 // Projection to retrieve only relevant post data on homepage
+// CITATION: Syntax to just get images[0]: https://joshtronic.com/2020/07/19/how-to-get-the-first-and-last-item-from-an-array-in-mongodb/
 const summaryProj = {_id: 1, id: 1, date: 1, title: 1, price: 1, paymentPeriod: 1, mainImage: 1, author: 1, address: 1};
 
 // Search the Posts cluster for documents

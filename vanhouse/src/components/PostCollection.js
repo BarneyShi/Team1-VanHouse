@@ -10,7 +10,7 @@ import NewPost from "./NewPost";
 import SearchBar from "./SearchBar";
 import LoadingSpinner from "./LoadingSpinner";
 import { getErrorString } from "../utils";
-import "./post.css";
+import "../styles/post.css";
 
 function PostCollection({
   setSearchFilter,
