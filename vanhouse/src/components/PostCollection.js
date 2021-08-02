@@ -34,7 +34,7 @@ function PostCollection({
   // Loading and error display states
   const [isLoadingPosts, setIsLoadingPosts] = useState(true);
   const [fetchingNextPosts, setFetchingNextPosts] = useState(false);
-  const [morePostsAvailable, setMorePostsAvailable] = useState(true);
+  const [postsResEmpty, setPostsResEmpty] = useState(false);
   const [displayError, setDisplayError] = useState(false);
   const [searchResEmpty, setSearchResEmpty] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
@@ -77,8 +77,9 @@ function PostCollection({
     // Display all saved posts if query string is empty
     if (filterURL === "") {
       setDisplayFiltered(false);
+      setFilteredPosts([]);
       return;
-    }
+    } 
     setIsLoadingPosts(true);
     fetch(filterURL)
       .then(res => {
@@ -220,27 +221,37 @@ function PostCollection({
     postObjToComponent(post)
   ));
 
+  const getPage = async (url, postState, setPostsState, setAvailability) => {
+    const res = await fetch(url);
+    if (!res.ok) {
+      throw res;
+    }
+    const data = await res.json();
+    setFetchingNextPosts(false);
+    if (data.length === 0) {
+      setAvailability(true);
+      return;
+    }
+    const newPosts = [...postState, ...data];
+    setPostsState(newPosts);
+  }
+
+
   // Fetch some more posts from the server
   // Called when the "See more posts..." button is clicked
   const getMorePosts = () => {
     setFetchingNextPosts(true);
-    fetch("/postsPage")
-      .then(res => {
-        if (!res.ok) {
-          throw res;
-        }
-        return res.json();
-      })
-      .then(data => {
-        setFetchingNextPosts(false);
-        console.log(data.length);
-        if (data.length === 0) {
-          setMorePostsAvailable(false);
-          return;
-        }
-        const newPosts = [...posts, ...data];
-        setPosts(newPosts);
-      })
+    let url = "/postsPage";
+    let postsState = posts;
+    let setPostsState = setPosts;
+    let setEmpty = setPostsResEmpty;
+    if (displayFiltered) {
+      url = "/next".concat(filterURL);
+      postsState = filteredPosts;
+      setPostsState = setFilteredPosts;
+      setEmpty = setSearchResEmpty;
+    }
+    getPage(url, postsState, setPostsState, setEmpty)
       .catch(error => {
         setFetchingNextPosts(false);
         getErrorString(error).then((errText) => {
@@ -298,14 +309,14 @@ function PostCollection({
         {displayFiltered && !isLoadingPosts && filteredPostsList}
         {isLoadingPosts && <LoadingSpinner />}
         {fetchingNextPosts && <div id="fetchSpinnerDiv" ref={fetchSpinnerRef}><LoadingSpinner /></div>}
-        {displayFiltered && searchResEmpty && 
+        {displayFiltered && searchResEmpty && filteredPosts && filteredPosts.length === 0 &&
           <div id="no_results_div" ref={fetchSpinnerRef}>
             <Alert className="no_results_alert" variant="light">
               <Alert.Heading> Sorry, we didn't find any posts matching your search criteria </Alert.Heading>
             </Alert>
           </div>
         }
-        {!isLoadingPosts && !fetchingNextPosts && morePostsAvailable && !displayFiltered &&
+        {!isLoadingPosts && !fetchingNextPosts && ((!postsResEmpty && !displayFiltered)  || (!searchResEmpty && displayFiltered)) &&
           <div id="getMorePostsDiv">
             <Button id="getMorePostsBtn" variant="link" onClick={getMorePosts}>
               See more posts...

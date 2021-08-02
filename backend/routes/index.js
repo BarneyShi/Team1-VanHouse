@@ -9,37 +9,55 @@ const postCode = require("../util/postCode");
 const checkAuth = require("../middleware/check-auth");
 
 // CITATION: Syntax to just get images[0]: https://joshtronic.com/2020/07/19/how-to-get-the-first-and-last-item-from-an-array-in-mongodb/
+// Projection to retrieve only relevant post data on homepage
 const summaryProj = {_id: 1, id: 1, date: 1, title: 1, price: 1, paymentPeriod: 1, mainImage: 1, author: 1, address: 1};
 
+// Store page position and offset info
 let pageSize = 4; // number of posts to fetch
-let pageOffset = 0; // stores the number of pages fetched so far
+let pageOffset = 0; // stores the number of pages fetched so far for the homepage
+let searchPageOffset = 0; // stores the number of pages fetched so far for searches
 
-// Get the most recent posts to display on homepage and reset the pageOffset
-router.get('/posts', function(req, res) {
-  Post.find({}, summaryProj)
+// Store search filter criteria for paging
+let con = null; 
+let authorID = null;
+
+// Search the Posts cluster for documents
+const findPostsByPage = async (params, projection, page, offset, incCallback) => {
+  const res = await Post.find(params, projection)
   .sort({date: -1, _id: 1})
-  .skip(0)
-  .limit(pageSize)
+  .skip(page*offset)
+  .limit(page)
   .then((result) => {
-    pageOffset = 1;
-    res.send(result);
+    incCallback(offset+1);
+    return result;
   }).catch((error) => {
-    res.send(error);
+    return error;
+  });
+  return res;
+}
+
+// Callback function for updating paging offset when not performing a search
+const setPageOffset = (offset) => {
+  pageOffset = offset;
+}
+
+// Callback function for updating paging offset when filtering posts
+const setSearchPageOffset = (offset) => {
+  searchPageOffset = offset;
+}
+
+// Get the most recent posts to display on homepage and reset pageOffset
+router.get('/posts', function(req, res) {
+  findPostsByPage({}, summaryProj, pageSize, 0, setPageOffset).then((result) => {
+    res.send(result);
   });
 });
 
-// Get posts the next set of posts to display on homepage
+// Get pageSize number of posts to display on homepage
 // CITATION: I learned the sort, skip, and limit functions here: https://docs.mongodb.com/manual/reference/method/cursor.skip/
 router.get('/postsPage', function(req, res) {
-  Post.find({}, summaryProj)
-  .sort({date: -1, _id: 1})
-  .skip(pageOffset*pageSize)
-  .limit(pageSize)
-  .then((result) => {
-    pageOffset++;
+  findPostsByPage({}, summaryProj, pageSize, pageOffset, setPageOffset).then((result) => {
     res.send(result);
-  }).catch((error) => {
-    res.send(error);
   });
 });
 
@@ -70,14 +88,14 @@ router.get('/post/:postId', function(req, res) {
       res.send(responseData);
     }
   }).catch((error) => {
-    console.log(error);
     res.send(error);
   });
 });
 
+
 router.get("/search", function(req, res, next){
   const {high, low, location, keyword, userid} = req.query;
-  let con = {};
+  con = {};
   let numLow = low === "" ? 0 : Number(low);
   if(numLow !== 0){
     con.price = { $gte: numLow};
@@ -86,7 +104,6 @@ router.get("/search", function(req, res, next){
     let numHigh = Number(high);
     con.price = { $gte: numLow, $lte: numHigh};
   }
-
 
   let searchArr = [];
   if(location != 'city' && location !== ""){
@@ -111,57 +128,15 @@ router.get("/search", function(req, res, next){
     con.authorID = mongoose.Types.ObjectId(userid);
   }
 
-  // console.log("location is null ", location == null)
-  // console.log("con is : ", con)
-  // console.log("keyword is : ", "-"+keyword+"-", keyword == null)
-
-
-  Post.find(con, summaryProj, (err, data) => {
-    // console.log(data);
-    res.json(data);
+  findPostsByPage(con, summaryProj, pageSize, 0, setSearchPageOffset).then((result) => {
+    res.send(result);
   });
 });
 
-router.get("/price", function (req, res, next) {
-  const { high, low } = req.query;
-  Post.find({ price: { $gte: low, $lte: high } }, summaryProj, (err, data) => {
-    res.json(data);
+router.get("/next/search", function(req, res, next) {
+  findPostsByPage(con, summaryProj, pageSize, searchPageOffset, setSearchPageOffset).then((result) => {
+    res.send(result);
   });
-});
-
-router.get("/location/:path", function (req, res) {
-  const location = req.params.path;
-  let searchArr = [];
-  if (location === "Vancouver") {
-    searchArr = postCode.vancouver;
-  } else if (location === "Burnaby") {
-    searchArr = postCode.burnaby;
-  } else {
-    searchArr = postCode.richmond;
-  }
-
-  Post.find({ postalCode: { $in: searchArr } }, summaryProj, function (err, data) {
-    res.json(data);
-  });
-});
-
-router.get("/category", function (req, res, next) {
-  const { location, high, low } = req.query;
-  let searchArr = [];
-  if (location === "Vancouver") {
-    searchArr = postCode.vancouver;
-  } else if (location === "Burnaby") {
-    searchArr = postCode.burnaby;
-  } else {
-    searchArr = postCode.richmond;
-  }
-  Post.find(
-      { postalCode: { $in: searchArr }, price: { $gte: low, $lte: high } },
-      summaryProj,
-      function (err, data) {
-        res.json(data);
-      }
-  );
 });
 
 router.get("/user", function (req, res, next) {
@@ -171,14 +146,27 @@ router.get("/user", function (req, res, next) {
 });
 
 router.get("/userpost/:id", function (req, res, next) {
-  Post.find({authorID: mongoose.Types.ObjectId(req.params.id)}, summaryProj, (err, data) => {
-    res.json(data);
+  authorID = {authorID: mongoose.Types.ObjectId(req.params.id)};
+  Post.find(authorID, summaryProj)
+  .sort({date: -1, _id: 1})
+  .skip(0)
+  .limit(pageSize)
+  .then((result) => {
+    searchPageOffset = 1;
+    res.send(result);
+  }).catch((error) => {
+    res.send(error);
+  });
+});
+
+router.get("/next/userpost/:id", function (req, res, next) {
+  findPostsByPage(authorID, summaryProj, pageSize, searchPageOffset, setSearchPageOffset).then((result) => {
+    res.send(result);
   });
 });
 
 // Add a new property listing to the database
 router.post('/newPost', checkAuth, function(req, res) {
-  // Map schedule dates to an array of schedule objects
   let datesToSchedule = req.body.schedule;
   let schedule = datesToSchedule.map((d) => {
     const schId = mongoose.Types.ObjectId(); // CITATION: for id creation https://stackoverflow.com/a/17899751
@@ -208,7 +196,6 @@ router.post('/newPost', checkAuth, function(req, res) {
 // Serve the homepage
 router.get('/', function(req, res) {
   const publicPath = path.join(__dirname, "../../vanhouse", 'build');
-  console.log(publicPath);
   res.sendFile(path.join(publicPath, 'index.html'));
 });
 
