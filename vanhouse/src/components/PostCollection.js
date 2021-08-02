@@ -13,7 +13,6 @@ import { getErrorString } from "../utils";
 import "../styles/post.css";
 
 function PostCollection({
-  setSearchFilter,
   filterURL,
   userId,
   appPosts,
@@ -301,9 +300,7 @@ function PostCollection({
       <div id="post_collection_tools_div">
         <div id="searchDiv">
           <SearchBar
-            getData={(i) => {
-              setSearchFilter(i);
-            }}
+            getData={() => {console.log("this prop is no longer used\n");}}
             setQuery = {setQuery}
             userId={userId}
           />
@@ -358,7 +355,6 @@ function PostCollection({
 }
 
 PostCollection.propTypes = {
-  setSearchFilter: PropTypes.func.isRequired,
   filterURL: PropTypes.string.isRequired,
   userId: PropTypes.string.isRequired,
   appPosts: PropTypes.instanceOf(Array).isRequired,

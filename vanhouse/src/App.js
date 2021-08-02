@@ -54,10 +54,6 @@ function App() {
                 <Col>
                   <PostCollection filterURL={filterURL}
                                   userId={userId}
-                                  setSearchFilter={(i) => {
-                                    setFilterIdx(i);
-                                    setReset(true);
-                                  }}
                                   appPosts={posts}
                                   setAppPosts={setPosts}
                                   setQuery={setFilterURL}
