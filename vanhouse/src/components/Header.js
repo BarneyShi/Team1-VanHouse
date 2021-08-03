@@ -107,6 +107,7 @@ function Header() {
         setForgotPasswordNoEntry(false);
         setForgotPasswordUserNotFound(false);
         setRegisterDuplicateEmail(false);
+        setNamesError(false);
     }
 
     function Login() {
@@ -138,6 +139,7 @@ function Header() {
     }
 
     function Register(e) {
+        console.log(namesError);
         if (confirmPasswordError === "" && passwordError === "" && emailError === "" && namesError === false) {
             e.preventDefault();
             fetch(`/login-router/register`, {
@@ -150,7 +152,7 @@ function Header() {
                 console.log(response.status);
                 if (response.status === 201) {
                     console.log("Registered user to Mongo");
-                    setRegUser({firstName: "", lastName: "", regEmail: "", regPassword: ""});
+                    setRegUser({firstName: null, lastName: null, regEmail: "", regPassword: ""});
                     setIsRegistrationVisible(!isRegistrationVisible);
                     setIsRegisterButtonVisible(!isRegisterButtonVisible);
                     setIsForgotButtonVisible(!isForgotButtonVisible);
@@ -160,6 +162,7 @@ function Header() {
                     setConfirmPassword("");
                     setLoginError(false);
                     setRegisterDuplicateEmail(false);
+                    setNamesError(false);
                     window.alert("Successfully registered! Please login to continue.");
                 } else {
                     console.log(response.status);

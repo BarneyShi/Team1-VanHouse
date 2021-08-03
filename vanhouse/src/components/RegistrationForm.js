@@ -29,11 +29,9 @@ function RegistrationForm({
     // make sure names are filled out
     useEffect(
         () => {
-            if (!regUser.firstName) {
+            if (!regUser.firstName || regUser.firstName === null || regUser.firstName === undefined) {
                 setNamesError(true);
-            }
-
-            if (regUser.firstName.length > 1) {
+            } else {
                 setNamesError(false);
             }
         },
@@ -42,13 +40,12 @@ function RegistrationForm({
 
     useEffect(
         () => {
-            if (!regUser.lastName) {
+            if (!regUser.lastName || regUser.lastName === null || regUser.lastName === undefined) {
                 setNamesError(true);
-            }
-
-            if (regUser.lastName.length > 1) {
+            } else {
                 setNamesError(false);
             }
+
         },
         [regUser.lastName]
     )
