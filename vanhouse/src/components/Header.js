@@ -22,7 +22,6 @@ function Header() {
     const [password, setPassword] = useState("");
 
     const [user, setUser] = useState(null);
-    const [loginError, setLoginError] = useState("");
 
     // Registration Form states
     const [regUser, setRegUser] = useState({firstName: "", lastName: "", email: "", password: null});
@@ -33,6 +32,9 @@ function Header() {
 
     // submitForgotPassword states
     const [forgotEmail, setForgotEmail] = useState(null);
+
+    // Alert error states
+    const [loginError, setLoginError] = useState(false);
 
     // Functions
     const handleLoginClicked = () => {
@@ -55,7 +57,7 @@ function Header() {
         });
 
         setUser(null);
-        setLoginError("");
+        setLoginError(false);
     }
 
     const handleHomeClicked = () => {
@@ -90,7 +92,7 @@ function Header() {
         setIsLoginVisible(true);
         setIsRegistrationVisible(false);
         setIsRegisterButtonVisible(true);
-        setLoginError("");
+        setLoginError(false);
         setConfirmPassword("");
         setRegUser("");
         setEmail("");
@@ -115,7 +117,8 @@ function Header() {
             console.log(response.status);
             if (response.status === 401) {
                 setPassword("");
-                window.alert("Invalid email or password.");
+                // window.alert("Invalid email or password.");
+                setLoginError(true);
             }
 
             if (response.status === 200) {
@@ -150,7 +153,7 @@ function Header() {
                     setIsLoginVisible(!isLoginVisible);
                     setIsLoginClicked(!isLoginClicked);
                     setConfirmPassword("");
-                    setLoginError("");
+                    setLoginError(false);
                     window.alert("Successfully registered! Please login to continue.");
                 } else {
                     console.log("Failed to register user to Mongo");
@@ -268,6 +271,7 @@ function Header() {
                 passwordError={passwordError}
                 setPasswordError={setPasswordError}
                 loginError={loginError}
+                setLoginError={setLoginError}
                 register={Register}
                 regUser={regUser}
                 handleRegChange={handleRegChange}
