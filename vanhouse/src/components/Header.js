@@ -36,6 +36,7 @@ function Header() {
     // Alert error states
     const [loginError, setLoginError] = useState(false);
     const [forgotPasswordNoEntry, setForgotPasswordNoEntry] = useState(false);
+    const [forgotPasswordUserNotFound, setForgotPasswordUserNotFound] = useState(false);
 
     // Functions
     const handleLoginClicked = () => {
@@ -103,6 +104,7 @@ function Header() {
         setIsFooterVisible(true);
         setForgotEmail(null);
         setForgotPasswordNoEntry(false);
+        setForgotPasswordUserNotFound(false);
     }
 
     function Login() {
@@ -221,7 +223,6 @@ function Header() {
         if (emailError === "") {
             e.preventDefault();
             if (!forgotEmail) {
-                // window.alert("Please enter an email.");
                 setForgotPasswordNoEntry(true);
             } else {
                 fetch(`/login-router/forgot`, {
@@ -239,9 +240,11 @@ function Header() {
                         setIsForgotButtonVisible(!isForgotButtonVisible);
                         setForgotEmail(null);
                         setForgotPasswordNoEntry(false);
+                        setForgotPasswordUserNotFound(false);
                         window.alert("Reset password link sent. Please check your email.");
                     } else {
-                        window.alert("User not found. Please register to continue.");
+                        // window.alert("User not found. Please register to continue.");
+                        setForgotPasswordUserNotFound(true);
                     }
                 }).catch(err => {
                     console.log(err);
@@ -298,6 +301,8 @@ function Header() {
                 setIsFooterVisible={setIsFooterVisible}
                 forgotPasswordNoEntry={forgotPasswordNoEntry}
                 setForgotPasswordNoEntry={setForgotPasswordNoEntry}
+                forgotPasswordUserNotFound={forgotPasswordUserNotFound}
+                setForgotPasswordUserNotFound={setForgotPasswordUserNotFound}
             />
             <div className="title-and-logo-flexbox">
                 <img

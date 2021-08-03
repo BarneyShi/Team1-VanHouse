@@ -13,7 +13,9 @@ function ForgotPassword({
                             handleCloseForgot,
                             submitForgotPassword,
                             forgotPasswordNoEntry,
-                            setForgotPasswordNoEntry
+                            setForgotPasswordNoEntry,
+                            forgotPasswordUserNotFound,
+                            setForgotPasswordUserNotFound
                         }) {
 
     // email validation
@@ -43,7 +45,16 @@ function ForgotPassword({
                 <p>Please enter an email.</p>
             </Alert>
             }
-            <br/>
+            {forgotPasswordUserNotFound &&
+            <Alert
+                className="login-error-alert"
+                variant="danger"
+                onClose={() => setForgotPasswordUserNotFound(false)}
+                dismissible>
+                <Alert.Heading></Alert.Heading>
+                <p>User not found. Please register to continue.</p>
+            </Alert>
+            }
             <span>If you are registered in our system, you will receive an email to reset your password.</span>
             <br/>
             <br/>
@@ -82,7 +93,9 @@ ForgotPassword.propTypes = {
     handleCloseForgot: PropTypes.func.isRequired,
     submitForgotPassword: PropTypes.func.isRequired,
     forgotPasswordNoEntry: PropTypes.bool,
-    setForgotPasswordNoEntry: PropTypes.func
+    setForgotPasswordNoEntry: PropTypes.func,
+    forgotPasswordUserNotFound: PropTypes.bool,
+    setForgotPasswordUserNotFound: PropTypes.func
 };
 
 export default ForgotPassword

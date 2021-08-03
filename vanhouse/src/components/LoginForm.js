@@ -43,7 +43,9 @@ function LoginForm({
                        isFooterVisible,
                        setIsFooterVisible,
                        forgotPasswordNoEntry,
-                       setForgotPasswordNoEntry
+                       setForgotPasswordNoEntry,
+                       forgotPasswordUserNotFound,
+                       setForgotPasswordUserNotFound
                    }) {
 
     // https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30
@@ -136,6 +138,8 @@ function LoginForm({
                         forgotEmail={forgotEmail}
                         forgotPasswordNoEntry={forgotPasswordNoEntry}
                         setForgotPasswordNoEntry={setForgotPasswordNoEntry}
+                        forgotPasswordUserNotFound={forgotPasswordUserNotFound}
+                        setForgotPasswordUserNotFound={setForgotPasswordUserNotFound}
                     />
                     }
                 </div>
@@ -216,7 +220,9 @@ LoginForm.propTypes = {
     isFooterVisible: PropTypes.bool,
     setIsFooterVisible: PropTypes.func,
     forgotPasswordNoEntry: PropTypes.bool,
-    setForgotPasswordNoEntry: PropTypes.func
+    setForgotPasswordNoEntry: PropTypes.func,
+    forgotPasswordUserNotFound: PropTypes.bool,
+    setForgotPasswordUserNotFound: PropTypes.func
 };
 
 export default LoginForm
