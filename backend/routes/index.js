@@ -8,38 +8,32 @@ const User = require("../models/User");
 const postCode = require("../util/postCode");
 const checkAuth = require("../middleware/check-auth");
 
+// Projection to retrieve only relevant post data on homepage
 // CITATION: Syntax to just get images[0]: https://joshtronic.com/2020/07/19/how-to-get-the-first-and-last-item-from-an-array-in-mongodb/
 const summaryProj = {_id: 1, id: 1, date: 1, title: 1, price: 1, paymentPeriod: 1, mainImage: 1, author: 1, address: 1};
 
-let pageSize = 4; // number of posts to fetch
-let pageOffset = 0; // stores the number of pages fetched so far
-
-// Get the most recent posts to display on homepage and reset the pageOffset
-router.get('/posts', function(req, res) {
-  Post.find({}, summaryProj)
-  .sort({date: -1, _id: 1})
-  .skip(0)
-  .limit(pageSize)
-  .then((result) => {
-    pageOffset = 1;
-    res.send(result);
-  }).catch((error) => {
-    res.send(error);
-  });
-});
-
-// Get posts the next set of posts to display on homepage
+// Search the Posts cluster for documents
 // CITATION: I learned the sort, skip, and limit functions here: https://docs.mongodb.com/manual/reference/method/cursor.skip/
-router.get('/postsPage', function(req, res) {
-  Post.find({}, summaryProj)
+const findPostsByPage = async (params, projection, pageSize, pageOffset) => {
+  let page = parseInt(pageSize);
+  let offset = parseInt(pageOffset);
+  const res = await Post.find(params, projection)
   .sort({date: -1, _id: 1})
-  .skip(pageOffset*pageSize)
-  .limit(pageSize)
+  .skip(page*offset)
+  .limit(page)
   .then((result) => {
-    pageOffset++;
-    res.send(result);
+    return result;
   }).catch((error) => {
-    res.send(error);
+    return error;
+  });
+  return res;
+}
+
+// Get the most recent posts to display on homepage and reset pageOffset
+router.get('/posts', function(req, res) {
+  const {pageSize, pageOffset} = req.query;
+  findPostsByPage({}, summaryProj, parseInt(pageSize), parseInt(pageOffset)).then((result) => {
+    res.send(result);
   });
 });
 
@@ -70,13 +64,13 @@ router.get('/post/:postId', function(req, res) {
       res.send(responseData);
     }
   }).catch((error) => {
-    console.log(error);
     res.send(error);
   });
 });
 
+
 router.get("/search", function(req, res, next){
-  const {high, low, location, keyword, userid} = req.query;
+  const {high, low, location, keyword, userid, pageSize, pageOffset} = req.query;
   let con = {};
   let numLow = low === "" ? 0 : Number(low);
   if(numLow !== 0){
@@ -86,7 +80,6 @@ router.get("/search", function(req, res, next){
     let numHigh = Number(high);
     con.price = { $gte: numLow, $lte: numHigh};
   }
-
 
   let searchArr = [];
   if(location != 'city' && location !== ""){
@@ -111,57 +104,9 @@ router.get("/search", function(req, res, next){
     con.authorID = mongoose.Types.ObjectId(userid);
   }
 
-  // console.log("location is null ", location == null)
-  // console.log("con is : ", con)
-  // console.log("keyword is : ", "-"+keyword+"-", keyword == null)
-
-
-  Post.find(con, summaryProj, (err, data) => {
-    // console.log(data);
-    res.json(data);
+  findPostsByPage(con, summaryProj, pageSize, pageOffset).then((result) => {
+    res.send(result);
   });
-});
-
-router.get("/price", function (req, res, next) {
-  const { high, low } = req.query;
-  Post.find({ price: { $gte: low, $lte: high } }, summaryProj, (err, data) => {
-    res.json(data);
-  });
-});
-
-router.get("/location/:path", function (req, res) {
-  const location = req.params.path;
-  let searchArr = [];
-  if (location === "Vancouver") {
-    searchArr = postCode.vancouver;
-  } else if (location === "Burnaby") {
-    searchArr = postCode.burnaby;
-  } else {
-    searchArr = postCode.richmond;
-  }
-
-  Post.find({ postalCode: { $in: searchArr } }, summaryProj, function (err, data) {
-    res.json(data);
-  });
-});
-
-router.get("/category", function (req, res, next) {
-  const { location, high, low } = req.query;
-  let searchArr = [];
-  if (location === "Vancouver") {
-    searchArr = postCode.vancouver;
-  } else if (location === "Burnaby") {
-    searchArr = postCode.burnaby;
-  } else {
-    searchArr = postCode.richmond;
-  }
-  Post.find(
-      { postalCode: { $in: searchArr }, price: { $gte: low, $lte: high } },
-      summaryProj,
-      function (err, data) {
-        res.json(data);
-      }
-  );
 });
 
 router.get("/user", function (req, res, next) {
@@ -171,14 +116,15 @@ router.get("/user", function (req, res, next) {
 });
 
 router.get("/userpost/:id", function (req, res, next) {
-  Post.find({authorID: mongoose.Types.ObjectId(req.params.id)}, summaryProj, (err, data) => {
-    res.json(data);
+  const authorID = {authorID: mongoose.Types.ObjectId(req.params.id)};
+  const {pageSize, pageOffset} = req.query;
+  findPostsByPage(authorID, summaryProj, pageSize, pageOffset).then((result) => {
+    res.send(result);
   });
 });
 
 // Add a new property listing to the database
 router.post('/newPost', checkAuth, function(req, res) {
-  // Map schedule dates to an array of schedule objects
   let datesToSchedule = req.body.schedule;
   let schedule = datesToSchedule.map((d) => {
     const schId = mongoose.Types.ObjectId(); // CITATION: for id creation https://stackoverflow.com/a/17899751
@@ -208,7 +154,6 @@ router.post('/newPost', checkAuth, function(req, res) {
 // Serve the homepage
 router.get('/', function(req, res) {
   const publicPath = path.join(__dirname, "../../vanhouse", 'build');
-  console.log(publicPath);
   res.sendFile(path.join(publicPath, 'index.html'));
 });
 
