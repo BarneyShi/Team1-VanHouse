@@ -35,6 +35,7 @@ function Header() {
 
     // Alert error states
     const [loginError, setLoginError] = useState(false);
+    const [forgotPasswordNoEntry, setForgotPasswordNoEntry] = useState(false);
 
     // Functions
     const handleLoginClicked = () => {
@@ -101,6 +102,7 @@ function Header() {
         setIsForgotButtonVisible(true);
         setIsFooterVisible(true);
         setForgotEmail(null);
+        setForgotPasswordNoEntry(false);
     }
 
     function Login() {
@@ -219,7 +221,8 @@ function Header() {
         if (emailError === "") {
             e.preventDefault();
             if (!forgotEmail) {
-                window.alert("Please enter an email.");
+                // window.alert("Please enter an email.");
+                setForgotPasswordNoEntry(true);
             } else {
                 fetch(`/login-router/forgot`, {
                     method: 'POST',
@@ -235,6 +238,7 @@ function Header() {
                         setIsForgotVisible(!isForgotVisible);
                         setIsForgotButtonVisible(!isForgotButtonVisible);
                         setForgotEmail(null);
+                        setForgotPasswordNoEntry(false);
                         window.alert("Reset password link sent. Please check your email.");
                     } else {
                         window.alert("User not found. Please register to continue.");
@@ -292,6 +296,8 @@ function Header() {
                 validateForgotEmail={validateForgotEmail}
                 isFooterVisible={isFooterVisible}
                 setIsFooterVisible={setIsFooterVisible}
+                forgotPasswordNoEntry={forgotPasswordNoEntry}
+                setForgotPasswordNoEntry={setForgotPasswordNoEntry}
             />
             <div className="title-and-logo-flexbox">
                 <img

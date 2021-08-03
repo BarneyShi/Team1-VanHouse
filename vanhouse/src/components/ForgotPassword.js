@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import PropTypes from "prop-types";
 import "../styles/login.css"
-import {Button, Form} from "react-bootstrap";
+import {Alert, Button, Form, Modal} from "react-bootstrap";
 
 
 function ForgotPassword({
@@ -11,7 +11,9 @@ function ForgotPassword({
                             validateForgotEmail,
                             setEmailError,
                             handleCloseForgot,
-                            submitForgotPassword
+                            submitForgotPassword,
+                            forgotPasswordNoEntry,
+                            setForgotPasswordNoEntry
                         }) {
 
     // email validation
@@ -31,6 +33,16 @@ function ForgotPassword({
     return (
         <Form>
             <h2>Forgot Password</h2>
+            {forgotPasswordNoEntry &&
+            <Alert
+                className="login-error-alert"
+                variant="danger"
+                onClose={() => setForgotPasswordNoEntry(false)}
+                dismissible>
+                <Alert.Heading></Alert.Heading>
+                <p>Please enter an email.</p>
+            </Alert>
+            }
             <br/>
             <span>If you are registered in our system, you will receive an email to reset your password.</span>
             <br/>
@@ -68,7 +80,9 @@ ForgotPassword.propTypes = {
     validateForgotEmail: PropTypes.func.isRequired,
     setEmailError: PropTypes.func.isRequired,
     handleCloseForgot: PropTypes.func.isRequired,
-    submitForgotPassword: PropTypes.func.isRequired
+    submitForgotPassword: PropTypes.func.isRequired,
+    forgotPasswordNoEntry: PropTypes.bool,
+    setForgotPasswordNoEntry: PropTypes.func
 };
 
 export default ForgotPassword

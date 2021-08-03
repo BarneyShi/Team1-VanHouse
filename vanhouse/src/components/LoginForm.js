@@ -41,7 +41,9 @@ function LoginForm({
                        forgotEmail,
                        validateForgotEmail,
                        isFooterVisible,
-                       setIsFooterVisible
+                       setIsFooterVisible,
+                       forgotPasswordNoEntry,
+                       setForgotPasswordNoEntry
                    }) {
 
     // https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30
@@ -132,6 +134,8 @@ function LoginForm({
                         handleCloseForgot={handleClose}
                         submitForgotPassword={submitForgotPassword}
                         forgotEmail={forgotEmail}
+                        forgotPasswordNoEntry={forgotPasswordNoEntry}
+                        setForgotPasswordNoEntry={setForgotPasswordNoEntry}
                     />
                     }
                 </div>
@@ -210,7 +214,9 @@ LoginForm.propTypes = {
     forgotEmail: PropTypes.string,
     validateForgotEmail: PropTypes.func,
     isFooterVisible: PropTypes.bool,
-    setIsFooterVisible: PropTypes.func
+    setIsFooterVisible: PropTypes.func,
+    forgotPasswordNoEntry: PropTypes.bool,
+    setForgotPasswordNoEntry: PropTypes.func
 };
 
 export default LoginForm
