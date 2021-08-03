@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {Button, Form} from "react-bootstrap";
+import {Alert, Button, Form} from "react-bootstrap";
 import {useHistory, useParams} from 'react-router-dom';
 import "../styles/login.css"
 
@@ -9,6 +9,8 @@ function ResetPassword() {
 
     const [resetPassword, setResetPassword] = useState("");
     const [passwordResetError, setPasswordResetError] = useState("");
+    const [noPasswordEnteredAlert, setNoPasswordEnteredAlert] = useState(false);
+    const [linkExpiredAlert, setLinkExpiredAlert] = useState(false);
 
     const {token} = useParams();
 
@@ -59,7 +61,8 @@ function ResetPassword() {
     function submitResetPassword(e) {
         e.preventDefault();
         if (!resetPassword) {
-            window.alert("Please enter a new password.");
+            setNoPasswordEnteredAlert(true);
+            setLinkExpiredAlert(false);
         } else {
             fetch(`/login-router/resetPassword`, {
                 method: 'POST',
@@ -74,9 +77,8 @@ function ResetPassword() {
                     history.push(`/`);
                     window.alert("Password reset. Please login to continue.")
                 } else {
-                    window.alert("Failed to reset password. \n\n" +
-                        "Your link may have expired or it may be another issue. \n\n" +
-                        "Please try again.");
+                    setLinkExpiredAlert(true);
+                    setNoPasswordEnteredAlert(false);
                 }
             }).catch(err => {
                 console.log(err);
@@ -90,25 +92,46 @@ function ResetPassword() {
     }
 
     return (
-        <Form className="reset-password-form-div">
-            <h2>Reset Password</h2>
-            <br/>
-            <Form.Group>
-                <Form.Control
-                    type="password"
-                    placeholder="Enter new password"
-                    onChange={handleResetPasswordChange}
-                    value={resetPassword}>
-                </Form.Control>
-                <div className="error">{passwordResetError}</div>
-            </Form.Group>
+        <div className="reset-password-page">
+            {noPasswordEnteredAlert &&
+            <Alert
+                variant="danger"
+                onClose={() => setNoPasswordEnteredAlert(false)}
+                dismissible>
+                <Alert.Heading>Please enter a new password.</Alert.Heading>
+            </Alert>
+            }
+            {linkExpiredAlert &&
+            <Alert
+                variant="danger"
+                onClose={() => setLinkExpiredAlert(false)}
+                dismissible>
+                <Alert.Heading>Failed to reset password.</Alert.Heading>
+                <br/>
+                <p>Your link may have expired or it may be another issue.</p>
+                <p>Please try re-sending the reset password email to yourself again.</p>
+            </Alert>
+            }
+            <Form className="reset-password-form-div">
+                <h2>Reset Password</h2>
+                <br/>
+                <Form.Group>
+                    <Form.Control
+                        type="password"
+                        placeholder="Enter new password"
+                        onChange={handleResetPasswordChange}
+                        value={resetPassword}>
+                    </Form.Control>
+                    <div className="error">{passwordResetError}</div>
+                </Form.Group>
 
-            <div className="reset-password-form-buttons">
-                <Button type="submit" variant="primary" onClick={submitResetPassword}>
-                    Reset password
-                </Button>
-            </div>
-        </Form>
+                <div className="reset-password-form-buttons">
+                    <Button type="submit" variant="primary" onClick={submitResetPassword}>
+                        Reset password
+                    </Button>
+                </div>
+            </Form>
+        </div>
     )
 }
 

@@ -117,7 +117,6 @@ function Header() {
             console.log(response.status);
             if (response.status === 401) {
                 setPassword("");
-                // window.alert("Invalid email or password.");
                 setLoginError(true);
             }
 
