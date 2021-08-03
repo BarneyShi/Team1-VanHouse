@@ -11,6 +11,7 @@ function ResetPassword() {
     const [passwordResetError, setPasswordResetError] = useState("");
     const [noPasswordEnteredAlert, setNoPasswordEnteredAlert] = useState(false);
     const [linkExpiredAlert, setLinkExpiredAlert] = useState(false);
+    const [errorAlert, setErrorAlert] = useState(false);
 
     const {token} = useParams();
 
@@ -63,6 +64,9 @@ function ResetPassword() {
         if (!resetPassword) {
             setNoPasswordEnteredAlert(true);
             setLinkExpiredAlert(false);
+        } else if (passwordResetError !== "") {
+            setErrorAlert(true);
+            setNoPasswordEnteredAlert(false);
         } else {
             fetch(`/login-router/resetPassword`, {
                 method: 'POST',
@@ -79,6 +83,7 @@ function ResetPassword() {
                 } else {
                     setLinkExpiredAlert(true);
                     setNoPasswordEnteredAlert(false);
+                    setErrorAlert(false);
                 }
             }).catch(err => {
                 console.log(err);
@@ -109,7 +114,15 @@ function ResetPassword() {
                 <Alert.Heading>Failed to reset password.</Alert.Heading>
                 <br/>
                 <p>Your link may have expired or it may be another issue.</p>
-                <p>Please try re-sending the reset password email to yourself again.</p>
+                <p>Please try again.</p>
+            </Alert>
+            }
+            {errorAlert &&
+            <Alert
+                variant="danger"
+                onClose={() => setErrorAlert(false)}
+                dismissible>
+                <Alert.Heading>Please ensure that your chosen password passes all requirements.</Alert.Heading>
             </Alert>
             }
             <Form className="reset-password-form-div">
