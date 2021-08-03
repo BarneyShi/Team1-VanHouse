@@ -166,7 +166,6 @@ function Header() {
                     window.alert("Successfully registered! Please login to continue.");
                 } else {
                     console.log(response.status);
-                    // window.alert("Email already exists.")
                     setRegisterDuplicateEmail(true);
                 }
             });
