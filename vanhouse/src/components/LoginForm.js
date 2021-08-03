@@ -45,7 +45,11 @@ function LoginForm({
                        forgotPasswordNoEntry,
                        setForgotPasswordNoEntry,
                        forgotPasswordUserNotFound,
-                       setForgotPasswordUserNotFound
+                       setForgotPasswordUserNotFound,
+                       registerDuplicateEmail,
+                       setRegisterDuplicateEmail,
+                       namesError,
+                       setNamesError
                    }) {
 
     // https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30
@@ -170,6 +174,10 @@ function LoginForm({
                         validateEmail={validateEmail}
                         passwordError={passwordError}
                         setPasswordError={setPasswordError}
+                        registerDuplicateEmail={registerDuplicateEmail}
+                        setRegisterDuplicateEmail={setRegisterDuplicateEmail}
+                        namesError={namesError}
+                        setNamesError={setNamesError}
                     />
                     }
                 </div>
@@ -222,7 +230,11 @@ LoginForm.propTypes = {
     forgotPasswordNoEntry: PropTypes.bool,
     setForgotPasswordNoEntry: PropTypes.func,
     forgotPasswordUserNotFound: PropTypes.bool,
-    setForgotPasswordUserNotFound: PropTypes.func
+    setForgotPasswordUserNotFound: PropTypes.func,
+    registerDuplicateEmail: PropTypes.bool,
+    setRegisterDuplicateEmail: PropTypes.func,
+    namesError: PropTypes.bool,
+    setNamesError: PropTypes.func
 };
 
 export default LoginForm

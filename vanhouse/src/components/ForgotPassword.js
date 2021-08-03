@@ -37,7 +37,6 @@ function ForgotPassword({
             <h2>Forgot Password</h2>
             {forgotPasswordNoEntry &&
             <Alert
-                className="login-error-alert"
                 variant="danger"
                 onClose={() => setForgotPasswordNoEntry(false)}
                 dismissible>
@@ -47,7 +46,6 @@ function ForgotPassword({
             }
             {forgotPasswordUserNotFound &&
             <Alert
-                className="login-error-alert"
                 variant="danger"
                 onClose={() => setForgotPasswordUserNotFound(false)}
                 dismissible>

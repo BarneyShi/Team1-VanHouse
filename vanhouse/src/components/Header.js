@@ -29,6 +29,7 @@ function Header() {
     const [confirmPasswordError, setConfirmPasswordError] = useState("");
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
+    const [namesError, setNamesError] = useState(false);
 
     // submitForgotPassword states
     const [forgotEmail, setForgotEmail] = useState(null);
@@ -37,6 +38,7 @@ function Header() {
     const [loginError, setLoginError] = useState(false);
     const [forgotPasswordNoEntry, setForgotPasswordNoEntry] = useState(false);
     const [forgotPasswordUserNotFound, setForgotPasswordUserNotFound] = useState(false);
+    const [registerDuplicateEmail, setRegisterDuplicateEmail] = useState(false);
 
     // Functions
     const handleLoginClicked = () => {
@@ -84,7 +86,6 @@ function Header() {
                 )
                 .catch((err) => {
                     console.log(err);
-                    window.alert('Please login to continue.');
                 });
         });
     }
@@ -105,6 +106,7 @@ function Header() {
         setForgotEmail(null);
         setForgotPasswordNoEntry(false);
         setForgotPasswordUserNotFound(false);
+        setRegisterDuplicateEmail(false);
     }
 
     function Login() {
@@ -136,7 +138,7 @@ function Header() {
     }
 
     function Register(e) {
-        if (confirmPasswordError === "" && passwordError === "" && emailError === "") {
+        if (confirmPasswordError === "" && passwordError === "" && emailError === "" && namesError === false) {
             e.preventDefault();
             fetch(`/login-router/register`, {
                 method: 'POST',
@@ -157,10 +159,12 @@ function Header() {
                     setIsLoginClicked(!isLoginClicked);
                     setConfirmPassword("");
                     setLoginError(false);
+                    setRegisterDuplicateEmail(false);
                     window.alert("Successfully registered! Please login to continue.");
                 } else {
-                    console.log("Failed to register user to Mongo");
-                    window.alert("Email already exists.")
+                    console.log(response.status);
+                    // window.alert("Email already exists.")
+                    setRegisterDuplicateEmail(true);
                 }
             });
         } else {
@@ -243,7 +247,6 @@ function Header() {
                         setForgotPasswordUserNotFound(false);
                         window.alert("Reset password link sent. Please check your email.");
                     } else {
-                        // window.alert("User not found. Please register to continue.");
                         setForgotPasswordUserNotFound(true);
                     }
                 }).catch(err => {
@@ -303,6 +306,10 @@ function Header() {
                 setForgotPasswordNoEntry={setForgotPasswordNoEntry}
                 forgotPasswordUserNotFound={forgotPasswordUserNotFound}
                 setForgotPasswordUserNotFound={setForgotPasswordUserNotFound}
+                registerDuplicateEmail={registerDuplicateEmail}
+                setRegisterDuplicateEmail={setRegisterDuplicateEmail}
+                namesError={namesError}
+                setNamesError={setNamesError}
             />
             <div className="title-and-logo-flexbox">
                 <img
