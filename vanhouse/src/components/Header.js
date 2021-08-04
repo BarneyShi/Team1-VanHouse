@@ -22,7 +22,6 @@ function Header() {
     const [password, setPassword] = useState("");
 
     const [user, setUser] = useState(null);
-    const [loginError, setLoginError] = useState("");
 
     // Registration Form states
     const [regUser, setRegUser] = useState({firstName: "", lastName: "", email: "", password: null});
@@ -30,9 +29,16 @@ function Header() {
     const [confirmPasswordError, setConfirmPasswordError] = useState("");
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
+    const [namesError, setNamesError] = useState(false);
 
     // submitForgotPassword states
     const [forgotEmail, setForgotEmail] = useState(null);
+
+    // Alert error states
+    const [loginError, setLoginError] = useState(false);
+    const [forgotPasswordNoEntry, setForgotPasswordNoEntry] = useState(false);
+    const [forgotPasswordUserNotFound, setForgotPasswordUserNotFound] = useState(false);
+    const [registerDuplicateEmail, setRegisterDuplicateEmail] = useState(false);
 
     // Functions
     const handleLoginClicked = () => {
@@ -55,7 +61,7 @@ function Header() {
         });
 
         setUser(null);
-        setLoginError("");
+        setLoginError(false);
     }
 
     const handleHomeClicked = () => {
@@ -80,7 +86,6 @@ function Header() {
                 )
                 .catch((err) => {
                     console.log(err);
-                    window.alert('Please login to continue.');
                 });
         });
     }
@@ -90,7 +95,7 @@ function Header() {
         setIsLoginVisible(true);
         setIsRegistrationVisible(false);
         setIsRegisterButtonVisible(true);
-        setLoginError("");
+        setLoginError(false);
         setConfirmPassword("");
         setRegUser("");
         setEmail("");
@@ -99,6 +104,10 @@ function Header() {
         setIsForgotButtonVisible(true);
         setIsFooterVisible(true);
         setForgotEmail(null);
+        setForgotPasswordNoEntry(false);
+        setForgotPasswordUserNotFound(false);
+        setRegisterDuplicateEmail(false);
+        setNamesError(false);
     }
 
     function Login() {
@@ -115,7 +124,7 @@ function Header() {
             console.log(response.status);
             if (response.status === 401) {
                 setPassword("");
-                window.alert("Invalid email or password.");
+                setLoginError(true);
             }
 
             if (response.status === 200) {
@@ -130,7 +139,8 @@ function Header() {
     }
 
     function Register(e) {
-        if (confirmPasswordError === "" && passwordError === "" && emailError === "") {
+        console.log(namesError);
+        if (confirmPasswordError === "" && passwordError === "" && emailError === "" && namesError === false) {
             e.preventDefault();
             fetch(`/login-router/register`, {
                 method: 'POST',
@@ -142,7 +152,7 @@ function Header() {
                 console.log(response.status);
                 if (response.status === 201) {
                     console.log("Registered user to Mongo");
-                    setRegUser({firstName: "", lastName: "", regEmail: "", regPassword: ""});
+                    setRegUser({firstName: null, lastName: null, regEmail: "", regPassword: ""});
                     setIsRegistrationVisible(!isRegistrationVisible);
                     setIsRegisterButtonVisible(!isRegisterButtonVisible);
                     setIsForgotButtonVisible(!isForgotButtonVisible);
@@ -150,11 +160,13 @@ function Header() {
                     setIsLoginVisible(!isLoginVisible);
                     setIsLoginClicked(!isLoginClicked);
                     setConfirmPassword("");
-                    setLoginError("");
+                    setLoginError(false);
+                    setRegisterDuplicateEmail(false);
+                    setNamesError(false);
                     window.alert("Successfully registered! Please login to continue.");
                 } else {
-                    console.log("Failed to register user to Mongo");
-                    window.alert("Email already exists.")
+                    console.log(response.status);
+                    setRegisterDuplicateEmail(true);
                 }
             });
         } else {
@@ -217,7 +229,7 @@ function Header() {
         if (emailError === "") {
             e.preventDefault();
             if (!forgotEmail) {
-                window.alert("Please enter an email.");
+                setForgotPasswordNoEntry(true);
             } else {
                 fetch(`/login-router/forgot`, {
                     method: 'POST',
@@ -233,9 +245,11 @@ function Header() {
                         setIsForgotVisible(!isForgotVisible);
                         setIsForgotButtonVisible(!isForgotButtonVisible);
                         setForgotEmail(null);
+                        setForgotPasswordNoEntry(false);
+                        setForgotPasswordUserNotFound(false);
                         window.alert("Reset password link sent. Please check your email.");
                     } else {
-                        window.alert("User not found. Please register to continue.");
+                        setForgotPasswordUserNotFound(true);
                     }
                 }).catch(err => {
                     console.log(err);
@@ -268,6 +282,7 @@ function Header() {
                 passwordError={passwordError}
                 setPasswordError={setPasswordError}
                 loginError={loginError}
+                setLoginError={setLoginError}
                 register={Register}
                 regUser={regUser}
                 handleRegChange={handleRegChange}
@@ -289,6 +304,14 @@ function Header() {
                 validateForgotEmail={validateForgotEmail}
                 isFooterVisible={isFooterVisible}
                 setIsFooterVisible={setIsFooterVisible}
+                forgotPasswordNoEntry={forgotPasswordNoEntry}
+                setForgotPasswordNoEntry={setForgotPasswordNoEntry}
+                forgotPasswordUserNotFound={forgotPasswordUserNotFound}
+                setForgotPasswordUserNotFound={setForgotPasswordUserNotFound}
+                registerDuplicateEmail={registerDuplicateEmail}
+                setRegisterDuplicateEmail={setRegisterDuplicateEmail}
+                namesError={namesError}
+                setNamesError={setNamesError}
             />
             <div className="title-and-logo-flexbox">
                 <img

@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import PropTypes from "prop-types";
 import "../styles/login.css"
-import {Button, Form} from "react-bootstrap";
+import {Alert, Button, Form, Modal} from "react-bootstrap";
 
 
 function ForgotPassword({
@@ -11,7 +11,11 @@ function ForgotPassword({
                             validateForgotEmail,
                             setEmailError,
                             handleCloseForgot,
-                            submitForgotPassword
+                            submitForgotPassword,
+                            forgotPasswordNoEntry,
+                            setForgotPasswordNoEntry,
+                            forgotPasswordUserNotFound,
+                            setForgotPasswordUserNotFound
                         }) {
 
     // email validation
@@ -31,7 +35,24 @@ function ForgotPassword({
     return (
         <Form>
             <h2>Forgot Password</h2>
-            <br/>
+            {forgotPasswordNoEntry &&
+            <Alert
+                variant="danger"
+                onClose={() => setForgotPasswordNoEntry(false)}
+                dismissible>
+                <Alert.Heading></Alert.Heading>
+                <p>Please enter an email.</p>
+            </Alert>
+            }
+            {forgotPasswordUserNotFound &&
+            <Alert
+                variant="danger"
+                onClose={() => setForgotPasswordUserNotFound(false)}
+                dismissible>
+                <Alert.Heading></Alert.Heading>
+                <p>User not found. Please register to continue.</p>
+            </Alert>
+            }
             <span>If you are registered in our system, you will receive an email to reset your password.</span>
             <br/>
             <br/>
@@ -68,7 +89,11 @@ ForgotPassword.propTypes = {
     validateForgotEmail: PropTypes.func.isRequired,
     setEmailError: PropTypes.func.isRequired,
     handleCloseForgot: PropTypes.func.isRequired,
-    submitForgotPassword: PropTypes.func.isRequired
+    submitForgotPassword: PropTypes.func.isRequired,
+    forgotPasswordNoEntry: PropTypes.bool,
+    setForgotPasswordNoEntry: PropTypes.func,
+    forgotPasswordUserNotFound: PropTypes.bool,
+    setForgotPasswordUserNotFound: PropTypes.func
 };
 
 export default ForgotPassword

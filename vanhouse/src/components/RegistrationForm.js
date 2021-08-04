@@ -1,6 +1,6 @@
 import React, {useEffect} from "react";
 import PropTypes from "prop-types";
-import {Button, Form} from "react-bootstrap";
+import {Alert, Button, Form} from "react-bootstrap";
 import "../styles/login.css"
 
 function RegistrationForm({
@@ -16,11 +16,39 @@ function RegistrationForm({
                               handleRegChange,
                               validateEmail,
                               passwordError,
-                              setPasswordError
+                              setPasswordError,
+                              registerDuplicateEmail,
+                              setRegisterDuplicateEmail,
+                              namesError,
+                              setNamesError
                           }) {
 
     // https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30
     // Accessed June 7, 2021 for usePasswordValidator and utils.js
+
+    // make sure names are filled out
+    useEffect(
+        () => {
+            if (!regUser.firstName || regUser.firstName === null || regUser.firstName === undefined) {
+                setNamesError(true);
+            } else {
+                setNamesError(false);
+            }
+        },
+        [regUser.firstName]
+    );
+
+    useEffect(
+        () => {
+            if (!regUser.lastName || regUser.lastName === null || regUser.lastName === undefined) {
+                setNamesError(true);
+            } else {
+                setNamesError(false);
+            }
+
+        },
+        [regUser.lastName]
+    )
 
     // email validation
     useEffect(
@@ -98,7 +126,16 @@ function RegistrationForm({
     return (
         <Form>
             <h2>Register</h2>
-            <br/>
+            {registerDuplicateEmail &&
+            <Alert
+                variant="danger"
+                onClose={() => setRegisterDuplicateEmail(false)}
+                dismissible>
+                <Alert.Heading></Alert.Heading>
+                <p>User already exists. </p>
+                <p>Please use a different email, or recover your account by clicking the "Forgot password" link.</p>
+            </Alert>
+            }
             <span>For full access to our features, including ability to </span>
             <br/>
             <span> posting your own properties, please register.</span>
@@ -109,7 +146,7 @@ function RegistrationForm({
                     type="text"
                     name="firstName"
                     id="firstName"
-                    placeholder="Enter first name"
+                    placeholder="Enter first name*"
                     onChange={handleRegChange}
                     value={regUser.firstName}
                 />
@@ -120,7 +157,7 @@ function RegistrationForm({
                     type="text"
                     name="lastName"
                     id="lastName"
-                    placeholder="Enter last name"
+                    placeholder="Enter last name*"
                     onChange={handleRegChange}
                     value={regUser.lastName}
                 />
@@ -131,7 +168,7 @@ function RegistrationForm({
                     type="email"
                     name="regEmail"
                     id="regEmail"
-                    placeholder="sample@sample.com"
+                    placeholder="sample@sample.com*"
                     onChange={handleRegChange}
                     value={regUser.email}
                 />
@@ -143,7 +180,7 @@ function RegistrationForm({
                     type="password"
                     name="regPassword"
                     id="regPassword"
-                    placeholder="Password"
+                    placeholder="Password*"
                     onChange={handleRegChange}
                     value={regUser.password}
                 />
@@ -154,7 +191,7 @@ function RegistrationForm({
                 <input
                     type="password"
                     name="password"
-                    placeholder="Confirm password"
+                    placeholder="Confirm password*"
                     onChange={e => setConfirmPassword(e.target.value)}
                     value={confirmPassword}
                 />
@@ -193,7 +230,11 @@ RegistrationForm.propTypes = {
     handleRegChange: PropTypes.func.isRequired,
     validateEmail: PropTypes.func.isRequired,
     passwordError: PropTypes.string.isRequired,
-    setPasswordError: PropTypes.func.isRequired
+    setPasswordError: PropTypes.func.isRequired,
+    registerDuplicateEmail: PropTypes.bool,
+    setRegisterDuplicateEmail: PropTypes.func,
+    namesError: PropTypes.bool,
+    setNamesError: PropTypes.func
 };
 
 export default RegistrationForm

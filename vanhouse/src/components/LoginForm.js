@@ -1,5 +1,5 @@
 import React from "react";
-import {Button, Form, Modal} from "react-bootstrap";
+import {Alert, Button, Form, Modal} from "react-bootstrap";
 import PropTypes from "prop-types";
 import RegistrationForm from "./RegistrationForm"
 import "../styles/login.css"
@@ -21,6 +21,7 @@ function LoginForm({
                        passwordError,
                        setPasswordError,
                        loginError,
+                       setLoginError,
                        register,
                        regUser,
                        handleRegChange,
@@ -40,7 +41,15 @@ function LoginForm({
                        forgotEmail,
                        validateForgotEmail,
                        isFooterVisible,
-                       setIsFooterVisible
+                       setIsFooterVisible,
+                       forgotPasswordNoEntry,
+                       setForgotPasswordNoEntry,
+                       forgotPasswordUserNotFound,
+                       setForgotPasswordUserNotFound,
+                       registerDuplicateEmail,
+                       setRegisterDuplicateEmail,
+                       namesError,
+                       setNamesError
                    }) {
 
     // https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30
@@ -73,7 +82,16 @@ function LoginForm({
                     <Modal.Title>Login</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {(loginError !== "") ? (<div className="login-error">{loginError}</div>) : ""}
+                    {loginError &&
+                    <Alert
+                        className="login-error-alert"
+                        variant="danger"
+                        onClose={() => setLoginError(false)}
+                        dismissible>
+                        <Alert.Heading>Invalid login or password.</Alert.Heading>
+                        <p>Please re-check your login information or register for a new account.</p>
+                    </Alert>
+                    }
                     <Form.Group controlId="formEmail">
                         <Form.Label>Email address</Form.Label>
                         <Form.Control required type="email" placeholder="Enter email" onChange={(e) => {
@@ -122,6 +140,10 @@ function LoginForm({
                         handleCloseForgot={handleClose}
                         submitForgotPassword={submitForgotPassword}
                         forgotEmail={forgotEmail}
+                        forgotPasswordNoEntry={forgotPasswordNoEntry}
+                        setForgotPasswordNoEntry={setForgotPasswordNoEntry}
+                        forgotPasswordUserNotFound={forgotPasswordUserNotFound}
+                        setForgotPasswordUserNotFound={setForgotPasswordUserNotFound}
                     />
                     }
                 </div>
@@ -152,6 +174,10 @@ function LoginForm({
                         validateEmail={validateEmail}
                         passwordError={passwordError}
                         setPasswordError={setPasswordError}
+                        registerDuplicateEmail={registerDuplicateEmail}
+                        setRegisterDuplicateEmail={setRegisterDuplicateEmail}
+                        namesError={namesError}
+                        setNamesError={setNamesError}
                     />
                     }
                 </div>
@@ -161,7 +187,7 @@ function LoginForm({
 }
 
 LoginForm.defaultProps = {
-    loginError: ""
+    loginError: false
 }
 
 LoginForm.propTypes = {
@@ -174,7 +200,8 @@ LoginForm.propTypes = {
     setIsRegistrationVisible: PropTypes.func.isRequired,
     isRegisterButtonVisible: PropTypes.bool.isRequired,
     setIsRegisterButtonVisible: PropTypes.func.isRequired,
-    loginError: PropTypes.string,
+    loginError: PropTypes.bool,
+    setLoginError: PropTypes.func,
     email: PropTypes.string.isRequired,
     setEmail: PropTypes.func.isRequired,
     setPassword: PropTypes.func.isRequired,
@@ -199,7 +226,15 @@ LoginForm.propTypes = {
     forgotEmail: PropTypes.string,
     validateForgotEmail: PropTypes.func,
     isFooterVisible: PropTypes.bool,
-    setIsFooterVisible: PropTypes.func
+    setIsFooterVisible: PropTypes.func,
+    forgotPasswordNoEntry: PropTypes.bool,
+    setForgotPasswordNoEntry: PropTypes.func,
+    forgotPasswordUserNotFound: PropTypes.bool,
+    setForgotPasswordUserNotFound: PropTypes.func,
+    registerDuplicateEmail: PropTypes.bool,
+    setRegisterDuplicateEmail: PropTypes.func,
+    namesError: PropTypes.bool,
+    setNamesError: PropTypes.func
 };
 
 export default LoginForm
