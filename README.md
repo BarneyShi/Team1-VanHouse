@@ -47,6 +47,30 @@ The website will support users in publishing available apartments/houses/rooms f
 * :x: Users will be able to send direct messages to other users.   
 * :heavy_check_mark: Users will be able to search by keyword (instead of just by location or specific address and then filtering).   
 
+## `Tech`
+- React.js: We used React.js to build our front-end. We created many granular functional components such as Post, PostCollection, PostDetail, LoginForm, SearchBar, and UserList. In addition to CSS, we used React Bootstrap to style some of our components to improve consistency across the app.
+- Node.js/Express.js: We used Node.js/Express to serve up the static website after building and deploying. We also created a RESTful API for creating, reading, updating and deleting information from the MongoDB database. We also made middleware to authenticate users and made some routes protected. 
+- CSS: We created a styles folder to store all of the stylesheets used for each of our components. To ensure that our UI was clear and easy to use, we used a flexbox layout and a consistent colour scheme across the website.
+- MongoDB: To store our backend data, we used a MongoDB Atlas Cloud database. We made 4 different models -- Comment, Post, Schedule, and User -- for this purpose. We used Mongoose as an ORM to communicate with our database. 
+- Heroku: We deployed our project on Heroku with Github actions. It will automatically build once we push new changes so that every team member can preview our work.
+
+## `Above and Beyond`
+- Admin page: We made an admin page as a tool for managing our website. We used Recharts to demonstrate some statistics such as daily traffic information and average prices of posted properties. Admins can also search post/user,  edit posts, delete posts or change user’s roles.  This page is strictly only accessible to users with admin roles. 
+- Image uploading: We added functionality for users to upload multiple images and select a main image for their post. We also added the react-easy-crop library to allow cropping the main image, and resize the main image before uploading to the database as a base64 string so that the homepage loads more quickly.
+- Login and user authentication: We added functions for users to create an account on the website, login, and access user-only actions such as creating new posts. This was to increase security and credibility on our app and decrease the amount of potential spam that might be posted. We also created a function for when users forget their password so that they are able to recover their account via email.
+
+## `Next Steps`
+- If we were to further improve our app, we would complete our second stretch requirement which would allow users to send DMs to each other.
+- We would also create a functional user account page where users could see all of their posts on one page, edit or delete posts, and edit user information from a central hub. 
+- We would also add the function of switching languages. For example, the website could switch between Chinese and English.
+
+## `Contributions`
+- Barney worked on the post detail page, admin page and set up the database. Barney implemented a comment function, deleting post function, location display with map, post edit function, and made an admin page as admin tools. Barney helped create our MongoDB models, create schemas and connect our backend to MongoDB Atlas.  
+- Naithan worked on the post component, and post collection component for the homepage as well as the post creation forms, including the connections to the backend, MongoDB find and insert commands, alert display, image uploading, and see more posts button. Naithan also helped set up Heroku deployment by setting up the build commands and Github Actions.
+- Yuxin worked on the search bar and user list page, including the function of automatically add the newly registered users saved in mangoDB into the userlist and filtering corresponding posts through cities, prices, keywords and individual users
+- Sujin worked on the login/logout, user authentication, and user registration  portions of the website. This included a Forgot Password feature and relatively secure login using JSON Web Tokens stored as HTTPOnly cookies and password hashing when storing user information in the MongoDB database.
+
+
 ## `Pick 2 of your minimal requirements and break each of them down into ~2-5 smaller tasks!`
 - Create, read, update, delete posted real estates
   - Front-end: a create button, a button to delete post, a form to edit post
