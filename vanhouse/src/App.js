@@ -11,12 +11,14 @@ import PostCollection from "./components/PostCollection";
 import ResetPassword from "./components/ResetPassword";
 import AccountDetails from "./components/AccountDetails";
 
+
 function App() {
   const [user, setUser] = useState();
   const [reset, setReset] = useState(false);
   const [filterURL, setFilterURL] = useState("");
   const [userId, setUserId] = useState("");
   const [posts, setPosts] = useState([]);
+
 
   useEffect( async ()=> {
     try {
@@ -44,13 +46,13 @@ function App() {
           <Route exact path="/">
             <Container fluid>
               <Row id="AppMainRow">
-                <Col lg={3} md={3}>
+                <Col lg={3} md={3} >
                   <UserList setReset={setReset}
                             setQuery={setFilterURL}
                             setUserId={setUserId}
                   />
                 </Col>
-                <Col>
+                <Col >
                   <PostCollection filterURL={filterURL}
                                   userId={userId}
                                   appPosts={posts}

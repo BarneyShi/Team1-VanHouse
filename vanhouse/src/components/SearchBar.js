@@ -6,10 +6,10 @@ import {InputGroup, Button, FormControl, DropdownButton,ButtonToolbar} from 'rea
 import search from '../assets/search.png';
 import '../styles/searchbar.css';
 
+import event from './Events';
+
 function SearchBar({getData, setQuery, userId}){
     const [leftState,setLeftState] = useState(0);
-    // const [Click,setClick] = useState({getData, setQuery})
-
 
     const [low, setLow] = useState("");
     const [high, setHigh] = useState("");
@@ -17,16 +17,20 @@ function SearchBar({getData, setQuery, userId}){
     const [keyword, setKeyword] = useState("");
 
     const handleSelect = (e) => {
-        //   setLocation(Number(e.target.value));
+
         setLocation(e.target.value);
     }
 
     function Cancel() {
+
+        event.emit('clear_user', 'searchbar');
+
         setLocation("city");
         setLow("");
         setHigh("");
         setKeyword("");
         setQuery("");
+
     }
 
     function searchByCondition() {
@@ -55,13 +59,13 @@ function SearchBar({getData, setQuery, userId}){
                 <option value="Richmond">Richmond</option>
             </select>
             <InputGroup.Text className="">Price:</InputGroup.Text>
-            <FormControl className="price-num" type="text" value={low}
+            <FormControl className="price-num" type="number" value={low}
                          onChange={(e) => {
                              setLow(e.target.value);
                          }}
             />
             <InputGroup.Text className="">-</InputGroup.Text>
-            <FormControl className="price-num2" type="text" value={high}
+            <FormControl className="price-num2" type="number" value={high}
                          onChange={(e) => {
                              setHigh(e.target.value);
                          }}
