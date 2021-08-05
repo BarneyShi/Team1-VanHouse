@@ -1,5 +1,3 @@
-import { getDefaultNormalizer } from '@testing-library/react';
-import { Dropdown ,MenuItem,Input} from 'bootstrap';
 import React,{useState}from 'react'
 import PropTypes from 'prop-types'
 import {InputGroup, Button, FormControl, DropdownButton,ButtonToolbar} from 'react-bootstrap';
@@ -11,13 +9,13 @@ import event from './Events';
 function SearchBar({getData, setQuery, userId}){
     const [leftState,setLeftState] = useState(0);
 
+
     const [low, setLow] = useState("");
     const [high, setHigh] = useState("");
     const [location, setLocation] = useState("city");
     const [keyword, setKeyword] = useState("");
 
     const handleSelect = (e) => {
-
         setLocation(e.target.value);
     }
 
@@ -52,7 +50,7 @@ function SearchBar({getData, setQuery, userId}){
 
     return(
         <div className="style row">
-            <select onChange={(e)=>handleSelect(e)} value={location} className="citys">
+            <select onChange={(e)=>handleSelect(e)} value={location} className="citys form-control col-2">
                 <option value="city">City</option>
                 <option value="Vancouver">Vancouver</option>
                 <option value="Burnaby">Burnaby</option>
