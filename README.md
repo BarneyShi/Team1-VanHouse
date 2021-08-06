@@ -56,7 +56,7 @@ The website will support users in publishing available apartments/houses/rooms f
 
 ## `Above and Beyond`
 - Admin page: We made an admin page as a tool for managing our website. We used Recharts to demonstrate some statistics such as daily traffic information and average prices of posted properties. Admins can also search post/user,  edit posts, delete posts or change user’s roles.  This page is strictly only accessible to users with admin roles. 
-- Image uploading: We added functionality for users to upload multiple images and select a main image for their post. We also added the react-easy-crop library to allow cropping the main image, and resize the main image before uploading to the database as a base64 string so that the homepage loads more quickly.
+- Image uploading: We added functionality for users to upload multiple images and select a main image for their post. We also added the react-easy-crop library to allow cropping the main image, and we reduce the main image size using a canvas before uploading it to the database as a base64 string so that the homepage loads more quickly.
 - Login and user authentication: We added functions for users to create an account on the website, login, and access user-only actions such as creating new posts. This was to increase security and credibility on our app and decrease the amount of potential spam that might be posted. We also created a function for when users forget their password so that they are able to recover their account via email.
 
 ## `Next Steps`
@@ -66,8 +66,8 @@ The website will support users in publishing available apartments/houses/rooms f
 
 ## `Contributions`
 - Barney worked on the post detail page, admin page and set up the database. Barney implemented a comment function, deleting post function, location display with map, post edit function, and made an admin page as admin tools. Barney helped create our MongoDB models, create schemas and connect our backend to MongoDB Atlas.  
-- Naithan worked on the post component, and post collection component for the homepage as well as the post creation forms, including the connections to the backend, MongoDB find and insert commands, alert display, image uploading, and see more posts button. Naithan also helped set up Heroku deployment by setting up the build commands and Github Actions.
-- Yuxin worked on the search bar and user list page, including the function of automatically add the newly registered users saved in mangoDB into the userlist and filtering corresponding posts through cities, prices, keywords and individual users
+- Naithan worked on the post component, and post collection component for the homepage as well as the post creation forms. This included setting up the connections to the backend, implementing MongoDB find and insert commands, creating a loading spinner component, implementing image uploading, and creating see more posts button. Naithan also helped set up Heroku deployment by setting up the build commands and Github Actions.
+- Yuxin worked on the search bar and user list page, including the function of automatically add the newly registered users saved in mongoDB into the userlist and filtering corresponding posts through cities, prices, keywords and individual users
 - Sujin worked on the login/logout, user authentication, and user registration  portions of the website. This included a Forgot Password feature and relatively secure login using JSON Web Tokens stored as HTTPOnly cookies and password hashing when storing user information in the MongoDB database.
 
 
