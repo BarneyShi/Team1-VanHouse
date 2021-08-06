@@ -7,6 +7,7 @@ import LoginButton from "./LoginButton";
 import WelcomeUser from "./WelcomeUser";
 
 import { useTranslation } from 'react-i18next';
+import earth from "../assets/earth.png";
 
 function Header() {
     const history = useHistory();
@@ -44,10 +45,13 @@ function Header() {
     const [language, setLanguage] = useState("en");
     const { t, i18n } = useTranslation();
 
-    const changeLanguage = (e) => {
-        i18n.changeLanguage(e.target.value);
-        localStorage.setItem("page_language", e.target.value);
+    const changeLanguage = (lang) => {
+        setLanguage(lang);
+        console.log("change lang:", lang)
+        i18n.changeLanguage(lang);
+        localStorage.setItem("page_language", lang);
     }
+
 
     // Functions
     const handleLoginClicked = () => {
@@ -332,10 +336,16 @@ function Header() {
 
             <div className="header-buttons">
                 <div className="row mr-1">
-                    <select className="form-control"  onChange={(e)=>changeLanguage(e)}>
-                        <option value="en">English</option>
-                        <option value="cn">简体中文</option>
-                    </select>
+                    <div class="dropdown">
+                        <a class="btn  dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img className="dropdown-img" alt="triangle" src={earth} />
+                        </a>
+                        
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a class="dropdown-item" href="#" onClick={e=>{changeLanguage('en')}}>English</a>
+                            <a class="dropdown-item" href="#" onClick={e=>{changeLanguage('cn')}}>简本中文</a>
+                        </div>
+                    </div>
                 </div>
                 <div className="home-button">
                     <Button

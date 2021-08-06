@@ -69,6 +69,16 @@ const resources = {
       "months": "months",
       "year": "year",
 
+      "Select Images": "Select Images",
+      "Upload 1-4 images": "Upload 1-4 images",
+      "Select main image": "Select main image",
+      "Crop main image": "Crop main image",
+      "Scroll to zoom": "Scroll to zoom",
+      "Select some available dates": "Select some available dates",
+      "Let tenants know": "Let tenants know when you're available for a home tour!",
+      "You can pick multiple dates!": "You can pick multiple dates!",
+      "Waiting...": "Waiting...",
+
       "Book a home tour!": "Book a home tour!",
       "Email": "Email",
       "Pets friendly": "Pets friendly",
@@ -84,6 +94,8 @@ const resources = {
       "Report": "Report",
       "Edit Post": "Edit Post",
       "Delete": "Delete",
+
+      "Date posted": "Date posted",
     }
 },
 cn: {
@@ -138,7 +150,7 @@ cn: {
         "Bedrooms": "卧室",
         "Bathrooms": "洗手间",
         "Square ft": "面积",
-        "Utilities included": "包含工具",
+        "Utilities included": "包含公共设施",
         "In suite laundry": "带洗衣机",
         "Pets allowed": "允许养宠物",
         "Furnished": "有家具",
@@ -150,21 +162,33 @@ cn: {
         "months": "个月",
         "year": "年",
 
-        "Book a home tour!": "预订一次家的旅行!",
+        "Select Images": "选择图片",
+        "Upload 1-4 images": "上传 1-4 张图片",
+        "Select main image": "选择主图",
+        "Crop main image": "裁剪主图",
+        "Scroll to zoom": "滚动-缩放",
+        "Select some available dates": "选择可行日期",
+        "Let tenants know": "让房客知道什么时间可以开启行程!",
+        "You can pick multiple dates!": "你可以选择多个日期!",
+        "Waiting...": "等待...",
+
+        "Book a home tour!": "预订一次家的旅行吧!",
         "Email": "电子邮件",
         "Pets friendly": "宠物友好",
         "No pets": "禁止宠物",
-        "Utility included": "包含工具",
-        "Utility not included": "不包含工具",
+        "Utility included": "包括公用设施",
+        "Utility not included": "不包括公用设施",
         "Ensuite laundry": "有洗衣机",
         "No ensuite laundry": "没有洗衣机",
         "Unfurnished": "没有家具",
         "View More": "查看更多",
         "Comment": "评论",
-        "Leave a comment!": "看了这么久，留下一点评论吧!",
+        "Leave a comment!": "看了这么久，留下评论吧!",
         "Report": "报告",
         "Edit Post": "编辑内容",
         "Delete": "删除",
+
+        "Date posted": "发布日期",
     }
   }
 };

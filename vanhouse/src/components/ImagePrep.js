@@ -10,6 +10,8 @@ import PropTypes from "prop-types";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 import Cropper from 'react-easy-crop'
 import "../styles/imagePrep.css";
+import { useTranslation } from 'react-i18next';
+
 
 // Presents a modal view with a form for creating a new post
 function ImagePrep({ show, handleSubmit, handleClose }) {
@@ -33,6 +35,8 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
   const onCropComplete = useCallback((area, areaPixels) => {
     setCroppedAreaPixels(areaPixels);
   }, []);
+
+  const { t, i18n } = useTranslation();
 
   // Reset the image state
   const resetState = (doReinit) => {
@@ -173,7 +177,7 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
       <Modal show={show} onHide={handleClose} size="lg" centered>
         <Form onSubmit={submitClicked}>
           <Modal.Header>
-            <Modal.Title>Select Images</Modal.Title>
+            <Modal.Title>{t('Select Images')}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form.Group as={Col} controlId="formImages">
@@ -182,7 +186,7 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
                 name="imageFilePicker"
                 multiple
                 required
-                label="Upload 1-4 images *"
+                label={t('Upload 1-4 images') + " *"}
                 feedback={imageErrorMsg}
                 accept=".jpg, .jpeg, .png, .tiff"
                 isInvalid={!imageSizeValid || !imageCountValid}
@@ -192,7 +196,7 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
               />
             </Form.Group>
             {images.length > 0 && 
-              <p>Select main image</p>
+              <p>{t('Select main image')}</p>
             }
             <Row>
               {images?.map((e, idx) => (
@@ -212,7 +216,7 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
             </Row>
             {images.length > 0 && 
               <div>
-                <p>Crop main image</p>
+                <p>{t('Crop main image')}</p>
                 <Row>
                   <div className="image-scroll-div">           
                     <div className="crop-div">
@@ -228,18 +232,18 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
                     </div>                  
                   </div>
                 </Row>
-                <p>Scroll to zoom</p>
+                <p>{t('Scroll to zoom')}</p>
                 <canvas id="targetCanvas" ref={canvasRef}/>
               </div>
             }
-            <Form.Text className="text-muted">* required fields</Form.Text>
+            <Form.Text className="text-muted">* {t('required fields')}</Form.Text>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
-              Close
+              {t('Close')}
             </Button>
             <Button variant="primary" type="submit">
-              Continue
+              {t('Continue')}
             </Button>
           </Modal.Footer>
         </Form>
