@@ -5,6 +5,7 @@ import user1 from "../assets/img1.jpg";
 import user2 from "../assets/img2.jpg";
 import user3 from "../assets/img3.jpg";
 import user4 from "../assets/user.svg";
+import triangle from "../assets/triangle.png";
 import '../styles/userlist.css';
 
 import event from './Events';
@@ -68,14 +69,14 @@ function UserList({ setQuery, setUserId }) {
                 <div className="accordion" >
                     <div className="card">
                         <div className="card-header" id="headingOne">
-                        <h2 className="mb-0"  data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            User List
-                        </h2>
+                            <h2 className="mb-0"  data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                User List
+                            </h2>
                         </div>
 
                         <div>
                             <div className="card-body">
-                            {list}
+                                {list}
                             </div>
                         </div>
                     </div>
@@ -86,14 +87,15 @@ function UserList({ setQuery, setUserId }) {
                 <div className="accordion" id="user-list">
                     <div className="card">
                         <div className="card-header" id="headingOne">
-                        <h2 className="mb-0"  data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            User List
-                        </h2>
+                            <h2 className="mb-0"  data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                User List
+                                <img className="dropdown-img" alt="triangle" src={triangle} />
+                            </h2>
                         </div>
 
                         <div id="collapseOne" className="collapse" aria-labelledby="headingOne" data-parent="#user-list">
                             <div className="card-body">
-                            {list}
+                                {list}
                             </div>
                         </div>
                     </div>
