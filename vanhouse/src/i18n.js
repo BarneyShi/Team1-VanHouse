@@ -24,6 +24,8 @@ const resources = {
 
       "Post": "Post",
       "See more posts": "See more posts",
+      
+      "Enter email" :  "Enter email",
 
       "Email address": "Email address",
       "Password": "Password",
@@ -132,14 +134,16 @@ cn: {
         
         "Post": "发布",
         "See more posts": "查看更多",
-
-        "Email address": "电子邮箱地址",
+      
+        "Enter email" :  "输入邮箱",
+           
+        "Email address": "电子邮箱",
         "Password": "密码",
         "Close": "关闭",
         "Forgot Password": "忘记密码",
         "Register for a new account": "注册新账号",
 
-        "forgot password hint": "我们已为你发送重置密码的邮件。",
+        "forgot password hint": "已为你发送重置信息，请查看邮件。",
         "Submit": "提交",
         "user not found hint": "用户不存在，请注册后再操作。",
         "Please enter an email.": "请输入邮箱地址。",
@@ -185,11 +189,11 @@ cn: {
         "Select main image": "选择主图",
         "Crop main image": "裁剪主图",
         "Scroll to zoom": "滚动-缩放",
-        "Select some available dates": "选择可行日期",
+        "Select some available dates": "选择您的日期",
         "Let tenants know": "让房客知道什么时间可以开启行程!",
         "You can pick multiple dates!": "你可以选择多个日期!",
         "Waiting...": "等待...",
-        "Image size limit": "图片文件大小超过 1MB. 请选择文件小于 1MB.",
+        "Image size limit": "图片文件大小超过 1MB. 请选择小于1MB的文件.",
 
         "Book a home tour!": "预订一次家的旅行!",
         "Email": "电子邮件",
@@ -204,7 +208,7 @@ cn: {
         "Comment": "评论",
         "Leave a comment!": "看了这么久，留下一点评论吧!",
         "Report": "报告",
-        "Edit Post": "编辑内容",
+        "Edit Post": "编辑",
         "Delete": "删除",
         "You can contact the landlord on": "你可以根据以下信息联系房东",
         "Are you sure you want to continue?": "确定要继续吗?",
