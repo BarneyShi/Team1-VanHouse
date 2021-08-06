@@ -10,7 +10,7 @@ import event from './Events';
 
 function SearchBar({getData, setQuery, userId}){
     const [leftState,setLeftState] = useState(0);
-    // const [Click,setClick] = useState({getData, setQuery})
+
 
 
     const [low, setLow] = useState("");
@@ -19,7 +19,7 @@ function SearchBar({getData, setQuery, userId}){
     const [keyword, setKeyword] = useState("");
 
     const handleSelect = (e) => {
-        //   setLocation(Number(e.target.value));
+
         setLocation(e.target.value);
     }
 
@@ -44,13 +44,7 @@ function SearchBar({getData, setQuery, userId}){
         setQuery(url);
     }
 
-    function searchAll() {
-        setLocation("city");
-        setLow("");
-        setHigh("");
-        setKeyword("");
-        setQuery(`/posts`);
-    }
+
 
     return(
         <div className="style row">
