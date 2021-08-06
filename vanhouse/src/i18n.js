@@ -21,6 +21,10 @@ const resources = {
       "Price": "Price",
       "Keyword": "Keyword",
       "Cancel": "Cancel",
+      
+       "Vancouver":"Vancouver",
+       "Burnaby":"Burnaby",
+       "Richmond": "Richmond",
 
       "Post": "Post",
       "See more posts": "See more posts",
@@ -131,6 +135,10 @@ cn: {
         "Price": "价格",
         "Keyword": "关键词",
         "Cancel": "取消",
+      
+        "Vancouver":"温哥华",
+        "Burnaby":"本拿比",
+        "Richmond": "列治文",
         
         "Post": "发布",
         "See more posts": "查看更多",
