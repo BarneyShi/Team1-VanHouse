@@ -41,6 +41,7 @@ function UserList({ setQuery, setUserId }) {
         setQuery("");
     }
 
+    let keyIndex = 0;
     useEffect(() => {
         fetch("/user",
             { method: "GET" })
@@ -48,8 +49,9 @@ function UserList({ setQuery, setUserId }) {
             .then((res) => {
                 const newName = [];
                 console.log(res);
+                keyIndex++;
                 const cardList = res.map((item, index) => (
-                    <div className="user-item" key={item}  onClick={(e) => filterUserPost(e, item)}>
+                    <div className="user-item" key={keyIndex + "_" + item._id}  onClick={(e) => filterUserPost(e, item)}>
                         <img alt="User avatar" src={userImg[2]} />
                         {item.firstName} {item.lastName}
                     </div>
@@ -63,16 +65,16 @@ function UserList({ setQuery, setUserId }) {
         <div>
 
             <div className="user-box user_scroll_div d-none d-md-block">
-                <div class="accordion" >
-                    <div class="card">
-                        <div class="card-header" id="headingOne">
-                        <h2 class="mb-0"  data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                <div className="accordion" >
+                    <div className="card">
+                        <div className="card-header" id="headingOne">
+                        <h2 className="mb-0"  data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                             User List
                         </h2>
                         </div>
 
                         <div>
-                            <div class="card-body">
+                            <div className="card-body">
                             {list}
                             </div>
                         </div>
@@ -81,16 +83,16 @@ function UserList({ setQuery, setUserId }) {
 
             </div>
             <div className="d-block d-md-none">
-                <div class="accordion" id="user-list">
-                    <div class="card">
-                        <div class="card-header" id="headingOne">
-                        <h2 class="mb-0"  data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                <div className="accordion" id="user-list">
+                    <div className="card">
+                        <div className="card-header" id="headingOne">
+                        <h2 className="mb-0"  data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
                             User List
                         </h2>
                         </div>
 
-                        <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#user-list">
-                            <div class="card-body">
+                        <div id="collapseOne" className="collapse" aria-labelledby="headingOne" data-parent="#user-list">
+                            <div className="card-body">
                             {list}
                             </div>
                         </div>

@@ -1,3 +1,5 @@
+import { getDefaultNormalizer } from '@testing-library/react';
+import { Dropdown ,MenuItem,Input} from 'bootstrap';
 import React,{useState}from 'react'
 import PropTypes from 'prop-types'
 import {InputGroup, Button, FormControl, DropdownButton,ButtonToolbar} from 'react-bootstrap';
@@ -8,6 +10,7 @@ import event from './Events';
 
 function SearchBar({getData, setQuery, userId}){
     const [leftState,setLeftState] = useState(0);
+    // const [Click,setClick] = useState({getData, setQuery})
 
 
     const [low, setLow] = useState("");
@@ -16,6 +19,7 @@ function SearchBar({getData, setQuery, userId}){
     const [keyword, setKeyword] = useState("");
 
     const handleSelect = (e) => {
+        //   setLocation(Number(e.target.value));
         setLocation(e.target.value);
     }
 
