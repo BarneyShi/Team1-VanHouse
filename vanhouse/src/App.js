@@ -10,6 +10,7 @@ import "./App.css";
 import PostCollection from "./components/PostCollection";
 import ResetPassword from "./components/ResetPassword";
 import AccountDetails from "./components/AccountDetails";
+import { useTranslation } from 'react-i18next';
 
 function App() {
   const [user, setUser] = useState();
@@ -17,6 +18,12 @@ function App() {
   const [filterURL, setFilterURL] = useState("");
   const [userId, setUserId] = useState("");
   const [posts, setPosts] = useState([]);
+
+  const { t, i18n } = useTranslation();
+  let language = localStorage.getItem("page_language");
+  if(language === "cn" && "cn" !== i18n.language){
+    i18n.changeLanguage("cn");
+  }
 
   useEffect( async ()=> {
     try {
@@ -44,13 +51,13 @@ function App() {
           <Route exact path="/">
             <Container fluid>
               <Row id="AppMainRow">
-                <Col lg={3} md={3}>
+                <Col lg={3} md={3} >
                   <UserList setReset={setReset}
                             setQuery={setFilterURL}
                             setUserId={setUserId}
                   />
                 </Col>
-                <Col>
+                <Col >
                   <PostCollection filterURL={filterURL}
                                   userId={userId}
                                   appPosts={posts}

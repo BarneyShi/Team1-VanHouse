@@ -1,70 +1,152 @@
 #table{
-  width: 90%;
+    width: 90%;
 }
 
 #table tr td{
-  width: 33%;
+    width: 33%;
 }
 
 #table tr td input{
-  width: 100%;
+    width: 100%;
 }
 
 .h2{
-  text-align: left;
+    text-align: left;
 }
 
 .style {
-  display: flex;
-  margin:auto;
-  text-align: center;
-  flex-basis: 85%;
-  /* height: 2.5rem; */
+    display: flex;
+    margin:auto;
+    text-align: center;
+    flex-basis: 85%;
+    /* height: 2.5rem; */
 }
 
 .searchInput {
-  border-right: 1px solid #7b7b7b;
+    border-right: 1px solid #7b7b7b;
 }
 
 .imgstyle{
-  height: 20px;
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  text-align: center,
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    text-align: center,
 
 }
 
 .boxStyle{
-  box-shadow:0 8px 20px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.1);
-      border-radius:3px;
-      padding-bottom:10px;
-      height:90vh;
-      padding-left:10px
+    box-shadow:0 8px 20px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.1);
+    border-radius:3px;
+    padding-bottom:10px;
+    height:90vh;
+    padding-left:10px
 }
 
 .divStyle{
-  width:90%;
-      text-align:left;
-      margin-top:10px
+    width:90%;
+    text-align:left;
+    margin-top:10px
 }
 
 .width{
-  width:80%;
-      margin-top:10px;
-      margin-bottom: 10px;
+    width:80%;
+    margin-top:10px;
+    margin-bottom: 10px;
 }
 
 .citys{
-  margin-right: 10px;
+    margin-right: 10px;
 }
 .price-num{
-  width:70px;
+    width:90px;
 }
 .price-num2{
-  width:70px;
-  margin-right: 10px;
+    width:90px;
+    margin-right: 10px;
 }
 .keyword{
-  min-width:70px;
+    min-width:70px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+#table{
+    width: 90%;
+}
+
+#table tr td{
+    width: 33%;
+}
+
+#table tr td input{
+    width: 100%;
+}
+
+.h2{
+    text-align: left;
+}
+
+.style {
+    display: flex;
+    margin:auto;
+    text-align: center;
+    flex-basis: 85%;
+    /* height: 2.5rem; */
+}
+
+.searchInput {
+    border-right: 1px solid #7b7b7b;
+}
+
+.imgstyle{
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    text-align: center,
+
+}
+
+.boxStyle{
+    box-shadow:0 8px 20px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.1);
+    border-radius:3px;
+    padding-bottom:10px;
+    height:90vh;
+    padding-left:10px
+}
+
+.divStyle{
+    width:90%;
+    text-align:left;
+    margin-top:10px
+}
+
+.width{
+    width:80%;
+    margin-top:10px;
+    margin-bottom: 10px;
+}
+
+.citys{
+    margin-right: 10px;
+}
+.price-num{
+    width:90px;
+}
+.price-num2{
+    width:90px;
+    margin9right: 10px;
+}
+.keyword{
+    min-width:70px;
 }

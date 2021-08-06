@@ -12,6 +12,8 @@ import LoadingSpinner from "./LoadingSpinner";
 import { getErrorString } from "../utils";
 import "../styles/post.css";
 
+import { useTranslation } from 'react-i18next';
+
 function PostCollection({
   filterURL,
   userId,
@@ -46,6 +48,8 @@ function PostCollection({
 
 
   const fetchSpinnerRef = useRef();
+
+  const { t, i18n } = useTranslation();
 
   // Query server for posts on mount
   useEffect(() => {
@@ -312,7 +316,7 @@ function PostCollection({
             onClick={presentCreatePost}
           >
             {" "}
-            Post{" "}
+            {t('Post')}{" "}
           </Button>{" "}
         </div>
       </div>
@@ -345,7 +349,7 @@ function PostCollection({
         {!isLoadingPosts && !fetchingNextPosts && ((!postsResEmpty && !displayFiltered)  || (!searchResEmpty && displayFiltered)) &&
           <div id="getMorePostsDiv">
             <Button id="getMorePostsBtn" variant="link" onClick={getMorePosts}>
-              See more posts...
+              {t('See more posts')}...
             </Button>
           </div>
         }

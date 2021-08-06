@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import PropTypes from "prop-types";
 import "../styles/login.css"
 import {Alert, Button, Form, Modal} from "react-bootstrap";
-
+import { useTranslation } from 'react-i18next';
 
 function ForgotPassword({
                             handleForgotChange,
@@ -18,6 +18,7 @@ function ForgotPassword({
                             setForgotPasswordUserNotFound
                         }) {
 
+    const { t, i18n } = useTranslation();
     // email validation
     useEffect(
         () => {
@@ -26,7 +27,7 @@ function ForgotPassword({
             } else if (validateForgotEmail(forgotEmail)) {
                 setEmailError("");
             } else {
-                setEmailError("Please enter a valid email.");
+                setEmailError(t("Please enter a valid email."));
             }
         },
         [forgotEmail]
@@ -34,14 +35,14 @@ function ForgotPassword({
 
     return (
         <Form>
-            <h2>Forgot Password</h2>
+            <h2>{t('Forgot Password')}</h2>
             {forgotPasswordNoEntry &&
             <Alert
                 variant="danger"
                 onClose={() => setForgotPasswordNoEntry(false)}
                 dismissible>
                 <Alert.Heading></Alert.Heading>
-                <p>Please enter an email.</p>
+                <p>{t('Please enter an email.')}</p>
             </Alert>
             }
             {forgotPasswordUserNotFound &&
@@ -50,10 +51,10 @@ function ForgotPassword({
                 onClose={() => setForgotPasswordUserNotFound(false)}
                 dismissible>
                 <Alert.Heading></Alert.Heading>
-                <p>User not found. Please register to continue.</p>
+                <p>{t('user not found hint')}</p>
             </Alert>
             }
-            <span>If you are registered in our system, you will receive an email to reset your password.</span>
+            <span>{t('forgot password hint')}</span>
             <br/>
             <br/>
             <div className="form-group">
@@ -70,10 +71,10 @@ function ForgotPassword({
 
             <div className="registration-form-buttons">
                 <Button className="reg-close-button" variant="secondary" onClick={handleCloseForgot}>
-                    Close
+                    {t('Close')}
                 </Button>
                 <Button type="submit" variant="primary" onClick={submitForgotPassword}>
-                    Submit
+                    {t('Submit')}
                 </Button>
             </div>
         </Form>

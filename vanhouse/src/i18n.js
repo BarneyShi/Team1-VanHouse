@@ -1,0 +1,185 @@
+import i18n from "i18next";
+import { initReactI18next } from "react-i18next";
+
+// the translations
+// (tip move them in a JSON file and import them,
+// or even better, manage them separated from your code: https://react.i18next.com/guides/multiple-translation-files)
+const resources = {
+  en: {
+    translation: {
+      "Welcome to React": "Welcome to React and react-i18next",
+      "Language": "Language",
+      "VANHOUSE": "VANHOUSE",
+      "Home": "Home",
+      "Login": "Login",
+      "User List": "User List",
+
+      "City": "City",
+      "Price": "Price",
+      "Keyword": "Keyword",
+      "Cancel": "Cancel",
+
+      "Post": "Post",
+      "See more posts": "See more posts",
+
+      "Email address": "Email address",
+      "Password": "Password",
+      "Close": "Close",
+      "Forgot Password": "Forgot password",
+      "Register for a new account": "Register for a new account",
+
+      "forgot password hint": "If you are registered in our system, you will receive an email to reset your password.",
+      "Submit": "Submit",
+      "user not found hint": "User not found. Please register to continue.",
+      "Please enter an email.": "Please enter an email.",
+      "Please enter a valid email.": "Please enter an valid email.",
+
+      "Register": "Register",
+      "Enter first name*": "Enter first name*",
+      "Enter last name*": "Enter last name*",
+      "Confirm password": "Confirm password",
+      "required fields": "required fields",
+      "Please choose a password": "Please choose a password",
+      "Register hint": "For full access to our features, including ability to posting your own properties, please register.",
+      "Password at least": "Password must be at least {{0}} characters.",
+      "Password max": "Password must be less than {{0}} characters.",
+      "Password must contain at least 1 number.": "Password must contain at least 1 number.",
+      "Password special": "Password must contain at least 1 special character.",
+      "The passwords must match.": "The passwords must match.",
+
+      "Create a new rental listing": "Create a new rental listing",
+      "Title": "Title",
+      "Phone number": "Phone number",
+      "Address": "Address",
+      "Postal Code": "Postal Code",
+      "Payment period": "Payment period",
+      "Lease length": "Lease length",
+      "Bedrooms": "Bedrooms",
+      "Bathrooms": "Bathrooms",
+      "Square ft": "Square ft",
+      "Utilities included": "Utilities included",
+      "In suite laundry": "In suite laundry",
+      "Pets allowed": "Pets allowed",
+      "Furnished": "Furnished",
+      "Continue": "Continue",
+      "daily": "daily",
+      "weekly": "weekly",
+      "monthly": "monthly",
+      "no lease": "no lease",
+      "months": "months",
+      "year": "year",
+
+      "Book a home tour!": "Book a home tour!",
+      "Email": "Email",
+      "Pets friendly": "Pets friendly",
+      "No pets": "No pets",
+      "Utility included": "Utility included",
+      "Utility not included": "Utility not included",
+      "Ensuite laundry": "Ensuite laundry",
+      "No ensuite laundry": "No ensuite laundry",
+      "Unfurnished": "Unfurnished",
+      "View More": "View More",
+      "Comment": "Comment",
+      "Leave a comment!": "Leave a comment!",
+      "Report": "Report",
+      "Edit Post": "Edit Post",
+      "Delete": "Delete",
+    }
+},
+cn: {
+    translation: {
+        "Welcome to React": "欢迎",
+        "Language": "语言",
+        "VANHOUSE": "温哥华租房",
+        "Home": "主页",
+        "Login": "登录",
+        "User List": "用户列表",
+
+        "City": "城市",
+        "Price": "价格",
+        "Keyword": "关键词",
+        "Cancel": "取消",
+        
+        "Post": "发布",
+        "See more posts": "查看更多",
+
+        "Email address": "电子邮箱地址",
+        "Password": "密码",
+        "Close": "关闭",
+        "Forgot Password": "忘记密码",
+        "Register for a new account": "注册新账号",
+
+        "forgot password hint": "如果你在我们的系统中注册过， 你会收到一封重置密码的邮件。",
+        "Submit": "提交",
+        "user not found hint": "用户不存在。 请注册后再操作。",
+        "Please enter an email.": "请输入邮箱地址。",
+        "Please enter a valid email.": "请输入有效的邮箱地址。",
+        
+        "Register": "注册",
+        "Enter first name*": "输入名*",
+        "Enter last name*": "输入姓*",
+        "Confirm password": "确认密码",
+        "required fields": "必填字段",
+        "Please choose a password": "请选择一个密码",
+        "Register hint": "请注册后使用全部的功能， 包括可以发布您自己的资产。",
+        "Password at least": "密码必须至少{{0}}个字符。",
+        "Password max": "密码必须少于{{0}}个字符.",
+        "Password must contain at least 1 number.": "密码必须包含至少一个数字。",
+        "Password special": "密码必须包含至少一个特殊字符。",
+        "The passwords must match.": "密码必须匹配。",
+        
+        "Create a new rental listing": "新建租赁信息",
+        "Title": "标题",
+        "Phone number": "电话号码",
+        "Address": "地址",
+        "Postal Code": "邮政编码",
+        "Payment period": "付款周期",
+        "Lease length": "租期",
+        "Bedrooms": "卧室",
+        "Bathrooms": "洗手间",
+        "Square ft": "面积",
+        "Utilities included": "包含工具",
+        "In suite laundry": "带洗衣机",
+        "Pets allowed": "允许养宠物",
+        "Furnished": "有家具",
+        "Continue": "继续",
+        "daily": "日付",
+        "weekly": "周付",
+        "monthly": "月付",
+        "no lease": "无期限",
+        "months": "个月",
+        "year": "年",
+
+        "Book a home tour!": "预订一次家的旅行!",
+        "Email": "电子邮件",
+        "Pets friendly": "宠物友好",
+        "No pets": "禁止宠物",
+        "Utility included": "包含工具",
+        "Utility not included": "不包含工具",
+        "Ensuite laundry": "有洗衣机",
+        "No ensuite laundry": "没有洗衣机",
+        "Unfurnished": "没有家具",
+        "View More": "查看更多",
+        "Comment": "评论",
+        "Leave a comment!": "看了这么久，留下一点评论吧!",
+        "Report": "报告",
+        "Edit Post": "编辑内容",
+        "Delete": "删除",
+    }
+  }
+};
+
+i18n
+  .use(initReactI18next) // passes i18n down to react-i18next
+  .init({
+    resources,
+    lng: "en", // language to use, more information here: https://www.i18next.com/overview/configuration-options#languages-namespaces-resources
+    // you can use the i18n.changeLanguage function to change the language manually: https://www.i18next.com/overview/api#changelanguage
+    // if you're using a language detector, do not define the lng option
+
+    interpolation: {
+      escapeValue: false // react already safes from xss
+    }
+  });
+
+  export default i18n;
