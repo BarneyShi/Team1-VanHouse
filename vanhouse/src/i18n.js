@@ -117,6 +117,9 @@ const resources = {
       "Inappropriate name, image, or content": "Inappropriate name, image, or content",
       "Other": "Other",
 
+      "Please login to see this page": "Please login to see this page!",
+      "underConstruction": "*** PAGE UNDER CONSTRUCTION ***",
+
     }
 },
 cn: {
@@ -230,6 +233,9 @@ cn: {
         "Harassment or cyberbullying": "骚扰或网络欺诈",
         "Inappropriate name, image, or content": "不合适的标题，图像或者内容",
         "Other": "其他",
+
+        "Please login to see this page": "请登录后再查看此页面!",
+        "underConstruction": "*** 页面正在建设中 ***",
     }
   }
 };
