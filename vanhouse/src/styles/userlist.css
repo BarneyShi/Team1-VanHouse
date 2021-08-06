@@ -54,3 +54,8 @@
 .card-header h2{
     cursor:pointer;
 }
+.dropdown-img{
+    margin-left: 40px;
+    width:20px;
+    height:20px;
+}
