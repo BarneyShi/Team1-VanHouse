@@ -59,9 +59,9 @@ function SearchBar({getData, setQuery, userId}){
         <div className="style row">
             <select onChange={(e)=>handleSelect(e)} value={location} className="citys form-control col-2">
                 <option value="city">{t('City')}</option>
-                <option value="Vancouver">Vancouver</option>
-                <option value="Burnaby">Burnaby</option>
-                <option value="Richmond">Richmond</option>
+                <option value="Vancouver">{t('Vancouver')}</option>
+                <option value="Burnaby">{t('Burnaby')}</option>
+                <option value="Richmond">{t('Richmond')}</option>
             </select>
             <InputGroup.Text className="">{t('Price')}:</InputGroup.Text>
             <FormControl className="price-num" type="number" value={low}
