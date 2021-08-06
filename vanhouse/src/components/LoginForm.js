@@ -98,14 +98,14 @@ function LoginForm({
                     }
                     <Form.Group controlId="formEmail">
                     <Form.Label>{t('Email address')}</Form.Label>
-                        <Form.Control required type="email" placeholder="Enter email" onChange={(e) => {
+                        <Form.Control required type="email" placeholder={t('Enter email')} onChange={(e) => {
                             setEmail(e.target.value)
                         }}/>
                     </Form.Group>
 
                     <Form.Group controlId="formPassword">
                         <Form.Label>{t('Password')}</Form.Label>
-                        <Form.Control required type="password" placeholder="Password"
+                        <Form.Control required type="password" placeholder={t('Password')}
                                       onChange={(e) => {
                                           setPassword(e.target.value)
                                       }}/>
