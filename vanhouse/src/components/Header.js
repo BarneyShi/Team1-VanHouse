@@ -336,14 +336,14 @@ function Header() {
 
             <div className="header-buttons">
                 <div className="row mr-1">
-                    <div class="dropdown">
-                        <a class="btn " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                   <div className="dropdown">
+                        <a className="btn " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img className="dropdown-img" alt="triangle" src={earth} />
                         </a>
                         
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="javascript:void(0)" onClick={e=>{changeLanguage('en')}}>English</a>
-                            <a class="dropdown-item" href="javascript:void(0)" onClick={e=>{changeLanguage('cn')}}>简本中文</a>
+                        <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <a className="dropdown-item" href="javascript:void(0)" onClick={e=>{changeLanguage('en')}}>🇺🇸 English</a>
+                            <a className="dropdown-item" href="javascript:void(0)" onClick={e=>{changeLanguage('cn')}}>🇨🇳 简体中文</a>
                         </div>
                     </div>
                 </div>
