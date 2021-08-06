@@ -36,7 +36,7 @@ function Post({
           <Card.Text>
             <Card.Subtitle className="post_datetext">{t('Date posted')}: {postDate.slice(0,10)}</Card.Subtitle>
             <ListGroup variant="flush" className="post_listgroup">
-              <ListGroup.Item>${price} {paymentPeriod} <br/></ListGroup.Item>
+              <ListGroup.Item>${price} {t(paymentPeriod)} <br/></ListGroup.Item>
               <ListGroup.Item>{truncateString(address, 30)}</ListGroup.Item>
             </ListGroup>
           </Card.Text>

@@ -337,13 +337,13 @@ function Header() {
             <div className="header-buttons">
                 <div className="row mr-1">
                     <div class="dropdown">
-                        <a class="btn  dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="btn " type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img className="dropdown-img" alt="triangle" src={earth} />
                         </a>
                         
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="#" onClick={e=>{changeLanguage('en')}}>English</a>
-                            <a class="dropdown-item" href="#" onClick={e=>{changeLanguage('cn')}}>简本中文</a>
+                            <a class="dropdown-item" href="javascript:void(0)" onClick={e=>{changeLanguage('en')}}>English</a>
+                            <a class="dropdown-item" href="javascript:void(0)" onClick={e=>{changeLanguage('cn')}}>简本中文</a>
                         </div>
                     </div>
                 </div>

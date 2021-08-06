@@ -143,7 +143,7 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
           e.target.value = null; // CITATION: https://stackoverflow.com/a/42192710
           setImages([]);
           setImageErrorMsg(
-            "Image file size exceeds 1MB. Please select files under 1MB."
+            t("Image size limit")
           );
           setImageSizeValid(false);
           return;

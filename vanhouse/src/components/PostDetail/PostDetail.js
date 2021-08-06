@@ -453,7 +453,7 @@ export default function PostDetail() {
               onHide={() => setDisplaySchedule(false)}
               centered>
               <Modal.Header closeButton>
-                <Modal.Title>You can contact the landlord on</Modal.Title>
+                <Modal.Title>{t('You can contact the landlord on')}</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <ListGroup id="date-list-group">
@@ -533,16 +533,16 @@ export default function PostDetail() {
             onHide={() => setDeleteConfirmation(false)}
             centered>
             <Modal.Header closeButton>
-              <Modal.Title>Are you sure you want to continue?</Modal.Title>
+              <Modal.Title>{t('Are you sure you want to continue?')}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <Button variant="danger" onClick={deletePost}>
-                Delete
+                {t('Delete')}
               </Button>
               <Button
                 variant="primary"
                 onClick={() => setDeleteConfirmation(false)}>
-                Cancel
+                {t('Cancel')}
               </Button>
             </Modal.Body>
           </Modal>

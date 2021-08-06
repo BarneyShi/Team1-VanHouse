@@ -95,7 +95,7 @@ function UserList({ setQuery, setUserId }) {
                     <div className="card">
                         <div className="card-header" id="headingOne">
                         <h2 className="mb-0"  data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                            User List
+                            {t('User List')}
                             <img className="dropdown-img" alt="triangle" src={triangle} />
                         </h2>
                         </div>

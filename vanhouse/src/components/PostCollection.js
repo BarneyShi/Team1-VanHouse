@@ -342,7 +342,7 @@ function PostCollection({
         {displayFiltered && searchResEmpty && filteredPosts && filteredPosts.length === 0 &&
           <div id="no_results_div" ref={fetchSpinnerRef}>
             <Alert className="no_results_alert" variant="light">
-              <Alert.Heading> Sorry, we didn't find any posts matching your search criteria </Alert.Heading>
+              <Alert.Heading> {t('post not found')} </Alert.Heading>
             </Alert>
           </div>
         }

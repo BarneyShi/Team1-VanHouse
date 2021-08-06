@@ -12,6 +12,9 @@ const resources = {
       "VANHOUSE": "VANHOUSE",
       "Home": "Home",
       "Login": "Login",
+      "Hi": "Hi",
+      "Account": "Account",
+      "Logout": "Logout",
       "User List": "User List",
 
       "City": "City",
@@ -78,6 +81,7 @@ const resources = {
       "Let tenants know": "Let tenants know when you're available for a home tour!",
       "You can pick multiple dates!": "You can pick multiple dates!",
       "Waiting...": "Waiting...",
+      "Image size limit": "Image file size exceeds 1MB. Please select files under 1MB.",
 
       "Book a home tour!": "Book a home tour!",
       "Email": "Email",
@@ -94,8 +98,19 @@ const resources = {
       "Report": "Report",
       "Edit Post": "Edit Post",
       "Delete": "Delete",
+      "You can contact the landlord on": "You can contact the landlord on",
+      "Are you sure you want to continue?": "Are you sure you want to continue?",
 
       "Date posted": "Date posted",
+      "post not found": "Sorry, we didn't find any posts matching your search criteria",
+
+      "Report Inappropriate or Violation": "Report Inappropriate or Violation",
+      "Spam or missleading content": "Spam or missleading content",
+      "Scam or impersonation to scam": "Scam or impersonation to scam",
+      "Harassment or cyberbullying": "Harassment or cyberbullying",
+      "Inappropriate name, image, or content": "Inappropriate name, image, or content",
+      "Other": "Other",
+
     }
 },
 cn: {
@@ -105,6 +120,9 @@ cn: {
         "VANHOUSE": "温哥华租房",
         "Home": "主页",
         "Login": "登录",
+        "Hi": "你好",
+        "Account": "帐户",
+        "Logout": "登出",
         "User List": "用户列表",
 
         "City": "城市",
@@ -150,7 +168,7 @@ cn: {
         "Bedrooms": "卧室",
         "Bathrooms": "洗手间",
         "Square ft": "面积",
-        "Utilities included": "包含公共设施",
+        "Utilities included": "包含工具",
         "In suite laundry": "带洗衣机",
         "Pets allowed": "允许养宠物",
         "Furnished": "有家具",
@@ -171,24 +189,35 @@ cn: {
         "Let tenants know": "让房客知道什么时间可以开启行程!",
         "You can pick multiple dates!": "你可以选择多个日期!",
         "Waiting...": "等待...",
+        "Image size limit": "图片文件大小超过 1MB. 请选择文件小于 1MB.",
 
-        "Book a home tour!": "预订一次家的旅行吧!",
+        "Book a home tour!": "预订一次家的旅行!",
         "Email": "电子邮件",
         "Pets friendly": "宠物友好",
         "No pets": "禁止宠物",
-        "Utility included": "包括公用设施",
-        "Utility not included": "不包括公用设施",
+        "Utility included": "包含工具",
+        "Utility not included": "不包含工具",
         "Ensuite laundry": "有洗衣机",
         "No ensuite laundry": "没有洗衣机",
         "Unfurnished": "没有家具",
         "View More": "查看更多",
         "Comment": "评论",
-        "Leave a comment!": "看了这么久，留下评论吧!",
+        "Leave a comment!": "留下一点评论!",
         "Report": "报告",
         "Edit Post": "编辑内容",
         "Delete": "删除",
+        "You can contact the landlord on": "你可以根据以下信息联系房东",
+        "Are you sure you want to continue?": "确定要继续吗?",
 
         "Date posted": "发布日期",
+        "post not found": "抱歉，没有合适的房源信息",
+
+        "Report Inappropriate or Violation": "报告违法和不当行为",
+        "Spam or missleading content": "垃圾邮件或误导性内容",
+        "Scam or impersonation to scam": "骗局或冒充",
+        "Harassment or cyberbullying": "骚扰或网络欺诈",
+        "Inappropriate name, image, or content": "不合适的标题，图像或者内容",
+        "Other": "其他",
     }
   }
 };
