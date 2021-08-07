@@ -17,7 +17,7 @@ function NewPost({ showModalForm, submit, handleClose }) {
   // States set by form inputs
   const [postTitle, setPostTitle] = useState("Untitled Post");
   const [price, setPrice] = useState(0);
-  const [paymentPeriod, setPaymentPeriod] = useState("Monthly");
+  const [paymentPeriod, setPaymentPeriod] = useState("monthly");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
@@ -52,7 +52,7 @@ function NewPost({ showModalForm, submit, handleClose }) {
       setPhone("");
       setAddress("");
       setPostalCode("");
-      setLease("0");
+      setLease(0);
       setBedrooms(0);
       setBathrooms(0);
       setSquareFootage(0);
@@ -199,7 +199,8 @@ function NewPost({ showModalForm, submit, handleClose }) {
                   as="select"
                   defaultValue="monthly"
                   onChange={(e) => {
-                    setPaymentPeriod(e.target.value);
+                    const periods = ["daily", "weekly", "monthly"];
+                    setPaymentPeriod(periods[e.target.selectedIndex]);
                   }}>
                   <option>{t('daily')}</option>
                   <option>{t('weekly')}</option>
@@ -210,7 +211,6 @@ function NewPost({ showModalForm, submit, handleClose }) {
                 <Form.Label>{t('Lease length')}</Form.Label>
                 <Form.Control
                   as="select"
-                  defaultValue="no lease"
                   onChange={(e) => {
                     setLease(e.target.selectedIndex * 6);
                   }}>
