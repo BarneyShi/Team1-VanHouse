@@ -206,7 +206,7 @@ function PostCollection({
         }
       );
       if (!response.ok) {
-        throw new Error("Please login to create a new post");
+        throw new Error(t("Please login to create a new post"));
       }
       const data = await response.json();
       setUser({ userId: data.userId, username: data.firstName });
@@ -328,7 +328,7 @@ function PostCollection({
       />
       {displayError && 
         <Alert className="connection_error_alert" variant="danger" onClose={() => setDisplayError(false)} dismissible>
-          <Alert.Heading> Oops </Alert.Heading>
+          <Alert.Heading> {t('Oops!')}  </Alert.Heading>
           <p>
             {errorMsg}
           </p>

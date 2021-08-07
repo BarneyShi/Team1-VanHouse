@@ -17,27 +17,27 @@ function Schedule({ show, onHide, handleSubmit, executing }) {
   // Select multi dates
   const addDate = (date) => {
     const dayOfWeek = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
+      t("Sunday"),
+      t("Monday"),
+      t("Tuesday"),
+      t("Wednesday"),
+      t("Thursday"),
+      t("Friday"),
+      t("Saturday"),
     ];
     const monthOfYear = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
+      t("Jan"),
+      t("Feb"),
+      t("Mar"),
+      t("Apr"),
+      t("May"),
+      t("Jun"),
+      t("Jul"),
+      t("Aug"),
+      t("Sep"),
+      t("Oct"),
+      t("Nov"),
+      t("Dec"),
     ];
     const week = dayOfWeek[date.getDay()];
     const day = date.getDate();
@@ -56,7 +56,7 @@ function Schedule({ show, onHide, handleSubmit, executing }) {
   const deleteDate = (event) => {
     const dateToDelete = event.target.getAttribute("data-date");
     const updatedDatesArr = selectedDate.filter(
-      (date) => date.date !== dateToDelete
+        (date) => date.date !== dateToDelete
     );
     setSelectedDate([...updatedDatesArr]);
   };
@@ -67,45 +67,45 @@ function Schedule({ show, onHide, handleSubmit, executing }) {
   };
 
   return (
-    <Modal show={show} onHide={onHide} size="lg" centered>
-      <Modal.Header closeButton>
-        <Modal.Title>{t('Select some available dates')}</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        <p>{t('Let tenants know')}</p>
-        <ListGroup id="date-list-group">
-          {selectedDate.map((object) => (
-            <span className="date-list-item" key={object.id}>
-              <ListGroup.Item variant="primary">{object.date}</ListGroup.Item>
-              <Button
-                variant="danger"
-                onClick={deleteDate}
-                data-date={object.date}
-              >
-                {t('Delete')}
-              </Button>
-            </span>
-          ))}
-        </ListGroup>
+      <Modal show={show} onHide={onHide} size="lg" centered>
+        <Modal.Header closeButton>
+          <Modal.Title>{t('Select some available dates')}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>{t('Let tenants know')}</p>
+          <ListGroup id="date-list-group">
+            {selectedDate.map((object) => (
+                <span className="date-list-item" key={object.id}>
+                  <ListGroup.Item variant="primary">{object.date}</ListGroup.Item>
+                  <Button
+                      variant="danger"
+                      onClick={deleteDate}
+                      data-date={object.date}
+                  >
+                    {t('Delete')}
+                  </Button>
+                </span>
+            ))}
+          </ListGroup>
 
-        <DatePicker
-          id="datePicker"
-          dateFormat="MMM dd yyyy"
-          minDate={new Date()}
-          selected={startDate}
-          onChange={(date) => {
-            addDate(date);
-            setStartDate(date);
-          }}
-        />
-        <p id="datepicker-text">{t('You can pick multiple dates!')}</p>
-      </Modal.Body>
-      <Modal.Footer>
-        <Button disabled={executing} variant="primary" onClick={submitSchedule}>
-          {t(executing ? "Waiting..." : "Submit")}
-        </Button>
-      </Modal.Footer>
-    </Modal>
+          <DatePicker
+              id="datePicker"
+              dateFormat="MMM dd yyyy"
+              minDate={new Date()}
+              selected={startDate}
+              onChange={(date) => {
+                addDate(date);
+                setStartDate(date);
+              }}
+          />
+          <p id="datepicker-text">{t('You can pick multiple dates!')}</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button disabled={executing} variant="primary" onClick={submitSchedule}>
+            {t(executing ? "Waiting..." : "Submit")}
+          </Button>
+        </Modal.Footer>
+      </Modal>
   );
 }
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { useTranslation } from 'react-i18next';
 
 import {
   ListGroup,
@@ -18,6 +19,7 @@ export default function UserAdmin({ users }) {
   const [showModal, setModal] = useState(false);
   const [updatedPost, setUpdaedPost] = useState();
   const [errorMsg, setErrorMsg] = useState();
+  const { t, i18n } = useTranslation();
 
   const fetchUsers = async () => {
     try {
@@ -50,7 +52,7 @@ export default function UserAdmin({ users }) {
         setTempUsers([data]);
         return;
       }
-      setErrorMsg("No result");
+      setErrorMsg(t("No result"));
       setTempUsers([...originalUser]);
     } catch (err) {
       console.log("Error while searching user:", err);
@@ -112,13 +114,13 @@ export default function UserAdmin({ users }) {
         id="admin-user-searchInput"
         className="admin-searchbox"
         name="post"
-        placeholder="Search by user ID or username"
+        placeholder={t("Search by user ID or username")}
       />
       <Button className="admin-searchBtn" onClick={searchUser}>
-        Search
+        {t('Search')}
       </Button>
       <Button variant="info" className="admin-searchBtn" onClick={cancel}>
-        Cancel
+        {t('Cancel')}
       </Button>
       {/* CITATION: https://react-bootstrap.github.io/components/list-group/ */}
       {errorMsg ? (
@@ -127,7 +129,7 @@ export default function UserAdmin({ users }) {
           variant="danger"
           dismissible
           onClose={() => setErrorMsg()}>
-          <Alert.Heading>Oops!</Alert.Heading>
+          <Alert.Heading>{t('Oops!')}</Alert.Heading>
           <p>{errorMsg}</p>
         </Alert>
       ) : null}
@@ -142,7 +144,7 @@ export default function UserAdmin({ users }) {
                 setModal(true);
                 setSelectedUser(user);
               }}>
-              Username: {user.firstName} {user.lastName}, Email: {user.email}
+              {t('Username')}: {user.firstName} {user.lastName}, {t('Email')}: {user.email}
             </ListGroup.Item>
           ))
         ) : (
@@ -152,27 +154,27 @@ export default function UserAdmin({ users }) {
 
       <Modal show={showModal} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Admin actions</Modal.Title>
+          <Modal.Title>{t('Admin Action')}</Modal.Title>
         </Modal.Header>
         <Modal.Body id="admin-user-modalbody">
-          <DropdownButton title="Change user's role">
+          <DropdownButton title={t("Change user's role")}>
             <Dropdown.Item
               active={selectedUser?.admin}
               onClick={() => {
                 setUserRole(true);
               }}>
-              Admin
+              {t('Admin')}
             </Dropdown.Item>
             <Dropdown.Item
               active={!selectedUser?.admin}
               onClick={() => {
                 setUserRole(false);
               }}>
-              User
+              {t('User')}
             </Dropdown.Item>
           </DropdownButton>
           <Button variant="danger" onClick={deletUser}>
-            Delete User
+            {t('Delete User')}
           </Button>
         </Modal.Body>
       </Modal>

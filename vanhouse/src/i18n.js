@@ -1,5 +1,7 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
+import React from "react";
+import {Button} from "react-bootstrap";
 
 // the translations
 // (tip move them in a JSON file and import them,
@@ -126,6 +128,17 @@ const resources = {
         "Bathroom" : "Bathroom",
         "Square Feet" : "Square Feet",
         "Full info" : "Full info",
+        "Days before today" : "Days before today",
+        "Analysis" : "Analysis",
+        "User" : "User",
+        "Search by post ID" : "Search by post ID",
+        "Search" : "Search",
+        "No result" : "No result",
+        "Oops!" : "Oops!",
+        "Please login to create a new post" : "Please login to create a new post",
+        "NOT AUTHORIZED" : "NOT AUTHORIZED",
+
+        "Sorry, you are not an admin" : "Sorry, you are not an admin",
 
     }
 },
@@ -251,6 +264,49 @@ cn: {
         "Bathroom" : "浴室",
         "Square Feet" : "平方米",
         "Full info" : "详情",
+        "Days before today" :"前一天",
+        "Analysis" : "分析",
+        "User" : "用户",
+        "Search by post ID" : "根据ID搜索",
+        "Search" : "搜索",
+        "No result" : "没有结果",
+
+        "Sunday": "周日",
+        "Monday": "周一",
+        "Tuesday": "周二",
+        "Wednesday": "周三",
+        "Thursday": "周四",
+        "Friday": "周五",
+        "Saturday": "周六",
+
+        "Jan": "一月",
+        "Feb": "二月",
+        "Mar": "三月",
+        "Apr": "四月",
+        "May": "五月",
+        "Jun": "六月",
+        "Jul": "七月",
+        "Aug": "八月",
+        "Sep": "九月",
+        "Oct": "十月",
+        "Nov": "十一月",
+        "Dec": "十二月",
+        "Oops!" : "哎哟 出错了",
+        "Please login to create a new post" : "请先登录",
+        "NOT AUTHORIZED" : "未授权",
+        "Sorry, you are not an admin" : "对不起，你还不是管理员",
+        "Search by user ID or username" : "🔍根据用户ID或用户名",
+        "Admin Action" : "管理员操作",
+        "Username" : "用户名",
+        "Amount" : "数量",
+        "DailyPosts" : "每日发布",
+        "Change user's role":"切换用户身份",
+        "Delete User" : "删除用户",
+        "Admin" : "管理员",
+        "Edit" : "编辑",
+
+
+
     }
   }
 };

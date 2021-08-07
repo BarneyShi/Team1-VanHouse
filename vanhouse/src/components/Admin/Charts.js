@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+
+import { useTranslation } from 'react-i18next';
+
 import {
   Pie,
   PieChart,
@@ -18,6 +21,8 @@ import { daysFromNow, priceRange } from "../../utils";
 export default function Charts({ posts }) {
   const [daysBeforeNow, setDays] = useState([]);
   const [priceStat, setPriceStat] = useState([]);
+  const { t, i18n } = useTranslation();
+
   useEffect(() => {
     if (posts) {
       const datesArr = posts.map((p) => p.date);
@@ -51,19 +56,19 @@ export default function Charts({ posts }) {
           }}>
           <CartesianGrid strokeDasharray="2 2" />
           <XAxis
-            dataKey="days"
+            dataKey= "days"
             label={{
-              value: "Days before today",
+                value: t("Days before today"),
               position: "insideBottomRight",
               dy: 10,
             }}
           />
           <YAxis
-            label={{ value: "Amount", position: "insideLeft", angle: -90 }}
+            label={{ value: t("Amount"), position: "insideLeft", angle: -90 }}
           />
           <Tooltip />
           <Legend />
-          <Bar dataKey="DailyPosts" fill="#8884d8" />
+          <Bar dataKey= "DailyPosts" fill="#8884d8" />
         </BarChart>
       </ResponsiveContainer>
       {/* CITATION: https://codesandbox.io/s/simple-area-chart-4ujxw?file=/src/App.tsx:707-1078 */}
