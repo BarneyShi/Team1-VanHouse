@@ -6,9 +6,11 @@ import {InputGroup, Button, FormControl, DropdownButton,ButtonToolbar} from 'rea
 import search from '../assets/search.png';
 import '../styles/searchbar.css';
 
+import event from './Events';
+
 function SearchBar({getData, setQuery, userId}){
     const [leftState,setLeftState] = useState(0);
-    // const [Click,setClick] = useState({getData, setQuery})
+
 
 
     const [low, setLow] = useState("");
@@ -17,16 +19,20 @@ function SearchBar({getData, setQuery, userId}){
     const [keyword, setKeyword] = useState("");
 
     const handleSelect = (e) => {
-        //   setLocation(Number(e.target.value));
+
         setLocation(e.target.value);
     }
 
     function Cancel() {
+
+        event.emit('clear_user', 'searchbar');
+
         setLocation("city");
         setLow("");
         setHigh("");
         setKeyword("");
         setQuery("");
+
     }
 
     function searchByCondition() {
@@ -38,30 +44,24 @@ function SearchBar({getData, setQuery, userId}){
         setQuery(url);
     }
 
-    function searchAll() {
-        setLocation("city");
-        setLow("");
-        setHigh("");
-        setKeyword("");
-        setQuery(`/posts`);
-    }
+
 
     return(
         <div className="style row">
-            <select onChange={(e)=>handleSelect(e)} value={location} className="citys">
+            <select onChange={(e)=>handleSelect(e)} value={location} className="citys form-control col-2">
                 <option value="city">City</option>
                 <option value="Vancouver">Vancouver</option>
                 <option value="Burnaby">Burnaby</option>
                 <option value="Richmond">Richmond</option>
             </select>
             <InputGroup.Text className="">Price:</InputGroup.Text>
-            <FormControl className="price-num" type="text" value={low}
+            <FormControl className="price-num" type="number" value={low}
                          onChange={(e) => {
                              setLow(e.target.value);
                          }}
             />
             <InputGroup.Text className="">-</InputGroup.Text>
-            <FormControl className="price-num2" type="text" value={high}
+            <FormControl className="price-num2" type="number" value={high}
                          onChange={(e) => {
                              setHigh(e.target.value);
                          }}
