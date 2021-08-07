@@ -199,7 +199,8 @@ function NewPost({ showModalForm, submit, handleClose }) {
                   as="select"
                   defaultValue="monthly"
                   onChange={(e) => {
-                    setPaymentPeriod(e.target.value);
+                    const periods = ["daily", "weekly", "monthly"];
+                    setPaymentPeriod(periods[e.target.selectedIndex]);
                   }}>
                   <option>{t('daily')}</option>
                   <option>{t('weekly')}</option>
@@ -210,7 +211,6 @@ function NewPost({ showModalForm, submit, handleClose }) {
                 <Form.Label>{t('Lease length')}</Form.Label>
                 <Form.Control
                   as="select"
-                  defaultValue="no lease"
                   onChange={(e) => {
                     setLease(e.target.selectedIndex * 6);
                   }}>
