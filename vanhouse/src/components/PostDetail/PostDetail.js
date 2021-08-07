@@ -491,13 +491,13 @@ export default function PostDetail() {
                 <ListGroup>
                   <ListGroupItem> {t('Address')}: {post.address}</ListGroupItem>
                   <ListGroupItem>
-                    {t('Price')}: ${post.price} {post.paymentPeriod}
+                    {t('Price')}: ${post.price} {t(post.paymentPeriod)}
                   </ListGroupItem>
                   {post.email !== "" && (
                     <ListGroupItem> {t('Email')}: {post.email}</ListGroupItem>
                   )}
                   <ListGroupItem>
-                    {t('Lease Length')}: {post.leaseLength}
+                    {t('Lease Length')}: {t(post.leaseLength)}
                   </ListGroupItem>
                   <ListGroupItem>
                     {t(post.pets ? "Pets friendly" : "No pets")}
