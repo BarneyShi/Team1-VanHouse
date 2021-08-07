@@ -10,7 +10,7 @@ import "./App.css";
 import PostCollection from "./components/PostCollection";
 import ResetPassword from "./components/ResetPassword";
 import AccountDetails from "./components/AccountDetails";
-
+import { useTranslation } from 'react-i18next';
 
 function App() {
   const [user, setUser] = useState();
@@ -19,6 +19,11 @@ function App() {
   const [userId, setUserId] = useState("");
   const [posts, setPosts] = useState([]);
 
+  const { t, i18n } = useTranslation();
+  let language = localStorage.getItem("page_language");
+  if(language === "cn" && "cn" !== i18n.language){
+    i18n.changeLanguage("cn");
+  }
 
   useEffect( async ()=> {
     try {

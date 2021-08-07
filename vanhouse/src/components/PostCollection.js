@@ -12,6 +12,8 @@ import LoadingSpinner from "./LoadingSpinner";
 import { getErrorString } from "../utils";
 import "../styles/post.css";
 
+import { useTranslation } from 'react-i18next';
+
 function PostCollection({
   filterURL,
   userId,
@@ -46,6 +48,8 @@ function PostCollection({
 
 
   const fetchSpinnerRef = useRef();
+
+  const { t, i18n } = useTranslation();
 
   // Query server for posts on mount
   useEffect(() => {
@@ -312,7 +316,7 @@ function PostCollection({
             onClick={presentCreatePost}
           >
             {" "}
-            Post{" "}
+            {t('Post')}{" "}
           </Button>{" "}
         </div>
       </div>
@@ -338,14 +342,14 @@ function PostCollection({
         {displayFiltered && searchResEmpty && filteredPosts && filteredPosts.length === 0 &&
           <div id="no_results_div" ref={fetchSpinnerRef}>
             <Alert className="no_results_alert" variant="light">
-              <Alert.Heading> Sorry, we didn't find any posts matching your search criteria </Alert.Heading>
+              <Alert.Heading> {t('post not found')} </Alert.Heading>
             </Alert>
           </div>
         }
         {!isLoadingPosts && !fetchingNextPosts && ((!postsResEmpty && !displayFiltered)  || (!searchResEmpty && displayFiltered)) &&
           <div id="getMorePostsDiv">
             <Button id="getMorePostsBtn" variant="link" onClick={getMorePosts}>
-              See more posts...
+              {t('See more posts')}...
             </Button>
           </div>
         }

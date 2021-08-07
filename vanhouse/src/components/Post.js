@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Card, ListGroup } from "react-bootstrap";
-
+import { useTranslation } from 'react-i18next';
 /**
  * Truncate a string and add ellipses if it is too long to display
  * @param str the string to truncate
@@ -24,6 +24,7 @@ function Post({
   address,
   paymentPeriod
 }) {
+  const { t, i18n } = useTranslation();
   return (
     <button type="button" className="post_div">
       <Card className="post_card">
@@ -33,9 +34,9 @@ function Post({
         <Card.Img variant="top" src={mainImage} alt="thumbnail" />
         <Card.Body className="postCardBody">
           <Card.Text>
-            <Card.Subtitle className="post_datetext">Date posted: {postDate.slice(0,10)}</Card.Subtitle>
+            <Card.Subtitle className="post_datetext">{t('Date posted')}: {postDate.slice(0,10)}</Card.Subtitle>
             <ListGroup variant="flush" className="post_listgroup">
-              <ListGroup.Item>${price} {paymentPeriod} <br/></ListGroup.Item>
+              <ListGroup.Item>${price} {t(paymentPeriod)} <br/></ListGroup.Item>
               <ListGroup.Item>{truncateString(address, 30)}</ListGroup.Item>
             </ListGroup>
           </Card.Text>

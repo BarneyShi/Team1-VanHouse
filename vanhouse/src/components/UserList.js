@@ -9,6 +9,7 @@ import triangle from "../assets/triangle.png";
 import '../styles/userlist.css';
 
 import event from './Events';
+import { useTranslation } from 'react-i18next';
 
 
 function UserList({ setQuery, setUserId }) {
@@ -18,13 +19,19 @@ function UserList({ setQuery, setUserId }) {
     const [list, setList] = useState();
     const [userSelected, setUserSelected] = useState("");
 
-    event.addListener('clear_user', msg=>{
-        setUserId("");
-        let items = document.getElementsByClassName("user-item");
-        for(let element of items){
-            element.classList.remove("selected");
-        }
-    })
+    const { t, i18n } = useTranslation();
+    let eventNames = event.eventNames();
+    console.log("eventnames ", eventNames);
+    if(!eventNames.includes('clear_user')){
+
+        event.addListener('clear_user', msg=>{
+            setUserId("");
+            let items = document.getElementsByClassName("user-item");
+            for(let element of items){
+                element.classList.remove("selected");
+            }
+        });
+    }
 
     function filterUserPost(e, item) {
         let items = document.getElementsByClassName("user-item");
@@ -69,14 +76,14 @@ function UserList({ setQuery, setUserId }) {
                 <div className="accordion" >
                     <div className="card">
                         <div className="card-header" id="headingOne">
-                            <h2 className="mb-0"  data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                User List
-                            </h2>
+                        <h2 className="mb-0"  data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            {t('User List')}
+                        </h2>
                         </div>
 
                         <div>
                             <div className="card-body">
-                                {list}
+                            {list}
                             </div>
                         </div>
                     </div>
@@ -87,15 +94,15 @@ function UserList({ setQuery, setUserId }) {
                 <div className="accordion" id="user-list">
                     <div className="card">
                         <div className="card-header" id="headingOne">
-                            <h2 className="mb-0"  data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                User List
-                                <img className="dropdown-img" alt="triangle" src={triangle} />
-                            </h2>
+                        <h2 className="mb-0"  data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            {t('User List')}
+                            <img className="dropdown-img" alt="triangle" src={triangle} />
+                        </h2>
                         </div>
 
                         <div id="collapseOne" className="collapse" aria-labelledby="headingOne" data-parent="#user-list">
                             <div className="card-body">
-                                {list}
+                            {list}
                             </div>
                         </div>
                     </div>

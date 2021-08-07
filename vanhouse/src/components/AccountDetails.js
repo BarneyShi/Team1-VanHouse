@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from "react";
+import { useTranslation } from 'react-i18next';
 import "../styles/login.css"
 
 function AccountDetails() {
     const [user, setUser] = useState(null);
+    const { t, i18n } = useTranslation();
     const loadAccountDetails = () => {
         fetch(`/login-router/account`, {
             method: 'GET',
@@ -37,7 +39,7 @@ function AccountDetails() {
                 <br/>
                 <br/>
                 <h2 className="account-details-page-message">
-                    Please login to see this page!
+                    {t('Please login to see this page')}
                 </h2>
             </div>
         )
@@ -52,7 +54,7 @@ function AccountDetails() {
             <br/>
             <br/>
             <br/>
-            <h4>*** PAGE UNDER CONSTRUCTION ***</h4>
+            <h4>{t('underConstruction')}</h4>
         </div>
     )
 }

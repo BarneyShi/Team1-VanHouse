@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import "../../styles/Schedule.css";
+import { useTranslation } from 'react-i18next';
 
 function Schedule({ show, onHide, handleSubmit, executing }) {
   // CITATION: Modal https://react-bootstrap.github.io/components/modal/
@@ -12,6 +13,7 @@ function Schedule({ show, onHide, handleSubmit, executing }) {
   const [startDate, setStartDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState([]);
 
+  const { t, i18n } = useTranslation();
   // Select multi dates
   const addDate = (date) => {
     const dayOfWeek = [
@@ -67,10 +69,10 @@ function Schedule({ show, onHide, handleSubmit, executing }) {
   return (
     <Modal show={show} onHide={onHide} size="lg" centered>
       <Modal.Header closeButton>
-        <Modal.Title>Select some available dates</Modal.Title>
+        <Modal.Title>{t('Select some available dates')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p>Let tenants know when you&apos;re available for a home tour!</p>
+        <p>{t('Let tenants know')}</p>
         <ListGroup id="date-list-group">
           {selectedDate.map((object) => (
             <span className="date-list-item" key={object.id}>
@@ -80,7 +82,7 @@ function Schedule({ show, onHide, handleSubmit, executing }) {
                 onClick={deleteDate}
                 data-date={object.date}
               >
-                Delete
+                {t('Delete')}
               </Button>
             </span>
           ))}
@@ -96,11 +98,11 @@ function Schedule({ show, onHide, handleSubmit, executing }) {
             setStartDate(date);
           }}
         />
-        <p id="datepicker-text">You can pick multiple dates!</p>
+        <p id="datepicker-text">{t('You can pick multiple dates!')}</p>
       </Modal.Body>
       <Modal.Footer>
         <Button disabled={executing} variant="primary" onClick={submitSchedule}>
-          {executing ? "Waiting..." : "Submit"}
+          {t(executing ? "Waiting..." : "Submit")}
         </Button>
       </Modal.Footer>
     </Modal>
