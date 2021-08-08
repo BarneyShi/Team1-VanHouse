@@ -59,28 +59,20 @@ export default function PostDetail() {
   });
 
   const { t, i18n } = useTranslation();
-  let eventNames = event.eventNames();
-  let loginFun = loginUser=>{
-    // console.log("receive user login!!", loginUser);
-    // console.log("before login user", user);
-    setUser({ userId: loginUser.userId, username: loginUser.firstName });
 
-    // console.log("after login user", user);
+  useEffect(async () => {
+    let loginFun = loginUser=>{
+      // console.log("receive user login!!");
+      setUser({ userId: loginUser.userId, username: loginUser.firstName });
+    };
+    let logoutFun = loginUser=>{
+      // console.log("receive user logout!!");
+      setUser(null);
+    };
+    event.addListener('user_login', loginFun);
+    event.addListener('user_logout', logoutFun);
+  }, []);
 
-  };
-
-  let logoutFun = loginUser=>{
-    // console.log("receive user logout!!");
-    setUser(null);
-    // updateAccount();
-  };
-  // console.log("post detail eventnames: ", eventNames);
-  if(eventNames.includes('user_login')){
-    event.removeListener("user_login", loginFun);
-    event.removeListener("user_logout", logoutFun);
-  }
-  event.addListener('user_login', loginFun);
-  event.addListener('user_logout', logoutFun);
 
   useEffect(async () => {
     let postData;
@@ -141,19 +133,7 @@ export default function PostDetail() {
       });
     }
 
-    // try {
-    //   const response = await fetch("/login-router/account", {
-    //     credentials: "include",
-    //   });
-    //   if (!response.ok) {
-    //     throw new Error("Not logged in");
-    //   }
-    //   const data = await response.json();
-    //   setUser({ userId: data.userId, username: data.firstName });
-    // } catch (err) {
-    //   setUser();
-    //   // console.log("Error while checking auth:", err.message);
-    // }
+
   }, []);
 
   // Check if the user's rated this post

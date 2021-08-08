@@ -61,6 +61,37 @@ function Header({updateUser}) {
         setIsLoginClicked(true);
     }
 
+    function Login() {
+        fetch(`/login-router/login`, {
+            method: 'POST',
+            // https://stackoverflow.com/questions/36824106/express-doesnt-set-a-cookie
+            // Accessed July 13, 2021
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({email, password})
+        }).then((response) => {
+            console.log(response.status);
+            if (response.status === 401) {
+                setPassword("");
+                setLoginError(true);
+            }
+
+            if (response.status === 200) {
+                response.json()
+                    .then(response2 => {
+                        setUser(response2); // only setting this to re-render component automatically
+                        updateUser(response2)
+                        setIsLoginClicked(false);
+                        // window.location.reload();
+                        // console.log("user login:", response2);
+                        GlobalEvent.emit('user_login', response2);
+                    });
+            }
+        });
+    }
+
     const handleLogoutClicked = () => {
         fetch(`/login-router/logout`, {
             method: 'POST',
@@ -127,36 +158,6 @@ function Header({updateUser}) {
         setNamesError(false);
     }
 
-    function Login() {
-        fetch(`/login-router/login`, {
-            method: 'POST',
-            // https://stackoverflow.com/questions/36824106/express-doesnt-set-a-cookie
-            // Accessed July 13, 2021
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({email, password})
-        }).then((response) => {
-            console.log(response.status);
-            if (response.status === 401) {
-                setPassword("");
-                setLoginError(true);
-            }
-
-            if (response.status === 200) {
-                response.json()
-                    .then(response2 => {
-                        setUser(response2); // only setting this to re-render component automatically
-                        updateUser(response2)
-                        setIsLoginClicked(false);
-                        // window.location.reload();
-                        console.log("user login:", response2);
-                        GlobalEvent.emit('user_login', response2);
-                    });
-            }
-        });
-    }
 
     function Register(e) {
         console.log(namesError);
@@ -349,8 +350,8 @@ function Header({updateUser}) {
                         </a>
                         
                         <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a className="dropdown-item" href="javascript:void(0)" onClick={e=>{changeLanguage('en')}}>🇺🇸 English</a>
-                            <a className="dropdown-item" href="javascript:void(0)" onClick={e=>{changeLanguage('cn')}}>🇨🇳 简体中文</a>
+                            <a className="dropdown-item" onClick={e=>{changeLanguage('en')}}>🇺🇸 English</a>
+                            <a className="dropdown-item" onClick={e=>{changeLanguage('cn')}}>🇨🇳 简体中文</a>
                         </div>
                     </div>
                 </div>
