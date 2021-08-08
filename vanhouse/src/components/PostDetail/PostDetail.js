@@ -61,20 +61,20 @@ export default function PostDetail() {
   const { t, i18n } = useTranslation();
   let eventNames = event.eventNames();
   let loginFun = loginUser=>{
-    console.log("receive user login!!", loginUser);
-    console.log("before login user", user);
+    // console.log("receive user login!!", loginUser);
+    // console.log("before login user", user);
     setUser({ userId: loginUser.userId, username: loginUser.firstName });
 
-    console.log("after login user", user);
+    // console.log("after login user", user);
 
   };
 
   let logoutFun = loginUser=>{
-    console.log("receive user logout!!");
+    // console.log("receive user logout!!");
     setUser(null);
     // updateAccount();
   };
-  console.log("post detail eventnames: ", eventNames);
+  // console.log("post detail eventnames: ", eventNames);
   if(eventNames.includes('user_login')){
     event.removeListener("user_login", loginFun);
     event.removeListener("user_logout", logoutFun);

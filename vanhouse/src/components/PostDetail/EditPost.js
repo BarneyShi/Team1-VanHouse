@@ -54,8 +54,10 @@ export default function EditPost({
     formData.append("price", price.value);
     formData.append("address", address.value);
     formData.append("postalCode", postalCode.value);
-    formData.append("paymentPeriod", paymentPeriod.value);
-    formData.append("leaseLength", leaseLength.value);
+    let payments = ['daily', 'weekly', 'monthly'];
+    formData.append("paymentPeriod", payments[paymentPeriod.selectedIndex]);
+    let leases = ['no lease', '6 months', '1 year'];
+    formData.append("leaseLength", leases[leaseLength.selectedIndex]);
     formData.append("bedrooms", bedrooms.value);
     formData.append("bathrooms", bathrooms.value);
     formData.append("sqft", sqft.value);
@@ -210,22 +212,20 @@ export default function EditPost({
               <Form.Label> {t('Payment period')} </Form.Label>
               <Form.Control
                 as="select"
-                defaultValue={post?.paymentPeriod}
                 name="paymentPeriod">
-                <option>{t('daily')}</option>
-                <option>{t('weekly')}</option>
-                <option>{t('monthly')}</option>
+                <option selected={post?.paymentPeriod === 'daily'}>{t('daily')}</option>
+                <option selected={post?.paymentPeriod === 'weekly'}>{t('weekly')}</option>
+                <option selected={post?.paymentPeriod === 'monthly'}>{t('monthly')}</option>
               </Form.Control>
             </Form.Group>
             <Form.Group as={Col} controlId="formLease">
               <Form.Label>{t('Lease length')}</Form.Label>
               <Form.Control
                 as="select"
-                defaultValue={post?.leaseLength}
                 name="leaseLength">
-                <option>{t('no lease')}</option>
-                <option>6 {t('months')}</option>
-                <option>1 {t('year')}</option>
+                <option selected={post?.leaseLength === 'no lease'}>{t('no lease')}</option>
+                <option selected={post?.leaseLength === '6 months'}>6 {t('months')}</option>
+                <option selected={post?.leaseLength === '1 year'}>1 {t('year')}</option>
               </Form.Control>
             </Form.Group>
           </Row>
