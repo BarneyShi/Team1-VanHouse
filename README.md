@@ -40,12 +40,12 @@ VanHouse is an app for landlords and prospective tenants to find and rent proper
 ## `Next Steps`
 - If we were to further improve our app, we would complete our second stretch requirement which would allow users to send DMs to each other.
 - We would also create a functional user account page where users could see all of their posts on one page, edit or delete posts, and edit user information from a central hub.
-- We would also add the function of switching languages. For example, the website could switch between Chinese and English.
+- We would also add the function of switching to dark mode.
 
 ## `Contributions`
 - Barney worked on the post detail page, admin page and set up the database. Barney implemented a comment function, deleting post function, location display with map, post edit function, and made an admin page as admin tools. Barney helped create our MongoDB models, create schemas and connect our backend to MongoDB Atlas.
 - Naithan worked on the post component, and post collection component for the homepage as well as the post creation forms. This included setting up the connections to the backend, implementing MongoDB find and insert commands, creating a loading spinner component, implementing image uploading, and creating see more posts button. Naithan also helped set up Heroku deployment by setting up the build commands and Github Actions.
-- Yuxin worked on the search bar and user list page, including the function of automatically add the newly registered users saved in mongoDB into the userlist and filtering corresponding posts through cities, prices, keywords and individual users
+- Yuxin worked on the search bar and user list page, including the function of automatically add the newly registered users saved in mongoDB into the userlist and filtering corresponding posts through cities, prices, keywords and individual users. Yuxin also worked on switching between different languages (English and Chinese)
 - Sujin worked on the login/logout, user authentication, and user registration  portions of the website. This included a Forgot Password feature and relatively secure login using JSON Web Tokens stored as HTTPOnly cookies and password hashing when storing user information in the MongoDB database.
 
 

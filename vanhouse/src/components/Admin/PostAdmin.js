@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { ListGroup, Button, Modal, Alert } from "react-bootstrap";
 import LoadingSpinner from "../LoadingSpinner";
 import EditPost from "../PostDetail/EditPost";
+import { useTranslation } from 'react-i18next';
 
 export default function PostAdmin({ posts }) {
   const [adminPosts, setAdminPosts] = useState();
@@ -11,6 +12,7 @@ export default function PostAdmin({ posts }) {
   const [selectedPost, setSelectedPost] = useState();
   const [errorMsg, setErrorMsg] = useState();
   const [updatedPost, setUpdaedPost] = useState();
+  const { t, i18n } = useTranslation();
   const handleClose = () => {
     setModal(false);
     setSelectedPost();
@@ -44,7 +46,7 @@ export default function PostAdmin({ posts }) {
       }
     } catch (err) {
       console.log("Error while searching post:", err);
-      setErrorMsg("No result");
+      setErrorMsg(t("No result"));
       setAdminPosts([...originalPosts]);
     }
   };
@@ -95,13 +97,13 @@ export default function PostAdmin({ posts }) {
         id="admin-searcbox-post"
         className="admin-searchbox"
         name="post"
-        placeholder="Search by post ID"
+        placeholder= {t('Search by post ID')}
       />
       <Button onClick={searchPost} className="admin-searchBtn">
-        Search
+          {t('Search')}
       </Button>
       <Button variant="info" onClick={cancel} className="admin-searchBtn">
-        Cancel
+          {t('Cancel')}
       </Button>
       {/* CITATION: https://react-bootstrap.github.io/components/list-group/ */}
       {errorMsg ? (
@@ -110,7 +112,7 @@ export default function PostAdmin({ posts }) {
           variant="danger"
           dismissible
           onClose={() => setErrorMsg()}>
-          <Alert.Heading>Oops!</Alert.Heading>
+          <Alert.Heading>{t('Oops!')}</Alert.Heading>
           <p>{errorMsg}</p>
         </Alert>
       ) : null}
@@ -127,7 +129,7 @@ export default function PostAdmin({ posts }) {
                 setModal(true);
                 setSelectedPost(post);
               }}>
-              Title: {post.title}, Address: {post.address}, Price: {post.price}
+                {t('Title')}: {post.title}, {t('Address')}: {post.address}, {t('Price')}: {post.price}
             </ListGroup.Item>
           ))
         ) : (
@@ -137,12 +139,12 @@ export default function PostAdmin({ posts }) {
 
       <Modal show={showModal} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>Admin actions</Modal.Title>
+          <Modal.Title>{t('Admin Action')}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <Button onClick={() => setEdit(true)}>Edit</Button>
+          <Button onClick={() => setEdit(true)}>{t('Edit')}</Button>
           <Button onClick={deletePost} variant="danger">
-            Delete
+              {t('Delete')}
           </Button>
         </Modal.Body>
       </Modal>

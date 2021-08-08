@@ -3,10 +3,12 @@ import { Modal, Form, Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 import emailjs from "emailjs-com";
 import { useParams } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 
 export default function Report({ displayReport, setDisplayReport }) {
   const formRef = useRef();
   const { id } = useParams();
+  const { t, i18n } = useTranslation();
 
   const submitReport = () => {
     const { spam, scam, harassment, inappropriate, other } = formRef.current;
@@ -49,35 +51,35 @@ export default function Report({ displayReport, setDisplayReport }) {
   return (
     <Modal show={displayReport} onHide={() => setDisplayReport(false)} centered>
       <Modal.Header closeButton>
-        <Modal.Title>Report Inappropriate or Violation</Modal.Title>
+        <Modal.Title>{t('Report Inappropriate or Violation')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form id="reportForm" ref={formRef}>
           <Form.Check
             name="spam"
             type="checkbox"
-            label="Spam or missleading content"
+            label={t("Spam or missleading content")}
           />
           <Form.Check
             name="scam"
             type="checkbox"
-            label="Scam or impersonation to scam"
+            label={t("Scam or impersonation to scam")}
           />
           <Form.Check
             name="harassment"
             type="checkbox"
-            label="Harassment or cyberbullying"
+            label={t("Harassment or cyberbullying")}
           />
           <Form.Check
             name="inappropriate"
             type="checkbox"
-            label="Inappropriate name, image, or content"
+            label={t("Inappropriate name, image, or content")}
           />
-          <Form.Check name="other" type="checkbox" label="Other" />
+          <Form.Check name="other" type="checkbox" label={t("Other")} />
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={submitReport}>Submit</Button>
+        <Button onClick={submitReport}>{t('Submit')}</Button>
       </Modal.Footer>
     </Modal>
   );

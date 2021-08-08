@@ -2,6 +2,7 @@ import React, {useEffect} from "react";
 import PropTypes from "prop-types";
 import {Alert, Button, Form} from "react-bootstrap";
 import "../styles/login.css"
+import { useTranslation } from 'react-i18next';
 
 function RegistrationForm({
                               emailError,
@@ -25,6 +26,8 @@ function RegistrationForm({
 
     // https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30
     // Accessed June 7, 2021 for usePasswordValidator and utils.js
+
+    const { t, i18n } = useTranslation();
 
     // make sure names are filled out
     useEffect(
@@ -58,7 +61,7 @@ function RegistrationForm({
             } else if (validateEmail(regUser.email)) {
                 setEmailError("");
             } else {
-                setEmailError("Please enter a valid email.");
+                setEmailError(t("Please enter a valid email."));
             }
         },
         [regUser.email]
@@ -73,16 +76,16 @@ function RegistrationForm({
             setPasswordError("");
 
             if (regUser.password === null || regUser.password === undefined) {
-                return setPasswordError(`Please choose a password`);
+                return setPasswordError(t('Please choose a password'));
             }
 
             if (regUser.password.length < config.min) {
-                return setPasswordError(`Password must be at least ${config.min} characters.`);
+                return setPasswordError(t('Password at least', {0:config.min}));
             }
 
             if (regUser.password.length > config.max) {
                 return setPasswordError(
-                    `Password must be less than ${config.max} characters.`
+                    t("Password max",{0:config.max})
                 );
             }
 
@@ -91,7 +94,7 @@ function RegistrationForm({
 
             if (!numBool) {
                 return setPasswordError(
-                    `Password must contain at least 1 number.`
+                    t('Password must contain at least 1 number.')
                 );
             }
 
@@ -100,7 +103,7 @@ function RegistrationForm({
 
             if (!charBool) {
                 return setPasswordError(
-                    `Password must contain at least 1 special character.`
+                    t('Password special')
                 );
             }
 
@@ -115,7 +118,7 @@ function RegistrationForm({
             if (!confirmPassword || !regUser.password) {
                 setConfirmPasswordError("");
             } else if (confirmPassword !== regUser.password) {
-                setConfirmPasswordError("The passwords must match.");
+                setConfirmPasswordError(t("The passwords must match."));
             } else {
                 setConfirmPasswordError("");
             }
@@ -125,7 +128,7 @@ function RegistrationForm({
 
     return (
         <Form>
-            <h2>Register</h2>
+            <h2>{t('Register')}</h2>
             {registerDuplicateEmail &&
             <Alert
                 variant="danger"
@@ -136,9 +139,7 @@ function RegistrationForm({
                 <p>Please use a different email, or recover your account by clicking the "Forgot password" link.</p>
             </Alert>
             }
-            <span>For full access to our features, including ability to </span>
-            <br/>
-            <span> posting your own properties, please register.</span>
+            <span>{t('Register hint')}</span>
             <br/>
             <br/>
             <div className="form-group">
@@ -146,7 +147,7 @@ function RegistrationForm({
                     type="text"
                     name="firstName"
                     id="firstName"
-                    placeholder="Enter first name*"
+                    placeholder={t('Enter first name*')}
                     onChange={handleRegChange}
                     value={regUser.firstName}
                 />
@@ -157,7 +158,7 @@ function RegistrationForm({
                     type="text"
                     name="lastName"
                     id="lastName"
-                    placeholder="Enter last name*"
+                    placeholder={t('Enter last name*')}
                     onChange={handleRegChange}
                     value={regUser.lastName}
                 />
@@ -180,7 +181,7 @@ function RegistrationForm({
                     type="password"
                     name="regPassword"
                     id="regPassword"
-                    placeholder="Password*"
+                    placeholder={t('Password') + "*"}
                     onChange={handleRegChange}
                     value={regUser.password}
                 />
@@ -191,7 +192,7 @@ function RegistrationForm({
                 <input
                     type="password"
                     name="password"
-                    placeholder="Confirm password*"
+                    placeholder={t('Confirm password') + "*"}
                     onChange={e => setConfirmPassword(e.target.value)}
                     value={confirmPassword}
                 />
@@ -199,15 +200,15 @@ function RegistrationForm({
             </div>
 
             <Form.Text className="text-muted">
-                * required fields
+                * {t('required fields')}
             </Form.Text>
             <br/>
             <div className="registration-form-buttons">
                 <Button className="reg-close-button" variant="secondary" onClick={handleClose}>
-                    Close
+                    {t('Close')}
                 </Button>
                 <Button type="submit" variant="primary" onClick={register}>
-                    Register
+                    {t('Register')}
                 </Button>
             </div>
         </Form>

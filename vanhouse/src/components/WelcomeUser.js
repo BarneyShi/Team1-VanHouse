@@ -2,6 +2,7 @@ import React, {useEffect} from "react";
 import {Dropdown} from "react-bootstrap";
 import PropTypes from "prop-types";
 import "../styles/header.css"
+import { useTranslation } from 'react-i18next';
 
 function WelcomeUser({
                          user,
@@ -9,6 +10,8 @@ function WelcomeUser({
                          handleLogoutClicked,
                          handleAccountClicked,
                      }) {
+
+    const { t, i18n } = useTranslation();
 
     const loggedInCondRender = () => {
         fetch(`/login-router/account`, {
@@ -52,11 +55,11 @@ function WelcomeUser({
         <div className="welcome-user-div">
             <Dropdown>
                 <Dropdown.Toggle variant="outline-success">
-                    <span>Hi, {user.firstName}!</span>
+                    <span>{t('Hi')}, {user.firstName}!</span>
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
-                    <Dropdown.Item onClick={handleAccountClicked}>Account</Dropdown.Item>
-                    <Dropdown.Item onClick={handleLogoutClicked}>Logout</Dropdown.Item>
+                    <Dropdown.Item onClick={handleAccountClicked}>{t('Account')}</Dropdown.Item>
+                    <Dropdown.Item onClick={handleLogoutClicked}>{t('Logout')}</Dropdown.Item>
                 </Dropdown.Menu>
             </Dropdown>
         </div>

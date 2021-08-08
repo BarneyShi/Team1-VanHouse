@@ -10,13 +10,14 @@ import PropTypes from "prop-types";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
 import Schedule from "./PostDetail/Schedule";
 import ImagePrep from "./ImagePrep";
+import { useTranslation } from 'react-i18next';
 
 // Presents a modal view with a form for creating a new post
 function NewPost({ showModalForm, submit, handleClose }) {
   // States set by form inputs
   const [postTitle, setPostTitle] = useState("Untitled Post");
   const [price, setPrice] = useState(0);
-  const [paymentPeriod, setPaymentPeriod] = useState("Monthly");
+  const [paymentPeriod, setPaymentPeriod] = useState("monthly");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
@@ -38,6 +39,8 @@ function NewPost({ showModalForm, submit, handleClose }) {
   const [displayImagePrep, setDisplayImagePrep] = useState(false);
 
   const [executing, setExecuting] = useState(false);
+
+  const { t, i18n } = useTranslation();
   
   // Resets the states
   const resetStates = (show) => {
@@ -49,7 +52,7 @@ function NewPost({ showModalForm, submit, handleClose }) {
       setPhone("");
       setAddress("");
       setPostalCode("");
-      setLease("0");
+      setLease(0);
       setBedrooms(0);
       setBathrooms(0);
       setSquareFootage(0);
@@ -113,13 +116,13 @@ function NewPost({ showModalForm, submit, handleClose }) {
       <Modal show={showModalForm} onHide={handleClose}>
         <Form onSubmit={handleSubmit}>
           <Modal.Header>
-            <Modal.Title>Create a new rental listing</Modal.Title>
+            <Modal.Title>{t('Create a new rental listing')}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form.Group as={Col} controlId="formTitle">
-              <Form.Label>Title</Form.Label>
+              <Form.Label>{t('Title')}</Form.Label>
               <Form.Control
-                placeholder="Title"
+                placeholder={t('Title')}
                 onChange={(e) => {
                   setPostTitle(e.target.value);
                 }}
@@ -128,7 +131,7 @@ function NewPost({ showModalForm, submit, handleClose }) {
 
             <Row>
               <Form.Group as={Col} controlId="formEmail">
-                <Form.Label>Email address *</Form.Label>
+                <Form.Label>{t('Email address')} *</Form.Label>
                 <Form.Control
                   required
                   type="email"
@@ -140,7 +143,7 @@ function NewPost({ showModalForm, submit, handleClose }) {
               </Form.Group>
 
               <Form.Group as={Col} controlId="formPhone">
-                <Form.Label>Phone number</Form.Label>
+                <Form.Label>{t('Phone number')}</Form.Label>
                 <Form.Control
                   type="tel"
                   pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
@@ -154,7 +157,7 @@ function NewPost({ showModalForm, submit, handleClose }) {
 
             <Row>
               <Form.Group as={Col} controlId="formAddress">
-                <Form.Label>Address *</Form.Label>
+                <Form.Label>{t('Address')} *</Form.Label>
                 <Form.Control
                   required
                   placeholder="1961 East Mall"
@@ -164,7 +167,7 @@ function NewPost({ showModalForm, submit, handleClose }) {
                 />
               </Form.Group>
               <Form.Group as={Col} controlId="form">
-                <Form.Label>Postal Code *</Form.Label>
+                <Form.Label>{t('Postal Code')} *</Form.Label>
                 <Form.Control
                   required
                   placeholder="A1B 2C3"
@@ -178,7 +181,7 @@ function NewPost({ showModalForm, submit, handleClose }) {
 
             <Row>
               <Form.Group as={Col} controlId="formPrice">
-                <Form.Label>Price *</Form.Label>
+                <Form.Label>{t('Price')} *</Form.Label>
                 <Form.Control
                   required
                   type="number"
@@ -191,36 +194,36 @@ function NewPost({ showModalForm, submit, handleClose }) {
               </Form.Group>
 
               <Form.Group as={Col} controlId="formPricePeriod">
-                <Form.Label> Payment period </Form.Label>
+                <Form.Label> {t('Payment period')} </Form.Label>
                 <Form.Control
                   as="select"
                   defaultValue="monthly"
                   onChange={(e) => {
-                    setPaymentPeriod(e.target.value);
+                    const periods = ["daily", "weekly", "monthly"];
+                    setPaymentPeriod(periods[e.target.selectedIndex]);
                   }}>
-                  <option>daily</option>
-                  <option>weekly</option>
-                  <option>monthly</option>
+                  <option>{t('daily')}</option>
+                  <option>{t('weekly')}</option>
+                  <option>{t('monthly')}</option>
                 </Form.Control>
               </Form.Group>
               <Form.Group as={Col} controlId="formLease">
-                <Form.Label>Lease length</Form.Label>
+                <Form.Label>{t('Lease length')}</Form.Label>
                 <Form.Control
                   as="select"
-                  defaultValue="no lease"
                   onChange={(e) => {
                     setLease(e.target.selectedIndex * 6);
                   }}>
-                  <option>no lease</option>
-                  <option>6 months</option>
-                  <option>1 year</option>
+                  <option>{t('no lease')}</option>
+                  <option>6 {t('months')}</option>
+                  <option>1 {t('year')}</option>
                 </Form.Control>
               </Form.Group>
             </Row>
             <Row>
               <Col>
                 <Form.Group controlId="formBedrooms">
-                  <Form.Label>Bedrooms</Form.Label>
+                  <Form.Label>{t('Bedrooms')}</Form.Label>
                   <Form.Control
                     type="number"
                     min="0"
@@ -233,7 +236,7 @@ function NewPost({ showModalForm, submit, handleClose }) {
               </Col>
               <Col>
                 <Form.Group controlId="formBathrooms">
-                  <Form.Label>Bathrooms</Form.Label>
+                  <Form.Label>{t('Bathrooms')}</Form.Label>
                   <Form.Control
                     type="number"
                     min="0"
@@ -246,7 +249,7 @@ function NewPost({ showModalForm, submit, handleClose }) {
               </Col>
               <Col>
                 <Form.Group controlId="formSqft">
-                  <Form.Label>Square ft</Form.Label>
+                  <Form.Label>{t('Square ft')}</Form.Label>
                   <Form.Control
                     type="number"
                     min="0"
@@ -263,7 +266,7 @@ function NewPost({ showModalForm, submit, handleClose }) {
                 <Form.Group controlId="formUtilities">
                   <Form.Check
                     type="checkbox"
-                    label="Utilities included"
+                    label={t('Utilities included')}
                     onChange={(e) => {
                       setUtilities(e.target.value === "on");
                     }}
@@ -273,7 +276,7 @@ function NewPost({ showModalForm, submit, handleClose }) {
                 <Form.Group controlId="formPets">
                   <Form.Check
                     type="checkbox"
-                    label="Pets allowed"
+                    label={t('Pets allowed')}
                     onChange={(e) => {
                       setPets(e.target.value === "on");
                     }}
@@ -284,7 +287,7 @@ function NewPost({ showModalForm, submit, handleClose }) {
                 <Form.Group controlId="formLaundry">
                   <Form.Check
                     type="checkbox"
-                    label="In suite laundry"
+                    label={t('In suite laundry')}
                     onChange={(e) => {
                       setLaundry(e.target.value === "on");
                     }}
@@ -293,7 +296,7 @@ function NewPost({ showModalForm, submit, handleClose }) {
                 <Form.Group controlId="formFurnished">
                   <Form.Check
                     type="checkbox"
-                    label="Furnished"
+                    label={t('Furnished')}
                     onChange={(e) => {
                       setFurnished(e.target.value === "on");
                     }}
@@ -302,14 +305,14 @@ function NewPost({ showModalForm, submit, handleClose }) {
               </Col>
             </Row>
 
-            <Form.Text className="text-muted">* required fields</Form.Text>
+            <Form.Text className="text-muted">* {t('required fields')}</Form.Text>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
-              Close
+              {t('Close')}
             </Button>
             <Button variant="primary" type="submit">
-              Continue
+              {t('Continue')}
             </Button>
           </Modal.Footer>
         </Form>

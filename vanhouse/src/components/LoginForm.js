@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import RegistrationForm from "./RegistrationForm"
 import "../styles/login.css"
 import ForgotPassword from "./ForgotPassword";
+import { useTranslation } from 'react-i18next';
+import { trim } from "jquery";
 
 function LoginForm({
                        show,
@@ -74,12 +76,14 @@ function LoginForm({
         login(email);
     }
 
+    const { t, i18n } = useTranslation();
+
     return (
         <Modal id="Login-Modal" show={show} onHide={handleClose} animation={false}>
             {isLoginVisible &&
             <Form onSubmit={handleSubmit}>
                 <Modal.Header>
-                    <Modal.Title>Login</Modal.Title>
+                    <Modal.Title>{t('Login')}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     {loginError &&
@@ -93,15 +97,15 @@ function LoginForm({
                     </Alert>
                     }
                     <Form.Group controlId="formEmail">
-                        <Form.Label>Email address</Form.Label>
-                        <Form.Control required type="email" placeholder="Enter email" onChange={(e) => {
+                    <Form.Label>{t('Email address')}</Form.Label>
+                        <Form.Control required type="email" placeholder={t('Enter email')} onChange={(e) => {
                             setEmail(e.target.value)
                         }}/>
                     </Form.Group>
 
                     <Form.Group controlId="formPassword">
-                        <Form.Label>Password</Form.Label>
-                        <Form.Control required type="password" placeholder="Password"
+                        <Form.Label>{t('Password')}</Form.Label>
+                        <Form.Control required type="password" placeholder={t('Password')}
                                       onChange={(e) => {
                                           setPassword(e.target.value)
                                       }}/>
@@ -110,10 +114,10 @@ function LoginForm({
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>
-                        Close
+                        {t('Close')}
                     </Button>
                     <Button variant="primary" type="submit">
-                        Login
+                        {t('Login')}
                     </Button>
                 </Modal.Footer>
             </Form>
@@ -126,7 +130,7 @@ function LoginForm({
                     <Button
                         variant="outline-info"
                         onClick={() => setForgotVisibilities()}>
-                        Forgot password?
+                        {t('Forgot Password')}?
                     </Button>
                     }
 
@@ -155,7 +159,7 @@ function LoginForm({
                     <Button
                         variant="outline-success"
                         onClick={() => setRegVisibilities()}>
-                        Register for a new account
+                        {t('Register for a new account')}
                     </Button>
                     }
 
