@@ -25,6 +25,8 @@ import downVote from "../../assets/thumbdown-voted.svg";
 import editIcon from "../../assets/editIcon.png";
 import LoadingSpinner from "../LoadingSpinner";
 import { getErrorString } from "../../utils";
+import { useTranslation } from 'react-i18next';
+import event from '../Events';
 
 export default function PostDetail() {
   const mapToken =
@@ -56,6 +58,31 @@ export default function PostDetail() {
     mapboxApiAccessToken: mapToken,
   });
 
+  const { t, i18n } = useTranslation();
+  let eventNames = event.eventNames();
+  let loginFun = loginUser=>{
+    console.log("receive user login!!", loginUser);
+    console.log("before login user", user);
+    setUser({ userId: loginUser.userId, username: loginUser.firstName });
+
+    console.log("after login user", user);
+    // updateAccount();
+
+  };
+  let logoutFun = loginUser=>{
+    console.log("receive user logout!!");
+    setUser(null);
+    // updateAccount();
+  };
+  console.log("post detail eventnames: ", eventNames);
+  if(eventNames.includes('user_login')){
+    event.removeListener("user_login", loginFun);
+    event.removeListener("user_logout", logoutFun);
+  }
+  event.addListener('user_login', loginFun);
+  event.addListener('user_logout', logoutFun);
+
+
   useEffect(async () => {
     let postData;
     try {
@@ -74,6 +101,21 @@ export default function PostDetail() {
         setErrorMsg(errText);
         setDisplayError(true);
       });
+    }
+
+    
+    try {
+      const response = await fetch("/login-router/account", {
+        credentials: "include",
+      });
+      if (!response.ok) {
+        throw new Error("Not logged in");
+      }
+      const data = await response.json();
+      setUser({ userId: data.userId, username: data.firstName });
+    } catch (err) {
+      setUser();
+      // console.log("Error while checking auth:", err.message);
     }
 
     try {
@@ -101,25 +143,13 @@ export default function PostDetail() {
       });
     }
 
-    try {
-      const response = await fetch("/login-router/account", {
-        credentials: "include",
-      });
-      if (!response.ok) {
-        throw new Error("Not logged in");
-      }
-      const data = await response.json();
-      setUser({ userId: data.userId, username: data.firstName });
-    } catch (err) {
-      setUser();
-      // console.log("Error while checking auth:", err.message);
-    }
   }, []);
 
   // Check if the user's rated this post
   useEffect(async () => {
     try {
       if (!user) throw Error("Not logged in");
+      console.log("check user vote Info");
       const response = await fetch(
         `/post/${post._id}/checkvote?userId=${user.userId}`
       );
@@ -130,6 +160,25 @@ export default function PostDetail() {
       // console.log("Error while checking vote:", err.message);
     }
   }, [rating, user]);
+
+  // useEffect(async () => {
+  //   try {
+      
+  //     console.log("check user account Info");
+      
+  //     const response = await fetch("/login-router/account", {
+  //       credentials: "include",
+  //     });
+  //     if (!response.ok) {
+  //       throw new Error("Not logged in");
+  //     }
+  //     const data = await response.json();
+  //     setUser({ userId: data.userId, username: data.firstName });
+  //   } catch (err) {
+  //     setUser();
+  //     // console.log("Error while checking auth:", err.message);
+  //   }
+  // }, [user]);
 
   // Comment function
   const commentRef = useRef();
@@ -277,7 +326,7 @@ export default function PostDetail() {
                 setErrorMsg("");
               }}
               dismissible>
-              <Alert.Heading>Oops!</Alert.Heading>
+              <Alert.Heading>{t('Oops!')}</Alert.Heading>
               <p>{errorMsg}</p>
             </Alert>
           )}
@@ -318,13 +367,13 @@ export default function PostDetail() {
               id="homeTourBtn"
               variant="info"
               onClick={() => setDisplaySchedule(true)}>
-              Book a home tour!
+              { t('Book a home tour!')}
             </Button>
             {user && post && user.userId === post.authorID ? (
               <Button
                 onClick={() => setDisplayEditModal(true)}
                 id="editPost--btn">
-                Edit Post
+                {t('Edit Post')}
               </Button>
             ) : null}
 
@@ -332,14 +381,14 @@ export default function PostDetail() {
               variant="warning"
               id="reportBtn"
               onClick={() => setDisplayReport(true)}>
-              Report
+              {t('Report')}
             </Button>
             {user && post && user.userId === post.authorID ? (
               <Button
                 variant="danger"
                 id="deleteBtn"
                 onClick={() => setDeleteConfirmation(true)}>
-                Delete
+                {t('Delete')}
               </Button>
             ) : null}
           </Col>
@@ -347,30 +396,30 @@ export default function PostDetail() {
           <Col xs={12} md={6}>
             {postLoaded ? (
               <ListGroup>
-                <ListGroupItem>Address: {post.address}</ListGroupItem>
+                <ListGroupItem>{t('Address')}: {post.address}</ListGroupItem>
                 <ListGroupItem>
-                  Price: ${post.price} {post.paymentPeriod}
+                  {t('Price')}: ${post.price} {t(post.paymentPeriod)}
                 </ListGroupItem>
                 {post.email !== "" && (
-                  <ListGroupItem>Email: {post.email}</ListGroupItem>
+                  <ListGroupItem>{t('Email')}: {post.email}</ListGroupItem>
                 )}
                 <ListGroupItem>
-                  {post.pets ? "Pets friendly" : "No pets"}
+                  {t(post.pets ? "Pets friendly" : "No pets")}
                 </ListGroupItem>
                 <ListGroupItem>
-                  {post.utilities ? "Utility included" : "Utility not included"}
+                  {t(post.utilities ? "Utility included" : "Utility not included")}
                 </ListGroupItem>
                 <ListGroupItem>
-                  {post.laundry ? "Ensuite laundry" : "No ensuite laundry"}
+                  {t(post.laundry ? "Ensuite laundry" : "No ensuite laundry")}
                 </ListGroupItem>
                 <ListGroupItem>
-                  {post.furnished ? "Furnished" : "Unfurnished"}
+                  {t(post.furnished ? "Furnished" : "Unfurnished")}
                 </ListGroupItem>
                 <Button
                   id="viewFullInfoBtn"
                   onClick={() => setShowFullInfo(true)}
                   variant="success">
-                  View More
+                  {t('View More')}
                 </Button>
               </ListGroup>
             ) : (
@@ -393,7 +442,7 @@ export default function PostDetail() {
           </Col>
 
           <Col id="comment">
-            <h4 className="text-center">Comment</h4>
+            <h4 className="text-center">{t('Comment')}</h4>
             {postLoaded ? (
               comments.map((e) => (
                 <div className="comment__block" key={e._id}>
@@ -437,8 +486,8 @@ export default function PostDetail() {
                 <textarea
                   ref={commentRef}
                   name="newComment"
-                  placeholder="Leave a comment!"></textarea>
-                <Button type="submit">Submit</Button>
+                  placeholder={t('Leave a comment!')}></textarea>
+                <Button type="submit">{t('Submit')}</Button>
               </form>
             </div>
           </Col>
@@ -450,7 +499,7 @@ export default function PostDetail() {
               onHide={() => setDisplaySchedule(false)}
               centered>
               <Modal.Header closeButton>
-                <Modal.Title>You can contact the landlord on</Modal.Title>
+                <Modal.Title>{t('You can contact the landlord on')}</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <ListGroup id="date-list-group">
@@ -482,37 +531,37 @@ export default function PostDetail() {
               onHide={() => setShowFullInfo(false)}
               centered>
               <Modal.Header closeButton>
-                <Modal.Title>Full info</Modal.Title>
+                <Modal.Title>{t('Full info')}</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <ListGroup>
-                  <ListGroupItem>Address: {post.address}</ListGroupItem>
+                  <ListGroupItem>{t('Address')}: {post.address}</ListGroupItem>
                   <ListGroupItem>
-                    Price: ${post.price} {post.paymentPeriod}
+                    {t('Price')}: ${post.price} {t(post.paymentPeriod)}
                   </ListGroupItem>
                   {post.email !== "" && (
-                    <ListGroupItem>Email: {post.email}</ListGroupItem>
+                    <ListGroupItem>{t('Email')}: {post.email}</ListGroupItem>
                   )}
                   <ListGroupItem>
-                    Lease Length: {post.leaseLength}
+                    {t('Lease length')}: {post.leaseLength}
                   </ListGroupItem>
                   <ListGroupItem>
-                    {post.pets ? "Pets friendly" : "No pets"}
+                    {t(post.pets ? "Pets friendly" : "No pets")}
                   </ListGroupItem>
                   <ListGroupItem>
-                    {post.utilities
+                    {t(post.utilities
                       ? "Utility included"
-                      : "Utility not included"}
+                      : "Utility not included")}
                   </ListGroupItem>
                   <ListGroupItem>
-                    {post.laundry ? "Ensuite laundry" : "No ensuite laundry"}
+                    {t(post.laundry ? "Ensuite laundry" : "No ensuite laundry")}
                   </ListGroupItem>
                   <ListGroupItem>
-                    {post.furnished ? "Furnished" : "Not furnished"}
+                    {t(post.furnished ? "Furnished" : "Unfurnished")}
                   </ListGroupItem>
-                  <ListGroupItem>Bedroom: {post.bedrooms}</ListGroupItem>
-                  <ListGroupItem>Bathroom: {post.bathrooms}</ListGroupItem>
-                  <ListGroupItem>Square feet: {post.sqft}</ListGroupItem>
+                  <ListGroupItem>{t('Bedrooms')}: {post.bedrooms}</ListGroupItem>
+                  <ListGroupItem>{t('Bathrooms')}: {post.bathrooms}</ListGroupItem>
+                  <ListGroupItem>{t('Square feet')}: {post.sqft}</ListGroupItem>
                 </ListGroup>
               </Modal.Body>
             </Modal>
@@ -530,16 +579,16 @@ export default function PostDetail() {
             onHide={() => setDeleteConfirmation(false)}
             centered>
             <Modal.Header closeButton>
-              <Modal.Title>Are you sure you want to continue?</Modal.Title>
+              <Modal.Title>{t('Are you sure you want to continue?')}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <Button variant="danger" onClick={deletePost}>
-                Delete
+                {t('Delete')}
               </Button>
               <Button
                 variant="primary"
                 onClick={() => setDeleteConfirmation(false)}>
-                Cancel
+                {t('Cancel')}
               </Button>
             </Modal.Body>
           </Modal>

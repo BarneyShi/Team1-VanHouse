@@ -7,10 +7,11 @@ import search from '../assets/search.png';
 import '../styles/searchbar.css';
 
 import event from './Events';
+import { useTranslation } from 'react-i18next';
 
 function SearchBar({getData, setQuery, userId}){
     const [leftState,setLeftState] = useState(0);
-
+    // const [Click,setClick] = useState({getData, setQuery})
 
 
     const [low, setLow] = useState("");
@@ -18,8 +19,10 @@ function SearchBar({getData, setQuery, userId}){
     const [location, setLocation] = useState("city");
     const [keyword, setKeyword] = useState("");
 
-    const handleSelect = (e) => {
+    const { t, i18n } = useTranslation();
 
+    const handleSelect = (e) => {
+        //   setLocation(Number(e.target.value));
         setLocation(e.target.value);
     }
 
@@ -44,36 +47,42 @@ function SearchBar({getData, setQuery, userId}){
         setQuery(url);
     }
 
-
+    function searchAll() {
+        setLocation("city");
+        setLow("");
+        setHigh("");
+        setKeyword("");
+        setQuery(`/posts`);
+    }
 
     return(
         <div className="style row">
             <select onChange={(e)=>handleSelect(e)} value={location} className="citys form-control col-2">
-                <option value="city">City</option>
+                <option value="city">{t('City')}</option>
                 <option value="Vancouver">Vancouver</option>
                 <option value="Burnaby">Burnaby</option>
                 <option value="Richmond">Richmond</option>
             </select>
-            <InputGroup.Text className="">Price:</InputGroup.Text>
-            <FormControl className="price-num" type="number" value={low}
+            <InputGroup.Text className="">{t('Price')}:</InputGroup.Text>
+            <FormControl className="price-num" type="text" value={low}
                          onChange={(e) => {
                              setLow(e.target.value);
                          }}
             />
             <InputGroup.Text className="">-</InputGroup.Text>
-            <FormControl className="price-num2" type="number" value={high}
+            <FormControl className="price-num2" type="text" value={high}
                          onChange={(e) => {
                              setHigh(e.target.value);
                          }}
             />
-            <FormControl className="col keyword" placeholder="Keyword"  value={keyword}
+            <FormControl className="col keyword" placeholder={t('Keyword')}  value={keyword}
                          onChange={(e) => {setKeyword(e.target.value);}}/>
             <Button variant="outline-secondary " onClick={() => searchByCondition()}>
                 <img src={search} alt="Search" className="imgstyle"/>
             </Button>
 
             <Button variant="outline-secondary " onClick={() => Cancel()}>
-                Cancel
+                {t('Cancel')}
             </Button>
 
         </div>

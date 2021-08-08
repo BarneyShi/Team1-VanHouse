@@ -4,10 +4,13 @@ import Charts from "./Charts";
 import "../../styles/admin.css";
 import PostAdmin from "./PostAdmin";
 import UserAdmin from "./UserAdmin";
+import { useTranslation } from 'react-i18next';
 
 export default function Admin() {
   const [posts, setPosts] = useState();
   const [users, setUsers] = useState();
+  const { t, i18n } = useTranslation();
+
   useEffect(async () => {
     try {
       const response = await fetch("/posts");
@@ -29,13 +32,13 @@ export default function Admin() {
           <Col sm={3}>
             <Nav variant="pills" className="flex-column">
               <Nav.Item>
-                <Nav.Link eventKey="first">Anaylysis</Nav.Link>
+                <Nav.Link eventKey="first">{t('Anaylysis')}</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="second">Post</Nav.Link>
+                <Nav.Link eventKey="second">{t('Post')}</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="third">User</Nav.Link>
+                <Nav.Link eventKey="third">{t('User')}</Nav.Link>
               </Nav.Item>
             </Nav>
           </Col>

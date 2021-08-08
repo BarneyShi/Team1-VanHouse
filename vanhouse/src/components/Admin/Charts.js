@@ -11,13 +11,17 @@ import {
   YAxis,
   XAxis,
   ResponsiveContainer,
+  PureComponent,
 } from "recharts";
 import LoadingSpinner from "../LoadingSpinner";
 import { daysFromNow, priceRange } from "../../utils";
+import { useTranslation } from 'react-i18next';
 
 export default function Charts({ posts }) {
   const [daysBeforeNow, setDays] = useState([]);
   const [priceStat, setPriceStat] = useState([]);
+  const { t, i18n } = useTranslation();
+
   useEffect(() => {
     if (posts) {
       const datesArr = posts.map((p) => p.date);
@@ -53,17 +57,17 @@ export default function Charts({ posts }) {
           <XAxis
             dataKey="days"
             label={{
-              value: "Days before today",
+              value: t("Days before today"),
               position: "insideBottomRight",
               dy: 10,
             }}
           />
           <YAxis
-            label={{ value: "Amount", position: "insideLeft", angle: -90 }}
+            label={{ value: t("Amount"), position: "insideLeft", angle: -90 }}
           />
           <Tooltip />
           <Legend />
-          <Bar dataKey="DailyPosts" fill="#8884d8" />
+          <Bar dataKey="DailyPosts" displayName="abcd" fill="#8884d8" />
         </BarChart>
       </ResponsiveContainer>
       {/* CITATION: https://codesandbox.io/s/simple-area-chart-4ujxw?file=/src/App.tsx:707-1078 */}
