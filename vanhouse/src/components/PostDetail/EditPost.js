@@ -56,7 +56,7 @@ export default function EditPost({
     formData.append("postalCode", postalCode.value);
     let payments = ['daily', 'weekly', 'monthly'];
     formData.append("paymentPeriod", payments[paymentPeriod.selectedIndex]);
-    let leases = ['no lease', '6 months', '1 year'];
+    let leases = ['0', '6', '12'];
     formData.append("leaseLength", leases[leaseLength.selectedIndex]);
     formData.append("bedrooms", bedrooms.value);
     formData.append("bathrooms", bathrooms.value);
