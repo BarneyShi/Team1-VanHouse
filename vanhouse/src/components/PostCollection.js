@@ -1,4 +1,3 @@
-// CITATION: Font awesome button reference: https://www.w3schools.com/howto/howto_css_icon_buttons.asp
 // CITATION: I used this resource for learning about fetch: https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
 
 import React, { useEffect, useState, useRef } from "react";
@@ -11,25 +10,20 @@ import SearchBar from "./SearchBar";
 import LoadingSpinner from "./LoadingSpinner";
 import { getErrorString } from "../utils";
 import "../styles/post.css";
-
 import { useTranslation } from 'react-i18next';
 
 function PostCollection({
   filterURL,
   userId,
-  appPosts,
-  setAppPosts,
+  posts,
+  setPosts,
   setQuery
-}) {
-
-  // State to hold posts retrieved from the server
-  const [posts, setPosts] = useState([]);
-  
-  // State to hold filtered posts retrieved from the server
+}) {  
+  // State to hold search result posts retrieved from the server
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [displayFiltered, setDisplayFiltered] = useState(false);
 
-  // State to show/hide the NewPost component
+  // State to show/hide the NewPost modal component
   const [newPostVisible, setNewPostVisible] = useState(false);
 
   // Loading and error display states
@@ -40,13 +34,16 @@ function PostCollection({
   const [searchResEmpty, setSearchResEmpty] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
 
+  // Used for authentication and post creation
   const [user, setUser] = useState();
 
+  // Used with getMorePosts button for getting the correct posts from the server
+  // Note: I'm using the term "page" loosely to mean a set of pageSize posts sorted in order of date.
   const [pageSize, setPageSize] = useState(4);
   const [pageOffset, setPageOffset] = useState(0);
   const [searchPageOffset, setSearchPageOffset] = useState(0);
 
-
+  // Ref used to scroll component into view on click
   const fetchSpinnerRef = useRef();
 
   const { t, i18n } = useTranslation();
@@ -54,8 +51,8 @@ function PostCollection({
   // Query server for posts on mount
   useEffect(() => {
     setIsLoadingPosts(true);
-    if (appPosts.length > 0) {
-      setPosts(appPosts);
+    if (posts.length > 0) {
+      setPageOffset(Math.floor(posts.length / pageSize));
       setIsLoadingPosts(false);
       return;
     }
@@ -127,14 +124,11 @@ function PostCollection({
       });
   }, [filterURL]);
 
-  useEffect(() => {
-    setAppPosts(posts);
-  }, [posts]);
-
+  // When component unmounts, set the query string to empty so we display the correct posts when it remounts.
   // CITATION: syntax to avoid ESLint error on return block statement: https://stackoverflow.com/a/55937086
   useEffect(() => () => setQuery(""), []);
 
-  // Create a POST request for a new rental listing
+  // POST a new rental listing to the server
   const postRentalListing = async (postObj) => {
     const response = await fetch("/newPost", {
       method: "POST",
@@ -148,8 +142,7 @@ function PostCollection({
   }
 
   // Adds a post to the posts state
-  // Callback function called by the NewPost component on form submission
-  // CITATION: The idea to use .slice(-2) to add leading zeros to the day/month from https://stackoverflow.com/a/3605248
+  // This is a callback function called by the NewPost component on form submission
   const addPost = async (postInfo) => {
     const postToAdd = {
       id: "",
@@ -223,7 +216,6 @@ function PostCollection({
   const postObjToComponent = ((post) => (
     <Link to={{pathname: `/post/${post._id}`, postObj: post}} key={post._id}>
       <Post
-        postId={post._id}
         postDate={post.date}
         postTitle={post.title}
         price={post.price}
@@ -234,7 +226,6 @@ function PostCollection({
     </Link>
   ));
 
-  // Map the posts state to a list of Post components
   const postsList = posts?.map((post) => (
     postObjToComponent(post)
   ));
@@ -243,6 +234,7 @@ function PostCollection({
     postObjToComponent(post)
   ));
 
+  // Get the next "page" of posts from the server. (A page is currently set to 4 posts)
   const getPage = async (url, postState, setPostsState, setAvailability, offset, setOffset) => {
     const res = await fetch(url);
     if (!res.ok) {
@@ -259,8 +251,7 @@ function PostCollection({
     setPostsState(newPosts);
   }
 
-
-  // Fetch some more posts from the server
+  // Fetch more posts from the server
   // Called when the "See more posts..." button is clicked
   const getMorePosts = () => {
     setFetchingNextPosts(true);
@@ -361,8 +352,8 @@ function PostCollection({
 PostCollection.propTypes = {
   filterURL: PropTypes.string.isRequired,
   userId: PropTypes.string.isRequired,
-  appPosts: PropTypes.instanceOf(Array).isRequired,
-  setAppPosts: PropTypes.func.isRequired,
+  posts: PropTypes.instanceOf(Array).isRequired,
+  setPosts: PropTypes.func.isRequired,
   setQuery: PropTypes.func.isRequired
 };
 

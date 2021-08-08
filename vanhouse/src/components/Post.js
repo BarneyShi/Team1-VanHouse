@@ -16,7 +16,6 @@ function truncateString(str, maxSize) {
 
 // Display a post on the main page
 function Post({
-  postId,
   postDate,
   postTitle,
   price,
@@ -33,13 +32,11 @@ function Post({
         </div>
         <Card.Img variant="top" src={mainImage} alt="thumbnail" />
         <Card.Body className="postCardBody">
-          <Card.Text>
-            <Card.Subtitle className="post_datetext">{t('Date posted')}: {postDate.slice(0,10)}</Card.Subtitle>
-            <ListGroup variant="flush" className="post_listgroup">
-              <ListGroup.Item>${price} {t(paymentPeriod)} <br/></ListGroup.Item>
-              <ListGroup.Item>{truncateString(address, 30)}</ListGroup.Item>
-            </ListGroup>
-          </Card.Text>
+          <Card.Subtitle className="post_datetext">{t('Date posted')}: {postDate.slice(0,10)}</Card.Subtitle>
+          <ListGroup variant="flush" className="post_listgroup">
+            <ListGroup.Item>${price} {t(paymentPeriod)} <br/></ListGroup.Item>
+            <ListGroup.Item>{truncateString(address, 30)}</ListGroup.Item>
+          </ListGroup>
         </Card.Body>
       </Card>
     </button>
@@ -53,8 +50,7 @@ Post.defaultProps = {
 };
 
 Post.propTypes = {
-  postId: PropTypes.string.isRequired,
-  postDate: PropTypes.instanceOf(Date).isRequired,
+  postDate: PropTypes.oneOfType([PropTypes.string, PropTypes.instanceOf(Date)]).isRequired,
   postTitle: PropTypes.string,
   price: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
   paymentPeriod: PropTypes.string.isRequired,

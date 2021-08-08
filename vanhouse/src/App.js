@@ -60,8 +60,8 @@ function App() {
                 <Col >
                   <PostCollection filterURL={filterURL}
                                   userId={userId}
-                                  appPosts={posts}
-                                  setAppPosts={setPosts}
+                                  posts={posts}
+                                  setPosts={setPosts}
                                   setQuery={setFilterURL}
                   />
                 </Col>
