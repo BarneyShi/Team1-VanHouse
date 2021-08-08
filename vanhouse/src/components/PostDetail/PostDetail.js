@@ -59,28 +59,20 @@ export default function PostDetail() {
   });
 
   const { t, i18n } = useTranslation();
-  let eventNames = event.eventNames();
-  let loginFun = loginUser=>{
-    // console.log("receive user login!!", loginUser);
-    // console.log("before login user", user);
-    setUser({ userId: loginUser.userId, username: loginUser.firstName });
 
-    // console.log("after login user", user);
+  useEffect(async () => {
+    let loginFun = loginUser=>{
+      // console.log("receive user login!!");
+      setUser({ userId: loginUser.userId, username: loginUser.firstName });
+    };
+    let logoutFun = loginUser=>{
+      // console.log("receive user logout!!");
+      setUser(null);
+    };
+    event.addListener('user_login', loginFun);
+    event.addListener('user_logout', logoutFun);
+  }, []);
 
-  };
-
-  let logoutFun = loginUser=>{
-    // console.log("receive user logout!!");
-    setUser(null);
-    // updateAccount();
-  };
-  // console.log("post detail eventnames: ", eventNames);
-  if(eventNames.includes('user_login')){
-    event.removeListener("user_login", loginFun);
-    event.removeListener("user_logout", logoutFun);
-  }
-  event.addListener('user_login', loginFun);
-  event.addListener('user_logout', logoutFun);
 
   useEffect(async () => {
     let postData;
@@ -102,6 +94,7 @@ export default function PostDetail() {
       });
     }
 
+    
     try {
       const response = await fetch("/login-router/account", {
         credentials: "include",
@@ -141,19 +134,6 @@ export default function PostDetail() {
       });
     }
 
-    // try {
-    //   const response = await fetch("/login-router/account", {
-    //     credentials: "include",
-    //   });
-    //   if (!response.ok) {
-    //     throw new Error("Not logged in");
-    //   }
-    //   const data = await response.json();
-    //   setUser({ userId: data.userId, username: data.firstName });
-    // } catch (err) {
-    //   setUser();
-    //   // console.log("Error while checking auth:", err.message);
-    // }
   }, []);
 
   // Check if the user's rated this post
@@ -171,6 +151,7 @@ export default function PostDetail() {
       // console.log("Error while checking vote:", err.message);
     }
   }, [rating, user]);
+
 
   // Comment function
   const commentRef = useRef();
@@ -318,7 +299,7 @@ export default function PostDetail() {
                 setErrorMsg("");
               }}
               dismissible>
-              <Alert.Heading>Oops!</Alert.Heading>
+              <Alert.Heading>{t('Oops!')}</Alert.Heading>
               <p>{errorMsg}</p>
             </Alert>
           )}
@@ -523,16 +504,16 @@ export default function PostDetail() {
               onHide={() => setShowFullInfo(false)}
               centered>
               <Modal.Header closeButton>
-                <Modal.Title> {t('Full info')}</Modal.Title>
+                <Modal.Title>{t('Full info')}</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <ListGroup>
-                  <ListGroupItem> {t('Address')}: {post.address}</ListGroupItem>
+                  <ListGroupItem>{t('Address')}: {post.address}</ListGroupItem>
                   <ListGroupItem>
                     {t('Price')}: ${post.price} {t(post.paymentPeriod)}
                   </ListGroupItem>
                   {post.email !== "" && (
-                    <ListGroupItem> {t('Email')}: {post.email}</ListGroupItem>
+                    <ListGroupItem>{t('Email')}: {post.email}</ListGroupItem>
                   )}
                   <ListGroupItem>
                     {t('Lease Length')}: {post.leaseLength} {t('months')}
@@ -549,11 +530,11 @@ export default function PostDetail() {
                     {t(post.laundry ? "Ensuite laundry" : "No ensuite laundry")}
                   </ListGroupItem>
                   <ListGroupItem>
-                    {t(post.furnished ? "Furnished" : "Not furnished")}
+                    {t(post.furnished ? "Furnished" : "Unfurnished")}
                   </ListGroupItem>
-                  <ListGroupItem> {t('Bedroom')}: {post.bedrooms}</ListGroupItem>
-                  <ListGroupItem> {t('Bathroom')}: {post.bathrooms}</ListGroupItem>
-                  <ListGroupItem>{t('Square Feet')}: {post.sqft}</ListGroupItem>
+                  <ListGroupItem>{t('Bedrooms')}: {post.bedrooms}</ListGroupItem>
+                  <ListGroupItem>{t('Bathrooms')}: {post.bathrooms}</ListGroupItem>
+                  <ListGroupItem>{t('Square feet')}: {post.sqft}</ListGroupItem>
                 </ListGroup>
               </Modal.Body>
             </Modal>

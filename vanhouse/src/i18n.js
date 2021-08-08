@@ -1,7 +1,5 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import React from "react";
-import {Button} from "react-bootstrap";
 
 // the translations
 // (tip move them in a JSON file and import them,
@@ -90,6 +88,8 @@ const resources = {
       "You can pick multiple dates!": "You can pick multiple dates!",
       "Waiting...": "Waiting...",
       "Image size limit": "Image file size exceeds 1MB. Please select files under 1MB.",
+      "Image too large": "One or more image file size exceed 1MB. Please select files under 1MB.",
+
 
       "Book a home tour!": "Book a home tour!",
       "Email": "Email",
@@ -225,6 +225,7 @@ cn: {
         "You can pick multiple dates!": "你可以选择多个日期!",
         "Waiting...": "等待...",
         "Image size limit": "图片文件大小超过 1MB. 请选择小于1MB的文件.",
+        "Image too large": "一个或多个图片文件大小超过 1MB. 请选择文件小于 1MB.",
 
         "Book a home tour!": "预订一次家的旅行!",
         "Email": "电子邮件",

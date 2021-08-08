@@ -328,7 +328,7 @@ function PostCollection({
       />
       {displayError && 
         <Alert className="connection_error_alert" variant="danger" onClose={() => setDisplayError(false)} dismissible>
-          <Alert.Heading> {t('Oops!')}  </Alert.Heading>
+          <Alert.Heading> {t('Oops!')} </Alert.Heading>
           <p>
             {errorMsg}
           </p>

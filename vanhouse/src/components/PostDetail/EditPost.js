@@ -108,7 +108,7 @@ export default function EditPost({
         if (e.target.files[i].size > maxImageSize) {
           e.target.value = null; // CITATION: https://stackoverflow.com/a/42192710
           setImageErrorMsg(
-            "One or more image file size exceed 1MB. Please select files under 1MB."
+            t('Image too large')
           );
           setImageSizeValid(false);
           return;
@@ -216,6 +216,7 @@ export default function EditPost({
                 <option selected={post?.paymentPeriod === 'daily'}>{t('daily')}</option>
                 <option selected={post?.paymentPeriod === 'weekly'}>{t('weekly')}</option>
                 <option selected={post?.paymentPeriod === 'monthly'}>{t('monthly')}</option>
+
               </Form.Control>
             </Form.Group>
             <Form.Group as={Col} controlId="formLease">

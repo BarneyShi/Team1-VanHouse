@@ -113,7 +113,7 @@ export default function PostAdmin({ posts }) {
           dismissible
           onClose={() => setErrorMsg()}>
           <Alert.Heading>{t('Oops!')}</Alert.Heading>
-          <p>{errorMsg}</p>
+          <p>{t(errorMsg)}</p>
         </Alert>
       ) : null}
       <ListGroup as="ul" className="admin-list">

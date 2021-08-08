@@ -20,18 +20,7 @@ function UserList({ setQuery, setUserId }) {
     const [userSelected, setUserSelected] = useState("");
 
     const { t, i18n } = useTranslation();
-    let eventNames = event.eventNames();
-    console.log("eventnames ", eventNames);
-    if(!eventNames.includes('clear_user')){
-
-        event.addListener('clear_user', msg=>{
-            setUserId("");
-            let items = document.getElementsByClassName("user-item");
-            for(let element of items){
-                element.classList.remove("selected");
-            }
-        });
-    }
+    
 
     function filterUserPost(e, item) {
         let items = document.getElementsByClassName("user-item");
@@ -50,13 +39,14 @@ function UserList({ setQuery, setUserId }) {
     }
 
     let keyIndex = 0;
-    useEffect(() => {
+
+    function loadUsers(){
         fetch("/user",
             { method: "GET" })
             .then((res) => res.json())
             .then((res) => {
                 const newName = [];
-                console.log(res);
+                console.log("/user loaded size:", res.length);
                 keyIndex++;
                 const cardList = res.map((item, index) => (
                     <div className="user-item" key={keyIndex + "_" + item._id}  onClick={(e) => filterUserPost(e, item)}>
@@ -66,6 +56,21 @@ function UserList({ setQuery, setUserId }) {
                 ));
                 setList(cardList);
             });
+    }
+    useEffect(() => {
+        event.addListener('clear_user', msg=>{
+            setUserId("");
+            let items = document.getElementsByClassName("user-item");
+            for(let element of items){
+                element.classList.remove("selected");
+            }
+        });
+        event.addListener('user_login', loginUser=>{
+            console.log("userlist receive user login!!");
+            loadUsers();
+        });
+
+        loadUsers();
     }, []);
 
 
