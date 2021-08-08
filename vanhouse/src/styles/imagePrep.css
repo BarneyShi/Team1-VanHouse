@@ -1,12 +1,12 @@
 .user-image {
   margin-left: 5px;
-  padding:3px;
+  padding: 3px;
 }
 
 .main-image {
   margin-left: 5px;
   border: 3px solid green;
-  padding:1px;
+  padding: 1px;
 }
 
 .preview-image {
@@ -36,7 +36,7 @@
 .image-scroll-div {
   position: relative;
   width: 100%;
-  display:flex;
+  display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;

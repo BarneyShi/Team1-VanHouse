@@ -4,7 +4,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Button, Alert } from "react-bootstrap";
 import PropTypes from "prop-types";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 import Post from "./Post";
 import NewPost from "./NewPost";
 import SearchBar from "./SearchBar";
@@ -12,13 +12,7 @@ import LoadingSpinner from "./LoadingSpinner";
 import { getErrorString } from "../utils";
 import "../styles/post.css";
 
-function PostCollection({
-  filterURL,
-  userId,
-  posts,
-  setPosts,
-  setQuery
-}) {  
+function PostCollection({ filterURL, userId, posts, setPosts, setQuery }) {
   // State to hold search result posts retrieved from the server
   const [filteredPosts, setFilteredPosts] = useState([]);
   const [displayFiltered, setDisplayFiltered] = useState(false);
@@ -58,20 +52,20 @@ function PostCollection({
     }
     setPageOffset(0);
     fetch(`/posts?pageSize=${pageSize}&pageOffset=${0}`)
-      .then(res => {
+      .then((res) => {
         if (!res.ok) {
           throw res;
         }
         return res.json();
       })
-      .then(data => {
+      .then((data) => {
         setIsLoadingPosts(false);
         setPageOffset(1);
         if (Array.isArray(data)) {
           setPosts(data);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         setIsLoadingPosts(false);
         getErrorString(error).then((errText) => {
           setErrorMsg(errText);
@@ -88,7 +82,7 @@ function PostCollection({
       setDisplayFiltered(false);
       setFilteredPosts([]);
       return;
-    } 
+    }
     setIsLoadingPosts(true);
     setSearchPageOffset(0);
     let url = "";
@@ -98,14 +92,14 @@ function PostCollection({
       url = filterURL.concat(`&pageSize=${pageSize}&pageOffset=${0}`);
     }
     fetch(url)
-      .then(res => {
+      .then((res) => {
         if (!res.ok) {
           throw res;
         }
         return res.json();
       })
-      .then(data => {
-        if(Array.isArray(data)) {
+      .then((data) => {
+        if (Array.isArray(data)) {
           setFilteredPosts(data);
         }
         setDisplayFiltered(true);
@@ -115,7 +109,7 @@ function PostCollection({
           setSearchResEmpty(true);
         }
       })
-      .catch(error => {
+      .catch((error) => {
         getErrorString(error).then((errText) => {
           setErrorMsg(errText);
           setDisplayError(true);
@@ -133,13 +127,13 @@ function PostCollection({
     const response = await fetch("/newPost", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
       },
-      credentials: 'include',
-      body: JSON.stringify(postObj)
+      credentials: "include",
+      body: JSON.stringify(postObj),
     });
     return response;
-  }
+  };
 
   // Adds a post to the posts state
   // This is a callback function called by the NewPost component on form submission
@@ -169,7 +163,7 @@ function PostCollection({
       schedule: postInfo.schedule,
       comment: [],
       upvote: 0,
-      downvote: 0
+      downvote: 0,
     };
 
     const res = await postRentalListing(postToAdd);
@@ -180,8 +174,7 @@ function PostCollection({
       const data = await res.json();
       const updatedPosts = [data, ...posts];
       setPosts(updatedPosts);
-    }
-    catch(error) {
+    } catch (error) {
       const errText = await getErrorString(error);
       setErrorMsg(errText);
       setDisplayError(true);
@@ -192,12 +185,9 @@ function PostCollection({
   // Present the NewPost modal view if the user is logged in
   const presentCreatePost = async () => {
     try {
-      const response = await fetch(
-        "/login-router/account",
-        {
-          credentials: "include",
-        }
-      );
+      const response = await fetch("/login-router/account", {
+        credentials: "include",
+      });
       if (!response.ok) {
         throw new Error(t("Please login to create a new post"));
       }
@@ -210,11 +200,11 @@ function PostCollection({
       setDisplayError(true);
       console.log("Error while checking auth:", err.message);
     }
-  }
+  };
 
   // Wrap Post components in Link components to connect to postDetail route
-  const postObjToComponent = ((post) => (
-    <Link to={{pathname: `/post/${post._id}`, postObj: post}} key={post._id}>
+  const postObjToComponent = (post) => (
+    <Link to={{ pathname: `/post/${post._id}`, postObj: post }} key={post._id}>
       <Post
         postDate={post.date}
         postTitle={post.title}
@@ -224,32 +214,37 @@ function PostCollection({
         address={post.address}
       />
     </Link>
-  ));
+  );
 
-  const postsList = posts?.map((post) => (
-    postObjToComponent(post)
-  ));
+  const postsList = posts?.map((post) => postObjToComponent(post));
 
-  const filteredPostsList = filteredPosts?.map((post) => (
+  const filteredPostsList = filteredPosts?.map((post) =>
     postObjToComponent(post)
-  ));
+  );
 
   // Get the next "page" of posts from the server. (A page is currently set to 4 posts)
-  const getPage = async (url, postState, setPostsState, setAvailability, offset, setOffset) => {
+  const getPage = async (
+    url,
+    postState,
+    setPostsState,
+    setAvailability,
+    offset,
+    setOffset
+  ) => {
     const res = await fetch(url);
     if (!res.ok) {
       throw res;
     }
     const data = await res.json();
     setFetchingNextPosts(false);
-    setOffset(offset+1);
+    setOffset(offset + 1);
     if (data.length === 0) {
       setAvailability(true);
       return;
     }
     const newPosts = [...postState, ...data];
     setPostsState(newPosts);
-  }
+  };
 
   // Fetch more posts from the server
   // Called when the "See more posts..." button is clicked
@@ -263,9 +258,13 @@ function PostCollection({
     let offset = pageOffset;
     if (displayFiltered) {
       if (filterURL.startsWith("/userpost")) {
-        url = filterURL.concat(`?pageSize=${pageSize}&pageOffset=${searchPageOffset}`);
+        url = filterURL.concat(
+          `?pageSize=${pageSize}&pageOffset=${searchPageOffset}`
+        );
       } else {
-        url = filterURL.concat(`&pageSize=${pageSize}&pageOffset=${searchPageOffset}`);
+        url = filterURL.concat(
+          `&pageSize=${pageSize}&pageOffset=${searchPageOffset}`
+        );
       }
       setSearchPageOffset(searchPageOffset + 1);
       postsState = filteredPosts;
@@ -274,20 +273,21 @@ function PostCollection({
       incOffset = setSearchPageOffset;
       offset = searchPageOffset;
     }
-    getPage(url, postsState, setPostsState, setEmpty, offset, incOffset)
-      .catch(error => {
+    getPage(url, postsState, setPostsState, setEmpty, offset, incOffset).catch(
+      (error) => {
         setFetchingNextPosts(false);
         getErrorString(error).then((errText) => {
           setErrorMsg(errText);
           setDisplayError(true);
         });
-      });
-  }
+      }
+    );
+  };
 
   // Scroll to bottom of the component when fetching new posts
-  // CITATION: I found the scrollIntoView function here: https://stackoverflow.com/q/45719909 
+  // CITATION: I found the scrollIntoView function here: https://stackoverflow.com/q/45719909
   useEffect(() => {
-    fetchSpinnerRef.current?.scrollIntoView({behavior: "smooth"});
+    fetchSpinnerRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [fetchingNextPosts]);
 
   return (
@@ -295,8 +295,10 @@ function PostCollection({
       <div id="post_collection_tools_div">
         <div id="searchDiv">
           <SearchBar
-            getData={() => {console.log("this prop is no longer used\n");}}
-            setQuery = {setQuery}
+            getData={() => {
+              console.log("this prop is no longer used\n");
+            }}
+            setQuery={setQuery}
             userId={userId}
           />
         </div>
@@ -307,7 +309,7 @@ function PostCollection({
             onClick={presentCreatePost}
           >
             {" "}
-            {t('Post')}{" "}
+            {t("Post")}{" "}
           </Button>{" "}
         </div>
       </div>
@@ -317,33 +319,50 @@ function PostCollection({
         handleClose={() => setNewPostVisible(false)}
         submit={addPost}
       />
-      {displayError && 
-        <Alert className="connection_error_alert" variant="danger" onClose={() => setDisplayError(false)} dismissible>
-          <Alert.Heading> {t('Oops!')}  </Alert.Heading>
-          <p>
-            {errorMsg}
-          </p>
+      {displayError && (
+        <Alert
+          className="connection_error_alert"
+          variant="danger"
+          onClose={() => setDisplayError(false)}
+          dismissible
+        >
+          <Alert.Heading> {t("Oops!")} </Alert.Heading>
+          <p>{errorMsg}</p>
         </Alert>
-      }
+      )}
       <div className="post_scroll_div">
         {!displayFiltered && !isLoadingPosts && postsList}
         {displayFiltered && !isLoadingPosts && filteredPostsList}
         {isLoadingPosts && <LoadingSpinner />}
-        {fetchingNextPosts && <div id="fetchSpinnerDiv" ref={fetchSpinnerRef}><LoadingSpinner /></div>}
-        {displayFiltered && searchResEmpty && filteredPosts && filteredPosts.length === 0 &&
-          <div id="no_results_div" ref={fetchSpinnerRef}>
-            <Alert className="no_results_alert" variant="light">
-              <Alert.Heading> {t('post not found')} </Alert.Heading>
-            </Alert>
+        {fetchingNextPosts && (
+          <div id="fetchSpinnerDiv" ref={fetchSpinnerRef}>
+            <LoadingSpinner />
           </div>
-        }
-        {!isLoadingPosts && !fetchingNextPosts && ((!postsResEmpty && !displayFiltered)  || (!searchResEmpty && displayFiltered)) &&
-          <div id="getMorePostsDiv">
-            <Button id="getMorePostsBtn" variant="link" onClick={getMorePosts}>
-              {t('See more posts')}...
-            </Button>
-          </div>
-        }
+        )}
+        {displayFiltered &&
+          searchResEmpty &&
+          filteredPosts &&
+          filteredPosts.length === 0 && (
+            <div id="no_results_div" ref={fetchSpinnerRef}>
+              <Alert className="no_results_alert" variant="light">
+                <Alert.Heading> {t("post not found")} </Alert.Heading>
+              </Alert>
+            </div>
+          )}
+        {!isLoadingPosts &&
+          !fetchingNextPosts &&
+          ((!postsResEmpty && !displayFiltered) ||
+            (!searchResEmpty && displayFiltered)) && (
+            <div id="getMorePostsDiv">
+              <Button
+                id="getMorePostsBtn"
+                variant="link"
+                onClick={getMorePosts}
+              >
+                {t("See more posts")}...
+              </Button>
+            </div>
+          )}
       </div>
     </div>
   );
@@ -354,8 +373,7 @@ PostCollection.propTypes = {
   userId: PropTypes.string.isRequired,
   posts: PropTypes.instanceOf(Array).isRequired,
   setPosts: PropTypes.func.isRequired,
-  setQuery: PropTypes.func.isRequired
+  setQuery: PropTypes.func.isRequired,
 };
 
 export default PostCollection;
-
