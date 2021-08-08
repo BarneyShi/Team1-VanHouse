@@ -285,8 +285,7 @@ function Header({updateUser}) {
         console.log(forgotEmail);
         return forgotEmail;
     }
-    /* eslint-disable jsx-a11y/anchor-is-valid */
-    /* eslint-disable jsx-a11y/no-static-element-interactions */
+
     return (
         <div className="header-flexbox">
             <LoginForm

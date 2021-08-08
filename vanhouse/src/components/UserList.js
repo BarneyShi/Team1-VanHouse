@@ -47,14 +47,12 @@ function UserList({ setQuery, setUserId }) {
                 const newName = [];
                 console.log("/user loaded size:", res.length);
                 keyIndex += 1;
-                /* eslint-disable jsx-a11y/no-static-element-interactions */
                 const cardList = res.map((item, index) => (
                     <div className="user-item" key={`${keyIndex}_${item._id}`}  onClick={(e) => filterUserPost(e, item)}>
                         <img alt="User avatar" src={userImg[2]} />
                         {item.firstName} {item.lastName}
                     </div>
                 ));
-                /* eslint-enable jsx-a11y/no-static-element-interactions */
                 setList(cardList);
             });
     }
@@ -78,7 +76,6 @@ function UserList({ setQuery, setUserId }) {
 
     }, []);
 
-    /* eslint-disable jsx-a11y/role-supports-aria-props */
     return (
         <div>
 

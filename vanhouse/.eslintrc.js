@@ -35,5 +35,9 @@ module.exports = {
     "import/no-unresolved": "off",
     "no-console": "off",
     "no-alert": "off",
+    "jsx-a11y/anchor-is-valid": "off",
+    "jsx-a11y/no-static-element-interactions": "off",
+    "jsx-a11y/role-supports-aria-props": "off",
+    "no-restricted-syntax": "off"
   },
 };
