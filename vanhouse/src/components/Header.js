@@ -6,10 +6,13 @@ import LoginForm from "./LoginForm";
 import LoginButton from "./LoginButton";
 import WelcomeUser from "./WelcomeUser";
 
+import PropTypes from "prop-types";
 import { useTranslation } from 'react-i18next';
 import earth from "../assets/earth.png";
+import GlobalEvent from './Events';
 
-function Header() {
+function Header({updateUser}) {
+
     const history = useHistory();
 
     const [isLoginClicked, setIsLoginClicked] = useState(false);
@@ -68,8 +71,9 @@ function Header() {
         }).then((response) => {
             response.json()
                 .then((resJSON) => {
-                    console.log(resJSON);
-                    window.location.reload();
+                    console.log("logout response ", resJSON);
+                    GlobalEvent.emit('user_logout', "");
+                    updateUser(null);
                 });
         });
 
@@ -79,7 +83,7 @@ function Header() {
 
     const handleHomeClicked = () => {
         history.push('/');
-        window.location.reload();
+        // window.location.reload();
     }
 
     const handleAccountClicked = () => {
@@ -144,8 +148,11 @@ function Header() {
                 response.json()
                     .then(response2 => {
                         setUser(response2); // only setting this to re-render component automatically
+                        updateUser(response2)
                         setIsLoginClicked(false);
-                        window.location.reload();
+                        // window.location.reload();
+                        console.log("user login:", response2);
+                        GlobalEvent.emit('user_login', response2);
                     });
             }
         });
@@ -371,5 +378,9 @@ function Header() {
         </div>
     )
 }
+
+Header.propTypes = {
+    updateUser: PropTypes.func.isRequired
+};
 
 export default Header;

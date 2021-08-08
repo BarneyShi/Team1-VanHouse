@@ -68,7 +68,7 @@ export default function Charts({ posts }) {
           />
           <Tooltip />
           <Legend />
-          <Bar dataKey= "DailyPosts" fill="#8884d8" />
+            <Bar dataKey="DailyPosts" fill="#8884d8" />
         </BarChart>
       </ResponsiveContainer>
       {/* CITATION: https://codesandbox.io/s/simple-area-chart-4ujxw?file=/src/App.tsx:707-1078 */}

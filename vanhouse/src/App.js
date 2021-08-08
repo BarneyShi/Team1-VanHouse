@@ -47,7 +47,7 @@ function App() {
   return (
       <Router>
         <div className="App">
-          <Header />
+          <Header updateUser={setUser}/>
           <Route exact path="/">
             <Container fluid>
               <Row id="AppMainRow">
