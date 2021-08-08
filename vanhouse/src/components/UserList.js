@@ -22,11 +22,9 @@ function UserList({ setQuery, setUserId }) {
 
     function filterUserPost(e, item) {
         const items = document.getElementsByClassName("user-item");
-        /* eslint-disable no-restricted-syntax */
         for(const element of items){
             element.classList.remove("selected");
         }
-        /* eslint-enable no-restricted-syntax */
         e.target.classList.add("selected")
         setUserId(item._id);
         setUserSelected(item._id);
@@ -60,11 +58,9 @@ function UserList({ setQuery, setUserId }) {
         event.addListener('clear_user', msg=>{
             setUserId("");
             const items = document.getElementsByClassName("user-item");
-            /* eslint-disable no-restricted-syntax */
             for(const element of items){
                 element.classList.remove("selected");
             }
-            /* eslint-enable no-restricted-syntax */
         });
         event.addListener('user_login', loginUser=>{
             console.log("userlist receive user login!!");
