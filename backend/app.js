@@ -12,7 +12,7 @@ require("dotenv").config();
 var indexRouter = require("./routes/index");
 var postRouter = require("./routes/post");
 var loginRouter = require("./routes/login-router");
-var adminRouter = require('./routes/admin');
+var adminRouter = require("./routes/admin");
 
 var app = express();
 
@@ -22,7 +22,7 @@ app.set("view engine", "jade");
 
 // https://stackoverflow.com/questions/36824106/express-doesnt-set-a-cookie
 // Accessed July 13, 2021
-app.use(cors({origin: true, credentials: true}));
+app.use(cors({ origin: true, credentials: true }));
 
 app.use(logger("dev"));
 
@@ -32,14 +32,14 @@ app.use(express.urlencoded({ limit: "6mb", extended: true }));
 app.use(cookieParser());
 
 // CITATION: I learned about the syntax for serving static pages here: https://stackoverflow.com/a/66559385
-const publicPath = path.join(__dirname, "../vanhouse", 'build');
+const publicPath = path.join(__dirname, "../vanhouse", "build");
 app.use(express.static(publicPath));
 
 app.use("/", indexRouter);
 
 app.use("/post", postRouter);
 app.use("/login-router", loginRouter);
-app.use('/admin', adminRouter);
+app.use("/admin", adminRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
