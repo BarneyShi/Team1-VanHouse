@@ -535,7 +535,7 @@ export default function PostDetail() {
                     <ListGroupItem> {t('Email')}: {post.email}</ListGroupItem>
                   )}
                   <ListGroupItem>
-                    {t('Lease Length')}: {t(post.leaseLength)}
+                    {t('Lease Length')}: {post.leaseLength} {t('months')}
                   </ListGroupItem>
                   <ListGroupItem>
                     {t(post.pets ? "Pets friendly" : "No pets")}

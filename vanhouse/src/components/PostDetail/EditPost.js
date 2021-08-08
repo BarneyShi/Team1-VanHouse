@@ -223,9 +223,9 @@ export default function EditPost({
               <Form.Control
                 as="select"
                 name="leaseLength">
-                <option selected={post?.leaseLength === 'no lease'}>{t('no lease')}</option>
-                <option selected={post?.leaseLength === '6 months'}>6 {t('months')}</option>
-                <option selected={post?.leaseLength === '1 year'}>1 {t('year')}</option>
+                <option selected={post?.leaseLength === '0'}>{t('no lease')}</option>
+                <option selected={post?.leaseLength === '6'}>6 {t('months')}</option>
+                <option selected={post?.leaseLength === '12'}>1 {t('year')}</option>
               </Form.Control>
             </Form.Group>
           </Row>
