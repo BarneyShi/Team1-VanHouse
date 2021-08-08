@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { Form, Modal, Col, Row, Button } from "react-bootstrap";
+import { useTranslation } from 'react-i18next';
 import addIcon from "../../assets/addIcon.png";
 import deleteIcon from "../../assets/deleteIcon.png";
 import "../../styles/editPost.css";
-import { useTranslation } from 'react-i18next';
 
 export default function EditPost({
   show,
@@ -54,9 +54,9 @@ export default function EditPost({
     formData.append("price", price.value);
     formData.append("address", address.value);
     formData.append("postalCode", postalCode.value);
-    let payments = ['daily', 'weekly', 'monthly'];
+    const payments = ['daily', 'weekly', 'monthly'];
     formData.append("paymentPeriod", payments[paymentPeriod.selectedIndex]);
-    let leases = ['no lease', '6 months', '1 year'];
+    const leases = ['no lease', '6 months', '1 year'];
     formData.append("leaseLength", leases[leaseLength.selectedIndex]);
     formData.append("bedrooms", bedrooms.value);
     formData.append("bathrooms", bathrooms.value);

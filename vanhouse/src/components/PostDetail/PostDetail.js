@@ -15,6 +15,7 @@ import {
 import { useHistory, useParams } from "react-router-dom";
 import "../../styles/postdetail.css";
 import ReactMapGL, { Marker } from "react-map-gl";
+import { useTranslation } from 'react-i18next';
 import Report from "./Report";
 import EditPost from "./EditPost";
 import userLogo from "../../assets/user.svg";
@@ -25,7 +26,6 @@ import downVote from "../../assets/thumbdown-voted.svg";
 import editIcon from "../../assets/editIcon.png";
 import LoadingSpinner from "../LoadingSpinner";
 import { getErrorString } from "../../utils";
-import { useTranslation } from 'react-i18next';
 import event from '../Events';
 
 export default function PostDetail() {
@@ -61,11 +61,11 @@ export default function PostDetail() {
   const { t, i18n } = useTranslation();
 
   useEffect(async () => {
-    let loginFun = loginUser=>{
+    const loginFun = loginUser=>{
       // console.log("receive user login!!");
       setUser({ userId: loginUser.userId, username: loginUser.firstName });
     };
-    let logoutFun = loginUser=>{
+    const logoutFun = loginUser=>{
       // console.log("receive user logout!!");
       setUser(null);
     };
@@ -154,8 +154,8 @@ export default function PostDetail() {
 
   // Comment function
   const commentRef = useRef();
-  const addComment = (event) => {
-    event.preventDefault();
+  const addComment = (e) => {
+    e.preventDefault();
     const { value } = commentRef.current;
     if (value === "") {
       setDisplayError(true);

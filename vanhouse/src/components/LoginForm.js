@@ -1,11 +1,11 @@
 import React from "react";
 import {Alert, Button, Form, Modal} from "react-bootstrap";
 import PropTypes from "prop-types";
+import { useTranslation } from 'react-i18next';
+import { trim } from "jquery";
 import RegistrationForm from "./RegistrationForm"
 import "../styles/login.css"
 import ForgotPassword from "./ForgotPassword";
-import { useTranslation } from 'react-i18next';
-import { trim } from "jquery";
 
 function LoginForm({
                        show,

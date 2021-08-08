@@ -16,7 +16,6 @@ import { useTranslation } from 'react-i18next';
 // Presents a modal view with a form for creating a new post
 function ImagePrep({ show, handleSubmit, handleClose }) {
 
-  // States set by form inputs
   const [images, setImages] = useState([]);
 
   // Image validation states
@@ -50,7 +49,7 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
     resetState(show);
   }, [show]);
 
-  // CITATION: This functions is adapted from the react-easy-crop npm package example code:
+  // CITATION: This function is adapted from the react-easy-crop npm package example code:
   // https://codesandbox.io/s/y09komm059?file=/src/canvasUtils.js:0-2287
   const createImage = (url) =>
     new Promise((resolve, reject) => {
@@ -78,7 +77,7 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
     return canvas.toDataURL();
   }
 
-  // CITATION: This functions is adapted from the react-easy-crop npm package example code:
+  // CITATION: This function is adapted from the react-easy-crop npm package example code:
   // https://codesandbox.io/s/y09komm059?file=/src/canvasUtils.js:0-2287
   const getCroppedImg = async (imageSrc, pixelCrop) => {
     const image = await createImage(imageSrc);
@@ -104,8 +103,7 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
     return canvas.toDataURL('image/jpeg');
   }
 
-  // Create a post object with the form details and send this to the
-  // PostCollection component using the callback
+  // Pass the images into the supplied handleSubmit callback and close
   const submitClicked = async (e) => {
     e.preventDefault();
     if (!imageSizeValid) {
@@ -186,7 +184,7 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
                 name="imageFilePicker"
                 multiple
                 required
-                label={t('Upload 1-4 images') + " *"}
+                label={`${t('Upload 1-4 images')}*`}
                 feedback={imageErrorMsg}
                 accept=".jpg, .jpeg, .png, .tiff"
                 isInvalid={!imageSizeValid || !imageCountValid}

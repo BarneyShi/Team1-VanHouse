@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { HashRouter as Router, Route } from "react-router-dom";
+import { useTranslation } from 'react-i18next';
 import Admin from "./components/Admin/Admin";
 import NotAuthorized from './components/Admin/NotAuthorized';
 import PostDetail from "./components/PostDetail/PostDetail";
@@ -10,7 +11,6 @@ import "./App.css";
 import PostCollection from "./components/PostCollection";
 import ResetPassword from "./components/ResetPassword";
 import AccountDetails from "./components/AccountDetails";
-import { useTranslation } from 'react-i18next';
 
 function App() {
   const [user, setUser] = useState();
@@ -20,8 +20,8 @@ function App() {
   const [posts, setPosts] = useState([]);
 
   const { t, i18n } = useTranslation();
-  let language = localStorage.getItem("page_language");
-  if(language === "cn" && "cn" !== i18n.language){
+  const language = localStorage.getItem("page_language");
+  if(language === "cn" && i18n.language !== "cn"){
     i18n.changeLanguage("cn");
   }
 

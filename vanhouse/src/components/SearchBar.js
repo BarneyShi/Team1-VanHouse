@@ -3,11 +3,10 @@ import { Dropdown ,MenuItem,Input} from 'bootstrap';
 import React,{useState}from 'react'
 import PropTypes from 'prop-types'
 import {InputGroup, Button, FormControl, DropdownButton,ButtonToolbar} from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import search from '../assets/search.png';
 import '../styles/searchbar.css';
-
 import event from './Events';
-import { useTranslation } from 'react-i18next';
 
 function SearchBar({getData, setQuery, userId}){
     const [leftState,setLeftState] = useState(0);

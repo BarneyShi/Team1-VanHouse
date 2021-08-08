@@ -4,13 +4,13 @@ import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Button, Alert } from "react-bootstrap";
 import PropTypes from "prop-types";
+import { useTranslation } from 'react-i18next';
 import Post from "./Post";
 import NewPost from "./NewPost";
 import SearchBar from "./SearchBar";
 import LoadingSpinner from "./LoadingSpinner";
 import { getErrorString } from "../utils";
 import "../styles/post.css";
-import { useTranslation } from 'react-i18next';
 
 function PostCollection({
   filterURL,

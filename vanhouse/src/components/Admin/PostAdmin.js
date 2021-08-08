@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { ListGroup, Button, Modal, Alert } from "react-bootstrap";
+import { useTranslation } from 'react-i18next';
 import LoadingSpinner from "../LoadingSpinner";
 import EditPost from "../PostDetail/EditPost";
-import { useTranslation } from 'react-i18next';
 
 export default function PostAdmin({ posts }) {
   const [adminPosts, setAdminPosts] = useState();

@@ -181,7 +181,7 @@ function RegistrationForm({
                     type="password"
                     name="regPassword"
                     id="regPassword"
-                    placeholder={t('Password') + "*"}
+                    placeholder={`${t('Password')}*`}
                     onChange={handleRegChange}
                     value={regUser.password}
                 />
@@ -192,7 +192,7 @@ function RegistrationForm({
                 <input
                     type="password"
                     name="password"
-                    placeholder={t('Confirm password') + "*"}
+                    placeholder={`${t('Confirm password')}*`}
                     onChange={e => setConfirmPassword(e.target.value)}
                     value={confirmPassword}
                 />

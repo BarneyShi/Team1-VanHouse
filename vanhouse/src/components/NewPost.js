@@ -8,9 +8,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
+import { useTranslation } from 'react-i18next';
 import Schedule from "./PostDetail/Schedule";
 import ImagePrep from "./ImagePrep";
-import { useTranslation } from 'react-i18next';
 
 // Presents a modal view with a form for creating a new post
 function NewPost({ showModalForm, submit, handleClose }) {
@@ -33,16 +33,14 @@ function NewPost({ showModalForm, submit, handleClose }) {
   const [images, setImages] = useState([]);
   const [mainImage, setMainImage] = useState("");
 
-  // Hooks for displaying <Schedule />
+  // Hook for displaying <Schedule /> and <ImagePrep />
   const [displaySchedule, setDisplaySchedule] = useState(false);
-
   const [displayImagePrep, setDisplayImagePrep] = useState(false);
 
   const [executing, setExecuting] = useState(false);
-
   const { t, i18n } = useTranslation();
   
-  // Resets the states
+  // Resets form states
   const resetStates = (show) => {
     if (show) {
       setPostTitle("Untitled Post");
@@ -65,26 +63,28 @@ function NewPost({ showModalForm, submit, handleClose }) {
     }
   };
 
-  // Reset the states whenever the modal view is presented
+  // Reset the form input states whenever the modal view is presented
   useEffect(() => {
     resetStates(showModalForm);
   }, [showModalForm]);
 
-  // Create a post object with the form details and send this to the
-  // PostCollection component using the callback
+
+  // Continue button callback, present <ImagePrep />
   const handleSubmit = (e) => {
     e.preventDefault();
     setDisplayImagePrep(true);
     handleClose();
   };
 
+  // ImagePrep continue button callback, present <Schedule />
   const handleImageSubmit = (imgs, mainImg) => {
     setImages(imgs);
     setMainImage(mainImg);
     setDisplaySchedule(true);
   }
 
-  // Creates a new post object using states as params and calls the submit callback prop
+  // Create a new post object using states as params and call the submit callback prop
+  // This will make the PostCollection component POST the new rental listing to the server
   const handleScheduleSubmit = async (schedule) => {
     setExecuting(true);
     const res = await submit({

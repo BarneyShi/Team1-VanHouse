@@ -2,12 +2,13 @@ import React, {useState} from "react";
 import {Button} from "react-bootstrap";
 import {useHistory} from "react-router-dom";
 import "../styles/header.css";
+import PropTypes from "prop-types";
+import { useTranslation } from 'react-i18next';
+
 import LoginForm from "./LoginForm";
 import LoginButton from "./LoginButton";
 import WelcomeUser from "./WelcomeUser";
 
-import PropTypes from "prop-types";
-import { useTranslation } from 'react-i18next';
 import earth from "../assets/earth.png";
 import GlobalEvent from './Events';
 
@@ -284,7 +285,8 @@ function Header({updateUser}) {
         console.log(forgotEmail);
         return forgotEmail;
     }
-
+    /* eslint-disable jsx-a11y/anchor-is-valid */
+    /* eslint-disable jsx-a11y/no-static-element-interactions */
     return (
         <div className="header-flexbox">
             <LoginForm

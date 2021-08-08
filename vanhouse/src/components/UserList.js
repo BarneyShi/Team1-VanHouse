@@ -1,16 +1,14 @@
 import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import { Button, Col, Container, Row, Accordion } from "react-bootstrap";
+import { useTranslation } from 'react-i18next';
 import user1 from "../assets/img1.jpg";
 import user2 from "../assets/img2.jpg";
 import user3 from "../assets/img3.jpg";
 import user4 from "../assets/user.svg";
 import triangle from "../assets/triangle.png";
 import '../styles/userlist.css';
-
 import event from './Events';
-import { useTranslation } from 'react-i18next';
-
 
 function UserList({ setQuery, setUserId }) {
 
@@ -23,10 +21,12 @@ function UserList({ setQuery, setUserId }) {
 
 
     function filterUserPost(e, item) {
-        let items = document.getElementsByClassName("user-item");
-        for(let element of items){
+        const items = document.getElementsByClassName("user-item");
+        /* eslint-disable no-restricted-syntax */
+        for(const element of items){
             element.classList.remove("selected");
         }
+        /* eslint-enable no-restricted-syntax */
         e.target.classList.add("selected")
         setUserId(item._id);
         setUserSelected(item._id);
@@ -46,23 +46,27 @@ function UserList({ setQuery, setUserId }) {
             .then((res) => {
                 const newName = [];
                 console.log("/user loaded size:", res.length);
-                keyIndex++;
+                keyIndex += 1;
+                /* eslint-disable jsx-a11y/no-static-element-interactions */
                 const cardList = res.map((item, index) => (
-                    <div className="user-item" key={keyIndex + "_" + item._id}  onClick={(e) => filterUserPost(e, item)}>
+                    <div className="user-item" key={`${keyIndex}_${item._id}`}  onClick={(e) => filterUserPost(e, item)}>
                         <img alt="User avatar" src={userImg[2]} />
                         {item.firstName} {item.lastName}
                     </div>
                 ));
+                /* eslint-enable jsx-a11y/no-static-element-interactions */
                 setList(cardList);
             });
     }
     useEffect(() => {
         event.addListener('clear_user', msg=>{
             setUserId("");
-            let items = document.getElementsByClassName("user-item");
-            for(let element of items){
+            const items = document.getElementsByClassName("user-item");
+            /* eslint-disable no-restricted-syntax */
+            for(const element of items){
                 element.classList.remove("selected");
             }
+            /* eslint-enable no-restricted-syntax */
         });
         event.addListener('user_login', loginUser=>{
             console.log("userlist receive user login!!");
@@ -74,7 +78,7 @@ function UserList({ setQuery, setUserId }) {
 
     }, []);
 
-
+    /* eslint-disable jsx-a11y/role-supports-aria-props */
     return (
         <div>
 
