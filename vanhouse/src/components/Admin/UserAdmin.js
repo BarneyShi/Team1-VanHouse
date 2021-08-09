@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 import {
   ListGroup,
@@ -117,10 +117,10 @@ export default function UserAdmin({ users }) {
         placeholder={t("Search by user ID or username")}
       />
       <Button className="admin-searchBtn" onClick={searchUser}>
-        {t('Search')}
+        {t("Search")}
       </Button>
       <Button variant="info" className="admin-searchBtn" onClick={cancel}>
-        {t('Cancel')}
+        {t("Cancel")}
       </Button>
       {/* CITATION: https://react-bootstrap.github.io/components/list-group/ */}
       {errorMsg ? (
@@ -128,8 +128,9 @@ export default function UserAdmin({ users }) {
           className="admin-alert"
           variant="danger"
           dismissible
-          onClose={() => setErrorMsg()}>
-          <Alert.Heading>{t('Oops!')}</Alert.Heading>
+          onClose={() => setErrorMsg()}
+        >
+          <Alert.Heading>{t("Oops!")}</Alert.Heading>
           <p>{errorMsg}</p>
         </Alert>
       ) : null}
@@ -143,8 +144,10 @@ export default function UserAdmin({ users }) {
               onClick={() => {
                 setModal(true);
                 setSelectedUser(user);
-              }}>
-              {t('Username')}: {user.firstName} {user.lastName}, {t('Email')}: {user.email}
+              }}
+            >
+              {t("Username")}: {user.firstName} {user.lastName}, {t("Email")}:{" "}
+              {user.email}
             </ListGroup.Item>
           ))
         ) : (
@@ -154,7 +157,7 @@ export default function UserAdmin({ users }) {
 
       <Modal show={showModal} onHide={handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>{t('Admin Action')}</Modal.Title>
+          <Modal.Title>{t("Admin Action")}</Modal.Title>
         </Modal.Header>
         <Modal.Body id="admin-user-modalbody">
           <DropdownButton title={t("Change user's role")}>
@@ -162,19 +165,21 @@ export default function UserAdmin({ users }) {
               active={selectedUser?.admin}
               onClick={() => {
                 setUserRole(true);
-              }}>
-              {t('Admin')}
+              }}
+            >
+              {t("Admin")}
             </Dropdown.Item>
             <Dropdown.Item
               active={!selectedUser?.admin}
               onClick={() => {
                 setUserRole(false);
-              }}>
-              {t('User')}
+              }}
+            >
+              {t("User")}
             </Dropdown.Item>
           </DropdownButton>
           <Button variant="danger" onClick={deletUser}>
-            {t('Delete User')}
+            {t("Delete User")}
           </Button>
         </Modal.Body>
       </Modal>

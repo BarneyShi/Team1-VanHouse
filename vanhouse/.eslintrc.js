@@ -38,6 +38,7 @@ module.exports = {
     "jsx-a11y/anchor-is-valid": "off",
     "jsx-a11y/no-static-element-interactions": "off",
     "jsx-a11y/role-supports-aria-props": "off",
+    "jsx-a11y/heading-has-content": "off",
     "no-restricted-syntax": "off"
   },
 };

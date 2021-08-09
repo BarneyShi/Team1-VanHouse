@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import { Form, Modal, Col, Row, Button } from "react-bootstrap";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 import addIcon from "../../assets/addIcon.png";
 import deleteIcon from "../../assets/deleteIcon.png";
 import "../../styles/editPost.css";
@@ -54,9 +54,9 @@ export default function EditPost({
     formData.append("price", price.value);
     formData.append("address", address.value);
     formData.append("postalCode", postalCode.value);
-    const payments = ['daily', 'weekly', 'monthly'];
+    const payments = ["daily", "weekly", "monthly"];
     formData.append("paymentPeriod", payments[paymentPeriod.selectedIndex]);
-    const leases = ['0', '6', '12'];
+    const leases = ["0", "6", "12"];
     formData.append("leaseLength", leases[leaseLength.selectedIndex]);
     formData.append("bedrooms", bedrooms.value);
     formData.append("bathrooms", bathrooms.value);
@@ -137,11 +137,11 @@ export default function EditPost({
     <Modal show={show} onHide={() => setDisplay(false)}>
       <Form onSubmit={editPost} ref={formRef}>
         <Modal.Header>
-          <Modal.Title>{t('Edit Post')}</Modal.Title>
+          <Modal.Title>{t("Edit Post")}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form.Group as={Col} controlId="formTitle">
-            <Form.Label>{t('Title')}</Form.Label>
+            <Form.Label>{t("Title")}</Form.Label>
             <Form.Control
               placeholder={t("Title")}
               defaultValue={post?.title}
@@ -151,7 +151,7 @@ export default function EditPost({
 
           <Row>
             <Form.Group as={Col} controlId="formEmail">
-              <Form.Label>{t('Email address')} *</Form.Label>
+              <Form.Label>{t("Email address")} *</Form.Label>
               <Form.Control
                 required
                 type="email"
@@ -162,7 +162,7 @@ export default function EditPost({
             </Form.Group>
 
             <Form.Group as={Col} controlId="formPhone">
-              <Form.Label>{t('Phone number')}</Form.Label>
+              <Form.Label>{t("Phone number")}</Form.Label>
               <Form.Control
                 type="tel"
                 pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
@@ -175,7 +175,7 @@ export default function EditPost({
 
           <Row>
             <Form.Group as={Col} controlId="formAddress">
-              <Form.Label>{t('Address')} *</Form.Label>
+              <Form.Label>{t("Address")} *</Form.Label>
               <Form.Control
                 required
                 placeholder="1961 East Mall"
@@ -184,7 +184,7 @@ export default function EditPost({
               />
             </Form.Group>
             <Form.Group as={Col} controlId="form">
-              <Form.Label>{t('Postal Code')} *</Form.Label>
+              <Form.Label>{t("Postal Code")} *</Form.Label>
               <Form.Control
                 required
                 placeholder="A1B 2C3"
@@ -197,7 +197,7 @@ export default function EditPost({
 
           <Row>
             <Form.Group as={Col} controlId="formPrice">
-              <Form.Label>{t('Price')} *</Form.Label>
+              <Form.Label>{t("Price")} *</Form.Label>
               <Form.Control
                 required
                 type="number"
@@ -209,30 +209,38 @@ export default function EditPost({
             </Form.Group>
 
             <Form.Group as={Col} controlId="formPricePeriod">
-              <Form.Label> {t('Payment period')} </Form.Label>
-              <Form.Control
-                as="select"
-                name="paymentPeriod">
-                <option selected={post?.paymentPeriod === 'daily'}>{t('daily')}</option>
-                <option selected={post?.paymentPeriod === 'weekly'}>{t('weekly')}</option>
-                <option selected={post?.paymentPeriod === 'monthly'}>{t('monthly')}</option>
+              <Form.Label> {t("Payment period")} </Form.Label>
+              <Form.Control as="select" name="paymentPeriod">
+                <option selected={post?.paymentPeriod === "daily"}>
+                  {t("daily")}
+                </option>
+                <option selected={post?.paymentPeriod === "weekly"}>
+                  {t("weekly")}
+                </option>
+                <option selected={post?.paymentPeriod === "monthly"}>
+                  {t("monthly")}
+                </option>
               </Form.Control>
             </Form.Group>
             <Form.Group as={Col} controlId="formLease">
-              <Form.Label>{t('Lease length')}</Form.Label>
-              <Form.Control
-                as="select"
-                name="leaseLength">
-                <option selected={post?.leaseLength === '0'}>{t('no lease')}</option>
-                <option selected={post?.leaseLength === '6'}>6 {t('months')}</option>
-                <option selected={post?.leaseLength === '12'}>1 {t('year')}</option>
+              <Form.Label>{t("Lease length")}</Form.Label>
+              <Form.Control as="select" name="leaseLength">
+                <option selected={post?.leaseLength === "0"}>
+                  {t("no lease")}
+                </option>
+                <option selected={post?.leaseLength === "6"}>
+                  6 {t("months")}
+                </option>
+                <option selected={post?.leaseLength === "12"}>
+                  1 {t("year")}
+                </option>
               </Form.Control>
             </Form.Group>
           </Row>
           <Row>
             <Col>
               <Form.Group controlId="formBedrooms">
-                <Form.Label>{t('Bedrooms')}</Form.Label>
+                <Form.Label>{t("Bedrooms")}</Form.Label>
                 <Form.Control
                   type="number"
                   min="0"
@@ -244,7 +252,7 @@ export default function EditPost({
             </Col>
             <Col>
               <Form.Group controlId="formBathrooms">
-                <Form.Label>{t('Bathrooms')}</Form.Label>
+                <Form.Label>{t("Bathrooms")}</Form.Label>
                 <Form.Control
                   type="number"
                   min="0"
@@ -256,7 +264,7 @@ export default function EditPost({
             </Col>
             <Col>
               <Form.Group controlId="formSqft">
-                <Form.Label>{t('Square ft')}</Form.Label>
+                <Form.Label>{t("Square ft")}</Form.Label>
                 <Form.Control
                   type="number"
                   min="0"
@@ -317,7 +325,9 @@ export default function EditPost({
               name="images"
               onChange={handleImageUpload}
             />
-            <Form.Text className="text-muted">{t('Upload 1-4 images')}</Form.Text>
+            <Form.Text className="text-muted">
+              {t("Upload 1-4 images")}
+            </Form.Text>
             <Form.Text className="text-muted edit-image-errors">
               {imageErrorMsg}
             </Form.Text>
@@ -326,7 +336,8 @@ export default function EditPost({
           {previewImages?.map((e) => (
             <span
               key={Math.floor(Math.random() * 9999)}
-              className="preview-image">
+              className="preview-image"
+            >
               <img
                 className="editPost-images"
                 width="84"
@@ -355,7 +366,7 @@ export default function EditPost({
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setDisplay(false)}>
-            {t('Close')}
+            {t("Close")}
           </Button>
           <Button disabled={executing} variant="primary" type="submit">
             {t(executing ? "Waiting..." : "Continue")}

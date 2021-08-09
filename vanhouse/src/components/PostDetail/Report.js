@@ -3,7 +3,7 @@ import { Modal, Form, Button } from "react-bootstrap";
 import PropTypes from "prop-types";
 import emailjs from "emailjs-com";
 import { useParams } from "react-router-dom";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 export default function Report({ displayReport, setDisplayReport }) {
   const formRef = useRef();
@@ -51,7 +51,7 @@ export default function Report({ displayReport, setDisplayReport }) {
   return (
     <Modal show={displayReport} onHide={() => setDisplayReport(false)} centered>
       <Modal.Header closeButton>
-        <Modal.Title>{t('Report Inappropriate or Violation')}</Modal.Title>
+        <Modal.Title>{t("Report Inappropriate or Violation")}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Form id="reportForm" ref={formRef}>
@@ -79,7 +79,7 @@ export default function Report({ displayReport, setDisplayReport }) {
         </Form>
       </Modal.Body>
       <Modal.Footer>
-        <Button onClick={submitReport}>{t('Submit')}</Button>
+        <Button onClick={submitReport}>{t("Submit")}</Button>
       </Modal.Footer>
     </Modal>
   );
