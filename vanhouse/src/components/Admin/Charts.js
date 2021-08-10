@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 import {
   Pie,
@@ -53,12 +53,13 @@ export default function Charts({ posts }) {
             right: 30,
             left: 20,
             bottom: 5,
-          }}>
+          }}
+        >
           <CartesianGrid strokeDasharray="2 2" />
           <XAxis
-            dataKey= "days"
+            dataKey="days"
             label={{
-                value: t("Days before today"),
+              value: t("Days before today"),
               position: "insideBottomRight",
               dy: 10,
             }}
@@ -68,7 +69,7 @@ export default function Charts({ posts }) {
           />
           <Tooltip />
           <Legend />
-            <Bar dataKey="DailyPosts" fill="#8884d8" />
+          <Bar dataKey="DailyPosts" fill="#8884d8" />
         </BarChart>
       </ResponsiveContainer>
       {/* CITATION: https://codesandbox.io/s/simple-area-chart-4ujxw?file=/src/App.tsx:707-1078 */}

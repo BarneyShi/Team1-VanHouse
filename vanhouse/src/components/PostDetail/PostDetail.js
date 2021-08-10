@@ -15,6 +15,7 @@ import {
 import { useHistory, useParams } from "react-router-dom";
 import "../../styles/postdetail.css";
 import ReactMapGL, { Marker } from "react-map-gl";
+import { useTranslation } from "react-i18next";
 import Report from "./Report";
 import EditPost from "./EditPost";
 import userLogo from "../../assets/user.svg";
@@ -25,8 +26,7 @@ import downVote from "../../assets/thumbdown-voted.svg";
 import editIcon from "../../assets/editIcon.png";
 import LoadingSpinner from "../LoadingSpinner";
 import { getErrorString } from "../../utils";
-import { useTranslation } from 'react-i18next';
-import event from '../Events';
+import event from "../Events";
 
 export default function PostDetail() {
   const mapToken =
@@ -61,18 +61,17 @@ export default function PostDetail() {
   const { t, i18n } = useTranslation();
 
   useEffect(async () => {
-    let loginFun = loginUser=>{
+    const loginFun = (loginUser) => {
       // console.log("receive user login!!");
       setUser({ userId: loginUser.userId, username: loginUser.firstName });
     };
-    let logoutFun = loginUser=>{
+    const logoutFun = (loginUser) => {
       // console.log("receive user logout!!");
       setUser(null);
     };
-    event.addListener('user_login', loginFun);
-    event.addListener('user_logout', logoutFun);
+    event.addListener("user_login", loginFun);
+    event.addListener("user_logout", logoutFun);
   }, []);
-
 
   useEffect(async () => {
     let postData;
@@ -132,8 +131,6 @@ export default function PostDetail() {
         setDisplayError(true);
       });
     }
-
-
   }, []);
 
   // Check if the user's rated this post
@@ -154,8 +151,8 @@ export default function PostDetail() {
 
   // Comment function
   const commentRef = useRef();
-  const addComment = (event) => {
-    event.preventDefault();
+  const addComment = (e) => {
+    e.preventDefault();
     const { value } = commentRef.current;
     if (value === "") {
       setDisplayError(true);
@@ -297,7 +294,8 @@ export default function PostDetail() {
                 setDisplayError(false);
                 setErrorMsg("");
               }}
-              dismissible>
+              dismissible
+            >
               <Alert.Heading>Oops!</Alert.Heading>
               <p>{errorMsg}</p>
             </Alert>
@@ -338,29 +336,33 @@ export default function PostDetail() {
             <Button
               id="homeTourBtn"
               variant="info"
-              onClick={() => setDisplaySchedule(true)}>
-              { t('Book a home tour!')}
+              onClick={() => setDisplaySchedule(true)}
+            >
+              {t("Book a home tour!")}
             </Button>
             {user && post && user.userId === post.authorID ? (
               <Button
                 onClick={() => setDisplayEditModal(true)}
-                id="editPost--btn">
-                {t('Edit Post')}
+                id="editPost--btn"
+              >
+                {t("Edit Post")}
               </Button>
             ) : null}
 
             <Button
               variant="warning"
               id="reportBtn"
-              onClick={() => setDisplayReport(true)}>
-              {t('Report')}
+              onClick={() => setDisplayReport(true)}
+            >
+              {t("Report")}
             </Button>
             {user && post && user.userId === post.authorID ? (
               <Button
                 variant="danger"
                 id="deleteBtn"
-                onClick={() => setDeleteConfirmation(true)}>
-                {t('Delete')}
+                onClick={() => setDeleteConfirmation(true)}
+              >
+                {t("Delete")}
               </Button>
             ) : null}
           </Col>
@@ -368,18 +370,24 @@ export default function PostDetail() {
           <Col xs={12} md={6}>
             {postLoaded ? (
               <ListGroup>
-                <ListGroupItem>{t('Address')}: {post.address}</ListGroupItem>
                 <ListGroupItem>
-                  {t('Price')}: ${post.price} {t(post.paymentPeriod)}
+                  {t("Address")}: {post.address}
+                </ListGroupItem>
+                <ListGroupItem>
+                  {t("Price")}: ${post.price} {t(post.paymentPeriod)}
                 </ListGroupItem>
                 {post.email !== "" && (
-                  <ListGroupItem>{t('Email')}: {post.email}</ListGroupItem>
+                  <ListGroupItem>
+                    {t("Email")}: {post.email}
+                  </ListGroupItem>
                 )}
                 <ListGroupItem>
                   {t(post.pets ? "Pets friendly" : "No pets")}
                 </ListGroupItem>
                 <ListGroupItem>
-                  {t(post.utilities ? "Utility included" : "Utility not included")}
+                  {t(
+                    post.utilities ? "Utility included" : "Utility not included"
+                  )}
                 </ListGroupItem>
                 <ListGroupItem>
                   {t(post.laundry ? "Ensuite laundry" : "No ensuite laundry")}
@@ -390,8 +398,9 @@ export default function PostDetail() {
                 <Button
                   id="viewFullInfoBtn"
                   onClick={() => setShowFullInfo(true)}
-                  variant="success">
-                  {t('View More')}
+                  variant="success"
+                >
+                  {t("View More")}
                 </Button>
               </ListGroup>
             ) : (
@@ -403,7 +412,8 @@ export default function PostDetail() {
             {mapLoaded ? (
               <ReactMapGL
                 {...property}
-                onViewportChange={(view) => setProperty(view)}>
+                onViewportChange={(view) => setProperty(view)}
+              >
                 <Marker latitude={coords.latitude} longitude={coords.longitude}>
                   <span id="marker"></span>
                 </Marker>
@@ -414,7 +424,7 @@ export default function PostDetail() {
           </Col>
 
           <Col id="comment">
-            <h4 className="text-center">{t('Comment')}</h4>
+            <h4 className="text-center">{t("Comment")}</h4>
             {postLoaded ? (
               comments.map((e) => (
                 <div className="comment__block" key={e._id}>
@@ -437,7 +447,8 @@ export default function PostDetail() {
                     <span>
                       <OverlayTrigger
                         placement="top"
-                        overlay={renderCommentTooltip}>
+                        overlay={renderCommentTooltip}
+                      >
                         <img
                           className="comment-editIcon"
                           src={editIcon}
@@ -458,8 +469,9 @@ export default function PostDetail() {
                 <textarea
                   ref={commentRef}
                   name="newComment"
-                  placeholder={t('Leave a comment!')}></textarea>
-                <Button type="submit">{t('Submit')}</Button>
+                  placeholder={t("Leave a comment!")}
+                ></textarea>
+                <Button type="submit">{t("Submit")}</Button>
               </form>
             </div>
           </Col>
@@ -469,9 +481,12 @@ export default function PostDetail() {
             <Modal
               show={displaySchedule}
               onHide={() => setDisplaySchedule(false)}
-              centered>
+              centered
+            >
               <Modal.Header closeButton>
-                <Modal.Title>{t('You can contact the landlord on')}</Modal.Title>
+                <Modal.Title>
+                  {t("You can contact the landlord on")}
+                </Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <ListGroup id="date-list-group">
@@ -479,7 +494,8 @@ export default function PostDetail() {
                     <span className="date-list-item" key={object.id}>
                       <ListGroup.Item variant="primary">
                         <a
-                          href={`mailto:${post.email}?subject=[VanHouse - ${post.address}] Request to schedule a home tour on ${object.date}`}>
+                          href={`mailto:${post.email}?subject=[VanHouse - ${post.address}] Request to schedule a home tour on ${object.date}`}
+                        >
                           {object.date}
                         </a>
                       </ListGroup.Item>
@@ -501,29 +517,38 @@ export default function PostDetail() {
             <Modal
               show={showFullInfo}
               onHide={() => setShowFullInfo(false)}
-              centered>
+              centered
+            >
               <Modal.Header closeButton>
-                <Modal.Title> {t('Full info')}</Modal.Title>
+                <Modal.Title> {t("Full info")}</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <ListGroup>
-                  <ListGroupItem> {t('Address')}: {post.address}</ListGroupItem>
                   <ListGroupItem>
-                    {t('Price')}: ${post.price} {t(post.paymentPeriod)}
+                    {" "}
+                    {t("Address")}: {post.address}
+                  </ListGroupItem>
+                  <ListGroupItem>
+                    {t("Price")}: ${post.price} {t(post.paymentPeriod)}
                   </ListGroupItem>
                   {post.email !== "" && (
-                    <ListGroupItem> {t('Email')}: {post.email}</ListGroupItem>
+                    <ListGroupItem>
+                      {" "}
+                      {t("Email")}: {post.email}
+                    </ListGroupItem>
                   )}
                   <ListGroupItem>
-                    {t('Lease Length')}: {post.leaseLength} {t('months')}
+                    {t("Lease Length")}: {post.leaseLength} {t("months")}
                   </ListGroupItem>
                   <ListGroupItem>
                     {t(post.pets ? "Pets friendly" : "No pets")}
                   </ListGroupItem>
                   <ListGroupItem>
-                    {t(post.utilities
-                      ? "Utility included"
-                      : "Utility not included")}
+                    {t(
+                      post.utilities
+                        ? "Utility included"
+                        : "Utility not included"
+                    )}
                   </ListGroupItem>
                   <ListGroupItem>
                     {t(post.laundry ? "Ensuite laundry" : "No ensuite laundry")}
@@ -531,9 +556,17 @@ export default function PostDetail() {
                   <ListGroupItem>
                     {t(post.furnished ? "Furnished" : "Not furnished")}
                   </ListGroupItem>
-                  <ListGroupItem> {t('Bedroom')}: {post.bedrooms}</ListGroupItem>
-                  <ListGroupItem> {t('Bathroom')}: {post.bathrooms}</ListGroupItem>
-                  <ListGroupItem>{t('Square Feet')}: {post.sqft}</ListGroupItem>
+                  <ListGroupItem>
+                    {" "}
+                    {t("Bedroom")}: {post.bedrooms}
+                  </ListGroupItem>
+                  <ListGroupItem>
+                    {" "}
+                    {t("Bathroom")}: {post.bathrooms}
+                  </ListGroupItem>
+                  <ListGroupItem>
+                    {t("Square Feet")}: {post.sqft}
+                  </ListGroupItem>
                 </ListGroup>
               </Modal.Body>
             </Modal>
@@ -549,18 +582,22 @@ export default function PostDetail() {
           <Modal
             show={deleteConfirmation}
             onHide={() => setDeleteConfirmation(false)}
-            centered>
+            centered
+          >
             <Modal.Header closeButton>
-              <Modal.Title>{t('Are you sure you want to continue?')}</Modal.Title>
+              <Modal.Title>
+                {t("Are you sure you want to continue?")}
+              </Modal.Title>
             </Modal.Header>
             <Modal.Body>
               <Button variant="danger" onClick={deletePost}>
-                {t('Delete')}
+                {t("Delete")}
               </Button>
               <Button
                 variant="primary"
-                onClick={() => setDeleteConfirmation(false)}>
-                {t('Cancel')}
+                onClick={() => setDeleteConfirmation(false)}
+              >
+                {t("Cancel")}
               </Button>
             </Modal.Body>
           </Modal>

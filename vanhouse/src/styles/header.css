@@ -1,61 +1,61 @@
 .header-flexbox {
-    text-align: center;
-    color: #2b58ab;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
+  text-align: center;
+  color: #2b58ab;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .title-and-logo-flexbox {
-    display: flex;
-    align-items: center;
-    min-width: 25%;
-    position: relative;
-    padding: 5px;
+  display: flex;
+  align-items: center;
+  min-width: 25%;
+  position: relative;
+  padding: 5px;
 }
 
 .App-logo {
-    height: 60px;
-    width: 60px;
-    vertical-align: top;
-    justify-self: center;
-    margin-top: -15px;
+  height: 60px;
+  width: 60px;
+  vertical-align: top;
+  justify-self: center;
+  margin-top: -15px;
 }
 
 .App-title {
-    font-family: merriweather, serif;
-    font-weight: 700;
+  font-family: merriweather, serif;
+  font-weight: 700;
 }
 
 .header-buttons {
-    display: flex;
-    justify-content: space-evenly;
-    /*margin: 0px;*/
-    align-items: center;
-    padding-right: 10px;
+  display: flex;
+  justify-content: space-evenly;
+  /*margin: 0px;*/
+  align-items: center;
+  padding-right: 10px;
 }
 
 .home-button {
-    padding: 8px;
+  padding: 8px;
 }
 
 .welcome-user-div {
-    padding: 10px;
-    align-items: center;
+  padding: 10px;
+  align-items: center;
 }
 
 .login-logout-button {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .login-logout-button:hover {
-    color: white;
-    transition: color 0.15s ease;
+  color: white;
+  transition: color 0.15s ease;
 }
 
 .login-error {
-    color: tomato;
+  color: tomato;
 }

@@ -30,7 +30,7 @@ let PostSchema = new mongoose.Schema(
     schedule: Array,
     comment: Array,
     upvote: Number,
-    downvote: Number
+    downvote: Number,
   },
   {
     collection: "post",

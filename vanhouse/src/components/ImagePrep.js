@@ -8,15 +8,12 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import PropTypes from "prop-types";
 import { Modal, Button, Form, Row, Col } from "react-bootstrap";
-import Cropper from 'react-easy-crop'
+import Cropper from "react-easy-crop";
 import "../styles/imagePrep.css";
-import { useTranslation } from 'react-i18next';
-
+import { useTranslation } from "react-i18next";
 
 // Presents a modal view with a form for creating a new post
 function ImagePrep({ show, handleSubmit, handleClose }) {
-
-  // States set by form inputs
   const [images, setImages] = useState([]);
 
   // Image validation states
@@ -25,7 +22,7 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
   const [imageErrorMsg, setImageErrorMsg] = useState("");
 
   // Canvas ref used for cropping and resizing images
-  const canvasRef = useRef(); 
+  const canvasRef = useRef();
 
   // CITATION: The next 6 lines are from react-easy-crop example code:
   // https://codesandbox.io/s/y09komm059?file=/src/canvasUtils.js:427-2287
@@ -50,22 +47,22 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
     resetState(show);
   }, [show]);
 
-  // CITATION: This functions is adapted from the react-easy-crop npm package example code:
+  // CITATION: This function is adapted from the react-easy-crop npm package example code:
   // https://codesandbox.io/s/y09komm059?file=/src/canvasUtils.js:0-2287
   const createImage = (url) =>
     new Promise((resolve, reject) => {
-      const image = new Image()
-      image.addEventListener('load', () => resolve(image))
-      image.addEventListener('error', (error) => reject(error))
-      image.setAttribute('crossOrigin', 'anonymous') // needed to avoid cross-origin issues on CodeSandbox
-      image.src = url
-  });
+      const image = new Image();
+      image.addEventListener("load", () => resolve(image));
+      image.addEventListener("error", (error) => reject(error));
+      image.setAttribute("crossOrigin", "anonymous"); // needed to avoid cross-origin issues on CodeSandbox
+      image.src = url;
+    });
 
   // CITATION: This function is taken from https://stackoverflow.com/a/20965997
   const scaleImage = async (imageSrc, width, height) => {
     const image = await createImage(imageSrc);
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
 
     // set its dimension to target size
     canvas.width = width;
@@ -76,14 +73,14 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
 
     // encode image to data-uri with base64 version of compressed image
     return canvas.toDataURL();
-  }
+  };
 
-  // CITATION: This functions is adapted from the react-easy-crop npm package example code:
+  // CITATION: This function is adapted from the react-easy-crop npm package example code:
   // https://codesandbox.io/s/y09komm059?file=/src/canvasUtils.js:0-2287
   const getCroppedImg = async (imageSrc, pixelCrop) => {
     const image = await createImage(imageSrc);
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
     const maxSize = Math.max(image.width, image.height);
     const safeArea = 2 * ((maxSize / 2) * Math.sqrt(2));
     canvas.width = safeArea;
@@ -101,17 +98,16 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
       Math.round(0 - safeArea / 2 + image.width * 0.5 - pixelCrop.x),
       Math.round(0 - safeArea / 2 + image.height * 0.5 - pixelCrop.y)
     );
-    return canvas.toDataURL('image/jpeg');
-  }
+    return canvas.toDataURL("image/jpeg");
+  };
 
-  // Create a post object with the form details and send this to the
-  // PostCollection component using the callback
+  // Pass the images into the supplied handleSubmit callback and close
   const submitClicked = async (e) => {
     e.preventDefault();
     if (!imageSizeValid) {
       return;
     }
-    
+
     let mainImage = await getCroppedImg(images[0], croppedAreaPixels);
     mainImage = await scaleImage(mainImage, 300, 180);
     handleSubmit(images, mainImage);
@@ -128,7 +124,7 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
       const imageList = [];
       // Check image count is valid
       const maxImageCount = 4;
-      if (e.target.files.length+images.length > maxImageCount) {
+      if (e.target.files.length + images.length > maxImageCount) {
         e.target.value = null; // CITATION: https://stackoverflow.com/a/42192710
         setImages([]);
         setImageErrorMsg(
@@ -142,9 +138,7 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
         if (e.target.files[i].size > maxImageSize) {
           e.target.value = null; // CITATION: https://stackoverflow.com/a/42192710
           setImages([]);
-          setImageErrorMsg(
-            t("Image size limit")
-          );
+          setImageErrorMsg(t("Image size limit"));
           setImageSizeValid(false);
           return;
         }
@@ -170,14 +164,14 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
     imageList[0] = imageList[imgIndex];
     imageList[imgIndex] = oldMainImg;
     setImages(imageList);
-  }
+  };
 
   return (
     <div>
       <Modal show={show} onHide={handleClose} size="lg" centered>
         <Form onSubmit={submitClicked}>
           <Modal.Header>
-            <Modal.Title>{t('Select Images')}</Modal.Title>
+            <Modal.Title>{t("Select Images")}</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <Form.Group as={Col} controlId="formImages">
@@ -186,7 +180,7 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
                 name="imageFilePicker"
                 multiple
                 required
-                label={t('Upload 1-4 images') + " *"}
+                label={`${t("Upload 1-4 images")}*`}
                 feedback={imageErrorMsg}
                 accept=".jpg, .jpeg, .png, .tiff"
                 isInvalid={!imageSizeValid || !imageCountValid}
@@ -195,14 +189,13 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
                 }}
               />
             </Form.Group>
-            {images.length > 0 && 
-              <p>{t('Select main image')}</p>
-            }
+            {images.length > 0 && <p>{t("Select main image")}</p>}
             <Row>
               {images?.map((e, idx) => (
                 <span
                   key={Math.floor(Math.random() * 9999)}
-                  className="preview-image">
+                  className="preview-image"
+                >
                   <img
                     className={idx !== 0 ? "user-image" : "main-image"}
                     width="84"
@@ -214,11 +207,11 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
                 </span>
               ))}
             </Row>
-            {images.length > 0 && 
+            {images.length > 0 && (
               <div>
-                <p>{t('Crop main image')}</p>
+                <p>{t("Crop main image")}</p>
                 <Row>
-                  <div className="image-scroll-div">           
+                  <div className="image-scroll-div">
                     <div className="crop-div">
                       <Cropper
                         image={images[0]}
@@ -229,21 +222,23 @@ function ImagePrep({ show, handleSubmit, handleClose }) {
                         onCropComplete={onCropComplete}
                         onZoomChange={setZoom}
                       />
-                    </div>                  
+                    </div>
                   </div>
                 </Row>
-                <p>{t('Scroll to zoom')}</p>
-                <canvas id="targetCanvas" ref={canvasRef}/>
+                <p>{t("Scroll to zoom")}</p>
+                <canvas id="targetCanvas" ref={canvasRef} />
               </div>
-            }
-            <Form.Text className="text-muted">* {t('required fields')}</Form.Text>
+            )}
+            <Form.Text className="text-muted">
+              * {t("required fields")}
+            </Form.Text>
           </Modal.Body>
           <Modal.Footer>
             <Button variant="secondary" onClick={handleClose}>
-              {t('Close')}
+              {t("Close")}
             </Button>
             <Button variant="primary" type="submit">
-              {t('Continue')}
+              {t("Continue")}
             </Button>
           </Modal.Footer>
         </Form>

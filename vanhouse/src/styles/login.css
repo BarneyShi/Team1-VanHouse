@@ -1,62 +1,62 @@
 /*https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30*/
 /*Accessed June 7, 2021*/
 body {
-    text-align: center;
+  text-align: center;
 }
 
 .error {
-    color: tomato;
+  color: tomato;
 }
 
 .Login-Modal input {
-    font-size: 14px;
-    border-radius: 5px;
-    border: 1px solid lightgray;
-    margin: 5px 5px 0px;
-    padding: 5px 10px;
-    width: 250px;
-    height: 30px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid lightgray;
+  margin: 5px 5px 0px;
+  padding: 5px 10px;
+  width: 250px;
+  height: 30px;
 }
 
 .registration-form-buttons {
-    justify-content: center;
+  justify-content: center;
 }
 
 .reg-close-button {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 
 .error {
-    color: tomato;
-    margin-bottom: 10px;
-    height: 8px;
-    font-size: 13px;
+  color: tomato;
+  margin-bottom: 10px;
+  height: 8px;
+  font-size: 13px;
 }
 .login-modal-footers {
-    justify-content: center;
+  justify-content: center;
 }
 
 .reset-password-page {
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .reset-password-form-div {
-    align-self: center;
-    max-width: 500px;
-    /*display: inline-block;*/
-    justify-content: center;
-    text-align: center;
-    border: 4px solid #4261a5;
-    padding: 30px 30px;
-    box-shadow: 2px 2px 2px 2px lightgrey;
-    border-radius: 5% 5%;
-    margin-top: 80px;
+  align-self: center;
+  max-width: 500px;
+  /*display: inline-block;*/
+  justify-content: center;
+  text-align: center;
+  border: 4px solid #4261a5;
+  padding: 30px 30px;
+  box-shadow: 2px 2px 2px 2px lightgrey;
+  border-radius: 5% 5%;
+  margin-top: 80px;
 }
 
 .account-details-page-message {
-    color: orangered;
-    padding-top: 80px;
+  color: orangered;
+  padding-top: 80px;
 }

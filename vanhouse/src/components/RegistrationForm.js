@@ -1,241 +1,230 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import {Alert, Button, Form} from "react-bootstrap";
-import "../styles/login.css"
-import { useTranslation } from 'react-i18next';
+import { Alert, Button, Form } from "react-bootstrap";
+import "../styles/login.css";
+import { useTranslation } from "react-i18next";
 
 function RegistrationForm({
-                              emailError,
-                              setEmailError,
-                              confirmPassword,
-                              setConfirmPassword,
-                              confirmPasswordError,
-                              setConfirmPasswordError,
-                              handleClose,
-                              register,
-                              regUser,
-                              handleRegChange,
-                              validateEmail,
-                              passwordError,
-                              setPasswordError,
-                              registerDuplicateEmail,
-                              setRegisterDuplicateEmail,
-                              namesError,
-                              setNamesError
-                          }) {
+  emailError,
+  setEmailError,
+  confirmPassword,
+  setConfirmPassword,
+  confirmPasswordError,
+  setConfirmPasswordError,
+  handleClose,
+  register,
+  regUser,
+  handleRegChange,
+  validateEmail,
+  passwordError,
+  setPasswordError,
+  registerDuplicateEmail,
+  setRegisterDuplicateEmail,
+  namesError,
+  setNamesError,
+}) {
+  // https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30
+  // Accessed June 7, 2021 for usePasswordValidator and utils.js
 
-    // https://codesandbox.io/s/403r19kl47?file=/src/styles.css:0-30
-    // Accessed June 7, 2021 for usePasswordValidator and utils.js
+  const { t, i18n } = useTranslation();
 
-    const { t, i18n } = useTranslation();
+  // make sure names are filled out
+  useEffect(() => {
+    if (
+      !regUser.firstName ||
+      regUser.firstName === null ||
+      regUser.firstName === undefined
+    ) {
+      setNamesError(true);
+    } else {
+      setNamesError(false);
+    }
+  }, [regUser.firstName]);
 
-    // make sure names are filled out
-    useEffect(
-        () => {
-            if (!regUser.firstName || regUser.firstName === null || regUser.firstName === undefined) {
-                setNamesError(true);
-            } else {
-                setNamesError(false);
-            }
-        },
-        [regUser.firstName]
-    );
+  useEffect(() => {
+    if (
+      !regUser.lastName ||
+      regUser.lastName === null ||
+      regUser.lastName === undefined
+    ) {
+      setNamesError(true);
+    } else {
+      setNamesError(false);
+    }
+  }, [regUser.lastName]);
 
-    useEffect(
-        () => {
-            if (!regUser.lastName || regUser.lastName === null || regUser.lastName === undefined) {
-                setNamesError(true);
-            } else {
-                setNamesError(false);
-            }
+  // email validation
+  useEffect(() => {
+    if (!regUser.email) {
+      setEmailError("");
+    } else if (validateEmail(regUser.email)) {
+      setEmailError("");
+    } else {
+      setEmailError(t("Please enter a valid email."));
+    }
+  }, [regUser.email]);
 
-        },
-        [regUser.lastName]
-    )
+  // password validation
+  const config = { min: 6, max: 15 };
 
-    // email validation
-    useEffect(
-        () => {
-            if (!regUser.email) {
-                setEmailError("");
-            } else if (validateEmail(regUser.email)) {
-                setEmailError("");
-            } else {
-                setEmailError(t("Please enter a valid email."));
-            }
-        },
-        [regUser.email]
-    );
+  useEffect(() => {
+    setPasswordError("");
 
+    if (regUser.password === null || regUser.password === undefined) {
+      return setPasswordError(t("Please choose a password"));
+    }
 
-    // password validation
-    const config = {min: 6, max: 15}
+    if (regUser.password.length < config.min) {
+      return setPasswordError(t("Password at least", { 0: config.min }));
+    }
 
-    useEffect(
-        () => {
-            setPasswordError("");
+    if (regUser.password.length > config.max) {
+      return setPasswordError(t("Password max", { 0: config.max }));
+    }
 
-            if (regUser.password === null || regUser.password === undefined) {
-                return setPasswordError(t('Please choose a password'));
-            }
+    const reNum = /^(?=.*\d)/;
+    const numBool = reNum.test(String(regUser.password).toLowerCase());
 
-            if (regUser.password.length < config.min) {
-                return setPasswordError(t('Password at least', {0:config.min}));
-            }
+    if (!numBool) {
+      return setPasswordError(t("Password must contain at least 1 number."));
+    }
 
-            if (regUser.password.length > config.max) {
-                return setPasswordError(
-                    t("Password max",{0:config.max})
-                );
-            }
+    const reChar = /^(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]/;
+    const charBool = reChar.test(String(regUser.password).toLowerCase());
 
-            const reNum = /^(?=.*\d)/;
-            const numBool = reNum.test(String(regUser.password).toLowerCase());
+    if (!charBool) {
+      return setPasswordError(t("Password special"));
+    }
 
-            if (!numBool) {
-                return setPasswordError(
-                    t('Password must contain at least 1 number.')
-                );
-            }
+    return null;
+  }, [regUser.password]);
 
-            const reChar = /^(?=.*[!@#$%^&*()_+])[A-Za-z\d!@#$%^&*()_+]/;
-            const charBool = reChar.test(String(regUser.password).toLowerCase());
+  // confirm password validation
+  useEffect(() => {
+    if (!confirmPassword || !regUser.password) {
+      setConfirmPasswordError("");
+    } else if (confirmPassword !== regUser.password) {
+      setConfirmPasswordError(t("The passwords must match."));
+    } else {
+      setConfirmPasswordError("");
+    }
+  }, [regUser.password, confirmPassword]);
 
-            if (!charBool) {
-                return setPasswordError(
-                    t('Password special')
-                );
-            }
+  return (
+    <Form>
+      <h2>{t("Register")}</h2>
+      {registerDuplicateEmail && (
+        <Alert
+          variant="danger"
+          onClose={() => setRegisterDuplicateEmail(false)}
+          dismissible
+        >
+          <Alert.Heading></Alert.Heading>
+          <p>User already exists. </p>
+          <p>
+            Please use a different email, or recover your account by clicking
+            the "Forgot password" link.
+          </p>
+        </Alert>
+      )}
+      <span>{t("Register hint")}</span>
+      <br />
+      <br />
+      <div className="form-group">
+        <input
+          type="text"
+          name="firstName"
+          id="firstName"
+          placeholder={t("Enter first name*")}
+          onChange={handleRegChange}
+          value={regUser.firstName}
+        />
+      </div>
 
-            return null;
-        },
-        [regUser.password]
-    );
+      <div className="form-group">
+        <input
+          type="text"
+          name="lastName"
+          id="lastName"
+          placeholder={t("Enter last name*")}
+          onChange={handleRegChange}
+          value={regUser.lastName}
+        />
+      </div>
 
-    // confirm password validation
-    useEffect(
-        () => {
-            if (!confirmPassword || !regUser.password) {
-                setConfirmPasswordError("");
-            } else if (confirmPassword !== regUser.password) {
-                setConfirmPasswordError(t("The passwords must match."));
-            } else {
-                setConfirmPasswordError("");
-            }
-        },
-        [regUser.password, confirmPassword]
-    );
+      <div className="form-group">
+        <input
+          type="email"
+          name="regEmail"
+          id="regEmail"
+          placeholder="sample@sample.com*"
+          onChange={handleRegChange}
+          value={regUser.email}
+        />
+        <div className="error">{emailError}</div>
+      </div>
 
-    return (
-        <Form>
-            <h2>{t('Register')}</h2>
-            {registerDuplicateEmail &&
-            <Alert
-                variant="danger"
-                onClose={() => setRegisterDuplicateEmail(false)}
-                dismissible>
-                <Alert.Heading></Alert.Heading>
-                <p>User already exists. </p>
-                <p>Please use a different email, or recover your account by clicking the "Forgot password" link.</p>
-            </Alert>
-            }
-            <span>{t('Register hint')}</span>
-            <br/>
-            <br/>
-            <div className="form-group">
-                <input
-                    type="text"
-                    name="firstName"
-                    id="firstName"
-                    placeholder={t('Enter first name*')}
-                    onChange={handleRegChange}
-                    value={regUser.firstName}
-                />
-            </div>
+      <div className="form-group">
+        <input
+          type="password"
+          name="regPassword"
+          id="regPassword"
+          placeholder={`${t("Password")}*`}
+          onChange={handleRegChange}
+          value={regUser.password}
+        />
+        <div className="error">{passwordError}</div>
+      </div>
 
-            <div className="form-group">
-                <input
-                    type="text"
-                    name="lastName"
-                    id="lastName"
-                    placeholder={t('Enter last name*')}
-                    onChange={handleRegChange}
-                    value={regUser.lastName}
-                />
-            </div>
+      <div className="form-group">
+        <input
+          type="password"
+          name="password"
+          placeholder={`${t("Confirm password")}*`}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          value={confirmPassword}
+        />
+        <div className="error">{confirmPasswordError}</div>
+      </div>
 
-            <div className="form-group">
-                <input
-                    type="email"
-                    name="regEmail"
-                    id="regEmail"
-                    placeholder="sample@sample.com*"
-                    onChange={handleRegChange}
-                    value={regUser.email}
-                />
-                <div className="error">{emailError}</div>
-            </div>
-
-            <div className="form-group">
-                <input
-                    type="password"
-                    name="regPassword"
-                    id="regPassword"
-                    placeholder={t('Password') + "*"}
-                    onChange={handleRegChange}
-                    value={regUser.password}
-                />
-                <div className="error">{passwordError}</div>
-            </div>
-
-            <div className="form-group">
-                <input
-                    type="password"
-                    name="password"
-                    placeholder={t('Confirm password') + "*"}
-                    onChange={e => setConfirmPassword(e.target.value)}
-                    value={confirmPassword}
-                />
-                <div className="error">{confirmPasswordError}</div>
-            </div>
-
-            <Form.Text className="text-muted">
-                * {t('required fields')}
-            </Form.Text>
-            <br/>
-            <div className="registration-form-buttons">
-                <Button className="reg-close-button" variant="secondary" onClick={handleClose}>
-                    {t('Close')}
-                </Button>
-                <Button type="submit" variant="primary" onClick={register}>
-                    {t('Register')}
-                </Button>
-            </div>
-        </Form>
-    )
+      <Form.Text className="text-muted">* {t("required fields")}</Form.Text>
+      <br />
+      <div className="registration-form-buttons">
+        <Button
+          className="reg-close-button"
+          variant="secondary"
+          onClick={handleClose}
+        >
+          {t("Close")}
+        </Button>
+        <Button type="submit" variant="primary" onClick={register}>
+          {t("Register")}
+        </Button>
+      </div>
+    </Form>
+  );
 }
 
-RegistrationForm.defaultProps = {
-};
+RegistrationForm.defaultProps = {};
 
 RegistrationForm.propTypes = {
-    emailError: PropTypes.string.isRequired,
-    setEmailError: PropTypes.func.isRequired,
-    confirmPassword: PropTypes.string.isRequired,
-    setConfirmPassword: PropTypes.func.isRequired,
-    confirmPasswordError: PropTypes.string.isRequired,
-    setConfirmPasswordError: PropTypes.func.isRequired,
-    handleClose: PropTypes.func.isRequired,
-    register: PropTypes.func.isRequired,
-    regUser: PropTypes.objectOf(PropTypes.object).isRequired,
-    handleRegChange: PropTypes.func.isRequired,
-    validateEmail: PropTypes.func.isRequired,
-    passwordError: PropTypes.string.isRequired,
-    setPasswordError: PropTypes.func.isRequired,
-    registerDuplicateEmail: PropTypes.bool,
-    setRegisterDuplicateEmail: PropTypes.func,
-    namesError: PropTypes.bool,
-    setNamesError: PropTypes.func
+  emailError: PropTypes.string.isRequired,
+  setEmailError: PropTypes.func.isRequired,
+  confirmPassword: PropTypes.string.isRequired,
+  setConfirmPassword: PropTypes.func.isRequired,
+  confirmPasswordError: PropTypes.string.isRequired,
+  setConfirmPasswordError: PropTypes.func.isRequired,
+  handleClose: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
+  regUser: PropTypes.objectOf(PropTypes.object).isRequired,
+  handleRegChange: PropTypes.func.isRequired,
+  validateEmail: PropTypes.func.isRequired,
+  passwordError: PropTypes.string.isRequired,
+  setPasswordError: PropTypes.func.isRequired,
+  registerDuplicateEmail: PropTypes.bool,
+  setRegisterDuplicateEmail: PropTypes.func,
+  namesError: PropTypes.bool,
+  setNamesError: PropTypes.func,
 };
 
-export default RegistrationForm
+export default RegistrationForm;

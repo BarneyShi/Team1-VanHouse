@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Tab, Row, Col, Nav, Container, Button } from "react-bootstrap";
+import { useTranslation } from "react-i18next";
 import Charts from "./Charts";
 import "../../styles/admin.css";
 import PostAdmin from "./PostAdmin";
 import UserAdmin from "./UserAdmin";
-
-import { useTranslation } from 'react-i18next';
 
 export default function Admin() {
   const [posts, setPosts] = useState();
@@ -33,13 +32,13 @@ export default function Admin() {
           <Col sm={3}>
             <Nav variant="pills" className="flex-column">
               <Nav.Item>
-                <Nav.Link eventKey="first"> {t('Analysis')}</Nav.Link>
+                <Nav.Link eventKey="first"> {t("Analysis")}</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="second">{t('Post')}</Nav.Link>
+                <Nav.Link eventKey="second">{t("Post")}</Nav.Link>
               </Nav.Item>
               <Nav.Item>
-                <Nav.Link eventKey="third">{t('User')}</Nav.Link>
+                <Nav.Link eventKey="third">{t("User")}</Nav.Link>
               </Nav.Item>
             </Nav>
           </Col>

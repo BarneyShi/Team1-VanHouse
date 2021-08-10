@@ -1,61 +1,60 @@
-
-.user-box{
-    box-shadow: 0 8px 20px 0 rgba(0,0,0,0.1), 0 6px 20px 0 rgba(0,0,0,0.1);
-    border-radius: 3px;
-    padding: 5px;
-    height: 86vh;
-    background-color: white;
+.user-box {
+  box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  padding: 5px;
+  height: 86vh;
+  background-color: white;
 }
 
 .user_scroll_div {
-    flex-grow: 92;
-    display:flex;
-    flex-basis: 100%;
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: center;
-    flex-wrap: wrap;
-    min-width: 50%;
-    width: 100%;
-    overflow-y:auto;
+  flex-grow: 92;
+  display: flex;
+  flex-basis: 100%;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  flex-wrap: wrap;
+  min-width: 50%;
+  width: 100%;
+  overflow-y: auto;
 }
 
-.user-item{
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
-    font-size: 20px;
-    border-radius: 5px;
-    padding: 5px;
+.user-item {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  font-size: 20px;
+  border-radius: 5px;
+  padding: 5px;
 }
-.user-item:hover{
-    background-color: #75b3f7;
+.user-item:hover {
+  background-color: #75b3f7;
 }
-.user-item.selected{
-    background-color: #007bff;
+.user-item.selected {
+  background-color: #007bff;
 }
-.user-item img{
-    width: 35px;
-    height: 35px;
-    border-radius: 100%;
-    margin-right: 5px;
+.user-item img {
+  width: 35px;
+  height: 35px;
+  border-radius: 100%;
+  margin-right: 5px;
 }
-.user-item button{
-    font-size: 20px;
-    outline: none;
-    border: none;
+.user-item button {
+  font-size: 20px;
+  outline: none;
+  border: none;
 }
 
-.cancel-btn{
-    text-align: right;
-    bottom : 15px;
-    right: 20px;
+.cancel-btn {
+  text-align: right;
+  bottom: 15px;
+  right: 20px;
 }
-.card-header h2{
-    cursor:pointer;
+.card-header h2 {
+  cursor: pointer;
 }
-.dropdown-img{
-    margin-left: 40px;
-    width:20px;
-    height:20px;
+.dropdown-img {
+  margin-left: 40px;
+  width: 20px;
+  height: 20px;
 }
