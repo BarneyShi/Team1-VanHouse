@@ -29,10 +29,7 @@ function UserList({ setQuery, setUserId }) {
     const url = `/userpost/${item._id}`;
     setQuery(url);
   }
-  function Cancel() {
-    setUserId("");
-    setQuery("");
-  }
+
 
   let keyIndex = 0;
   function loadUsers() {
