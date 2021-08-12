@@ -1,0 +1,26 @@
+.admin-tab {
+  margin-top: 2vh;
+}
+.admin-searchbox {
+  width: 40%;
+  height: 40px;
+  border: 0.1px solid gray;
+  border-radius: 3px;
+}
+.admin-searchBtn {
+  margin-top: -4px;
+  margin-left: 3px;
+}
+.recharts-responsive-container {
+  margin: 0 auto;
+}
+.admin-list {
+  margin-top: 10px;
+}
+.admin-alert {
+  margin-top: 2vh;
+}
+#admin-user-modalbody {
+  display: flex;
+  justify-content: center;
+}

@@ -1,0 +1,21 @@
+{
+  "name": "vanhouse",
+  "version": "1.0.0",
+  "engines": {
+    "node": "14.17.0"
+  },
+  "scripts": {
+    "start": "npm run server-start",
+    "server-start": "node ./backend/bin/www",
+    "build": "cd ./vanhouse && npm run build",
+    "client-postbuild": "cd ./vanhouse && npm install && npm run build",
+    "server-postbuild": "cd ./backend && npm install",
+    "test": "cd ./vanhouse && react-scripts test",
+    "eject": "cd ./vanhouse && react-scripts eject",
+    "heroku-postbuild": "concurrently \"npm run client-postbuild\" \"npm run server-postbuild\""
+  },
+  "dependencies": {
+    "concurrently": "^6.2.0"
+  },
+  "proxy": "http://localhost:4000"
+}
